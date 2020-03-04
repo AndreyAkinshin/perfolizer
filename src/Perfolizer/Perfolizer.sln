@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer", "Perfolizer\Perfolizer.csproj", "{15F81558-D56D-4D8B-A92D-B1579620F410}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer.Tests", "Perfolizer.Tests\Perfolizer.Tests.csproj", "{D88E3369-4BB7-4165-9648-48F45CFEC63B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer.Samples", "Perfolizer.Samples\Perfolizer.Samples.csproj", "{2EF9D14D-7570-4DED-8A47-5554D037B3E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer.Tool", "Perfolizer.Tool\Perfolizer.Tool.csproj", "{E89D57E4-3D16-41C6-ABDE-3FEE292ECEB2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{15F81558-D56D-4D8B-A92D-B1579620F410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15F81558-D56D-4D8B-A92D-B1579620F410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15F81558-D56D-4D8B-A92D-B1579620F410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15F81558-D56D-4D8B-A92D-B1579620F410}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D88E3369-4BB7-4165-9648-48F45CFEC63B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D88E3369-4BB7-4165-9648-48F45CFEC63B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D88E3369-4BB7-4165-9648-48F45CFEC63B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D88E3369-4BB7-4165-9648-48F45CFEC63B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EF9D14D-7570-4DED-8A47-5554D037B3E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EF9D14D-7570-4DED-8A47-5554D037B3E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EF9D14D-7570-4DED-8A47-5554D037B3E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EF9D14D-7570-4DED-8A47-5554D037B3E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E89D57E4-3D16-41C6-ABDE-3FEE292ECEB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E89D57E4-3D16-41C6-ABDE-3FEE292ECEB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E89D57E4-3D16-41C6-ABDE-3FEE292ECEB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E89D57E4-3D16-41C6-ABDE-3FEE292ECEB2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

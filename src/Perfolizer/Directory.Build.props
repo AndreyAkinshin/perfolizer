@@ -1,0 +1,42 @@
+<Project>
+    <PropertyGroup>
+        <Copyright>Copyright (C) 2020 Andrey Akinshin</Copyright>
+        <Authors>Andrey Akinshin</Authors>
+        <NeutralLanguage>en-US</NeutralLanguage>
+        <PackageTags>analysis;performance;tool</PackageTags>
+        <PackageProjectUrl>https://github.com/AndreyAkinshin/perfolizer</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/AndreyAkinshin/perfolizer</RepositoryUrl>
+        
+        <PackageIcon>dino.png</PackageIcon>
+        <PackageIconUrl>https://raw.githubusercontent.com/AndreyAkinshin/perfolizer/master/docs/logo/dino.png</PackageIconUrl>
+        
+        <CLSCompliant>true</CLSCompliant>
+        <ComVisible>false</ComVisible>
+
+        <LangVersion>8.0</LangVersion>
+
+        <Major>0</Major>
+        <Minor>1</Minor>
+        <Revision>0</Revision>
+        <BuildNumber>0</BuildNumber>
+
+        <PrereleaseLabel>-develop</PrereleaseLabel>
+        <PrereleaseLabel Condition=" '$(APPVEYOR_BUILD_NUMBER)' != '' "></PrereleaseLabel>
+        <!-- <PrereleaseLabel></PrereleaseLabel> --> <!-- For release versions only -->
+
+        <PrereleaseLabelConstants></PrereleaseLabelConstants>
+        <PrereleaseLabelConstants Condition=" '$(PrereleaseLabel)' == '-develop' ">PRERELEASE_DEVELOP</PrereleaseLabelConstants>
+        <PrereleaseLabelConstants Condition=" '$(APPVEYOR_BUILD_NUMBER)' != '' ">PRERELEASE_NIGHTLY</PrereleaseLabelConstants>
+        <DefineConstants>$(DefineConstants);$(PrereleaseLabelConstants)</DefineConstants>
+
+        <AssemblyVersion>$(Major).$(Minor).$(Revision).$(BuildNumber)</AssemblyVersion>
+        <AssemblyFileVersion>$(Major).$(Minor).$(Revision).$(BuildNumber)</AssemblyFileVersion>
+        <InformationalVersion>$(Major).$(Minor).$(Revision).$(BuildNumber)$(PrereleaseLabel)</InformationalVersion>
+        <PackageVersion>$(Major).$(Minor).$(Revision).$(BuildNumber)$(PrereleaseLabel)</PackageVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="..\..\..\docs\logo\dino.png" Link="Properties\dino.png" Pack="true" PackagePath=""/>
+    </ItemGroup>
+</Project>
