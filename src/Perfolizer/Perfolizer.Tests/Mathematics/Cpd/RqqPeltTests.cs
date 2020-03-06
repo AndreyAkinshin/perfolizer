@@ -43,6 +43,12 @@ namespace Perfolizer.Tests.Mathematics.Cpd
         }, 1, new[] {5, 11});
 
         [Fact]
+        public void Check_WhenTwoMinDistanceLessThanDataLength_ReturnEmptyArray() => Check(new double[]
+        {
+            0, 0, 0, 0, 0
+        }, 4, new int[0]);
+
+        [Fact]
         public void ArithmeticProgression() => Check(Enumerable.Range(1, 500).Select(it => (double) it).ToArray(), 10, new[]
         {
             9, 19, 29, 39, 49, 59, 69, 79, 89, 99, 109, 119, 129, 139, 149, 159, 169, 179, 189, 199, 209, 219, 229, 239,

@@ -8,14 +8,14 @@ namespace Perfolizer.Tests.Mathematics.Cpd
     public class EdPeltTests
     {
         [AssertionMethod]
-        private static void Check(double[] data, int[] expectedChangePoints)
+        private static void Check(double[] data, int minDistance, int[] expectedChangePoints)
         {
-            var actualChangePoints = EdPeltChangePointDetector.Instance.GetChangePointIndexes(data, 1);
+            var actualChangePoints = EdPeltChangePointDetector.Instance.GetChangePointIndexes(data, minDistance);
             Assert.Equal(expectedChangePoints, actualChangePoints);
         }
 
         [Fact]
-        public void Test1() => Check(new double[] { 3240, 3207, 2029, 3028, 3021, 2624, 3290, 2823, 3573 }, new int[0]);
+        public void Test1() => Check(new double[] { 3240, 3207, 2029, 3028, 3021, 2624, 3290, 2823, 3573 }, 1, new int[0]);
 
         [Fact]
         public void Test2() => Check(new[]
@@ -70,30 +70,36 @@ namespace Perfolizer.Tests.Mathematics.Cpd
             21.3107894997328, 21.3910419104093, 18.3314544873099, 18.4213348686018,
             16.7293099646236, 22.4272411724304, 18.8659567857605, 19.9033226277375,
             15.8084704011053, 23.5263915426487, 22.0073090762765, 21.5468281669676
-        }, new[] { 99 });
+        }, 1, new[] { 99 });
 
         [Fact]
         public void Test3() => Check(new double[]
         {
             0, 0, 0, 0, 0, 100, 100, 100, 100
-        }, new[] { 4 });
+        }, 1, new[] { 4 });
 
         [Fact]
         public void Test4() => Check(new double[]
         {
             0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2
-        }, new[] { 5, 11 });
+        }, 1, new[] { 5, 11 });
 
         [Fact]
-        public void Test5() => Check(Enumerable.Range(1, 1000).Select(it => (double) it).ToArray(), new[]
+        public void Test5() => Check(Enumerable.Range(1, 1000).Select(it => (double) it).ToArray(), 1, new[]
         {
             15, 47, 79, 129, 204, 306, 432, 565, 691, 793, 868, 918, 950, 982
         });
 
         [Fact]
-        public void Test6() => Check(Enumerable.Range(1, 10000).Select(it => (double) it).ToArray(), new[]
+        public void Test6() => Check(Enumerable.Range(1, 10000).Select(it => (double) it).ToArray(), 1, new[]
         {
             26, 79, 136, 230, 387, 643, 1051, 1671, 2552, 3692, 4998, 6305, 7445, 8326, 8946, 9354, 9610, 9767, 9861, 9918, 9971
         });
+
+        [Fact]
+        public void Check_WhenTwoMinDistanceLessThanDataLength_ReturnEmptyArray() => Check(new double[]
+        {
+            0, 0, 0, 0, 0
+        }, 4, new int[0]);
     }
 }
