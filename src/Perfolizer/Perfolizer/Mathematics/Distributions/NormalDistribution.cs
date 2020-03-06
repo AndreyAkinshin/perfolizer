@@ -28,7 +28,7 @@ namespace Perfolizer.Mathematics.Distributions
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public double Cdf(double x) => mean + Gauss(x) * sd;
+        public double Cdf(double x) => Gauss((x - mean) / sd);
 
         /// <summary>
         /// ACM Algorithm 209: Gauss
