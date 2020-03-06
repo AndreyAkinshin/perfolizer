@@ -11,7 +11,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator. Biometrika, 69(3), pp.635-640.
     /// </remarks>
     /// </summary>
-    public class HarrellDavisQuantileEstimator
+    public class HarrellDavisQuantileEstimator : IQuantileEstimator
     {
         public static readonly HarrellDavisQuantileEstimator Instance = new HarrellDavisQuantileEstimator();
 
@@ -20,8 +20,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             return GetQuantiles(data, new[] {quantile}).First();
         }
 
-        [NotNull]
-        public double[] GetQuantiles([NotNull] double[] data, [NotNull] double[] quantiles)
+        public double[] GetQuantiles(double[] data, double[] quantiles)
         {
             var sortedData = data.CopyToArray();
             Array.Sort(sortedData);
