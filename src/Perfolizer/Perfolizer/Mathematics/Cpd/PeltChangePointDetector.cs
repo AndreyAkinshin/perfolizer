@@ -44,7 +44,7 @@ namespace Perfolizer.Mathematics.Cpd
             int n = data.Length;
 
             // Checking corner cases
-            if (n <= 2 || minDistance > n)
+            if (n <= 2 || 2 * minDistance > n)
                 return new int[0];
             if (minDistance < 1)
                 throw new ArgumentOutOfRangeException(nameof(minDistance), $"{nameof(minDistance)} ({minDistance}) should be positive");
