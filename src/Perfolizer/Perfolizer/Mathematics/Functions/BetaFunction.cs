@@ -29,13 +29,13 @@ namespace Perfolizer.Mathematics.Functions
         {
             return x.Pow(a) / a * HypergeometricFunction.Value(a, 1 - b, a + 1, x, 20);
         }
-        
+
         /// <summary>
         /// Incomplete beta function B(x; a, b)
         /// </summary>
         public static double IncompleteLogValue(double a, double b, double x)
         {
-            return a * Math.Log(x) - Math.Log(a) + Math.Log(HypergeometricFunction.Value(a, 1 - b, a + 1, x, (int)Math.Round(b)));
+            return a * Math.Log(x) - Math.Log(a) + Math.Log(HypergeometricFunction.Value(a, 1 - b, a + 1, x, (int) Math.Round(b)));
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Perfolizer.Mathematics.Functions
         public static double RegularizedIncompleteValue(double a, double b, double x)
         {
             const double eps = 1e-5;
-            
+
             if (a < -eps)
                 throw new ArgumentOutOfRangeException(nameof(a), "a should be positive");
             if (b < -eps)
@@ -62,21 +62,35 @@ namespace Perfolizer.Mathematics.Functions
             if (b < eps)
                 return 0;
 
-            if (a + b > 30)
+            if (a + b > 30) // For huge a+b, we use normal approximation
             {
-                if (a < b - 1)
-                    return Math.Exp(GammaFunction.LogValue(a + b) - GammaFunction.LogValue(a + 1) - GammaFunction.LogValue(b) 
-                                    + a * Math.Log(x) + (b - 1) * Math.Log(1 - x)) + 
-                        RegularizedIncompleteValue(a + 1, b - 1, x);
-                if (b < a - 1)
-                    return 1 - RegularizedIncompleteValue(b, a, 1 - x);
-                
-                return new NormalDistribution(a / (a + b), Math.Sqrt(a * b / (a + b).Sqr() / (a + b + 1))).Cdf(x);
+                // We are trying to make the situation symmetric (|a-b|<1) to improve accuracy of the approximation
+                double partialResult = 0;
+                while (a < b - 1)
+                {
+                    partialResult += Math.Exp(GammaFunction.LogValue(a + b)
+                                              - GammaFunction.LogValue(a + 1) - GammaFunction.LogValue(b)
+                                              + a * Math.Log(x) + (b - 1) * Math.Log(1 - x));
+                    a++;
+                    b--;
+                }
+                while (b < a - 1)
+                {
+                    partialResult -= Math.Exp(GammaFunction.LogValue(a + b)
+                                              - GammaFunction.LogValue(b + 1) - GammaFunction.LogValue(a)
+                                              + (a - 1) * Math.Log(x) + b * Math.Log(1 - x));
+                    a--;
+                    b++;
+                }
+
+                double mean = a / (a + b);
+                double stdDev = Math.Sqrt(a * b / (a + b).Sqr() / (a + b + 1));
+                double normalApproximation = new NormalDistribution(mean, stdDev).Cdf(x);
+                return partialResult + normalApproximation;
             }
-            
-            if (x > 0.5)
+
+            if (x > 0.5) // Accuracy is better for small x
                 return 1 - RegularizedIncompleteValue(b, a, 1 - x);
-            
 
             double result = Math.Exp(IncompleteLogValue(a, b, x) - CompleteLogValue(a, b));
             return double.IsNaN(result) ? 0 : result.Clamp(0, 1);
