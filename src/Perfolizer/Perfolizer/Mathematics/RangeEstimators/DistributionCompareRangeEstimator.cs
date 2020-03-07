@@ -24,7 +24,7 @@ namespace Perfolizer.Mathematics.RangeEstimators
             for (int i = 0; i < quantilePositions.Length; i++)
                 quantilePositions[i] = (minQuantile + i) / 100.0;
             var quantileValues = distributionCompareFunction.Values(a, b, quantilePositions);
-            return new Range(quantileValues.Min(), quantileValues.Max());
+            return Range.Of(quantileValues.Min(), quantileValues.Max());
         }
 
         public Range GetRange(double[] a, double[] b)
