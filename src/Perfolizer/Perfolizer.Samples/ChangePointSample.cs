@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Perfolizer.Mathematics.Cpd;
-using Perfolizer.Mathematics.Randomization;
+using Perfolizer.Mathematics.Distributions;
 
 namespace Perfolizer.Samples
 {
@@ -9,11 +9,11 @@ namespace Perfolizer.Samples
     {
         public void Run()
         {
-            var random = new RandomDistribution(42);
+            var random = new Random(42);
             var data = new List<double>();
             const int n = 20;
             for (int i = 0; i < n; i++)
-                data.AddRange(random.Gaussian(100, mean: 20 * i, stdDev: 5));
+                data.AddRange(new NormalDistribution(mean: 20 * i, stdDev: 5).Random(random).Next(100));
 
             var rqqIndexes = RqqPeltChangePointDetector.Instance.GetChangePointIndexes(data.ToArray());
             var edIndexes = EdPeltChangePointDetector.Instance.GetChangePointIndexes(data.ToArray());

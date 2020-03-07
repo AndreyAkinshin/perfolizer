@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.Histograms;
-using Perfolizer.Mathematics.Randomization;
 
 namespace Perfolizer.Samples
 {
@@ -9,10 +9,10 @@ namespace Perfolizer.Samples
     {
         public void Run()
         {
-            var random = new RandomDistribution(42);
+            var random = new Random(42);
             var data = new List<double>();
-            data.AddRange(random.Gaussian(200, mean: 20, stdDev: 1));
-            data.AddRange(random.Gaussian(200, mean: 22, stdDev: 1));
+            data.AddRange(new NormalDistribution(mean: 20, stdDev: 1).Random(random).Next(200));
+            data.AddRange(new NormalDistribution(mean: 22, stdDev: 1).Random(random).Next(200));
 
             const double binSize = 0.5;
             Console.WriteLine("*** Simple Histogram ***");

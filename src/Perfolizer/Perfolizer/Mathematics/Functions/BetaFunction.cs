@@ -83,9 +83,8 @@ namespace Perfolizer.Mathematics.Functions
                     b++;
                 }
 
-                double mean = a / (a + b);
-                double stdDev = Math.Sqrt(a * b / (a + b).Sqr() / (a + b + 1));
-                double normalApproximation = new NormalDistribution(mean, stdDev).Cdf(x);
+                var betaDistribution = new BetaDistribution(a, b);
+                double normalApproximation = new NormalDistribution(betaDistribution.Mean, betaDistribution.StdDev).Cdf(x);
                 return partialResult + normalApproximation;
             }
 

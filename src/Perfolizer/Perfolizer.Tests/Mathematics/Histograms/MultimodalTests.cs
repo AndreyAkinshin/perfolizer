@@ -1,8 +1,6 @@
-﻿using System;
-using Perfolizer.Mathematics;
+﻿using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.Histograms;
 using Perfolizer.Mathematics.Multimodality;
-using Perfolizer.Mathematics.Randomization;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -31,12 +29,12 @@ namespace Perfolizer.Tests.Mathematics.Histograms
         [Fact]
         public void RandomTest()
         {
-            var random = new RandomDistribution(42);
+            var normalDistributionRandom = new NormalDistribution(mean: 50, stdDev: 3).Random(42);
             double maxMValue = 0;
             int maxMValueN = 0;
             for (int n = 1; n <= 300; n++)
             {
-                var values = random.Gaussian(n, 50, 3);
+                var values = normalDistributionRandom.Next(n);
 
                 var histogram = HistogramBuilder.Adaptive.Build(values);
                 double mValue = MValueCalculator.Calculate(values);
