@@ -28,14 +28,13 @@ namespace Perfolizer.Mathematics.Histograms
             if (binSize < 1e-9)
                 throw new ArgumentException($"binSize ({binSize.ToString("0.##", DefaultCultureInfo.Instance)}) should be a positive number", nameof(binSize));
 
-            var list = values.CopyToArray();
-            if (list.Length == 0)
+            if (values.Count == 0)
                 throw new ArgumentException("Values should be non-empty", nameof(values));
 
-            Array.Sort(list);
+            var sortedValues = values.CopyToArrayAndSort();
 
-            int firstBin = GetBinIndex(list.First(), binSize);
-            int lastBin = GetBinIndex(list.Last(), binSize);
+            int firstBin = GetBinIndex(sortedValues.First(), binSize);
+            int lastBin = GetBinIndex(sortedValues.Last(), binSize);
             int binCount = lastBin - firstBin + 1;
 
             var bins = new HistogramBin[binCount];
@@ -46,8 +45,8 @@ namespace Perfolizer.Mathematics.Histograms
                 double lower = (firstBin + i) * binSize;
                 double upper = (firstBin + i + 1) * binSize;
 
-                while (counter < list.Length && (list[counter] < upper || i == bins.Length - 1))
-                    bin.Add(list[counter++]);
+                while (counter < sortedValues.Length && (sortedValues[counter] < upper || i == bins.Length - 1))
+                    bin.Add(sortedValues[counter++]);
 
                 bins[i] = new HistogramBin(lower, upper, bin.ToArray());
             }

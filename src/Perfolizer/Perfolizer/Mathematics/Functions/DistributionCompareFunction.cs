@@ -18,7 +18,7 @@ namespace Perfolizer.Mathematics.Functions
             quantileEstimator = HarrellDavisQuantileEstimator.Instance;
         }
 
-        public double[] Values(double[] a, double[] b, double[] quantiles)
+        public double[] Values([NotNull] double[] a, [NotNull] double[] b, [NotNull] double[] quantiles)
         {
             for (int i = 0; i < quantiles.Length; i++)
                 if (quantiles[i] < 0 || quantiles[i] > 1)

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Common;
@@ -8,33 +7,10 @@ using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 {
-    public class HarrellDavisQuantileEstimatorTests
+    public class HarrellDavisQuantileEstimatorTests : QuantileEstimatorTests
     {
-        private readonly ITestOutputHelper output;
-
-        public HarrellDavisQuantileEstimatorTests(ITestOutputHelper output)
+        public HarrellDavisQuantileEstimatorTests(ITestOutputHelper output) : base(output)
         {
-            this.output = output;
-        }
-
-        private void DumpArray([NotNull] string name, [NotNull] IEnumerable<double> values)
-        {
-            string valuesString = string.Join("; ", values.Select(x => x.ToString(TestCultureInfo.Instance)));
-            output.WriteLine($"{name}: [{valuesString}]");
-        }
-
-        private class TestData
-        {
-            public double[] Source { get; }
-            public double[] Quantiles { get; }
-            public double[] Expected { get; }
-
-            public TestData(double[] source, double[] quantiles, double[] expected)
-            {
-                Source = source;
-                Quantiles = quantiles;
-                Expected = expected;
-            }
         }
 
         private static readonly IDictionary<string, TestData> TestDataMap = new Dictionary<string, TestData>
@@ -222,24 +198,14 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             }
         };
 
-        [UsedImplicitly] public static TheoryData<string> TestDataKeys = TheoryDataHelper.Create(TestDataMap.Keys);
+        [UsedImplicitly]
+        public static TheoryData<string> TestDataKeys = TheoryDataHelper.Create(TestDataMap.Keys);
 
         [Theory]
         [MemberData(nameof(TestDataKeys))]
-        public void HarrellDavisQuantileEstimatorTest(string testDataKey)
+        public void HarrellDavisQuantileEstimatorTest([NotNull] string testDataKey)
         {
-            var testData = TestDataMap[testDataKey];
-            var comparer = new AbsoluteEqualityComparer(1e-2);
-            DumpArray("Source    ", testData.Source);
-            var actual = HarrellDavisQuantileEstimator.Instance.GetQuantiles(testData.Source, testData.Quantiles);
-            for (int i = 0; i < testData.Quantiles.Length; i++)
-            {
-                output.WriteLine("-----");
-                output.WriteLine("Quantile : " + testData.Quantiles[i]);
-                output.WriteLine("Expected : " + testData.Expected[i]);
-                output.WriteLine("Actual   : " + actual[i]);
-                Assert.Equal(testData.Expected[i], actual[i], comparer);
-            }
+            Check(HarrellDavisQuantileEstimator.Instance, TestDataMap[testDataKey]);
         }
     }
 }

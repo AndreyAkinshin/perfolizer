@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Perfolizer.Horology;
-using Perfolizer.Mathematics;
 using Perfolizer.Mathematics.Histograms;
-using Perfolizer.Mathematics.Quantiles;
 using Xunit;
 using Xunit.Abstractions;
 

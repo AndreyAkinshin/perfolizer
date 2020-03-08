@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using JetBrains.Annotations;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
     public interface IQuantileEstimator
     {
-        [NotNull] double[] GetQuantiles([NotNull] double[] data, [NotNull] double[] quantiles);
+        double GetQuantileFromSorted([NotNull] IReadOnlyList<double> data, double quantile);
     }
 }

@@ -13,13 +13,13 @@ namespace Perfolizer.Mathematics.Thresholds
         Minutes
     }
 
-    internal static class ThresholdUnitExtensions
+    public static class ThresholdUnitExtensions
     {
         private static readonly IReadOnlyDictionary<ThresholdUnit, string> UnitToShortName = new Dictionary<ThresholdUnit, string>()
         {
             { ThresholdUnit.Ratio, "%" },
             { ThresholdUnit.Nanoseconds, "ns" },
-            { ThresholdUnit.Microseconds, "us" },
+            { ThresholdUnit.Microseconds, "\u03BCs" },
             { ThresholdUnit.Milliseconds, "ms" },
             { ThresholdUnit.Seconds, "s" },
             { ThresholdUnit.Minutes, "m" },
@@ -27,6 +27,6 @@ namespace Perfolizer.Mathematics.Thresholds
 
         internal static readonly IReadOnlyDictionary<string, ThresholdUnit> ShortNameToUnit = UnitToShortName.ToDictionary(pair => pair.Value, pair => pair.Key);
 
-        internal static string ToShortName(this ThresholdUnit thresholdUnit) => UnitToShortName[thresholdUnit];
+        public static string ToShortName(this ThresholdUnit thresholdUnit) => UnitToShortName[thresholdUnit];
     }
 }

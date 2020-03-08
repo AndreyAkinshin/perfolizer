@@ -1,7 +1,5 @@
-using System;
-using System.Linq;
+using System.Collections.Generic;
 using JetBrains.Annotations;
-using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Distributions;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
@@ -13,32 +11,21 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// </summary>
     public class HarrellDavisQuantileEstimator : IQuantileEstimator
     {
-        public static readonly HarrellDavisQuantileEstimator Instance = new HarrellDavisQuantileEstimator();
+        public static readonly IQuantileEstimator Instance = new HarrellDavisQuantileEstimator();
 
-        public double GetQuantile([NotNull] double[] data, double quantile)
+        public double GetQuantileFromSorted(IReadOnlyList<double> data, double quantile)
         {
-            return GetQuantiles(data, new[] {quantile}).First();
+            QuantileEstimatorHelper.CheckArguments(data, quantile);
+
+            double result = 0;
+            for (int j = 0; j < data.Count; j++)
+                result += W(data, j, quantile) * data[j];
+            return result;
         }
 
-        public double[] GetQuantiles(double[] data, double[] quantiles)
+        private static double W([NotNull] IReadOnlyList<double> x, int j, double u)
         {
-            var sortedData = data.CopyToArray();
-            Array.Sort(sortedData);
-
-            var results = new double[quantiles.Length];
-            for (int i = 0; i < quantiles.Length; i++)
-            {
-                double u = quantiles[i];
-                for (int j = 0; j < sortedData.Length; j++)
-                    results[i] += W(sortedData, j, u) * sortedData[j];
-            }
-
-            return results;
-        }
-
-        private double W([NotNull] double[] x, int j, double u)
-        {
-            int n = x.Length;
+            int n = x.Count;
             double a = (n + 1) * u, b = (n + 1) * (1 - u);
             var distribution = new BetaDistribution(a, b);
             return distribution.Cdf((j + 1) * 1.0 / n) - distribution.Cdf(j * 1.0 / n);

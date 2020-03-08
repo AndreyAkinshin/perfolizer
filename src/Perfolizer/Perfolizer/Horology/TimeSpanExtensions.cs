@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Perfolizer.Horology
 {
-    internal static class TimeSpanExtensions
+    public static class TimeSpanExtensions
     {
         /// <summary>
         /// Time in the following format: {th}:{mm}:{ss} ({ts} sec)
