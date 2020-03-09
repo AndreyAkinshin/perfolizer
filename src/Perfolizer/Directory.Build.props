@@ -23,13 +23,6 @@
         <BuildNumber>0</BuildNumber>
 
         <PrereleaseLabel>-develop</PrereleaseLabel>
-        <PrereleaseLabel Condition=" '$(APPVEYOR_BUILD_NUMBER)' != '' "></PrereleaseLabel>
-        <!-- <PrereleaseLabel></PrereleaseLabel> --> <!-- For release versions only -->
-
-        <PrereleaseLabelConstants></PrereleaseLabelConstants>
-        <PrereleaseLabelConstants Condition=" '$(PrereleaseLabel)' == '-develop' ">PRERELEASE_DEVELOP</PrereleaseLabelConstants>
-        <PrereleaseLabelConstants Condition=" '$(APPVEYOR_BUILD_NUMBER)' != '' ">PRERELEASE_NIGHTLY</PrereleaseLabelConstants>
-        <DefineConstants>$(DefineConstants);$(PrereleaseLabelConstants)</DefineConstants>
 
         <AssemblyVersion>$(Major).$(Minor).$(Revision).$(BuildNumber)</AssemblyVersion>
         <AssemblyFileVersion>$(Major).$(Minor).$(Revision).$(BuildNumber)</AssemblyFileVersion>
