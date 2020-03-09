@@ -7,6 +7,7 @@
 <h3 align="center">
   
   [![NuGet](https://img.shields.io/nuget/v/Perfolizer)](https://www.nuget.org/packages/Perfolizer/)
+  [![MyGet](https://img.shields.io/myget/perfolizer/vpre/Perfolizer?label=myget)](https://www.myget.org/feed/perfolizer/package/nuget/Perfolizer)
   [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
   [![build](https://github.com/AndreyAkinshin/perfolizer/workflows/build/badge.svg?branch=master)](https://github.com/AndreyAkinshin/perfolizer/actions?query=workflow%3Abuild)
 
@@ -410,6 +411,27 @@ $ perfolizer mvalue --data '0;0;0;0;0;0;0;0'
 2
 $ perfolizer mvalue --data '0;0;0;0;1;1;1;1'
 4
+```
+
+## NuGet packages
+
+You can use perfolizer via one of the following NuGet Packages:
+
+* [Perfolizer](https://www.nuget.org/packages/Perfolizer/) (if you want to use Perfolizer from .NET application)
+* [Perfolizer.Tool](https://www.nuget.org/packages/Perfolizer.Tool/) (if you want to use Perfolizer from command line)
+
+Stable versions of both packages are available on [nuget.org](https://www.nuget.org/).
+If you want to use prerelease packages, you can download them from [myget.org](https://www.myget.org/) via the following feed: `https://www.myget.org/F/perfolizer/api/v3/index.json`.
+Here is an example of `NuGet.Config`:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <packageSources>
+    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
+    <add key="perfolizer-nightly" value="https://www.myget.org/F/perfolizer/api/v3/index.json" />
+  </packageSources>
+</configuration>
 ```
 
 ## License
