@@ -8,6 +8,7 @@
   
   [![NuGet](https://img.shields.io/nuget/v/Perfolizer)](https://www.nuget.org/packages/Perfolizer/)
   [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+  [![build](https://github.com/AndreyAkinshin/perfolizer/workflows/build/badge.svg?branch=master)](https://github.com/AndreyAkinshin/perfolizer/actions?query=workflow%3Abuild)
 
 </h3>
 
