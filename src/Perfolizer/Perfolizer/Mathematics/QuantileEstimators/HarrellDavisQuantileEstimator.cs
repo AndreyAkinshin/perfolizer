@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Perfolizer.Mathematics.Distributions;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
@@ -17,18 +16,19 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         {
             QuantileEstimatorHelper.CheckArguments(data, quantile);
 
-            double result = 0;
-            for (int j = 0; j < data.Count; j++)
-                result += W(data, j, quantile) * data[j];
-            return result;
-        }
-
-        private static double W([NotNull] IReadOnlyList<double> x, int j, double u)
-        {
-            int n = x.Count;
-            double a = (n + 1) * u, b = (n + 1) * (1 - u);
+            int n = data.Count;
+            double a = (n + 1) * quantile, b = (n + 1) * (1 - quantile);
             var distribution = new BetaDistribution(a, b);
-            return distribution.Cdf((j + 1) * 1.0 / n) - distribution.Cdf(j * 1.0 / n);
+
+            double result = 0;
+            double betaCdfRight = 0;
+            for (int j = 0; j < data.Count; j++)
+            {
+                double betaCdfLeft = betaCdfRight;
+                betaCdfRight = distribution.Cdf((j + 1) * 1.0 / n);
+                result += (betaCdfRight - betaCdfLeft) * data[j];
+            }
+            return result;
         }
     }
 }
