@@ -1,0 +1,29 @@
+name: publish-nightly
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.102
+    - name: Pack Perfolizer
+      run: dotnet pack --configuration Release /p:PrereleaseLabel=-nightly.$GITHUB_RUN_NUMBER src/Perfolizer/Perfolizer/Perfolizer.csproj -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+    - name: Pack Perfolizer.Tool
+      run: dotnet pack --configuration Release /p:PrereleaseLabel=-nightly.$GITHUB_RUN_NUMBER src/Perfolizer/Perfolizer.Tool/Perfolizer.Tool.csproj -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+    - name: Publish nupkg
+      env:
+        MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
+      run: dotnet nuget push **/*.nupkg --source https://www.myget.org/F/perfolizer/api/v3/index.json --api-key $MYGET_API_KEY
+    - name: Publish snupkg
+      env:
+        MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
+      run: dotnet nuget push **/*.snupkg --source https://www.myget.org/F/perfolizer/api/v3/index.json --api-key $MYGET_API_KEY
