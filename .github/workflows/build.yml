@@ -1,0 +1,22 @@
+name: build
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.102
+    - name: Build
+      run: dotnet build --configuration Release src/Perfolizer/Perfolizer.sln
+    - name: Test
+      run: dotnet test --configuration Release src/Perfolizer/Perfolizer.Tests/Perfolizer.Tests.csproj
