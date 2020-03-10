@@ -8,12 +8,15 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/AndreyAkinshin/perfolizer</RepositoryUrl>
-        
+
         <PackageIcon>dino.png</PackageIcon>
         <PackageIconUrl>https://raw.githubusercontent.com/AndreyAkinshin/perfolizer/master/docs/logo/dino.png</PackageIconUrl>
         
         <CLSCompliant>true</CLSCompliant>
         <ComVisible>false</ComVisible>
+
+        <AssemblyOriginatorKeyFile>..\perfolizerKey.snk</AssemblyOriginatorKeyFile>
+        <SignAssembly>true</SignAssembly>
 
         <LangVersion>8.0</LangVersion>
 
