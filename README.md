@@ -27,6 +27,7 @@ Currently, the following algorithms are available:
 * [Multimodality detection](#multimodality-detection)
 * [Range Quantile Queries](#range-quantile-queries)
 * [QuickSelectAdaptive](#quickselectadaptive)
+* [Quantile estimation](#quantile-estimation)
 
 It's only the beginning, a lot of additional algorithms and approaches for performance analysis are coming!
 
@@ -49,11 +50,11 @@ Both algorithms are nonparametric (they support multimodal distributions).
 Here is a usage example of these algorithms:
 
 ```cs
-var random = new RandomDistribution(42);
+var random = new Random(42);
 var data = new List<double>();
 const int n = 20;
 for (int i = 0; i < n; i++)
-    data.AddRange(random.Gaussian(100, mean: 20 * i, stdDev: 5));
+    data.AddRange(new NormalDistribution(mean: 20 * i, stdDev: 5).Random(random).Next(100));
 
 var rqqIndexes = RqqPeltChangePointDetector.Instance.GetChangePointIndexes(data.ToArray());
 var edIndexes = EdPeltChangePointDetector.Instance.GetChangePointIndexes(data.ToArray());
@@ -105,10 +106,10 @@ Perfolizer provides an adaptive way to build histograms with dynamic bin size: i
 Here is a usage example:
 
 ```cs
-var random = new RandomDistribution(42);
+var random = new Random(42);
 var data = new List<double>();
-data.AddRange(random.Gaussian(200, mean: 20, stdDev: 1));
-data.AddRange(random.Gaussian(200, mean: 22, stdDev: 1));
+data.AddRange(new NormalDistribution(mean: 20, stdDev: 1).Random(random).Next(200));
+data.AddRange(new NormalDistribution(mean: 22, stdDev: 1).Random(random).Next(200));
 
 const double binSize = 0.5;
 Console.WriteLine("*** Simple Histogram ***");
@@ -161,20 +162,20 @@ The rule of thumb is simple: when the mvalue is higher than 2.8-3.2,
 Here is a usage example which demonstrate mvalue calculations for unimodal, bimodal, and trimodal distributions:
 
 ```cs
-var random = new RandomDistribution(42);
+var random = new Random(42);
 var data = new List<double>();
-data.AddRange(random.Gaussian(200, mean: 20));
-data.AddRange(random.Gaussian(200, mean: 22));
+data.AddRange(new NormalDistribution(mean: 20, stdDev: 1).Random(random).Next(200));
+data.AddRange(new NormalDistribution(mean: 22, stdDev: 1).Random(random).Next(200));
 List<double>
     unimodal = new List<double>(),
     bimodal = new List<double>(),
     trimodal = new List<double>();
-unimodal.AddRange(random.Gaussian(200, mean: 20));
-bimodal.AddRange(random.Gaussian(200, mean: 20));
-bimodal.AddRange(random.Gaussian(200, mean: 30));
-trimodal.AddRange(random.Gaussian(200, mean: 20));
-trimodal.AddRange(random.Gaussian(200, mean: 30));
-trimodal.AddRange(random.Gaussian(200, mean: 40));
+unimodal.AddRange(new NormalDistribution(mean: 20, stdDev: 1).Random(random).Next(200));
+bimodal.AddRange(new NormalDistribution(mean: 20, stdDev: 1).Random(random).Next(200));
+bimodal.AddRange(new NormalDistribution(mean: 30, stdDev: 1).Random(random).Next(200));
+trimodal.AddRange(new NormalDistribution(mean: 20, stdDev: 1).Random(random).Next(200));
+trimodal.AddRange(new NormalDistribution(mean: 30, stdDev: 1).Random(random).Next(200));
+trimodal.AddRange(new NormalDistribution(mean: 40, stdDev: 1).Random(random).Next(200));
 Console.WriteLine("Unimodal : " + MValueCalculator.Calculate(unimodal));
 Console.WriteLine("Bimodal  : " + MValueCalculator.Calculate(bimodal));
 Console.WriteLine("Trimodal : " + MValueCalculator.Calculate(trimodal));
@@ -292,6 +293,54 @@ data[9] = 9
 
 * Alexandrescu, Andrei. "Fast deterministic selection."  
   http://erdani.com/research/sea2017.pdf
+
+### Quantile estimation
+
+Since most of the performance distributions are nonparametric (they may be multimodal, right-skewed, heavy-tailed),
+  quantile estimation is essential during distribution analysis.
+Unfortunately, the "simple" straightforward approach often produces results that are far from real quantile values.
+The Harrell-Davis quantile estimator improves the situation and calculates better quantile estimation.
+
+Here is an usage example:
+
+```cs
+var x = new double[] {0, 50, 100};
+var probabilities = new[]
+    {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
+var simpleQuantiles = SimpleQuantileEstimator.Instance.GetQuantiles(x, probabilities);
+var hdQuantiles = HarrellDavisQuantileEstimator.Instance.GetQuantiles(x, probabilities);
+Console.WriteLine("Probability Simple HarrellDavis");
+for (int i = 0; i < probabilities.Length; i++)
+    Console.WriteLine(
+        probabilities[i].ToString("N1").PadRight(11)
+        + " "
+        + simpleQuantiles[i].ToString("N1").PadLeft(6)
+        + " "
+        + hdQuantiles[i].ToString("N1").PadLeft(12)
+    );
+```
+
+And here are the corresponding results for simple and Harrell-Davis quantile estimators:
+
+```md
+Probability Simple HarrellDavis
+0.0            0.0          0.0
+0.1           10.0          4.0
+0.2           20.0         11.6
+0.3           30.0         22.5
+0.4           40.0         35.7
+0.5           50.0         50.0
+0.6           60.0         64.3
+0.7           70.0         77.5
+0.8           80.0         88.4
+0.9           90.0         96.0
+1.0          100.0        100.0
+```
+
+*References:*
+
+* Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator. Biometrika, 69(3), pp.635-640.  
+  https://pdfs.semanticscholar.org/1a48/9bb74293753023c5bb6bff8e41e8fe68060f.pdf
 
 ## Command-line tool
 
@@ -411,6 +460,13 @@ $ perfolizer mvalue --data '0;0;0;0;0;0;0;0'
 2
 $ perfolizer mvalue --data '0;0;0;0;1;1;1;1'
 4
+```
+
+quantile estimation:
+
+```sh
+$ perfolizer qe --data '0;50;100' --probs '0;0.25;0.5;0.75;1'
+0;16.666667192688482;50;83.33333280731152;100
 ```
 
 ## NuGet packages

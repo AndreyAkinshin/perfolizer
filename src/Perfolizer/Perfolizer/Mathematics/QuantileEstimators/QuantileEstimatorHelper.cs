@@ -6,15 +6,15 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 {
     internal static class QuantileEstimatorHelper
     {
-        public static void CheckArguments([CanBeNull] IReadOnlyList<double> data, double quantile)
+        public static void CheckArguments([CanBeNull] IReadOnlyList<double> data, double probability)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
             if (data.Count == 0)
                 throw new ArgumentOutOfRangeException(nameof(data), $"{nameof(data)} should be non-empty");
-            if (quantile < 0 || quantile > 1)
-                throw new ArgumentOutOfRangeException(nameof(quantile),
-                    $"{nameof(quantile)} is {quantile}, but it should be in range [0;1]");
+            if (probability < 0 || probability > 1)
+                throw new ArgumentOutOfRangeException(nameof(probability),
+                    $"{nameof(probability)} is {probability}, but it should be in range [0;1]");
         }
     }
 }

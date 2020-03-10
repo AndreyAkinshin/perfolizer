@@ -12,12 +12,12 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     {
         public static readonly IQuantileEstimator Instance = new HarrellDavisQuantileEstimator();
 
-        public double GetQuantileFromSorted(IReadOnlyList<double> data, double quantile)
+        public double GetQuantileFromSorted(IReadOnlyList<double> data, double probability)
         {
-            QuantileEstimatorHelper.CheckArguments(data, quantile);
+            QuantileEstimatorHelper.CheckArguments(data, probability);
 
             int n = data.Count;
-            double a = (n + 1) * quantile, b = (n + 1) * (1 - quantile);
+            double a = (n + 1) * probability, b = (n + 1) * (1 - probability);
             var distribution = new BetaDistribution(a, b);
 
             double result = 0;

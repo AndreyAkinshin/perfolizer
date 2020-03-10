@@ -5,6 +5,6 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 {
     public interface IQuantileEstimator
     {
-        double GetQuantileFromSorted([NotNull] IReadOnlyList<double> data, double quantile);
+        double GetQuantileFromSorted([NotNull] IReadOnlyList<double> data, double probability);
     }
 }

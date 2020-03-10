@@ -11,7 +11,8 @@ namespace Perfolizer.Samples
             {"Histogram", () => new HistogramSample().Run()},
             {"Rqq", () => new RqqSample().Run()},
             {"Multimodal", () => new MultimodalSample().Run()},
-            {"QuickSelectAdaptive", () => new QuickSelectAdaptiveSample().Run()}
+            {"QuickSelectAdaptive", () => new QuickSelectAdaptiveSample().Run()},
+            {"QuantileEstimator", () => new QuantileEstimatorSample().Run()}
         };
 
         private static void PrintAvailableSamples()
@@ -29,7 +30,7 @@ namespace Perfolizer.Samples
                 PrintAvailableSamples();
                 return;
             }
-            
+
             string sampleName = args[0];
             if (!Samples.ContainsKey(sampleName))
             {
@@ -37,7 +38,7 @@ namespace Perfolizer.Samples
                 PrintAvailableSamples();
                 return;
             }
-            
+
             var sample = Samples[sampleName];
             sample();
         }

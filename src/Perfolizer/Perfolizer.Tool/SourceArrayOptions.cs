@@ -34,6 +34,11 @@ namespace Perfolizer.Tool
             else
                 throw new ArgumentException("'data' or 'file' options should be specified");
 
+            return ConvertStringToArray(input, "source array");
+        }
+
+        public double[] ConvertStringToArray(string input, string arrayName)
+        {
             var numbers = input.Trim('"', '\'', ' ').Split(SourceSeparator);
             var data = new double[numbers.Length];
             for (int i = 0; i < data.Length; i++)
@@ -41,7 +46,7 @@ namespace Perfolizer.Tool
                 if (double.TryParse(numbers[i].Trim(), out double number))
                     data[i] = number;
                 else
-                    throw new InvalidOperationException($"'{numbers[i]}' (element #{i} in the source array) is not a valid number");
+                    throw new InvalidOperationException($"'{numbers[i]}' (element #{i} in the {arrayName}) is not a valid number");
             }
 
             return data;

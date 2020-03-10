@@ -31,7 +31,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         {
             QuantileEstimatorHelper.CheckArguments(values, 0);
 
-            double GetQuantile(double q) => SampleQuantileEstimator.Instance.GetQuantileFromSorted(values, q);
+            double GetQuantile(double q) => SimpleQuantileEstimator.Instance.GetQuantileFromSorted(values, q);
 
             double q0 = GetQuantile(0.00);
             double q1 = GetQuantile(0.25);

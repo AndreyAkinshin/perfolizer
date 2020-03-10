@@ -17,7 +17,8 @@ namespace Perfolizer.Tool
                     HistogramBuilderOptions,
                     RqqOptions,
                     SelectorOptions,
-                    MValueCalculatorOptions
+                    MValueCalculatorOptions,
+                    QuantileEstimatorOptions
                 >(args);
 
                 int exitCode = 0;
@@ -27,6 +28,7 @@ namespace Perfolizer.Tool
                     .WithParsed<RqqOptions>(RqqOptions.Run)
                     .WithParsed<SelectorOptions>(SelectorOptions.Run)
                     .WithParsed<MValueCalculatorOptions>(MValueCalculatorOptions.Run)
+                    .WithParsed<QuantileEstimatorOptions>(QuantileEstimatorOptions.Run)
                     .WithNotParsed(errs =>
                     {
                         PrintHelp(parserResult);
