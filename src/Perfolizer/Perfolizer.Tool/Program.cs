@@ -1,7 +1,6 @@
 ﻿using System;
 using CommandLine;
 using CommandLine.Text;
-using Perfolizer.Mathematics.Multimodality;
 
 namespace Perfolizer.Tool
 {
@@ -18,7 +17,9 @@ namespace Perfolizer.Tool
                     RqqOptions,
                     SelectorOptions,
                     MValueCalculatorOptions,
-                    QuantileEstimatorOptions
+                    QuantileEstimatorOptions,
+                    ShiftFunctionOptions,
+                    RatioFunctionOptions
                 >(args);
 
                 int exitCode = 0;
@@ -29,6 +30,8 @@ namespace Perfolizer.Tool
                     .WithParsed<SelectorOptions>(SelectorOptions.Run)
                     .WithParsed<MValueCalculatorOptions>(MValueCalculatorOptions.Run)
                     .WithParsed<QuantileEstimatorOptions>(QuantileEstimatorOptions.Run)
+                    .WithParsed<ShiftFunctionOptions>(ShiftFunctionOptions.Run)
+                    .WithParsed<RatioFunctionOptions>(RatioFunctionOptions.Run)
                     .WithNotParsed(errs =>
                     {
                         PrintHelp(parserResult);

@@ -18,18 +18,18 @@ namespace Perfolizer.Mathematics.Functions
             quantileEstimator = HarrellDavisQuantileEstimator.Instance;
         }
 
-        public double[] Values([NotNull] double[] a, [NotNull] double[] b, [NotNull] double[] quantiles)
+        public double[] Values([NotNull] double[] a, [NotNull] double[] b, [NotNull] double[] probabilities)
         {
-            for (int i = 0; i < quantiles.Length; i++)
-                if (quantiles[i] < 0 || quantiles[i] > 1)
-                    throw new ArgumentOutOfRangeException(nameof(quantiles),
-                        $"{nameof(quantiles)}[{i}] = {quantiles[i]}, but it should be inside [0;1]");
+            for (int i = 0; i < probabilities.Length; i++)
+                if (probabilities[i] < 0 || probabilities[i] > 1)
+                    throw new ArgumentOutOfRangeException(nameof(probabilities),
+                        $"{nameof(probabilities)}[{i}] = {probabilities[i]}, but it should be inside [0;1]");
 
-            var qa = quantileEstimator.GetQuantiles(a, quantiles);
-            var qb = quantileEstimator.GetQuantiles(b, quantiles);
+            var qa = quantileEstimator.GetQuantiles(a, probabilities);
+            var qb = quantileEstimator.GetQuantiles(b, probabilities);
             return CalculateValues(qa, qb);
         }
 
-        protected abstract double[] CalculateValues(double[] quantilesA, double[] quantilesB);
+        protected abstract double[] CalculateValues(double[] probabilitiesA, double[] probabilitiesB);
     }
 }

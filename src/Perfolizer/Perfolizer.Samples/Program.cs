@@ -12,7 +12,8 @@ namespace Perfolizer.Samples
             {"Rqq", () => new RqqSample().Run()},
             {"Multimodal", () => new MultimodalSample().Run()},
             {"QuickSelectAdaptive", () => new QuickSelectAdaptiveSample().Run()},
-            {"QuantileEstimator", () => new QuantileEstimatorSample().Run()}
+            {"QuantileEstimator", () => new QuantileEstimatorSample().Run()},
+            {"ShiftAndRatio", () => new ShiftAndRatioSample().Run()}
         };
 
         private static void PrintAvailableSamples()

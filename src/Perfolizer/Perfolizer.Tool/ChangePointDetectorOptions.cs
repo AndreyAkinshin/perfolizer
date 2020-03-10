@@ -5,6 +5,7 @@ using System.Linq;
 using CommandLine;
 using CommandLine.Text;
 using Perfolizer.Mathematics.Cpd;
+using Perfolizer.Tool.Base;
 
 namespace Perfolizer.Tool
 {

@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using CommandLine;
 using CommandLine.Text;
 using Perfolizer.Mathematics.Histograms;
+using Perfolizer.Tool.Base;
 
 namespace Perfolizer.Tool
 {

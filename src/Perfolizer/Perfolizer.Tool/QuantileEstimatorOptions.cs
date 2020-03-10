@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CommandLine;
 using CommandLine.Text;
 using Perfolizer.Mathematics.QuantileEstimators;
+using Perfolizer.Tool.Base;
 
 namespace Perfolizer.Tool
 {

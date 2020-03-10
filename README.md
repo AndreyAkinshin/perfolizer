@@ -29,6 +29,7 @@ Currently, the following algorithms are available:
 * [Range Quantile Queries](#range-quantile-queries)
 * [QuickSelectAdaptive](#quickselectadaptive)
 * [Quantile estimation](#quantile-estimation)
+* [Shift and Ration functions](#shift-and-ratio)
 
 It's only the beginning, a lot of additional algorithms and approaches for performance analysis are coming!
 
@@ -310,15 +311,13 @@ var probabilities = new[]
     {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
 var simpleQuantiles = SimpleQuantileEstimator.Instance.GetQuantiles(x, probabilities);
 var hdQuantiles = HarrellDavisQuantileEstimator.Instance.GetQuantiles(x, probabilities);
+
 Console.WriteLine("Probability Simple HarrellDavis");
 for (int i = 0; i < probabilities.Length; i++)
     Console.WriteLine(
-        probabilities[i].ToString("N1").PadRight(11)
-        + " "
-        + simpleQuantiles[i].ToString("N1").PadLeft(6)
-        + " "
-        + hdQuantiles[i].ToString("N1").PadLeft(12)
-    );
+        probabilities[i].ToString("N1").PadRight(11) + " " +
+        simpleQuantiles[i].ToString("N1").PadLeft(6) + " " +
+        hdQuantiles[i].ToString("N1").PadLeft(12));
 ```
 
 And here are the corresponding results for simple and Harrell-Davis quantile estimators:
@@ -342,6 +341,69 @@ Probability Simple HarrellDavis
 
 * Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator. Biometrika, 69(3), pp.635-640.  
   https://pdfs.semanticscholar.org/1a48/9bb74293753023c5bb6bff8e41e8fe68060f.pdf
+
+### Shift and Ratio
+
+Shift and ration functions are powerful tools for distribution comparing
+These functions show the difference between distributions for each specified quantile.
+
+Below you can see an example where we have two bimodal distributions:
+  `x` (modes: 20 and 40) and `y` (modes: 20 and 80).
+
+```cs
+var x = new NormalDistribution(mean: 20, stdDev: 2).Random(1).Next(20).Concat(
+        new NormalDistribution(mean: 40, stdDev: 2).Random(2).Next(20)).ToArray();
+var y = new NormalDistribution(mean: 20, stdDev: 2).Random(3).Next(20).Concat(
+        new NormalDistribution(mean: 80, stdDev: 2).Random(4).Next(20)).ToArray();
+
+var probabilities = new[] {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
+var shift = ShiftFunction.Instance.Values(x, y, probabilities);
+var ratio = RatioFunction.Instance.Values(x, y, probabilities);
+
+Console.WriteLine("Probability Shift Ratio");
+for (int i = 0; i < probabilities.Length; i++)
+    Console.WriteLine(
+        probabilities[i].ToString("N1").PadRight(11) + " " +
+        shift[i].ToString("N1").PadLeft(5) + " " +
+        ratio[i].ToString("N1").PadLeft(5));
+
+Console.WriteLine();
+Console.WriteLine("Shift Range: " + ShiftRangeEstimator.Instance.GetRange(x, y));
+Console.WriteLine("Ratio Range: " + RatioRangeEstimator.Instance.GetRange(x, y));
+```
+
+The straightforward approaches that show the difference between means or medians will not help us to see the whole picture
+  when one of the modes in the multimodal distribution was shifted.
+The shift and ratio functions rush to the rescue:
+
+```
+Probability Shift Ratio
+0.0           0.1   1.0
+0.1          -0.2   1.0
+0.2           0.0   1.0
+0.3           0.3   1.0
+0.4           3.8   1.2
+0.5          19.9   1.7
+0.6          36.2   2.0
+0.7          39.9   2.0
+0.8          40.2   2.0
+0.9          40.2   2.0
+1.0          41.3   1.9
+
+Shift Range: [-0.02;40.34]
+Ratio Range: [1.00;2.01]
+```
+
+*References:*
+
+* Doksum, Kjell. "Empirical probability plots and statistical inference for nonlinear models in the two-sample case." The annals of statistics (1974): 267-277.  
+  https://doi.org/10.1214/aos/1176342662
+* Doksum, Kjell A., and Gerald L. Sievers. "Plotting with confidence: Graphical comparisons of two populations." Biometrika 63, no. 3 (1976): 421-434.  
+  https://doi.org/10.2307/2335720
+* Guillaume Rousselet. "the shift function: a powerful tool to compare two entire distributions." 2016  
+  https://garstats.wordpress.com/2016/07/12/shift-function/
+* Andrey Akinshin. "Distribution comparison via the shift and ratio functions." 2019  
+  https://aakinshin.net/posts/shift-and-ratio-functions/
 
 ## Command-line tool
 
@@ -468,6 +530,34 @@ quantile estimation:
 ```sh
 $ perfolizer qe --data '0;50;100' --probs '0;0.25;0.5;0.75;1'
 0;16.666667192688482;50;83.33333280731152;100
+```
+
+shift function:
+
+```sh
+$ perfolizer shift --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '2;2;2;2;2;4;4;4;4;4' --margin 0
+[0.00;0.00]
+$ perfolizer shift --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '4;4;4;4;4;6;6;6;6;6' --margin 0
+[2.00;2.00]
+$ perfolizer shift --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '2;2;2;2;2;8;8;8;8;8' --margin 0
+[0.00;4.00]
+$ perfolzier shift --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '1;1;1;1;1;8;8;8;8;8' --margin 0
+[-1.00;4.00]
+$ perfolizer shift --data1 '10;20;30;40;50' --data2 '11;22;33;44;55' --probs '0.0;0.5;1.0'
+1;3;5
+```
+
+ratio function:
+
+```sh
+$ perfolizer ratio --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '2;2;2;2;2;4;4;4;4;4' --margin 0
+[1.00;1.00]
+$ perfolizer ratio --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '4;4;4;4;4;8;8;8;8;8' --margin 0
+[2.00;2.00]
+$ perfolizer ratio --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '2;2;2;2;2;8;8;8;8;8' --margin 0
+[1.00;2.00]
+$ perfolizer ratio --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '1;1;1;1;1;8;8;8;8;8' --margin 0
+[0.50;2.00]
 ```
 
 ## NuGet packages
