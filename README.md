@@ -29,7 +29,7 @@ Currently, the following algorithms are available:
 * [Range Quantile Queries](#range-quantile-queries)
 * [QuickSelectAdaptive](#quickselectadaptive)
 * [Quantile estimation](#quantile-estimation)
-* [Shift and Ration functions](#shift-and-ratio)
+* [Shift and Ratio functions](#shift-and-ratio)
 
 It's only the beginning, a lot of additional algorithms and approaches for performance analysis are coming!
 
