@@ -61,6 +61,7 @@ namespace Perfolizer.Tests.Mathematics.Histograms
                 new[]
                 {
                     new[] { 0.0 },
+                    Array.Empty<double>(),
                     new[] { 0.0053448932245373729, 0.0074317916482686992 }
                 });
         }
@@ -103,12 +104,12 @@ namespace Perfolizer.Tests.Mathematics.Histograms
         public void AutoTrivialTest4()
         {
             HistogramTestHelper.DoHistogramTest(output, HistogramBuilder.Adaptive,
-                new[] { 0.00000001, 0.00000002, 0.00000003, 1.00000001, 1.00000002, 1.00000003 },
+                new[] { 0.00000001, 0.00000002, 0.00000003, 0.00000004, 1.00000001, 1.00000002, 1.00000003, 1.00000004 },
                 new[]
                 {
-                    new[] { 0.00000001, 0.00000002, 0.00000003 },
+                    new[] { 0.00000001, 0.00000002, 0.00000003, 0.00000004 },
                     Array.Empty<double>(),
-                    new[] { 1.00000001, 1.00000002, 1.00000003 }
+                    new[] { 1.00000001, 1.00000002, 1.00000003, 1.00000004 }
                 });
         }
 
@@ -116,14 +117,14 @@ namespace Perfolizer.Tests.Mathematics.Histograms
         public void AutoSyntheticTestTrimodal()
         {
             HistogramTestHelper.DoHistogramTest(output, HistogramBuilder.Adaptive,
-                new[] { 1.0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3 },
+                new double[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3},
                 new[]
                 {
-                    new[] { 1.0, 1, 1, 1 },
+                    new double[] { 1, 1, 1, 1, 1, 1, 1, 1, 1 },
                     Array.Empty<double>(),
-                    new[] { 2.0, 2, 2, 2 },
+                    new double[] { 2, 2, 2, 2, 2, 2, 2, 2, 2 },
                     Array.Empty<double>(),
-                    new[] { 3.0, 3, 3, 3 }
+                    new double[] { 3, 3, 3, 3, 3, 3, 3, 3, 3 }
                 });
         }
 
@@ -193,7 +194,7 @@ namespace Perfolizer.Tests.Mathematics.Histograms
                 },
                 new[]
                 {
-                    true, false, false, false, false,
+                    true, false, false, false, 
                     true
                 });
         }
@@ -215,8 +216,8 @@ namespace Perfolizer.Tests.Mathematics.Histograms
                 },
                 new[]
                 {
-                    true, false, false,
-                    true, false, false,
+                    true, false,
+                    true, false,
                     true
                 });
         }

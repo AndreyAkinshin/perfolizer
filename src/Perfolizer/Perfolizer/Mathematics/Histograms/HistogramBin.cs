@@ -29,7 +29,7 @@ namespace Perfolizer.Mathematics.Histograms
         public static HistogramBin Union(HistogramBin bin1, HistogramBin bin2) => new HistogramBin(
             Math.Min(bin1.Lower, bin2.Lower),
             Math.Max(bin1.Upper, bin2.Upper),
-            bin1.Values.Union(bin2.Values).OrderBy(value => value).ToArray());
+            bin1.Values.Concat(bin2.Values).OrderBy(value => value).ToArray());
 
         public override string ToString() => ToString(DefaultCultureInfo.Instance);
 

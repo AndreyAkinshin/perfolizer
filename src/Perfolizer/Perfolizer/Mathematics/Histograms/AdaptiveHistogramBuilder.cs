@@ -159,7 +159,7 @@ namespace Perfolizer.Mathematics.Histograms
             {
                 if (bins[counter].HasAny)
                     lastValue = Math.Max(lastValue, bins[counter].Values.Last());
-                double adaptiveThreshold = Math.Max(binSize / 2, lastValue * adaptiveFactor);
+                double adaptiveThreshold = Math.Max(binSize / 3, lastValue * adaptiveFactor);
                 if (bins[counter].Gap < adaptiveThreshold)
                 {
                     double leftGap = counter > 0 ? bins[counter - 1].Gap : double.MaxValue;
@@ -187,7 +187,7 @@ namespace Perfolizer.Mathematics.Histograms
         [PublicAPI, Pure]
         public static double GetOptimalBinSize(int n, double standardDeviation)
         {
-            return HistogramBinSizeCalculator.CalcScott2(n, standardDeviation);
+            return HistogramBinSizeCalculator.CalcScott(n, standardDeviation) * 0.75;
         }
 
         private static double NiceFloor(double value) => Math.Floor(value / Resolution) * Resolution;
