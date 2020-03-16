@@ -1,6 +1,9 @@
-﻿using Perfolizer.Mathematics.Distributions;
+﻿using System.Collections.Generic;
+using JetBrains.Annotations;
+using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.Histograms;
 using Perfolizer.Mathematics.Multimodality;
+using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -12,13 +15,36 @@ namespace Perfolizer.Tests.Mathematics.Histograms
 
         public MultimodalTests(ITestOutputHelper output) => this.output = output;
 
-        [Theory]
-        [InlineData(new double[] { 1, 1, 1, 1, 1, 1 }, 2)]
-        [InlineData(new double[] { 1, 1, 1, 1, 1, 2, 2, 2, 2, 2 }, 4)]
-        [InlineData(new double[] { 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3 }, 6)]
-        [InlineData(new double[] { 1, 2, 3, 3, 3, 4, 5, 10, 11, 11, 11, 12, 40, 41, 41, 41, 42 }, 2.8333)]
-        public void MValueTest(double[] values, double expectedMValue)
+        private class TestData
         {
+            public double[] Values { get; }
+            public double ExpectedMValue { get; }
+
+            public TestData(double[] values, double expectedMValue)
+            {
+                Values = values;
+                ExpectedMValue = expectedMValue;
+            }
+        }
+
+        private static readonly IDictionary<string, TestData> TestDataMap = new Dictionary<string, TestData>
+        {
+            {"Case1", new TestData(new double[] {1, 1, 1, 1, 1, 1}, 2)},
+            {"Case2", new TestData(new double[] {1, 1, 1, 1, 1, 2, 2, 2, 2, 2}, 4)},
+            {"Case3", new TestData(new double[] {1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3}, 6)},
+            {"Case4", new TestData(new double[] {1, 2, 3, 3, 3, 4, 5, 10, 11, 11, 11, 12, 40, 41, 41, 41, 42}, 2.8333)}
+        };
+
+        [UsedImplicitlyAttribute] public static TheoryData<string> TestDataKeys = TheoryDataHelper.Create(TestDataMap.Keys);
+
+        [Theory]
+        [MemberData(nameof(TestDataKeys))]
+        public void MValueTest([NotNull] string testDataKey)
+        {
+            var testData = TestDataMap[testDataKey];
+            var values = testData.Values;
+            double expectedMValue = testData.ExpectedMValue;
+
             var histogram = HistogramBuilder.Adaptive.Build(values);
             output.Print("Distribution", histogram);
 
@@ -50,6 +76,7 @@ namespace Perfolizer.Tests.Mathematics.Histograms
                     maxMValueN = n;
                 }
             }
+
             output.WriteLine($"maxMValue = {maxMValue} (N = {maxMValueN})");
         }
     }
