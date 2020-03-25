@@ -89,7 +89,7 @@ RqqPelt  EdPelt
    1899   1900
 ```
 
-As you can see, both algorithms have pretty good accuracy, but RqqPelt detects more changepoints when where are many of them.
+As you can see, both algorithms have pretty good accuracy, but RqqPelt detects more changepoints when there are many of them.
 
 *References:*
 
