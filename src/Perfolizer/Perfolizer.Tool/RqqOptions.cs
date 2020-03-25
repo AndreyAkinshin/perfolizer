@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using CommandLine;
 using CommandLine.Text;
 using Perfolizer.Mathematics.Selectors;
+using Perfolizer.Tool.Base;
 
 namespace Perfolizer.Tool
 {

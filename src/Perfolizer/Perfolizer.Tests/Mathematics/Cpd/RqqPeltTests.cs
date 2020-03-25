@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Cpd;
+using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.Randomization;
 using Xunit;
 using Xunit.Abstractions;
@@ -99,11 +100,11 @@ namespace Perfolizer.Tests.Mathematics.Cpd
         [MemberData(nameof(GaussianMeanProgressionData))]
         public void GaussianMeanProgression(int count, int meanFactor, int stdDev, int error)
         {
-            var random = new RandomDistribution(42);
+            var random = new Random(42);
 
             var data = new List<double>();
             for (int i = 0; i < count; i++)
-                data.AddRange(random.Gaussian(100, mean: meanFactor * i, stdDev: stdDev));
+                data.AddRange(new NormalDistribution(mean: meanFactor * i, stdDev: stdDev).Random(random).Next(100));
 
             var indexes = detector.GetChangePointIndexes(data.ToArray(), 20);
             Check100(count, error, indexes);
@@ -114,12 +115,12 @@ namespace Perfolizer.Tests.Mathematics.Cpd
         [InlineData(0, "1;5;30")]
         public void GaussianStdDevProgression(int error, [NotNull] string stdDevValuesString)
         {
-            var random = new RandomDistribution(42);
+            var random = new Random(42);
 
             var stdDevValues = stdDevValuesString.Split(';').Select(double.Parse).ToArray();
             var data = new List<double>();
             foreach (double stdDev in stdDevValues)
-                data.AddRange(random.Gaussian(100, mean: 0, stdDev: stdDev));
+                data.AddRange(new NormalDistribution(mean: 0, stdDev: stdDev).Random(random).Next(100));
 
             var indexes = detector.GetChangePointIndexes(data.ToArray(), 20);
             Check100(stdDevValues.Length, error, indexes);
@@ -147,14 +148,14 @@ namespace Perfolizer.Tests.Mathematics.Cpd
         [MemberData(nameof(BimodalProgressionData))]
         public void BimodalProgression(int count, int meanFactor, int stdDev, int error)
         {
-            var random = new RandomDistribution(42);
+            var random = new Random(42);
             var shuffler = new Shuffler(42);
 
             var data = new List<double>();
             for (int i = 0; i < count; i++)
             {
-                data.AddRange(random.Gaussian(30, 0, stdDev));
-                data.AddRange(random.Gaussian(70, (i + 1) * meanFactor, stdDev));
+                data.AddRange(new NormalDistribution(mean: 0, stdDev: stdDev).Random(random).Next(30));
+                data.AddRange(new NormalDistribution(mean: (i + 1) * meanFactor, stdDev: stdDev).Random(random).Next(70));
                 shuffler.Shuffle(data, i * 100, 100);
             }
 

@@ -13,8 +13,14 @@ namespace Perfolizer.Mathematics.Distributions
             this.df = df;
         }
 
+        /// <summary>
+        /// Cumulative distribution function
+        /// </summary>
         public double Cdf(double x) => StudentOneTail(x, df);
         
+        /// <summary>
+        /// Quantile function
+        /// </summary>
         public double Quantile(double x)
         {
             if (x < 0 || x > 1)

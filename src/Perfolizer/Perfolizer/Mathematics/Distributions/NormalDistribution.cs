@@ -1,5 +1,7 @@
+using System;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.Randomization;
 using static System.Math;
 
 namespace Perfolizer.Mathematics.Distributions
@@ -8,27 +10,77 @@ namespace Perfolizer.Mathematics.Distributions
     {
         public static readonly NormalDistribution Standard = new NormalDistribution(0, 1);
 
-        private readonly double mean, sd;
+        /// <summary>
+        /// The mean value of the distribution
+        /// </summary>
+        public double Mean { get; }
 
-        public NormalDistribution(double mean, double sd)
+        /// <summary>
+        /// The standard deviation of the distribution
+        /// </summary>
+        public double StdDev { get; }
+
+        public NormalDistribution(double mean, double stdDev)
         {
-            this.mean = mean;
-            this.sd = sd;
+            Mean = mean;
+            StdDev = stdDev;
         }
 
         /// <summary>
         /// Probability density function 
         /// </summary>
-        /// <param name="x"></param>
-        /// <returns></returns>
-        public double Pdf(double x) => Exp(-((x - mean) / sd).Sqr() / 2) / (sd * Sqrt(2 * PI));
+        public double Pdf(double x) => Exp(-((x - Mean) / StdDev).Sqr() / 2) / (StdDev * Sqrt(2 * PI));
 
         /// <summary>
         /// Cumulative distribution function
         /// </summary>
-        /// <param name="x"></param>
-        /// <returns></returns>
-        public double Cdf(double x) => mean + Gauss(x) * sd;
+        public double Cdf(double x) => Gauss((x - Mean) / StdDev);
+
+        private class NormalRandomGenerator : RandomGenerator
+        {
+            private readonly NormalDistribution distribution;
+
+            public NormalRandomGenerator(NormalDistribution distribution)
+            {
+                this.distribution = distribution;
+            }
+
+            public NormalRandomGenerator(int seed, NormalDistribution distribution) : base(seed)
+            {
+                this.distribution = distribution;
+            }
+
+            public NormalRandomGenerator(Random random, NormalDistribution distribution) : base(random)
+            {
+                this.distribution = distribution;
+            }
+
+            /// <summary>
+            /// Generate next random number from the normal distribution
+            /// </summary>
+            /// <remarks>
+            /// The method uses the Box–Muller transform.
+            /// See: Box, George EP. "A note on the generation of random normal deviates." Ann. Math. Stat. 29 (1958): 610-611.
+            /// </remarks>
+            public override double Next()
+            {
+                double stdDevFactor = Sqrt(-2.0 * Log(Random.NextDouble())) * Sin(2.0 * PI * Random.NextDouble());
+                return distribution.Mean + distribution.StdDev * stdDevFactor;
+            }
+        }
+        
+        [NotNull]
+        public RandomGenerator Random() => new NormalRandomGenerator(this);
+        
+        [NotNull]
+        public RandomGenerator Random(int seed) => new NormalRandomGenerator(seed, this);
+        
+        [NotNull]
+        public RandomGenerator Random(Random random) => new NormalRandomGenerator(random, this);
+
+        public double Median => Mean;
+        public double Variance => StdDev.Sqr();
+        public double Skewness => 0;
 
         /// <summary>
         /// ACM Algorithm 209: Gauss

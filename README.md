@@ -7,7 +7,10 @@
 <h3 align="center">
   
   [![NuGet](https://img.shields.io/nuget/v/Perfolizer)](https://www.nuget.org/packages/Perfolizer/)
+  [![MyGet](https://img.shields.io/myget/perfolizer/vpre/Perfolizer?label=myget)](https://www.myget.org/feed/perfolizer/package/nuget/Perfolizer)
+  [![Changelog](https://img.shields.io/badge/-changelog-informational)](https://github.com/AndreyAkinshin/perfolizer/wiki/Changelog)
   [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+  [![build](https://github.com/AndreyAkinshin/perfolizer/workflows/build/badge.svg?branch=master)](https://github.com/AndreyAkinshin/perfolizer/actions?query=workflow%3Abuild)
 
 </h3>
 
@@ -25,6 +28,8 @@ Currently, the following algorithms are available:
 * [Multimodality detection](#multimodality-detection)
 * [Range Quantile Queries](#range-quantile-queries)
 * [QuickSelectAdaptive](#quickselectadaptive)
+* [Quantile estimation](#quantile-estimation)
+* [Shift and Ratio functions](#shift-and-ratio)
 
 It's only the beginning, a lot of additional algorithms and approaches for performance analysis are coming!
 
@@ -47,11 +52,11 @@ Both algorithms are nonparametric (they support multimodal distributions).
 Here is a usage example of these algorithms:
 
 ```cs
-var random = new RandomDistribution(42);
+var random = new Random(42);
 var data = new List<double>();
 const int n = 20;
 for (int i = 0; i < n; i++)
-    data.AddRange(random.Gaussian(100, mean: 20 * i, stdDev: 5));
+    data.AddRange(new NormalDistribution(mean: 20 * i, stdDev: 5).Random(random).Next(100));
 
 var rqqIndexes = RqqPeltChangePointDetector.Instance.GetChangePointIndexes(data.ToArray());
 var edIndexes = EdPeltChangePointDetector.Instance.GetChangePointIndexes(data.ToArray());
@@ -84,7 +89,7 @@ RqqPelt  EdPelt
    1899   1900
 ```
 
-As you can see, both algorithms have pretty good accuracy, but RqqPelt detects more changepoint when where are many of them.
+As you can see, both algorithms have pretty good accuracy, but RqqPelt detects more changepoints when where are many of them.
 
 *References:*
 
@@ -103,10 +108,10 @@ Perfolizer provides an adaptive way to build histograms with dynamic bin size: i
 Here is a usage example:
 
 ```cs
-var random = new RandomDistribution(42);
+var random = new Random(42);
 var data = new List<double>();
-data.AddRange(random.Gaussian(200, mean: 20, stdDev: 1));
-data.AddRange(random.Gaussian(200, mean: 22, stdDev: 1));
+data.AddRange(new NormalDistribution(mean: 20, stdDev: 1).Random(random).Next(200));
+data.AddRange(new NormalDistribution(mean: 22, stdDev: 1).Random(random).Next(200));
 
 const double binSize = 0.5;
 Console.WriteLine("*** Simple Histogram ***");
@@ -159,20 +164,20 @@ The rule of thumb is simple: when the mvalue is higher than 2.8-3.2,
 Here is a usage example which demonstrate mvalue calculations for unimodal, bimodal, and trimodal distributions:
 
 ```cs
-var random = new RandomDistribution(42);
+var random = new Random(42);
 var data = new List<double>();
-data.AddRange(random.Gaussian(200, mean: 20));
-data.AddRange(random.Gaussian(200, mean: 22));
+data.AddRange(new NormalDistribution(mean: 20, stdDev: 1).Random(random).Next(200));
+data.AddRange(new NormalDistribution(mean: 22, stdDev: 1).Random(random).Next(200));
 List<double>
     unimodal = new List<double>(),
     bimodal = new List<double>(),
     trimodal = new List<double>();
-unimodal.AddRange(random.Gaussian(200, mean: 20));
-bimodal.AddRange(random.Gaussian(200, mean: 20));
-bimodal.AddRange(random.Gaussian(200, mean: 30));
-trimodal.AddRange(random.Gaussian(200, mean: 20));
-trimodal.AddRange(random.Gaussian(200, mean: 30));
-trimodal.AddRange(random.Gaussian(200, mean: 40));
+unimodal.AddRange(new NormalDistribution(mean: 20, stdDev: 1).Random(random).Next(200));
+bimodal.AddRange(new NormalDistribution(mean: 20, stdDev: 1).Random(random).Next(200));
+bimodal.AddRange(new NormalDistribution(mean: 30, stdDev: 1).Random(random).Next(200));
+trimodal.AddRange(new NormalDistribution(mean: 20, stdDev: 1).Random(random).Next(200));
+trimodal.AddRange(new NormalDistribution(mean: 30, stdDev: 1).Random(random).Next(200));
+trimodal.AddRange(new NormalDistribution(mean: 40, stdDev: 1).Random(random).Next(200));
 Console.WriteLine("Unimodal : " + MValueCalculator.Calculate(unimodal));
 Console.WriteLine("Bimodal  : " + MValueCalculator.Calculate(bimodal));
 Console.WriteLine("Trimodal : " + MValueCalculator.Calculate(trimodal));
@@ -290,6 +295,115 @@ data[9] = 9
 
 * Alexandrescu, Andrei. "Fast deterministic selection."  
   http://erdani.com/research/sea2017.pdf
+
+### Quantile estimation
+
+Since most of the performance distributions are nonparametric (they may be multimodal, right-skewed, heavy-tailed),
+  quantile estimation is essential during distribution analysis.
+Unfortunately, the "simple" straightforward approach often produces results that are far from real quantile values.
+The Harrell-Davis quantile estimator improves the situation and calculates better quantile estimation.
+
+Here is an usage example:
+
+```cs
+var x = new double[] {0, 50, 100};
+var probabilities = new[]
+    {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
+var simpleQuantiles = SimpleQuantileEstimator.Instance.GetQuantiles(x, probabilities);
+var hdQuantiles = HarrellDavisQuantileEstimator.Instance.GetQuantiles(x, probabilities);
+
+Console.WriteLine("Probability Simple HarrellDavis");
+for (int i = 0; i < probabilities.Length; i++)
+    Console.WriteLine(
+        probabilities[i].ToString("N1").PadRight(11) + " " +
+        simpleQuantiles[i].ToString("N1").PadLeft(6) + " " +
+        hdQuantiles[i].ToString("N1").PadLeft(12));
+```
+
+And here are the corresponding results for simple and Harrell-Davis quantile estimators:
+
+```md
+Probability Simple HarrellDavis
+0.0            0.0          0.0
+0.1           10.0          4.0
+0.2           20.0         11.6
+0.3           30.0         22.5
+0.4           40.0         35.7
+0.5           50.0         50.0
+0.6           60.0         64.3
+0.7           70.0         77.5
+0.8           80.0         88.4
+0.9           90.0         96.0
+1.0          100.0        100.0
+```
+
+*References:*
+
+* Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator. Biometrika, 69(3), pp.635-640.  
+  https://pdfs.semanticscholar.org/1a48/9bb74293753023c5bb6bff8e41e8fe68060f.pdf
+
+### Shift and Ratio
+
+Shift and ration functions are powerful tools for distribution comparing
+These functions show the difference between distributions for each specified quantile.
+
+Below you can see an example where we have two bimodal distributions:
+  `x` (modes: 20 and 40) and `y` (modes: 20 and 80).
+
+```cs
+var x = new NormalDistribution(mean: 20, stdDev: 2).Random(1).Next(20).Concat(
+        new NormalDistribution(mean: 40, stdDev: 2).Random(2).Next(20)).ToArray();
+var y = new NormalDistribution(mean: 20, stdDev: 2).Random(3).Next(20).Concat(
+        new NormalDistribution(mean: 80, stdDev: 2).Random(4).Next(20)).ToArray();
+
+var probabilities = new[] {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
+var shift = ShiftFunction.Instance.Values(x, y, probabilities);
+var ratio = RatioFunction.Instance.Values(x, y, probabilities);
+
+Console.WriteLine("Probability Shift Ratio");
+for (int i = 0; i < probabilities.Length; i++)
+    Console.WriteLine(
+        probabilities[i].ToString("N1").PadRight(11) + " " +
+        shift[i].ToString("N1").PadLeft(5) + " " +
+        ratio[i].ToString("N1").PadLeft(5));
+
+Console.WriteLine();
+Console.WriteLine("Shift Range: " + ShiftRangeEstimator.Instance.GetRange(x, y));
+Console.WriteLine("Ratio Range: " + RatioRangeEstimator.Instance.GetRange(x, y));
+```
+
+The straightforward approaches that show the difference between means or medians will not help us to see the whole picture
+  when one of the modes in the multimodal distribution was shifted.
+The shift and ratio functions rush to the rescue:
+
+```
+Probability Shift Ratio
+0.0           0.1   1.0
+0.1          -0.2   1.0
+0.2           0.0   1.0
+0.3           0.3   1.0
+0.4           3.8   1.2
+0.5          19.9   1.7
+0.6          36.2   2.0
+0.7          39.9   2.0
+0.8          40.2   2.0
+0.9          40.2   2.0
+1.0          41.3   1.9
+
+Shift Range: [-0.02;40.34]
+Ratio Range: [1.00;2.01]
+```
+
+*References:*
+
+* Doksum, Kjell. "Empirical probability plots and statistical inference for nonlinear models in the two-sample case." The annals of statistics (1974): 267-277.  
+  https://doi.org/10.1214/aos/1176342662
+* Doksum, Kjell A., and Gerald L. Sievers. "Plotting with confidence: Graphical comparisons of two populations." Biometrika 63, no. 3 (1976): 421-434.  
+  https://doi.org/10.2307/2335720
+* Guillaume Rousselet. "the shift function: a powerful tool to compare two entire distributions." 2016  
+  https://garstats.wordpress.com/2016/07/12/shift-function/
+* Andrey Akinshin. "Distribution comparison via the shift and ratio functions." 2019  
+  https://aakinshin.net/posts/shift-and-ratio-functions/
 
 ## Command-line tool
 
@@ -409,6 +523,62 @@ $ perfolizer mvalue --data '0;0;0;0;0;0;0;0'
 2
 $ perfolizer mvalue --data '0;0;0;0;1;1;1;1'
 4
+```
+
+quantile estimation:
+
+```sh
+$ perfolizer qe --data '0;50;100' --probs '0;0.25;0.5;0.75;1'
+0;16.666667192688482;50;83.33333280731152;100
+```
+
+shift function:
+
+```sh
+$ perfolizer shift --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '2;2;2;2;2;4;4;4;4;4' --margin 0
+[0.00;0.00]
+$ perfolizer shift --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '4;4;4;4;4;6;6;6;6;6' --margin 0
+[2.00;2.00]
+$ perfolizer shift --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '2;2;2;2;2;8;8;8;8;8' --margin 0
+[0.00;4.00]
+$ perfolzier shift --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '1;1;1;1;1;8;8;8;8;8' --margin 0
+[-1.00;4.00]
+$ perfolizer shift --data1 '10;20;30;40;50' --data2 '11;22;33;44;55' --probs '0.0;0.5;1.0'
+1;3;5
+```
+
+ratio function:
+
+```sh
+$ perfolizer ratio --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '2;2;2;2;2;4;4;4;4;4' --margin 0
+[1.00;1.00]
+$ perfolizer ratio --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '4;4;4;4;4;8;8;8;8;8' --margin 0
+[2.00;2.00]
+$ perfolizer ratio --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '2;2;2;2;2;8;8;8;8;8' --margin 0
+[1.00;2.00]
+$ perfolizer ratio --data1 '2;2;2;2;2;4;4;4;4;4' --data2 '1;1;1;1;1;8;8;8;8;8' --margin 0
+[0.50;2.00]
+```
+
+## NuGet packages
+
+You can use perfolizer via one of the following NuGet Packages:
+
+* [Perfolizer](https://www.nuget.org/packages/Perfolizer/) (if you want to use Perfolizer from .NET application)
+* [Perfolizer.Tool](https://www.nuget.org/packages/Perfolizer.Tool/) (if you want to use Perfolizer from command line)
+
+Stable versions of both packages are available on [nuget.org](https://www.nuget.org/).
+If you want to use prerelease packages, you can download them from [myget.org](https://www.myget.org/) via the following feed: `https://www.myget.org/F/perfolizer/api/v3/index.json`.
+Here is an example of `NuGet.Config`:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <packageSources>
+    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
+    <add key="perfolizer-nightly" value="https://www.myget.org/F/perfolizer/api/v3/index.json" />
+  </packageSources>
+</configuration>
 ```
 
 ## License

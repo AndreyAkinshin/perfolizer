@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Mathematics.Selectors;
 using Xunit;
@@ -73,7 +74,7 @@ namespace Perfolizer.Tests.Mathematics.Selectors
         {
             for (int n = 3; n < 20; n++)
             {
-                var data = new RandomDistribution(42).IntegerUniform(n, 0, 100).Select(x => (double)x).ToArray();
+                var data = new UniformDistribution(0, 100).Random(42).Next(n);
                 Output.WriteLine("[DATA] " + string.Join("; ", data));
                 var buffer = new double[data.Length];
                 var rqq = new Rqq(data);

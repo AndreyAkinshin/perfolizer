@@ -1,29 +1,45 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace Perfolizer.Extensions
 {
     internal static class CollectionExtensions
     {
-        public static double[] CopyToArray(this IEnumerable<double> values)
+        [NotNull]
+        [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
+        public static double[] CopyToArray([NotNull] this IEnumerable<double> values)
         {
-            if (values is double[] array)
+            switch (values)
             {
-                var result = new double[array.Length];
-                Array.Copy(array, result, array.Length);
-                return result;
+                case null:
+                    throw new ArgumentOutOfRangeException(nameof(values));
+                case double[] array:
+                {
+                    var result = new double[array.Length];
+                    Array.Copy(array, result, array.Length);
+                    return result;
+                }
+                case IReadOnlyList<double> list:
+                {
+                    var result = new double[list.Count];
+                    for (int i = 0; i < list.Count; i++)
+                        result[i] = list[i];
+                    return result;
+                }
+                default:
+                    return values.ToArray();
             }
+        }
 
-            if (values is IReadOnlyList<double> list)
-            {
-                var result = new double[list.Count];
-                for (int i = 0; i < list.Count; i++)
-                    result[i] = list[i];
-                return result;
-            }
-            
-            return values.ToArray();
+        [NotNull]
+        public static double[] CopyToArrayAndSort([NotNull] this IEnumerable<double> values)
+        {
+            var array = values.CopyToArray();
+            Array.Sort(array);
+            return array;
         }
     }
 }

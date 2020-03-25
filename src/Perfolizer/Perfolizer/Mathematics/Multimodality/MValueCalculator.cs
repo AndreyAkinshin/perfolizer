@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Histograms;
 using Perfolizer.Mathematics.OutlierDetection;
-using Perfolizer.Mathematics.Quantiles;
+using Perfolizer.Mathematics.QuantileEstimators;
 using static System.Math;
 
 namespace Perfolizer.Mathematics.Multimodality
@@ -20,14 +20,14 @@ namespace Perfolizer.Mathematics.Multimodality
         {
             try
             {
-                var clearedValues = new TukeyOutlierDetector(values).WithoutAllOutliers(values);
+                var clearedValues = TukeyOutlierDetector.FromUnsorted(values).WithoutAllOutliers(values);
                 int n = clearedValues.Count;
                 var quartiles = Quartiles.FromUnsorted(clearedValues);
                 var moments = Moments.Create(clearedValues);
 
                 double mValue = 0;
 
-                double binSize = HistogramBinSizeCalculator.CalcScott2(n, moments.StandardDeviation);
+                double binSize = AdaptiveHistogramBuilder.GetOptimalBinSize(n, moments.StandardDeviation);
                 if (Abs(binSize) < 1e-9)
                     binSize = 1;
                 while (true)
