@@ -21,8 +21,8 @@
         <LangVersion>8.0</LangVersion>
 
         <Major>0</Major>
-        <Minor>3</Minor>
-        <Revision>0</Revision>
+        <Minor>2</Minor>
+        <Revision>1</Revision>
         <BuildNumber>0</BuildNumber>
 
         <PrereleaseLabel>-develop</PrereleaseLabel>
