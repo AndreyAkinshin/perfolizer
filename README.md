@@ -581,6 +581,12 @@ Here is an example of `NuGet.Config`:
 </configuration>
 ```
 
+## Related projects
+
+* [changepoint.np](https://cran.r-project.org/web/packages/changepoint.np/index.html): an R implementation of ED-PELT
+* [flyingmutant/changepoint](https://github.com/flyingmutant/changepoint): a Go implementation of ED-PELT
+* [perfvane](https://perfvane.com/docs/how-it-works): a service for performance anomalies detection based on perfolizer
+
 ## License
 
 Copyright (c) 2020 Andrey Akinshin  
