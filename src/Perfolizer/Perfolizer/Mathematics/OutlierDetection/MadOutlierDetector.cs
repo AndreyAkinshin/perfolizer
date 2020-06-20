@@ -7,9 +7,9 @@ namespace Perfolizer.Mathematics.OutlierDetection
 {
     /// <summary>
     /// Outlier detector based on the median absolute deviation.
-    /// Consider all values outside [median - 1.4826 * k * MAD, median + 1.4826 * k * MAD] as outliers.
+    /// Consider all values outside [median - consistencyConstant * k * MAD, median + consistencyConstant * k * MAD] as outliers.
     /// <remarks>
-    /// By default, it uses the Harrell Davis quantile estimator and k = 3.
+    /// By default, it uses the Harrell Davis quantile estimator, consistencyConstant = 1.4826, and k = 3.
     /// </remarks>
     /// </summary>
     public class MadOutlierDetector : FenceOutlierDetector
@@ -21,9 +21,9 @@ namespace Perfolizer.Mathematics.OutlierDetection
         {
             quantileEstimator ??= HarrellDavisQuantileEstimator.Instance;
             double median = quantileEstimator.GetMedian(values);
-            double modifiedMad = MedianAbsoluteDeviation.Calc(values, consistencyConstant, quantileEstimator);
-            LowerFence = median - k * modifiedMad;
-            UpperFence = median + k * modifiedMad;
+            double mad = MedianAbsoluteDeviation.CalcMad(values, consistencyConstant, quantileEstimator);
+            LowerFence = median - k * mad;
+            UpperFence = median + k * mad;
         }
 
         [NotNull]

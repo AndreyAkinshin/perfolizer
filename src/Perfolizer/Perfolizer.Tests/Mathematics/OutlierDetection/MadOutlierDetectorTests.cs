@@ -39,7 +39,7 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
         {
             var values = testData.Values.ToSorted();
             double median = QuantileEstimator.GetMedian(values);
-            double mad = MedianAbsoluteDeviation.Calc(values, quantileEstimator: QuantileEstimator);
+            double mad = MedianAbsoluteDeviation.CalcMad(values, quantileEstimator: QuantileEstimator);
 
             Output.WriteLine($"Median = {median.ToString(TestCultureInfo.Instance)}");
             Output.WriteLine($"MAD    = {mad.ToString(TestCultureInfo.Instance)}");
