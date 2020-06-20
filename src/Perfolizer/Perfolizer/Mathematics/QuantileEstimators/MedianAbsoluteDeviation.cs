@@ -16,9 +16,10 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         /// Equals to 1.4826.
         /// The formula: (StandardDeviation) = 1.4826 * (MedianAbsoluteDeviation).
         /// </summary>
-        public const double StandardDeviationScaleFactorForNormalDistribution = 1.4826;
+        public const double DefaultConsistencyConstant = 1.4826;
         
-        public static double Calc([NotNull] ISortedReadOnlyList<double> values, [CanBeNull] IQuantileEstimator quantileEstimator = null)
+        public static double Calc([NotNull] ISortedReadOnlyList<double> values, double consistencyConstant = DefaultConsistencyConstant,
+            [CanBeNull] IQuantileEstimator quantileEstimator = null)
         {
             quantileEstimator ??= SimpleQuantileEstimator.Instance;
             
@@ -26,10 +27,11 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             var deviations = new double[values.Count];
             for (int i = 0; i < values.Count; i++)
                 deviations[i] = Math.Abs(values[i] - median);
-            return quantileEstimator.GetMedian(deviations);
+            return consistencyConstant * quantileEstimator.GetMedian(deviations);
         }
 
-        public static double Calc([NotNull] IReadOnlyList<double> values, [CanBeNull] IQuantileEstimator quantileEstimator = null) =>
-            Calc(values.ToSorted(), quantileEstimator);
+        public static double Calc([NotNull] IReadOnlyList<double> values, double consistencyConstant = DefaultConsistencyConstant,
+            [CanBeNull] IQuantileEstimator quantileEstimator = null) =>
+            Calc(values.ToSorted(), consistencyConstant, quantileEstimator);
     }
 }

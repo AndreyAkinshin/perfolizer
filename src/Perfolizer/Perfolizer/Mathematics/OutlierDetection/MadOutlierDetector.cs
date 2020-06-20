@@ -16,24 +16,26 @@ namespace Perfolizer.Mathematics.OutlierDetection
     {
         private const double DefaultK = 3;
 
-        private MadOutlierDetector([NotNull] ISortedReadOnlyList<double> values, double k, [CanBeNull] IQuantileEstimator quantileEstimator)
+        private MadOutlierDetector([NotNull] ISortedReadOnlyList<double> values, double k, double consistencyConstant,
+            [CanBeNull] IQuantileEstimator quantileEstimator)
         {
             quantileEstimator ??= HarrellDavisQuantileEstimator.Instance;
             double median = quantileEstimator.GetMedian(values);
-            double modifiedMad = MedianAbsoluteDeviation.Calc(values, quantileEstimator) *
-                                 MedianAbsoluteDeviation.StandardDeviationScaleFactorForNormalDistribution;
+            double modifiedMad = MedianAbsoluteDeviation.Calc(values, consistencyConstant, quantileEstimator);
             LowerFence = median - k * modifiedMad;
             UpperFence = median + k * modifiedMad;
         }
 
         [NotNull]
         public static MadOutlierDetector Create([NotNull] ISortedReadOnlyList<double> values, double k = DefaultK,
+            double consistencyConstant = MedianAbsoluteDeviation.DefaultConsistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator = null)
-            => new MadOutlierDetector(values, k, quantileEstimator);
+            => new MadOutlierDetector(values, k, consistencyConstant, quantileEstimator);
 
         [NotNull]
         public static MadOutlierDetector Create([NotNull] IReadOnlyList<double> values, double k = DefaultK,
+            double consistencyConstant = MedianAbsoluteDeviation.DefaultConsistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator = null)
-            => new MadOutlierDetector(values.ToSorted(), k, quantileEstimator);
+            => new MadOutlierDetector(values.ToSorted(), k, consistencyConstant, quantileEstimator);
     }
 }

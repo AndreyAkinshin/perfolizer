@@ -11,20 +11,22 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 {
     public class MadOutlierDetectorTests : OutlierDetectorTests
     {
+        private static readonly IQuantileEstimator QuantileEstimator = SimpleQuantileEstimator.Instance;
+
         public MadOutlierDetectorTests([NotNull] ITestOutputHelper output) : base(output)
         {
         }
 
         protected override IOutlierDetector CreateOutlierDetector(IReadOnlyList<double> values) => MadOutlierDetector.Create(values,
-            quantileEstimator: SimpleQuantileEstimator.Instance);
+            quantileEstimator: QuantileEstimator);
 
         private static readonly IDictionary<string, TestData> TestDataMap = new Dictionary<string, TestData>
         {
-            {"Yang2", new TestData(YangDataSet.Table2, new double[] { })},
-            {"Yang3", new TestData(YangDataSet.Table3, new double[] {1000})},
-            {"Yang4", new TestData(YangDataSet.Table4, new double[] {500, 1000})},
-            {"Yang5", new TestData(YangDataSet.Table5, new double[] {1000})},
-            {"Yang6", new TestData(YangDataSet.Table6, new double[] {300, 500, 1000, 1500})}
+            {"Yang_X0", new TestData(YangDataSet.X0, new double[] { })},
+            {"Yang_X1", new TestData(YangDataSet.X1, new double[] {1000})},
+            {"Yang_X2", new TestData(YangDataSet.X2, new double[] {500, 1000})},
+            {"Yang_X3", new TestData(YangDataSet.X3, new double[] {1000})},
+            {"Yang_X4", new TestData(YangDataSet.X4, new double[] {300, 500, 1000, 1500})}
         };
 
         [UsedImplicitly] public static TheoryData<string> TestDataKeys = TheoryDataHelper.Create(TestDataMap.Keys);
@@ -35,11 +37,10 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 
         protected override void DumpDetails(TestData testData)
         {
-            var quantileEstimator = HarrellDavisQuantileEstimator.Instance;
             var values = testData.Values.ToSorted();
-            double median = quantileEstimator.GetMedian(values);
-            double mad = MedianAbsoluteDeviation.Calc(values, quantileEstimator);
-            
+            double median = QuantileEstimator.GetMedian(values);
+            double mad = MedianAbsoluteDeviation.Calc(values, quantileEstimator: QuantileEstimator);
+
             Output.WriteLine($"Median = {median.ToString(TestCultureInfo.Instance)}");
             Output.WriteLine($"MAD    = {mad.ToString(TestCultureInfo.Instance)}");
         }

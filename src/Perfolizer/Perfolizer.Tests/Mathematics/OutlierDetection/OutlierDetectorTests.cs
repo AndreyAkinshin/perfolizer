@@ -17,7 +17,7 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
         }
 
         /// <summary>
-        /// Data set based on the following paper:
+        /// Data set based on Table 1 "Outlier Score Cases" from the following paper:
         /// Yang, Jiawei, Susanto Rahardja, and Pasi Fränti. "Outlier detection: how to threshold outlier scores?."
         /// In Proceedings of the International Conference on Artificial Intelligence,
         /// Information Processing and Cloud Computing, pp. 1-6. 2019.
@@ -25,11 +25,11 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
         /// </summary>
         protected static class YangDataSet
         {
-            public static readonly double[] Table2 = {1, 2, 3, 6, 8};
-            public static readonly double[] Table3 = {1, 2, 3, 6, 8, 1000};
-            public static readonly double[] Table4 = {1, 2, 3, 6, 8, 500, 1000};
-            public static readonly double[] Table5 = {1, 2, 3, 6, 8, 16, 17, 18, 18, 60, 1000};
-            public static readonly double[] Table6 = {1, 2, 3, 6, 8, 16, 17, 18, 18, 60, 300, 500, 1000, 1500};
+            public static readonly double[] X0 = {1, 2, 3, 6, 8};
+            public static readonly double[] X1 = {1, 2, 3, 6, 8, 1000};
+            public static readonly double[] X2 = {1, 2, 3, 6, 8, 500, 1000};
+            public static readonly double[] X3 = {1, 2, 3, 6, 8, 16, 17, 18, 18, 60, 1000};
+            public static readonly double[] X4 = {1, 2, 3, 6, 8, 16, 17, 18, 18, 60, 300, 500, 1000, 1500};
         }
 
         protected class TestData
