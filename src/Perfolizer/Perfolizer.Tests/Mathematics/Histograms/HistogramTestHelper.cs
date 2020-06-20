@@ -1,7 +1,6 @@
 ﻿using JetBrains.Annotations;
-using Perfolizer.Extensions;
+using Perfolizer.Collections;
 using Perfolizer.Horology;
-using Perfolizer.Mathematics;
 using Perfolizer.Mathematics.Histograms;
 using Perfolizer.Mathematics.Multimodality;
 using Perfolizer.Tests.Common;

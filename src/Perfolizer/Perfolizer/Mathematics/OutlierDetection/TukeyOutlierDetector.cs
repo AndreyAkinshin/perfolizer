@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using JetBrains.Annotations;
+using Perfolizer.Collections;
 using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Mathematics.OutlierDetection
@@ -17,21 +19,21 @@ namespace Perfolizer.Mathematics.OutlierDetection
         }
 
         [NotNull]
-        public static TukeyOutlierDetector FromQuartiles(Quartiles quartiles, double k = DefaultK)
+        public static TukeyOutlierDetector Create(Quartiles quartiles, double k = DefaultK)
         {
             return new TukeyOutlierDetector(quartiles, k);
         }
 
         [NotNull]
-        public static TukeyOutlierDetector FromSorted(double[] values, double k = DefaultK)
+        public static TukeyOutlierDetector Create(ISortedReadOnlyList<double> values, double k = DefaultK)
         {
-            return new TukeyOutlierDetector(Quartiles.FromSorted(values), k);
+            return new TukeyOutlierDetector(Quartiles.Create(values), k);
         }
 
         [NotNull]
-        public static TukeyOutlierDetector FromUnsorted(double[] values, double k = DefaultK)
+        public static TukeyOutlierDetector Create(IReadOnlyList<double> values, double k = DefaultK)
         {
-            return new TukeyOutlierDetector(Quartiles.FromUnsorted(values), k);
+            return new TukeyOutlierDetector(Quartiles.Create(values), k);
         }
 
         public override bool IsLowerOutlier(double x) => x < LowerFence;

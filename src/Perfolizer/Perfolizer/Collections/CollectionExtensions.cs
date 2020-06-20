@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 
-namespace Perfolizer.Extensions
+namespace Perfolizer.Collections
 {
     internal static class CollectionExtensions
     {
@@ -41,5 +41,9 @@ namespace Perfolizer.Extensions
             Array.Sort(array);
             return array;
         }
+
+        [NotNull]
+        public static ISortedReadOnlyList<double> ToSorted([NotNull] this IReadOnlyList<double> values)
+            => SortedReadOnlyDoubleList.Create(values);
     }
 }

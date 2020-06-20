@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using Perfolizer.Collections;
 using Perfolizer.Mathematics.Distributions;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
@@ -12,7 +12,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     {
         public static readonly IQuantileEstimator Instance = new HarrellDavisQuantileEstimator();
 
-        public double GetQuantileFromSorted(IReadOnlyList<double> data, double probability)
+        public double GetQuantile(ISortedReadOnlyList<double> data, double probability)
         {
             QuantileEstimatorHelper.CheckArguments(data, probability);
 

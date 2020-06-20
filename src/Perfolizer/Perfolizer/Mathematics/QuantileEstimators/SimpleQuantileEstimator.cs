@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using Perfolizer.Collections;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
@@ -18,7 +18,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         /// <param name="probability">Value in range [0;1]</param>
         /// <returns>Quantile from the set of values</returns>
         // Based on: http://stackoverflow.com/a/8137526
-        public double GetQuantileFromSorted(IReadOnlyList<double> data, double probability)
+        public double GetQuantile(ISortedReadOnlyList<double> data, double probability)
         {
             QuantileEstimatorHelper.CheckArguments(data, probability);
             
