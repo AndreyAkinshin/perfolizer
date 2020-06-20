@@ -44,6 +44,10 @@ namespace Perfolizer.Collections
 
         [NotNull]
         public static ISortedReadOnlyList<double> ToSorted([NotNull] this IReadOnlyList<double> values)
-            => SortedReadOnlyDoubleList.Create(values);
+        {
+            if (values is ISortedReadOnlyList<double> sortedValues)
+                return sortedValues;
+            return SortedReadOnlyDoubleList.Create(values);
+        }
     }
 }

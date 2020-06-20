@@ -5,12 +5,16 @@ using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Mathematics.OutlierDetection
 {
-    public class TukeyOutlierDetector : OutlierDetector
+    /// <summary>
+    /// Outlier detector based on Tukey's fences.
+    /// Consider all values outside [Q1 - k * IQR, Q3 + k * IQR] as outliers.
+    /// <remarks>
+    /// By default, it uses the Harrell Davis quantile estimator and k = 1.5.
+    /// </remarks>
+    /// </summary>
+    public class TukeyOutlierDetector : FenceOutlierDetector
     {
         private const double DefaultK = 1.5;
-
-        public double LowerFence { get; }
-        public double UpperFence { get; }
 
         private TukeyOutlierDetector(Quartiles quartiles, double k)
         {
@@ -25,19 +29,19 @@ namespace Perfolizer.Mathematics.OutlierDetection
         }
 
         [NotNull]
-        public static TukeyOutlierDetector Create(ISortedReadOnlyList<double> values, double k = DefaultK)
+        public static TukeyOutlierDetector Create(ISortedReadOnlyList<double> values, double k = DefaultK,
+            [CanBeNull] IQuantileEstimator quantileEstimator = null)
         {
-            return new TukeyOutlierDetector(Quartiles.Create(values), k);
+            quantileEstimator ??= HarrellDavisQuantileEstimator.Instance;
+            return new TukeyOutlierDetector(Quartiles.Create(values, quantileEstimator), k);
         }
 
         [NotNull]
-        public static TukeyOutlierDetector Create(IReadOnlyList<double> values, double k = DefaultK)
+        public static TukeyOutlierDetector Create(IReadOnlyList<double> values, double k = DefaultK,
+            [CanBeNull] IQuantileEstimator quantileEstimator = null)
         {
-            return new TukeyOutlierDetector(Quartiles.Create(values), k);
+            quantileEstimator ??= HarrellDavisQuantileEstimator.Instance;
+            return new TukeyOutlierDetector(Quartiles.Create(values, quantileEstimator), k);
         }
-
-        public override bool IsLowerOutlier(double x) => x < LowerFence;
-
-        public override bool IsUpperOutlier(double x) => x > UpperFence;
     }
 }

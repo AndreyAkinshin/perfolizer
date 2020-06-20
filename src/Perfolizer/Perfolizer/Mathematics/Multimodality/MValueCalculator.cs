@@ -20,7 +20,7 @@ namespace Perfolizer.Mathematics.Multimodality
         {
             try
             {
-                var clearedValues = TukeyOutlierDetector.Create(values).WithoutAllOutliers(values);
+                var clearedValues = TukeyOutlierDetector.Create(values).WithoutAllOutliers(values).ToList();
                 int n = clearedValues.Count;
                 var quartiles = Quartiles.Create(clearedValues);
                 var moments = Moments.Create(clearedValues);

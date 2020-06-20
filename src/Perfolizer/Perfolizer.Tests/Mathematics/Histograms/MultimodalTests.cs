@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.Histograms;
@@ -73,7 +74,7 @@ namespace Perfolizer.Tests.Mathematics.Histograms
             var histogram = HistogramBuilder.Adaptive.Build(values);
             output.Print("Distribution", histogram);
 
-            var clearedValues = TukeyOutlierDetector.Create(values).WithoutAllOutliers(values);
+            var clearedValues = TukeyOutlierDetector.Create(values).WithoutAllOutliers(values).ToList();
             var clearedHistogram = HistogramBuilder.Adaptive.Build(clearedValues);
             output.Print("ClearedDistribution", clearedHistogram);
 

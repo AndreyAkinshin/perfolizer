@@ -29,5 +29,11 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         {
             return estimator.GetQuantile(data.ToSorted(), probability);
         }
+
+        public static double GetMedian([NotNull] this IQuantileEstimator estimator, [NotNull] ISortedReadOnlyList<double> data) =>
+            estimator.GetQuantile(data, 0.5);
+
+        public static double GetMedian([NotNull] this IQuantileEstimator estimator, [NotNull] IReadOnlyList<double> data) =>
+            estimator.GetQuantile(data, 0.5);
     }
 }
