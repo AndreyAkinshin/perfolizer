@@ -19,6 +19,8 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
         /// </summary>
         private static readonly IDictionary<string, TestData> SimpleQeTestDataMap = new Dictionary<string, TestData>
         {
+            {"Empty", new TestData(CornerCaseDataSet.Empty, CornerCaseDataSet.Empty)},
+            {"Same", new TestData(CornerCaseDataSet.Same, CornerCaseDataSet.Empty)},
             {"Yang_X0", new TestData(YangDataSet.X0, new double[] { })},
             {"Yang_X1", new TestData(YangDataSet.X1, new double[] {1000})},
             {"Yang_X2", new TestData(YangDataSet.X2, new double[] {500, 1000})},
@@ -55,6 +57,8 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
         /// </summary>
         private static readonly IDictionary<string, TestData> HdQeTestDataMap = new Dictionary<string, TestData>
         {
+            {"Empty", new TestData(CornerCaseDataSet.Empty, CornerCaseDataSet.Empty)},
+            {"Same", new TestData(CornerCaseDataSet.Same, CornerCaseDataSet.Empty)},
             {"Real0", new TestData(RealDataSet.X0, new double[] {38594, 39075})},
             {"Real1", new TestData(RealDataSet.X1, new double[] {0, 0, 0, 0, 1821})},
             {"Real2", new TestData(RealDataSet.X2, new double[] {95, 4364})},

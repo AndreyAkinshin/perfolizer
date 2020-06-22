@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
@@ -19,6 +20,12 @@ namespace Perfolizer.Mathematics.OutlierDetection
         private MadOutlierDetector([NotNull] ISortedReadOnlyList<double> values, double k, double consistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator)
         {
+            if (values.Count == 0)
+            {
+                HandleEmptySample();
+                return;
+            }
+
             quantileEstimator ??= HarrellDavisQuantileEstimator.Instance;
             double median = quantileEstimator.GetMedian(values);
             double mad = MedianAbsoluteDeviation.CalcMad(values, consistencyConstant, quantileEstimator);
@@ -30,12 +37,22 @@ namespace Perfolizer.Mathematics.OutlierDetection
         public static MadOutlierDetector Create([NotNull] ISortedReadOnlyList<double> values, double k = DefaultK,
             double consistencyConstant = MedianAbsoluteDeviation.DefaultConsistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator = null)
-            => new MadOutlierDetector(values, k, consistencyConstant, quantileEstimator);
+        {
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+
+            return new MadOutlierDetector(values, k, consistencyConstant, quantileEstimator);
+        }
 
         [NotNull]
         public static MadOutlierDetector Create([NotNull] IReadOnlyList<double> values, double k = DefaultK,
             double consistencyConstant = MedianAbsoluteDeviation.DefaultConsistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator = null)
-            => new MadOutlierDetector(values.ToSorted(), k, consistencyConstant, quantileEstimator);
+        {
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+
+            return new MadOutlierDetector(values.ToSorted(), k, consistencyConstant, quantileEstimator);
+        }
     }
 }

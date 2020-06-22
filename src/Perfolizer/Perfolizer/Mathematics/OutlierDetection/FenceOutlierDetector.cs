@@ -25,5 +25,11 @@ namespace Perfolizer.Mathematics.OutlierDetection
         public bool IsLowerOutlier(double x) => x < LowerFence;
 
         public bool IsUpperOutlier(double x) => x > UpperFence;
+
+        protected void HandleEmptySample()
+        {
+            LowerFence = double.MinValue;
+            UpperFence = double.MaxValue;
+        }
     }
 }

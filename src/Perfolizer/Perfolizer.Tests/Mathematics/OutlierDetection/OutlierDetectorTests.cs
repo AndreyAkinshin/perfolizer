@@ -223,6 +223,12 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
             };
         }
 
+        protected static class CornerCaseDataSet
+        {
+            public static readonly double[] Empty = new double[0];
+            public static readonly double[] Same = {0, 0, 0, 0, 0};
+        } 
+
         protected class TestData
         {
             [NotNull] public double[] Values { get; }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
@@ -13,13 +14,19 @@ namespace Perfolizer.Mathematics.OutlierDetection
     /// See also: https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
     /// </remarks>
     /// </summary>
-    public class DoubleMadOutlierDetector: FenceOutlierDetector
+    public class DoubleMadOutlierDetector : FenceOutlierDetector
     {
         private const double DefaultK = 3;
 
         private DoubleMadOutlierDetector([NotNull] ISortedReadOnlyList<double> values, double k, double consistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator)
         {
+            if (values.Count == 0)
+            {
+                HandleEmptySample();
+                return;
+            }
+
             quantileEstimator ??= HarrellDavisQuantileEstimator.Instance;
             double median = quantileEstimator.GetMedian(values);
             double lowerMad = MedianAbsoluteDeviation.CalcLowerMad(values, consistencyConstant, quantileEstimator);
@@ -32,12 +39,22 @@ namespace Perfolizer.Mathematics.OutlierDetection
         public static DoubleMadOutlierDetector Create([NotNull] ISortedReadOnlyList<double> values, double k = DefaultK,
             double consistencyConstant = MedianAbsoluteDeviation.DefaultConsistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator = null)
-            => new DoubleMadOutlierDetector(values, k, consistencyConstant, quantileEstimator);
+        {
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+
+            return new DoubleMadOutlierDetector(values, k, consistencyConstant, quantileEstimator);
+        }
 
         [NotNull]
         public static DoubleMadOutlierDetector Create([NotNull] IReadOnlyList<double> values, double k = DefaultK,
             double consistencyConstant = MedianAbsoluteDeviation.DefaultConsistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator = null)
-            => new DoubleMadOutlierDetector(values.ToSorted(), k, consistencyConstant, quantileEstimator);
+        {
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+
+            return new DoubleMadOutlierDetector(values.ToSorted(), k, consistencyConstant, quantileEstimator);
+        }
     }
 }
