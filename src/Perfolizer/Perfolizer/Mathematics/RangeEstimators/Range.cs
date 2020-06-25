@@ -11,6 +11,8 @@ namespace Perfolizer.Mathematics.RangeEstimators
         public double Left { get; }
         public double Right { get; }
 
+        public double Middle => (Left + Right) / 2;
+
         private Range(double left, double right)
         {
             Left = left;

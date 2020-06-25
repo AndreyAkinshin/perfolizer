@@ -8,10 +8,10 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     {
         [NotNull]
         public static double[] GetQuantiles(this IQuantileEstimator estimator, [NotNull] ISortedReadOnlyList<double> data,
-            [NotNull] double[] probabilities)
+            [NotNull] IReadOnlyList<double> probabilities)
         {
-            var results = new double[probabilities.Length];
-            for (int i = 0; i < probabilities.Length; i++)
+            var results = new double[probabilities.Count];
+            for (int i = 0; i < probabilities.Count; i++)
                 results[i] = estimator.GetQuantile(data, probabilities[i]);
 
             return results;
@@ -19,7 +19,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
         [NotNull]
         public static double[] GetQuantiles([NotNull] this IQuantileEstimator estimator, [NotNull] IReadOnlyList<double> data,
-            [NotNull] double[] probabilities)
+            [NotNull] IReadOnlyList<double> probabilities)
         {
             return estimator.GetQuantiles(data.ToSorted(), probabilities);
         }
