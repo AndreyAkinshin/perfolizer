@@ -8,6 +8,7 @@
   
   [![NuGet](https://img.shields.io/nuget/v/Perfolizer)](https://www.nuget.org/packages/Perfolizer/)
   [![MyGet](https://img.shields.io/myget/perfolizer/vpre/Perfolizer?label=myget)](https://www.myget.org/feed/perfolizer/package/nuget/Perfolizer)
+  [![Downloads](https://img.shields.io/nuget/dt/perfolizer.svg)](https://www.nuget.org/packages/Perfolizer/)
   [![Changelog](https://img.shields.io/badge/-changelog-informational)](https://github.com/AndreyAkinshin/perfolizer/wiki/Changelog)
   [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
   [![build](https://github.com/AndreyAkinshin/perfolizer/workflows/build/badge.svg?branch=master)](https://github.com/AndreyAkinshin/perfolizer/actions?query=workflow%3Abuild)
@@ -588,6 +589,8 @@ Here is an example of `NuGet.Config`:
 * [perfvane](https://perfvane.com/docs/how-it-works): a service for performance anomalies detection based on perfolizer
 
 ## License
+
+The MIT License
 
 Copyright (c) 2020 Andrey Akinshin  
 Copyright (c) 2013–2020 .NET Foundation and contributors
