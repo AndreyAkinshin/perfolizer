@@ -504,11 +504,52 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                         2.97449513774209
                     }
                 )
+            },
+            {
+                "WeightedCase1", new TestData(
+                    new[] {1.0, 2.0, 3.0, 4.0, 5.0},
+                    new[] {0.5},
+                    new[] {3.0},
+                    new[] {0.0, 1.0, 1.0, 1.0, 0.0})
+            },
+            {
+                "WeightedCase2", new TestData(
+                    new[] {1.0, 2.0, 3.0, 4.0, 5.0},
+                    new[] {0.5},
+                    new[] {2.0},
+                    new[] {1.0, 1.0, 1.0, 0.0, 0.0})
+            },
+            {
+                "WeightedCase3", new TestData(
+                    new[] {1.0, 2.0, 3.0, 4.0, 5.0},
+                    new[] {0.5},
+                    new[] {2.0},
+                    new[] {1.0, 1.0, 0.0, 0.0, 1.0})
+            },
+            {
+                "WeightedCase4", new TestData(
+                    new[] {1.0, 2.0, 3.0, 4.0, 5.0},
+                    new[] {0.5},
+                    new[] {2.0},
+                    new[] {1.0, 1.0, 0.2, 0.4, 0.4})
+            },
+            {
+                "WeightedCase5", new TestData(
+                    new[] {1.0, 2.0, 3.0, 4.0, 5.0},
+                    new[] {0.5},
+                    new[] {3.0},
+                    new[] {1.0, 0.0, 0.0, 0.0, 1.0})
+            },
+            {
+                "WeightedCase6", new TestData(
+                    new[] {1.0, 2.0, 3.0, 4.0, 5.0},
+                    new[] {0.5},
+                    new[] {2.975124378109453},
+                    new[] {1.0, 0.01, 0.0, 0.0, 1.0})
             }
         };
 
-        [UsedImplicitly]
-        public static TheoryData<string> TestDataKeys = TheoryDataHelper.Create(TestDataMap.Keys);
+        [UsedImplicitly] public static TheoryData<string> TestDataKeys = TheoryDataHelper.Create(TestDataMap.Keys);
 
         [Theory]
         [MemberData(nameof(TestDataKeys))]

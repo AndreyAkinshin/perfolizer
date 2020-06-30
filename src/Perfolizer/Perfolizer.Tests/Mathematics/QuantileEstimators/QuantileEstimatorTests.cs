@@ -19,15 +19,17 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 
         protected class TestData
         {
-            public double[] Source { get; }
-            public double[] Quantiles { get; }
-            public double[] Expected { get; }
+            [NotNull] public double[] Source { get; }
+            [NotNull] public double[] Quantiles { get; }
+            [NotNull] public double[] Expected { get; }
+            [CanBeNull] public double[] Weights { get; }
 
-            public TestData(double[] source, double[] quantiles, double[] expected)
+            public TestData(double[] source, double[] quantiles, double[] expected, double[] weights = null)
             {
                 Source = source;
                 Quantiles = quantiles;
                 Expected = expected;
+                Weights = weights;
             }
         }
 
@@ -39,9 +41,20 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 
         protected void Check([NotNull] IQuantileEstimator estimator, [NotNull] TestData testData)
         {
+            if (testData.Weights == null)
+                CheckSimple(testData, estimator.GetQuantiles(testData.Source, testData.Quantiles));
+
+            if (estimator is IWeightedQuantileEstimator weightedEstimator)
+            {
+                var weights = testData.Weights ?? Enumerable.Range(0, testData.Source.Length).Select(_ => 1.0).ToArray();
+                CheckSimple(testData, weightedEstimator.GetWeightedQuantiles(testData.Source, weights, testData.Quantiles));
+            }
+        }
+        
+        protected void CheckSimple([NotNull] TestData testData, [NotNull] double[] actual)
+        {
             var comparer = new AbsoluteEqualityComparer(1e-2);
             DumpArray("Source    ", testData.Source);
-            var actual = estimator.GetQuantiles(testData.Source, testData.Quantiles);
             for (int i = 0; i < testData.Quantiles.Length; i++)
             {
                 output.WriteLine("-----");
