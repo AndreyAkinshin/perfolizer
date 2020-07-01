@@ -11,9 +11,9 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator. Biometrika, 69(3), pp.635-640.
     /// </remarks>
     /// </summary>
-    public class HarrellDavisQuantileEstimator : IQuantileEstimator, IWeightedQuantileEstimator
+    public class HarrellDavisQuantileEstimator : IWeightedQuantileEstimator
     {
-        public static readonly IQuantileEstimator Instance = new HarrellDavisQuantileEstimator();
+        public static readonly IWeightedQuantileEstimator Instance = new HarrellDavisQuantileEstimator();
 
         public double GetQuantile(ISortedReadOnlyList<double> data, double probability)
         {

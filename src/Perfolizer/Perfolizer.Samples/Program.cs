@@ -13,6 +13,7 @@ namespace Perfolizer.Samples
             {"Multimodal", () => new MultimodalSample().Run()},
             {"QuickSelectAdaptive", () => new QuickSelectAdaptiveSample().Run()},
             {"QuantileEstimator", () => new QuantileEstimatorSample().Run()},
+            {"WeightedQuantileEstimator", () => new WeightedQuantileEstimatorSample().Run()},
             {"ShiftAndRatio", () => new ShiftAndRatioSample().Run()},
             {"OutlierDetector", () => new OutlierDetectorSample().Run()}
         };

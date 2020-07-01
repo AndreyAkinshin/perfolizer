@@ -4,7 +4,7 @@ using Perfolizer.Collections;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
-    public interface IWeightedQuantileEstimator
+    public interface IWeightedQuantileEstimator : IQuantileEstimator
     {
         double GetWeightedQuantile([NotNull] ISortedReadOnlyList<double> data, [NotNull] IReadOnlyList<double> weights, double probability);
     }

@@ -4,9 +4,9 @@ using Perfolizer.Collections;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
-    public class SimpleQuantileEstimator : IQuantileEstimator, IWeightedQuantileEstimator
+    public class SimpleQuantileEstimator : IWeightedQuantileEstimator
     {
-        public static readonly IQuantileEstimator Instance = new SimpleQuantileEstimator();
+        public static readonly IWeightedQuantileEstimator Instance = new SimpleQuantileEstimator();
 
         /// <summary>
         /// Calculates the requested quantile from the set of values

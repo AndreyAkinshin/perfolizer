@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -24,6 +25,14 @@ namespace Perfolizer.Mathematics.Sequences
                 for (int i = 0; i < values.Length; i++)
                     values[i] /= sum;
             }
+
+            return values;
+        }
+        
+        public static double[] GenerateReverseArray([NotNull] this ISequence sequence, int count, bool normalize = false)
+        {
+            var values = sequence.GenerateArray(count, normalize);
+            Array.Reverse(values);
 
             return values;
         }
