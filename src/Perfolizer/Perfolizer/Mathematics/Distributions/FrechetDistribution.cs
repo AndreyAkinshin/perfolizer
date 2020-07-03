@@ -45,14 +45,14 @@ namespace Perfolizer.Mathematics.Distributions
                 throw new ArgumentOutOfRangeException(nameof(x), $"{nameof(x)} should be be between 0 and 1");
             return x switch
             {
-                0 => double.NegativeInfinity,
+                0 => M,
                 1 => double.PositiveInfinity,
                 _ => M + S * Pow(-Log(x), -1 / A)
             };
         }
 
         public double Mean => A <= 1 ? double.PositiveInfinity : M + S * GammaFunction.Value(1 - 1 / A);
-        public double Median => M + S / Pow(Log(2), 1 / A);
+        public double Median => M + S / Pow(Constants.Log2, 1 / A);
 
         public double Variance => A <= 2
             ? double.PositiveInfinity
