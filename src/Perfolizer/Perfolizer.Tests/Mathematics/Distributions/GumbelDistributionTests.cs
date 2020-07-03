@@ -1,20 +1,13 @@
-using System.Collections.Generic;
-using JetBrains.Annotations;
 using Perfolizer.Mathematics.Distributions;
-using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.Distributions
 {
-    public class GumbelDistributionTests
+    public class GumbelDistributionTests : DistributionTestsBase
     {
-        private static readonly IEqualityComparer<double> EqualityComparer = new AbsoluteEqualityComparer(1e-5);
-        private readonly ITestOutputHelper output;
-
-        public GumbelDistributionTests(ITestOutputHelper output)
+        public GumbelDistributionTests(ITestOutputHelper output) : base(output)
         {
-            this.output = output;
         }
 
         [Fact]
@@ -27,7 +20,7 @@ namespace Perfolizer.Tests.Mathematics.Distributions
             AssertEqual("Median", 0.36651292058166435, gumbel.Median);
             AssertEqual("Variance", 1.6449340668482264, gumbel.Variance);
             AssertEqual("StandardDeviation", 1.282549830161864, gumbel.StandardDeviation);
-            
+
             var x = new[] {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
             var expectedPdf = new[]
             {
@@ -45,17 +38,7 @@ namespace Perfolizer.Tests.Mathematics.Distributions
                 1.03093043315872, 1.49993998675952, 2.25036732731245
             };
 
-            for (int i = 0; i < x.Length; i++)
-                AssertEqual($"Pdf({x[i]})", expectedPdf[i], gumbel.Pdf(x[i]));
-
-            for (int i = 0; i < x.Length; i++)
-                AssertEqual($"Cdf({x[i]})", expectedCdf[i], gumbel.Cdf(x[i]));
-
-            for (int i = 0; i < x.Length; i++)
-                AssertEqual($"Quantile({x[i]})", expectedQuantile[i], gumbel.Quantile(x[i]));
-
-            for (int i = 0; i < x.Length; i++)
-                AssertEqual($"Cdf(Quantile({x[i]}))", x[i], gumbel.Cdf(gumbel.Quantile(x[i])));
+            Check(gumbel, x, expectedPdf, expectedCdf, expectedQuantile);
         }
 
         [Fact]
@@ -65,11 +48,10 @@ namespace Perfolizer.Tests.Mathematics.Distributions
             AssertEqual("Location", 1, gumbel.Location);
             AssertEqual("Scale", 2, gumbel.Scale);
             AssertEqual("Mean", 2.1544313298030655, gumbel.Mean);
-            AssertEqual("Median", 1.7330258411633288 , gumbel.Median);
-            AssertEqual("Variance", 6.579736267392906 , gumbel.Variance);
-            AssertEqual("StandardDeviation", 2.565099660323728 , gumbel.StandardDeviation);
+            AssertEqual("Median", 1.7330258411633288, gumbel.Median);
+            AssertEqual("Variance", 6.579736267392906, gumbel.Variance);
+            AssertEqual("StandardDeviation", 2.565099660323728, gumbel.StandardDeviation);
 
-            
             var x = new[] {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
             var expectedPdf = new[]
             {
@@ -87,26 +69,7 @@ namespace Perfolizer.Tests.Mathematics.Distributions
                 3.06186086631745, 3.99987997351903, 5.50073465462489
             };
 
-            for (int i = 0; i < x.Length; i++)
-                AssertEqual($"Pdf({x[i]})", expectedPdf[i], gumbel.Pdf(x[i]));
-
-            for (int i = 0; i < x.Length; i++)
-                AssertEqual($"Cdf({x[i]})", expectedCdf[i], gumbel.Cdf(x[i]));
-
-            for (int i = 0; i < x.Length; i++)
-                AssertEqual($"Quantile({x[i]})", expectedQuantile[i], gumbel.Quantile(x[i]));
-
-            for (int i = 0; i < x.Length; i++)
-                AssertEqual($"Cdf(Quantile({x[i]}))", x[i], gumbel.Cdf(gumbel.Quantile(x[i])));
-        }
-
-        [AssertionMethod]
-        private void AssertEqual(string name, double expected, double actual)
-        {
-            output.WriteLine($"{name}:");
-            output.WriteLine($"  Expected = {expected}");
-            output.WriteLine($"  Actual   = {actual}");
-            Assert.Equal(expected, actual, EqualityComparer);
+            Check(gumbel, x, expectedPdf, expectedCdf, expectedQuantile);
         }
     }
 }
