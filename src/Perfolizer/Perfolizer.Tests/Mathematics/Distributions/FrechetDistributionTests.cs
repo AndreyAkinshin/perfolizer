@@ -20,7 +20,6 @@ namespace Perfolizer.Tests.Mathematics.Distributions
             AssertEqual("Mean", double.PositiveInfinity, frechet.Mean);
             AssertEqual("Median", 1.4426950408889634, frechet.Median);
             AssertEqual("Variance", double.PositiveInfinity, frechet.Variance);
-            AssertEqual("StandardDeviation", double.PositiveInfinity, frechet.StandardDeviation);
 
             var x = new[] {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
             var expectedPdf = new[]
@@ -52,7 +51,6 @@ namespace Perfolizer.Tests.Mathematics.Distributions
             AssertEqual("Mean", 1.7082358814691916, frechet.Mean);
             AssertEqual("Median", 1.2598945526747802, frechet.Median);
             AssertEqual("Variance", 3.3812125776279194, frechet.Variance);
-            AssertEqual("StandardDeviation", 1.8388073791531072, frechet.StandardDeviation);
 
             var x = new[] {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
             var expectedPdf = new[]

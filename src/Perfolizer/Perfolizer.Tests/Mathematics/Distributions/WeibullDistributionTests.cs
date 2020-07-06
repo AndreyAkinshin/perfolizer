@@ -20,7 +20,6 @@ namespace Perfolizer.Tests.Mathematics.Distributions
             AssertEqual("Mean", 1, weibull.Mean);
             AssertEqual("Median", 0.6931471805599453, weibull.Median);
             AssertEqual("Variance", 1, weibull.Variance);
-            AssertEqual("StandardDeviation", 1, weibull.StandardDeviation);
 
             var x = new[] {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
             var expectedPdf = new[]
@@ -51,7 +50,6 @@ namespace Perfolizer.Tests.Mathematics.Distributions
             AssertEqual("Mean", 1.3293403902848553, weibull.Mean);
             AssertEqual("Median", 1.2488319167365465, weibull.Median);
             AssertEqual("Variance", 0.482854144940259, weibull.Variance);
-            AssertEqual("StandardDeviation", 0.694877071819368, weibull.StandardDeviation);
 
             var x = new[] {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
             var expectedPdf = new[]

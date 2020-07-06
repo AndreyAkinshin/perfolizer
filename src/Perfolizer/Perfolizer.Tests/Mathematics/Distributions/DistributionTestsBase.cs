@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Common;
@@ -23,7 +24,7 @@ namespace Perfolizer.Tests.Mathematics.Distributions
         protected void Check([NotNull] IDistribution distribution, [NotNull] double[] x, [NotNull] double[] expectedPdf,
             [NotNull] double[] expectedCdf, [NotNull] double[] expectedQuantile)
         {
-            AssertEqual("Sqrt(Variance)", distribution.StandardDeviation, distribution.Variance.Sqrt());
+            AssertEqual("StandardDeviation", distribution.StandardDeviation, distribution.Variance.Sqrt());
 
             for (int i = 0; i < x.Length; i++)
                 AssertEqual($"Pdf({x[i]})", expectedPdf[i], distribution.Pdf(x[i]));
@@ -36,6 +37,9 @@ namespace Perfolizer.Tests.Mathematics.Distributions
 
             for (int i = 0; i < x.Length; i++)
                 AssertEqual($"Cdf(Quantile({x[i]}))", x[i], distribution.Cdf(distribution.Quantile(x[i])));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => distribution.Quantile(-1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => distribution.Quantile(2));
         }
 
         [AssertionMethod]

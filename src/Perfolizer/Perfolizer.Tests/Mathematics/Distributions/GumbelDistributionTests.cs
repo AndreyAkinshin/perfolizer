@@ -19,7 +19,6 @@ namespace Perfolizer.Tests.Mathematics.Distributions
             AssertEqual("Mean", 0.5772156649015329, gumbel.Mean);
             AssertEqual("Median", 0.36651292058166435, gumbel.Median);
             AssertEqual("Variance", 1.6449340668482264, gumbel.Variance);
-            AssertEqual("StandardDeviation", 1.282549830161864, gumbel.StandardDeviation);
 
             var x = new[] {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
             var expectedPdf = new[]
@@ -50,7 +49,6 @@ namespace Perfolizer.Tests.Mathematics.Distributions
             AssertEqual("Mean", 2.1544313298030655, gumbel.Mean);
             AssertEqual("Median", 1.7330258411633288, gumbel.Median);
             AssertEqual("Variance", 6.579736267392906, gumbel.Variance);
-            AssertEqual("StandardDeviation", 2.565099660323728, gumbel.StandardDeviation);
 
             var x = new[] {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
             var expectedPdf = new[]
