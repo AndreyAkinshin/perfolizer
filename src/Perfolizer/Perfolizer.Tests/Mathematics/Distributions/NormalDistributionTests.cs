@@ -34,12 +34,15 @@ namespace Perfolizer.Tests.Mathematics.Distributions
             {
                 "Non-Normal", new TestData(0.4, 0.06859943,
                     new[] {0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1},
-                    new[] {2.75560362599496e-09, 6.12153240604948e-06, 0.00177573240385303, 
-                        0.0724563903733593, 0.5, 0.927543609626641, 0.998224267596147, 
-                        0.999993878467594, 0.999999997244396, 0.999999999999843, 1})
+                    new[]
+                    {
+                        2.75560362599496e-09, 6.12153240604948e-06, 0.00177573240385303,
+                        0.0724563903733593, 0.5, 0.927543609626641, 0.998224267596147,
+                        0.999993878467594, 0.999999997244396, 0.999999999999843, 1
+                    })
             }
         };
-        
+
         [UsedImplicitly] public static TheoryData<string> TestDataCdfKeys = TheoryDataHelper.Create(TestDataCdfMap.Keys);
 
         [Theory]
@@ -71,6 +74,22 @@ namespace Perfolizer.Tests.Mathematics.Distributions
             {
                 double actualCdf = NormalDistribution.Standard.Pdf(x[i]);
                 Assert.Equal(expectedCdf[i], actualCdf, 5);
+            }
+        }
+
+        [Fact]
+        public void Quantile()
+        {
+            var x = new[] {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
+            var expectedQuantile = new[]
+            {
+                -1.2815515655446, -0.841621233572914, -0.524400512708041, -0.2533471031358, 0, 0.2533471031358, 0.524400512708041,
+                0.841621233572914, 1.2815515655446
+            };
+            for (int i = 0; i < x.Length; i++)
+            {
+                double actualQuantile = NormalDistribution.Standard.Quantile(x[i]);
+                Assert.Equal(expectedQuantile[i], actualQuantile, new AbsoluteEqualityComparer(1e-3));
             }
         }
     }

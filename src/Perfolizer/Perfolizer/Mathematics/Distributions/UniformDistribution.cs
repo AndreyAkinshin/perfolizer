@@ -40,8 +40,7 @@ namespace Perfolizer.Mathematics.Distributions
 
         public double Quantile(double q)
         {
-            if (q < 0 || q > 1)
-                throw ExceptionHelper.RangeRequirementException(nameof(q), q, 0, 1);
+            Assertion.InRangeInclusive(nameof(q), q, 0, 1);
             return Min + q * (Max - Min);
         }
 

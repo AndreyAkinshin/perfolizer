@@ -1,40 +1,33 @@
 using System;
 using JetBrains.Annotations;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.Randomization;
 using static System.Math;
 
 namespace Perfolizer.Mathematics.Distributions
 {
-    public class NormalDistribution
+    public class NormalDistribution : IDistribution
     {
         public static readonly NormalDistribution Standard = new NormalDistribution(0, 1);
 
-        /// <summary>
-        /// The mean value of the distribution
-        /// </summary>
         public double Mean { get; }
-
-        /// <summary>
-        /// The standard deviation of the distribution
-        /// </summary>
-        public double StdDev { get; }
+        public double StandardDeviation { get; }
 
         public NormalDistribution(double mean, double stdDev)
         {
+            Assertion.Positive(nameof(stdDev), stdDev);
+
             Mean = mean;
-            StdDev = stdDev;
+            StandardDeviation = stdDev;
         }
 
-        /// <summary>
-        /// Probability density function 
-        /// </summary>
-        public double Pdf(double x) => Exp(-((x - Mean) / StdDev).Sqr() / 2) / (StdDev * Sqrt(2 * PI));
+        public double Pdf(double x) => Exp(-((x - Mean) / StandardDeviation).Sqr() / 2) / (StandardDeviation * Sqrt(2 * PI));
 
-        /// <summary>
-        /// Cumulative distribution function
-        /// </summary>
-        public double Cdf(double x) => Gauss((x - Mean) / StdDev);
+        public double Cdf(double x) => Gauss((x - Mean) / StandardDeviation);
+
+        public double Quantile(double x) => Mean + StandardDeviation * Constants.Sqrt2 * ErrorFunction.InverseValue(2 * x - 1);
 
         private class NormalRandomGenerator : RandomGenerator
         {
@@ -65,21 +58,21 @@ namespace Perfolizer.Mathematics.Distributions
             public override double Next()
             {
                 double stdDevFactor = Sqrt(-2.0 * Log(Random.NextDouble())) * Sin(2.0 * PI * Random.NextDouble());
-                return distribution.Mean + distribution.StdDev * stdDevFactor;
+                return distribution.Mean + distribution.StandardDeviation * stdDevFactor;
             }
         }
-        
+
         [NotNull]
         public RandomGenerator Random() => new NormalRandomGenerator(this);
-        
+
         [NotNull]
         public RandomGenerator Random(int seed) => new NormalRandomGenerator(seed, this);
-        
+
         [NotNull]
         public RandomGenerator Random(Random random) => new NormalRandomGenerator(random, this);
 
         public double Median => Mean;
-        public double Variance => StdDev.Sqr();
+        public double Variance => StandardDeviation.Sqr();
         public double Skewness => 0;
 
         /// <summary>
