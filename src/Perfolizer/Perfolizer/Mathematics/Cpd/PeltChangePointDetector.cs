@@ -100,7 +100,7 @@ namespace Perfolizer.Mathematics.Cpd
                 double currentBestCost = bestCost[currentTau];
                 int newPreviousTausCount = 0;
                 for (int i = 0; i < previousTausCount; i++)
-                    if (costForPreviousTau[i] < currentBestCost + penalty)
+                    if (costForPreviousTau[i] <= currentBestCost + penalty)
                         previousTaus[newPreviousTausCount++] = previousTaus[i];
 
                 // We add a new tau value that is located on the `minDistance` distance from the next `currentTau` value
