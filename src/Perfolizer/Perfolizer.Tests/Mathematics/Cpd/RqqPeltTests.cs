@@ -4,7 +4,8 @@ using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Cpd;
 using Perfolizer.Mathematics.Distributions;
-using Perfolizer.Mathematics.Randomization;
+using Perfolizer.Tests.Common;
+using Perfolizer.Tests.Mathematics.Cpd.TestDataSets;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -77,42 +78,9 @@ namespace Perfolizer.Tests.Mathematics.Cpd
             }
         }
 
-        public static IEnumerable<object[]> GaussianMeanProgressionData()
-        {
-            var counts = new[] {2, 3, 4, 10};
-            var meanFactors = new[] {20};
-            var stdDevToError = new Dictionary<int, int>
-            {
-                {1, 0},
-                {5, 1},
-                {7, 14}
-            };
-            foreach (int count in counts)
-            foreach (int meanFactor in meanFactors)
-            foreach ((int stdDev, int error) in stdDevToError)
-            {
-                yield return new object[] {count, meanFactor, stdDev, error};
-                yield return new object[] {count, -meanFactor, stdDev, error};
-            }
-        }
-
         [Theory]
-        [MemberData(nameof(GaussianMeanProgressionData))]
-        public void GaussianMeanProgression(int count, int meanFactor, int stdDev, int error)
-        {
-            var random = new Random(42);
-
-            var data = new List<double>();
-            for (int i = 0; i < count; i++)
-                data.AddRange(new NormalDistribution(mean: meanFactor * i, stdDev: stdDev).Random(random).Next(100));
-
-            var indexes = detector.GetChangePointIndexes(data.ToArray(), 20);
-            Check100(count, error, indexes);
-        }
-
-        [Theory]
-        [InlineData(0, "1;5")]
-        [InlineData(0, "1;5;30")]
+        [InlineData(3, "1;5")]
+        [InlineData(3, "1;5;30")]
         public void GaussianStdDevProgression(int error, [NotNull] string stdDevValuesString)
         {
             var random = new Random(42);
@@ -125,42 +93,22 @@ namespace Perfolizer.Tests.Mathematics.Cpd
             var indexes = detector.GetChangePointIndexes(data.ToArray(), 20);
             Check100(stdDevValues.Length, error, indexes);
         }
+        
+        private static readonly IReadOnlyList<CpdTestData> ReferenceDataSet = CpdReferenceDataSet.Generate(new Random(42), 1);
 
-        public static IEnumerable<object[]> BimodalProgressionData()
-        {
-            var counts = new[] {2, 10};
-            var meanFactors = new[] {20};
-            var stdDevToError = new Dictionary<int, int>
-            {
-                {1, 7},
-                {5, 10}
-            };
-            foreach (int count in counts)
-            foreach (int meanFactor in meanFactors)
-            foreach ((int stdDev, int error) in stdDevToError)
-            {
-                yield return new object[] {count, meanFactor, stdDev, error};
-                yield return new object[] {count, -meanFactor, stdDev, error};
-            }
-        }
+        [UsedImplicitly]
+        public static TheoryData<string> ReferenceDataSetNames = TheoryDataHelper.Create(ReferenceDataSet.Select(d => d.Name));
 
         [Theory]
-        [MemberData(nameof(BimodalProgressionData))]
-        public void BimodalProgression(int count, int meanFactor, int stdDev, int error)
+        [MemberData(nameof(ReferenceDataSetNames))]
+        public void ReferenceDataSetTest(string name)
         {
-            var random = new Random(42);
-            var shuffler = new Shuffler(42);
-
-            var data = new List<double>();
-            for (int i = 0; i < count; i++)
-            {
-                data.AddRange(new NormalDistribution(mean: 0, stdDev: stdDev).Random(random).Next(30));
-                data.AddRange(new NormalDistribution(mean: (i + 1) * meanFactor, stdDev: stdDev).Random(random).Next(70));
-                shuffler.Shuffle(data, i * 100, 100);
-            }
-
-            var indexes = detector.GetChangePointIndexes(data.ToArray(), 20);
-            Check100(count, error, indexes);
+            var cpdTestData = ReferenceDataSet.First(d => d.Name == name);
+            var indexes = detector.GetChangePointIndexes(cpdTestData.Values.ToArray(), 20);
+            var verification = CpdTestDataVerification.Verify(cpdTestData, indexes);
+            output.WriteLine(verification.Report);
+            output.WriteLine("Max penalty: " + verification.Penalty);
+            Assert.True(verification.Penalty <= CpdTestData.PenaltyValues.Default.ExtraPoint * 2);
         }
     }
 }
