@@ -78,9 +78,10 @@ namespace Perfolizer.Tests.Mathematics.Cpd
             }
         }
 
+        // TODO: move this test case to CpdReferenceDataSet
         [Theory]
-        [InlineData(3, "1;5")]
-        [InlineData(3, "1;5;30")]
+        [InlineData(4, "1;5")]
+        [InlineData(4, "1;5;30")]
         public void GaussianStdDevProgression(int error, [NotNull] string stdDevValuesString)
         {
             var random = new Random(42);
