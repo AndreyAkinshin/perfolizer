@@ -61,7 +61,7 @@ namespace Perfolizer.Mathematics.EffectSizes
             return CalcRange(x, y, probabilities);
         }
 
-        public static double CalcValue([NotNull] IReadOnlyList<double> x, [NotNull] IReadOnlyList<double> y, double p = 0.2)
+        public static double CalcValue([NotNull] IReadOnlyList<double> x, [NotNull] IReadOnlyList<double> y, double p = 0.5)
         {
             return CalcRange(x, y, new[] {p}).Middle;
         }
