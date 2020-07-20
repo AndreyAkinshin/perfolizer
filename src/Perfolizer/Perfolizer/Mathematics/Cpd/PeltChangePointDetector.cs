@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Perfolizer.Collections;
 
 namespace Perfolizer.Mathematics.Cpd
 {
@@ -92,7 +93,7 @@ namespace Perfolizer.Mathematics.Cpd
                 }
 
                 // Now we should choose the tau that provides the minimum possible cost.
-                int bestPreviousTauIndex = WhichMin(costForPreviousTau, previousTausCount);
+                int bestPreviousTauIndex = costForPreviousTau.WhichMin(0, previousTausCount);
                 bestCost[currentTau] = costForPreviousTau[bestPreviousTauIndex];
                 previousChangePointIndex[currentTau] = previousTaus[bestPreviousTauIndex];
 
@@ -119,38 +120,6 @@ namespace Perfolizer.Mathematics.Cpd
 
             changePointIndexes.Reverse(); // The result changepoints should be sorted in ascending order.
             return changePointIndexes.ToArray();
-        }
-
-        /// <summary>
-        /// Returns the index of the minimum element in the given range.
-        /// </summary>
-        /// <param name="source">An array of <see cref="T:System.Double"></see> values to determine the minimum element of</param>
-        /// <param name="length">The actual number of values that will be used for search
-        /// (only values form the 0..(length-1) will be used)</param>
-        /// <returns>The index of the minimum element in range 0..(length-1)</returns>
-        /// <exception cref="InvalidOperationException"><paramref name="source">source</paramref> contains no elements</exception>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="length">length</paramref> is not positive or less than
-        /// <paramref name="source">source</paramref>.Length</exception>
-        private static int WhichMin([NotNull] double[] source, int length)
-        {
-            if (source.Length == 0)
-                throw new InvalidOperationException($"{nameof(source)} should contain elements");
-            if (length <= 0)
-                throw new ArgumentOutOfRangeException(nameof(length), length, $"{nameof(length)} should be positive");
-            if (length > source.Length)
-                throw new ArgumentOutOfRangeException(nameof(length), length,
-                    $"{nameof(length)} should be greater or equal to {nameof(source)}.Length");
-
-            double minValue = source[0];
-            int minIndex = 0;
-            for (int i = 1; i < length; i++)
-                if (source[i] < minValue)
-                {
-                    minValue = source[i];
-                    minIndex = i;
-                }
-
-            return minIndex;
         }
     }
 }

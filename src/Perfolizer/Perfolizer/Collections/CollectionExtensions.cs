@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
+using Perfolizer.Common;
 
 namespace Perfolizer.Collections
 {
@@ -49,5 +50,57 @@ namespace Perfolizer.Collections
                 return sortedValues;
             return SortedReadOnlyDoubleList.Create(values);
         }
+
+        /// <summary>
+        /// Returns the index of the minimum element in the given range
+        /// </summary>
+        internal static int WhichMin([NotNull] this IReadOnlyList<double> source, int start, int length)
+        {
+            Assertion.NotNullOrEmpty(nameof(source), source);
+            Assertion.InRangeInclusive(nameof(start), start, 0, source.Count - 1);
+            Assertion.InRangeInclusive(nameof(length), length, 1, source.Count - start);
+
+            double minValue = source[start];
+            int minIndex = start;
+            for (int i = start + 1; i < start + length; i++)
+                if (source[i] < minValue)
+                {
+                    minValue = source[i];
+                    minIndex = i;
+                }
+
+            return minIndex;
+        }
+
+        /// <summary>
+        /// Returns the index of the minimum element
+        /// </summary>
+        internal static int WhichMin([NotNull] this IReadOnlyList<double> source) => WhichMin(source, 0, source.Count);
+
+        /// <summary>
+        /// Returns the index of the maximum element in the given range
+        /// </summary>
+        internal static int WhichMax([NotNull] this IReadOnlyList<double> source, int start, int length)
+        {
+            Assertion.NotNullOrEmpty(nameof(source), source);
+            Assertion.InRangeInclusive(nameof(start), start, 0, source.Count - 1);
+            Assertion.InRangeInclusive(nameof(length), length, 1, source.Count - start);
+
+            double maxValue = source[start];
+            int maxIndex = start;
+            for (int i = start + 1; i < start + length; i++)
+                if (source[i] > maxValue)
+                {
+                    maxValue = source[i];
+                    maxIndex = i;
+                }
+
+            return maxIndex;
+        }
+
+        /// <summary>
+        /// Returns the index of the maximum element
+        /// </summary>
+        internal static int WhichMax([NotNull] this IReadOnlyList<double> source) => WhichMax(source, 0, source.Count);
     }
 }
