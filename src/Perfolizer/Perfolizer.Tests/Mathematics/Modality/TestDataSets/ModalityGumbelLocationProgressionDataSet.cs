@@ -25,7 +25,7 @@ namespace Perfolizer.Tests.Mathematics.Modality.TestDataSets
         {
             var dataSet = new List<ModalityTestData>();
 
-            for (int count = 1; count <= 5; count++)
+            for (int count = 1; count <= 10; count++)
                 dataSet.Add(GenerateSingle(random, count, 10, 1, 100, namePostfix));
 
             return dataSet;

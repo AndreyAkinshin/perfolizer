@@ -48,6 +48,15 @@ namespace Perfolizer.Common
                 throw new ArgumentOutOfRangeException(name, value, message);
             }
         }
+        
+        public static void NonNegative(string name, double value)
+        {
+            if (value < 0)
+            {
+                string message = Format("{0}={1}, but it should be non-negative", name, value);
+                throw new ArgumentOutOfRangeException(name, value, message);
+            }
+        }
 
         [AssertionMethod]
         public static void MoreThan(string name, int value, int threshold)
