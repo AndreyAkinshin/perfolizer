@@ -5,25 +5,23 @@ using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Histograms;
+using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Mathematics.Multimodality
 {
     public class ModalityDetector : IModalityDetector
     {
-        [NotNull]
-        public static readonly ModalityDetector Instance = new ModalityDetector();
-
-        [Pure]
-        public ModalityData DetectModes(IReadOnlyList<double> values)
+        [NotNull] public static readonly ModalityDetector Instance = new ModalityDetector();
+        
+        public ModalityData DetectModes(IReadOnlyList<double> values, [CanBeNull] IReadOnlyList<double> weights = null)
         {
             Assertion.NotNullOrEmpty(nameof(values), values);
             Assertion.MoreThan($"{nameof(values)}.Count", values.Count, 0);
-
-            var sortedValues = values.ToSorted();
-            if (sortedValues.Last() - sortedValues.First() < 1e-9)
+            if (values.Max() - values.Min() < 1e-9)
                 throw new ArgumentException($"{nameof(values)} should contain at least two different elements", nameof(values));
 
-            var histogram = QuantileRespectfulDensityHistogramBuilder.Instance.Build(sortedValues);
+            var histogram = QuantileRespectfulDensityHistogramBuilder.Instance.Build(values,
+                QuantileRespectfulDensityHistogramBuilder.DefaultBinCount, weights, HarrellDavisQuantileEstimator.Instance);
             var bins = histogram.Bins;
             int binCount = bins.Count;
             double binSquare = 1.0 / bins.Count;
@@ -63,6 +61,7 @@ namespace Perfolizer.Mathematics.Multimodality
                             cutPoints.Add(bins[binHeights.WhichMin(peak1, peak2 - peak1)].Middle);
                             return true;
                         }
+
                         return false;
                     }
 
@@ -87,11 +86,14 @@ namespace Perfolizer.Mathematics.Multimodality
                                     previousPeaks.Clear();
                                     break;
                                 }
+
                                 previousPeaks.RemoveAt(previousPeaks.Count - 1);
                             }
+
                             previousPeaks.Add(currentPeak);
                         }
                     }
+
                     modes.Add(bins[previousPeaks.First()].Middle);
 
                     return new ModalityData(modes, cutPoints, histogram);

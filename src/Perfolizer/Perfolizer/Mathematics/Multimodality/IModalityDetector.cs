@@ -6,6 +6,6 @@ namespace Perfolizer.Mathematics.Multimodality
     public interface IModalityDetector
     {
         [NotNull, Pure]
-        ModalityData DetectModes([NotNull] IReadOnlyList<double> values);
+        ModalityData DetectModes([NotNull] IReadOnlyList<double> values, IReadOnlyList<double> weights = null);
     }
 }
