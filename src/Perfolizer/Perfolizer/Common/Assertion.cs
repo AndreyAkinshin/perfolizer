@@ -21,7 +21,15 @@ namespace Perfolizer.Common
             if (values.Count == 0)
                 throw new ArgumentException(name, $"{name} can't be empty");
         }
-        
+
+        [AssertionMethod]
+        public static void ItemNotNull<T>([NotNull] string name, IReadOnlyList<T> values)
+        {
+            for (int i = 0; i < values.Count; i++)
+                if (values[i] == null)
+                    throw new ArgumentNullException($"{name}[{i}] == null, but {name} should not contain null items");
+        }
+
         public static void InRangeInclusive(string name, double value, double min, double max)
         {
             if (value < min || value > max)
@@ -30,7 +38,7 @@ namespace Perfolizer.Common
                 throw new ArgumentOutOfRangeException(name, value, message);
             }
         }
-        
+
         public static void InRangeExclusive(string name, double value, double min, double max)
         {
             if (value <= min || value >= max)
@@ -48,7 +56,7 @@ namespace Perfolizer.Common
                 throw new ArgumentOutOfRangeException(name, value, message);
             }
         }
-        
+
         public static void NonNegative(string name, double value)
         {
             if (value < 0)
@@ -64,6 +72,26 @@ namespace Perfolizer.Common
             if (value <= threshold)
             {
                 string message = Format("{0}={1}, but it should be more than {2}", name, value, threshold);
+                throw new ArgumentOutOfRangeException(name, value, message);
+            }
+        }
+
+        [AssertionMethod]
+        public static void Equal([NotNull] string name1, int value1, [NotNull] string name2, int value2)
+        {
+            if (value1 != value2)
+            {
+                string message = Format("{0}={1}, {2}={3}, but {0} and {2} should be equal", name1, value1, name2, value2);
+                throw new ArgumentOutOfRangeException(name1, value1, message);
+            }
+        }
+        
+        [AssertionMethod]
+        public static void Equal([NotNull] string name, double value, double expectedValue, double eps = 1e-9)
+        {
+            if (Math.Abs(value - expectedValue) > eps)
+            {
+                string message = Format("{0}={1}, but it should be equal to {2}", name, value, expectedValue);
                 throw new ArgumentOutOfRangeException(name, value, message);
             }
         }
