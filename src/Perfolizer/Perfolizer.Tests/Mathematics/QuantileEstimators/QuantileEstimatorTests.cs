@@ -42,22 +42,22 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         protected void Check([NotNull] IQuantileEstimator estimator, [NotNull] TestData testData)
         {
             if (testData.Weights == null)
-                CheckSimple(testData, estimator.GetQuantiles(testData.Source, testData.Quantiles));
+                CheckSimple(testData, estimator.GetQuantiles(testData.Source, testData.Quantiles), "Non-Weighted");
 
             if (estimator is IWeightedQuantileEstimator weightedEstimator)
             {
                 var weights = testData.Weights ?? Enumerable.Range(0, testData.Source.Length).Select(_ => 1.0).ToArray();
-                CheckSimple(testData, weightedEstimator.GetWeightedQuantiles(testData.Source, weights, testData.Quantiles));
+                CheckSimple(testData, weightedEstimator.GetWeightedQuantiles(testData.Source, weights, testData.Quantiles), "Weighted");
             }
         }
         
-        protected void CheckSimple([NotNull] TestData testData, [NotNull] double[] actual)
+        protected void CheckSimple([NotNull] TestData testData, [NotNull] double[] actual, string kind)
         {
             var comparer = new AbsoluteEqualityComparer(1e-2);
             DumpArray("Source    ", testData.Source);
             for (int i = 0; i < testData.Quantiles.Length; i++)
             {
-                output.WriteLine("-----");
+                output.WriteLine($"----- {kind} -----");
                 output.WriteLine("Quantile : " + testData.Quantiles[i]);
                 output.WriteLine("Expected : " + testData.Expected[i]);
                 output.WriteLine("Actual   : " + actual[i]);
