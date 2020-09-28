@@ -13,10 +13,10 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     {
         /// <summary>
         /// Ratio between the standard deviation and the median absolute deviation for the normal distribution.
-        /// Equals to 1.4826.
-        /// The formula: (StandardDeviation) = 1.4826 * (MedianAbsoluteDeviation).
+        /// It equals ≈1.482602218505602.
+        /// The formula: (StandardDeviation) = 1.482602218505602 * (MedianAbsoluteDeviation).
         /// </summary>
-        public const double DefaultConsistencyConstant = 1.4826;
+        public const double DefaultConsistencyConstant = 1.482602218505602;
 
         public static double CalcMad([NotNull] ISortedReadOnlyList<double> values, double consistencyConstant = DefaultConsistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator = null)
