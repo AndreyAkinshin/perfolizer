@@ -15,7 +15,7 @@ namespace Perfolizer.Tests.Mathematics.Modality
     public class ModalityDetectorTests
     {
         private readonly ITestOutputHelper output;
-        private readonly ModalityDetector detector = ModalityDetector.Instance;
+        private readonly LowlandModalityDetector detector = LowlandModalityDetector.Instance;
 
         public ModalityDetectorTests(ITestOutputHelper output)
         {

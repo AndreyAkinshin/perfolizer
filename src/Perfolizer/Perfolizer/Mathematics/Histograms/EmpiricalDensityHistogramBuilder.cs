@@ -8,17 +8,27 @@ using Perfolizer.Mathematics.Sequences;
 
 namespace Perfolizer.Mathematics.Histograms
 {
-    public class QuantileRespectfulDensityHistogramBuilder : IDensityHistogramBuilder
+    /// <summary>
+    /// Empirical probability density histogram.
+    ///
+    /// See: https://aakinshin.net/posts/epdf-hd/
+    /// </summary>
+    public class EmpiricalDensityHistogramBuilder : IDensityHistogramBuilder
     {
         public const int DefaultBinCount = 100;
 
-        public static readonly QuantileRespectfulDensityHistogramBuilder Instance = new QuantileRespectfulDensityHistogramBuilder();
+        public static readonly EmpiricalDensityHistogramBuilder Instance = new EmpiricalDensityHistogramBuilder();
 
-        public DensityHistogram Build(IReadOnlyList<double> values) => Build(values, DefaultBinCount);
+        public DensityHistogram Build(IReadOnlyList<double> values) => Build(values, null, DefaultBinCount);
+
+        public DensityHistogram Build(IReadOnlyList<double> values, IReadOnlyList<double> weights) =>
+            Build(values, weights, DefaultBinCount);
 
         [NotNull]
-        public DensityHistogram Build([NotNull] IReadOnlyList<double> values, int binCount,
-            [CanBeNull] IReadOnlyList<double> weights = null, [CanBeNull] IQuantileEstimator quantileEstimator = null)
+        public DensityHistogram Build([NotNull] IReadOnlyList<double> values,
+            [CanBeNull] IReadOnlyList<double> weights,
+            int binCount,
+            [CanBeNull] IQuantileEstimator quantileEstimator = null)
         {
             Assertion.NotNull(nameof(values), values);
             Assertion.MoreThan(nameof(binCount), binCount, 1);

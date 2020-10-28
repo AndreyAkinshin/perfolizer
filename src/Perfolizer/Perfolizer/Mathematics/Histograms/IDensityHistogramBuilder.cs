@@ -7,5 +7,8 @@ namespace Perfolizer.Mathematics.Histograms
     {
         [Pure, NotNull]
         DensityHistogram Build([NotNull] IReadOnlyList<double> values);
+        
+        [Pure, NotNull]
+        DensityHistogram Build([NotNull] IReadOnlyList<double> values, IReadOnlyList<double> weights);
     }
 }
