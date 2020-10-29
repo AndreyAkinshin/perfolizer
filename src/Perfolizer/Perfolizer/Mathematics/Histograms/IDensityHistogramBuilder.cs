@@ -6,9 +6,9 @@ namespace Perfolizer.Mathematics.Histograms
     public interface IDensityHistogramBuilder
     {
         [Pure, NotNull]
-        DensityHistogram Build([NotNull] IReadOnlyList<double> values);
+        DensityHistogram Build([NotNull] IReadOnlyList<double> values, int binCount);
         
         [Pure, NotNull]
-        DensityHistogram Build([NotNull] IReadOnlyList<double> values, IReadOnlyList<double> weights);
+        DensityHistogram Build([NotNull] IReadOnlyList<double> values, IReadOnlyList<double> weights, int binCount);
     }
 }

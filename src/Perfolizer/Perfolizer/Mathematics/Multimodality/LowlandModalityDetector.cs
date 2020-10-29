@@ -12,11 +12,23 @@ namespace Perfolizer.Mathematics.Multimodality
     {
         [NotNull] public static readonly LowlandModalityDetector Instance = new LowlandModalityDetector();
 
+        private readonly double sensitivity;
+        private readonly double precision;
+
+        public LowlandModalityDetector(double sensitivity = 0.5, double precision = 0.01)
+        {
+            Assertion.InRangeInclusive(nameof(sensitivity), sensitivity, 0, 1);
+            Assertion.InRangeExclusive(nameof(precision), precision, 0, 1);
+
+            this.sensitivity = sensitivity;
+            this.precision = precision;
+        }
+
         public ModalityData DetectModes(IReadOnlyList<double> values, [CanBeNull] IReadOnlyList<double> weights = null) =>
             DetectModes(values, weights, EmpiricalDensityHistogramBuilder.Instance);
 
         public ModalityData DetectModes(IReadOnlyList<double> values, [CanBeNull] IReadOnlyList<double> weights,
-            [CanBeNull] IDensityHistogramBuilder densityHistogramBuilder)
+            [CanBeNull] IDensityHistogramBuilder densityHistogramBuilder, bool diagnostics = false)
         {
             Assertion.NotNullOrEmpty(nameof(values), values);
             Assertion.MoreThan($"{nameof(values)}.Count", values.Count, 0);
@@ -24,31 +36,43 @@ namespace Perfolizer.Mathematics.Multimodality
                 throw new ArgumentException($"{nameof(values)} should contain at least two different elements", nameof(values));
 
             densityHistogramBuilder ??= EmpiricalDensityHistogramBuilder.Instance;
-            var histogram = densityHistogramBuilder.Build(values, weights);
+            int binCount = (int) Math.Round(1 / precision);
+            var histogram = densityHistogramBuilder.Build(values, weights, binCount);
             var bins = histogram.Bins;
-            int binCount = bins.Count;
             double binArea = 1.0 / bins.Count;
             var binHeights = bins.Select(bin => bin.Height).ToList();
+
+            var diagnosticsBins = diagnostics
+                ? histogram.Bins.Select(b => new LowlandModalityDiagnosticsData.DiagnosticsBin(b)).ToArray()
+                : Array.Empty<LowlandModalityDiagnosticsData.DiagnosticsBin>();
 
             var peaks = new List<int>();
             for (int i = 1; i < binCount - 1; i++)
                 if (binHeights[i] > binHeights[i - 1] && binHeights[i] >= binHeights[i + 1])
+                {
                     peaks.Add(i);
+                    if (diagnostics)
+                        diagnosticsBins[i].IsPeak = true;
+                }
 
             RangedMode GlobalMode(double location) => new RangedMode(location, histogram.GlobalLower, histogram.GlobalUpper);
+
+            ModalityData Result(IReadOnlyList<RangedMode> modes) => diagnostics
+                ? new LowlandModalityDiagnosticsData(modes, histogram, diagnosticsBins)
+                : new ModalityData(modes, histogram);
 
             switch (peaks.Count)
             {
                 case 0:
-                    return new ModalityData(new[] {GlobalMode(bins[binHeights.WhichMax()].Middle)}, histogram);
+                    return Result(new[] {GlobalMode(bins[binHeights.WhichMax()].Middle)});
                 case 1:
-                    return new ModalityData(new[] {GlobalMode(bins[peaks.First()].Middle)}, histogram);
+                    return Result(new[] {GlobalMode(bins[peaks.First()].Middle)});
                 default:
                 {
                     var modeLocations = new List<double>();
                     var cutPoints = new List<double>();
 
-                    bool CheckForSplit(int peak1, int peak2)
+                    bool TrySplit(int peak0, int peak1, int peak2)
                     {
                         int left = peak1, right = peak2;
                         double height = Math.Min(binHeights[peak1], binHeights[peak2]);
@@ -57,14 +81,29 @@ namespace Perfolizer.Mathematics.Multimodality
                         while (left < right && binHeights[right] > height)
                             right--;
 
+                        if (diagnostics)
+                        {
+                            for (int i = left; i <= right; i++)
+                                diagnosticsBins[i].WaterLevel = height;
+                        }
+
                         double width = bins[right].Upper - bins[left].Lower;
                         double totalArea = width * height;
                         int totalBinCount = right - left + 1;
                         double totalBinArea = totalBinCount * binArea;
-                        if (totalBinArea < totalArea - totalBinArea)
+                        double binProportion = totalBinArea / totalArea;
+                        if (binProportion < sensitivity)
                         {
-                            modeLocations.Add(bins[peak1].Middle);
+                            modeLocations.Add(bins[peak0].Middle);
                             cutPoints.Add(bins[binHeights.WhichMin(peak1, peak2 - peak1)].Middle);
+
+                            if (diagnostics)
+                            {
+                                diagnosticsBins[peak0].IsMode = true;
+                                for (int i = left; i <= right; i++)
+                                    diagnosticsBins[i].IsLowland = true;
+                            }
+
                             return true;
                         }
 
@@ -75,32 +114,23 @@ namespace Perfolizer.Mathematics.Multimodality
                     for (int i = 1; i < peaks.Count; i++)
                     {
                         int currentPeak = peaks[i];
-                        if (binHeights[previousPeaks.Last()] > binHeights[currentPeak])
-                        {
-                            if (CheckForSplit(previousPeaks.Last(), currentPeak))
-                            {
+
+                        while (previousPeaks.Any() && binHeights[previousPeaks.Last()] < binHeights[currentPeak])
+                            if (TrySplit(previousPeaks.First(), previousPeaks.Last(), currentPeak))
                                 previousPeaks.Clear();
-                                previousPeaks.Add(currentPeak);
-                            }
-                        }
-                        else
-                        {
-                            while (previousPeaks.Any() && binHeights[previousPeaks.Last()] < binHeights[currentPeak])
-                            {
-                                if (CheckForSplit(previousPeaks.Last(), currentPeak))
-                                {
-                                    previousPeaks.Clear();
-                                    break;
-                                }
-
+                            else
                                 previousPeaks.RemoveAt(previousPeaks.Count - 1);
-                            }
 
-                            previousPeaks.Add(currentPeak);
-                        }
+                        if (previousPeaks.Any() && binHeights[previousPeaks.Last()] > binHeights[currentPeak])
+                            if (TrySplit(previousPeaks.First(), previousPeaks.Last(), currentPeak))
+                                previousPeaks.Clear();
+
+                        previousPeaks.Add(currentPeak);
                     }
 
                     modeLocations.Add(bins[previousPeaks.First()].Middle);
+                    if (diagnostics)
+                        diagnosticsBins[previousPeaks.First()].IsMode = true;
 
                     var modes = new List<RangedMode>();
                     switch (modeLocations.Count)
@@ -121,7 +151,7 @@ namespace Perfolizer.Mathematics.Multimodality
                             break;
                     }
 
-                    return new ModalityData(modes, histogram);
+                    return Result(modes);
                 }
             }
         }

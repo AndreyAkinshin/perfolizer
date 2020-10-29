@@ -13,10 +13,10 @@ namespace Perfolizer.Tests.Mathematics.Modality.TestDataSets
 
             var dataSet = new List<ModalityTestData>();
 
-            for (int i = 0; i < repetitions; i++)
-            {
+            for (int i = 0; i < repetitions; i++) 
                 dataSet.AddRange(ModalityGumbelLocationProgressionDataSet.Generate(random, GetNamePostfix(i)));
-            }
+            for (int i = 0; i < repetitions; i++) 
+                dataSet.AddRange(ModalityGumbelLocationProgressionDataSet.Generate(random, GetNamePostfix(i), true));
 
             return dataSet;
         }

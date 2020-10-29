@@ -15,20 +15,18 @@ namespace Perfolizer.Mathematics.Histograms
     /// </summary>
     public class EmpiricalDensityHistogramBuilder : IDensityHistogramBuilder
     {
-        public const int DefaultBinCount = 100;
-
         public static readonly EmpiricalDensityHistogramBuilder Instance = new EmpiricalDensityHistogramBuilder();
 
-        public DensityHistogram Build(IReadOnlyList<double> values) => Build(values, null, DefaultBinCount);
+        public DensityHistogram Build(IReadOnlyList<double> values, int binCount) => Build(values, null, binCount, null);
 
-        public DensityHistogram Build(IReadOnlyList<double> values, IReadOnlyList<double> weights) =>
-            Build(values, weights, DefaultBinCount);
+        public DensityHistogram Build(IReadOnlyList<double> values, IReadOnlyList<double> weights, int binCount) =>
+            Build(values, weights, binCount, null);
 
         [NotNull]
         public DensityHistogram Build([NotNull] IReadOnlyList<double> values,
             [CanBeNull] IReadOnlyList<double> weights,
             int binCount,
-            [CanBeNull] IQuantileEstimator quantileEstimator = null)
+            [CanBeNull] IQuantileEstimator quantileEstimator)
         {
             Assertion.NotNull(nameof(values), values);
             Assertion.MoreThan(nameof(binCount), binCount, 1);
