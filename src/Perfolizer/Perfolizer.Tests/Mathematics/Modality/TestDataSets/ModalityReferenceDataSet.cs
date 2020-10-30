@@ -17,6 +17,8 @@ namespace Perfolizer.Tests.Mathematics.Modality.TestDataSets
                 dataSet.AddRange(ModalityGumbelLocationProgressionDataSet.Generate(random, GetNamePostfix(i)));
             for (int i = 0; i < repetitions; i++) 
                 dataSet.AddRange(ModalityGumbelLocationProgressionDataSet.Generate(random, GetNamePostfix(i), true));
+            for (int i = 0; i < repetitions; i++) 
+                dataSet.AddRange(ModalityCloseModesDataSet.Generate(random, GetNamePostfix(i)));
 
             return dataSet;
         }

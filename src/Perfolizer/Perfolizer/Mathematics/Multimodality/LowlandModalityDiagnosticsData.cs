@@ -46,9 +46,9 @@ namespace Perfolizer.Mathematics.Multimodality
                 var bin = Bins[i];
                 writer.Write(i);
                 writer.Write(",");
-                writer.Write(bin.HistogramBin.Lower.ToString("N2", cultureInfo));
+                writer.Write(bin.HistogramBin.Lower.ToString("N7", cultureInfo));
                 writer.Write(",");
-                writer.Write(bin.HistogramBin.Upper.ToString("N2", cultureInfo));
+                writer.Write(bin.HistogramBin.Upper.ToString("N7", cultureInfo));
                 writer.Write(",");
                 writer.Write(bin.HistogramBin.Height.ToString("N5", cultureInfo));
                 writer.Write(",");
