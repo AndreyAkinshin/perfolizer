@@ -51,6 +51,7 @@ namespace Perfolizer.Tests.Mathematics.Cpd
         }, 4, new int[0]);
 
         [Fact]
+        [Trait(TraitConstants.Category, TraitConstants.Slow)]
         public void ArithmeticProgression() => Check(Enumerable.Range(1, 500).Select(it => (double) it).ToArray(), 10, new[]
         {
             9, 19, 29, 39, 49, 59, 69, 79, 89, 99, 109, 119, 129, 139, 149, 159, 169, 179, 189, 199, 209, 219, 229, 239,
@@ -82,6 +83,7 @@ namespace Perfolizer.Tests.Mathematics.Cpd
         [Theory]
         [InlineData(4, "1;5")]
         [InlineData(4, "1;5;30")]
+        [Trait(TraitConstants.Category, TraitConstants.Slow)]
         public void GaussianStdDevProgression(int error, [NotNull] string stdDevValuesString)
         {
             var random = new Random(42);
@@ -102,6 +104,7 @@ namespace Perfolizer.Tests.Mathematics.Cpd
 
         [Theory]
         [MemberData(nameof(ReferenceDataSetNames))]
+        [Trait(TraitConstants.Category, TraitConstants.Slow)]
         public void ReferenceDataSetTest(string name)
         {
             var cpdTestData = ReferenceDataSet.First(d => d.Name == name);

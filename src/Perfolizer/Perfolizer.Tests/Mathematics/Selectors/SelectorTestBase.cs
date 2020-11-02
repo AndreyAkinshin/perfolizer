@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
+using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -153,6 +154,7 @@ namespace Perfolizer.Tests.Mathematics.Selectors
         public void RandomSmallN() => RandomManyN(2, 100);
 
         [Fact]
+        [Trait(TraitConstants.Category, TraitConstants.Slow)]
         public void RandomMediumN() => RandomManyN(100_000, 100_010);
         
         // [Fact]

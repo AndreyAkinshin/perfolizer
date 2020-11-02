@@ -3,6 +3,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.EffectSizes;
+using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -24,6 +25,7 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
         [InlineData(2.0)]
         [InlineData(2.5)]
         [InlineData(10.0)]
+        [Trait(TraitConstants.Category, TraitConstants.Slow)]
         public void GammaCohenDConsistencyTest(double stdDev)
         {
             const int n = 100;

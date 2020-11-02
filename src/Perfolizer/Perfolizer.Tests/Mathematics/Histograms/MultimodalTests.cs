@@ -82,6 +82,7 @@ namespace Perfolizer.Tests.Mathematics.Histograms
         }
 
         [Fact]
+        [Trait(TraitConstants.Category, TraitConstants.Slow)]
         public void RandomTest()
         {
             var normalDistributionRandom = new NormalDistribution(mean: 50, stdDev: 3).Random(42);

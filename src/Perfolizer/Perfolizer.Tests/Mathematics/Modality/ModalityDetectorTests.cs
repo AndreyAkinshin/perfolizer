@@ -32,6 +32,7 @@ namespace Perfolizer.Tests.Mathematics.Modality
 
         [Theory]
         [MemberData(nameof(ReferenceDataSetNames))]
+        [Trait(TraitConstants.Category, TraitConstants.Slow)]
         public void ReferenceDataSetTest(string name)
         {
             output.WriteLine($"Case: {name}");
