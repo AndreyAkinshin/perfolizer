@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Perfolizer.Mathematics.Common
 {
@@ -8,5 +10,8 @@ namespace Perfolizer.Mathematics.Common
         public static double Sqrt(this double x) => Math.Sqrt(x);
         public static double Pow(this double x, double k) => Math.Pow(x, k);
         public static double Clamp(this double x, double min, double max) => Math.Min(Math.Max(x, min), max);
+
+        public static IEnumerable<double> Clamp(this IEnumerable<double> values, double min, double max)
+            => values.Select(x => Clamp(x, min, max));
     }
 }

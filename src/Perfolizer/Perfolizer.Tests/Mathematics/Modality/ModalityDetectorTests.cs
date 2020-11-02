@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Perfolizer.Collections;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.Histograms;
@@ -36,7 +37,7 @@ namespace Perfolizer.Tests.Mathematics.Modality
             output.WriteLine($"Case: {name}");
             var modalityTestData = ReferenceDataSet.First(d => d.Name == name);
             int expectedModality = modalityTestData.ExpectedModality;
-            var modalityData = detector.DetectModes(modalityTestData.Values, null, EmpiricalDensityHistogramBuilder.Instance,
+            var modalityData = detector.DetectModes(modalityTestData.Values.ToSorted(), null, EmpiricalDensityHistogramBuilder.Instance,
                 diagnostics: true) as LowlandModalityDiagnosticsData;
             if (modalityData == null)
                 throw new Exception($"Can't get {nameof(LowlandModalityDiagnosticsData)} from DetectModes");

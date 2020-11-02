@@ -25,9 +25,9 @@ namespace Perfolizer.Mathematics.Multimodality
         }
 
         public ModalityData DetectModes(IReadOnlyList<double> values, [CanBeNull] IReadOnlyList<double> weights = null) =>
-            DetectModes(values, weights, EmpiricalDensityHistogramBuilder.Instance);
+            DetectModes(values.ToSorted(), weights, EmpiricalDensityHistogramBuilder.Instance);
 
-        public ModalityData DetectModes(IReadOnlyList<double> values, [CanBeNull] IReadOnlyList<double> weights,
+        public ModalityData DetectModes(ISortedReadOnlyList<double> values, [CanBeNull] IReadOnlyList<double> weights,
             [CanBeNull] IDensityHistogramBuilder densityHistogramBuilder, bool diagnostics = false)
         {
             Assertion.NotNullOrEmpty(nameof(values), values);
@@ -55,7 +55,15 @@ namespace Perfolizer.Mathematics.Multimodality
                         diagnosticsBins[i].IsPeak = true;
                 }
 
-            RangedMode GlobalMode(double location) => new RangedMode(location, histogram.GlobalLower, histogram.GlobalUpper);
+            RangedMode GlobalMode(double location) => new RangedMode(location, histogram.GlobalLower, histogram.GlobalUpper, values);
+            RangedMode LocalMode(double location, double left, double right)
+            {
+                var modeValues = new List<double>();
+                foreach (double value in values)
+                    if (left <= value && value <= right)
+                        modeValues.Add(value);
+                return new RangedMode(location, left, right, SortedReadOnlyDoubleList.Create(modeValues));
+            }
 
             ModalityData Result(IReadOnlyList<RangedMode> modes) => diagnostics
                 ? new LowlandModalityDiagnosticsData(modes, histogram, diagnosticsBins)
@@ -143,10 +151,10 @@ namespace Perfolizer.Mathematics.Multimodality
                             break;
                         default:
                         {
-                            modes.Add(new RangedMode(modeLocations.First(), histogram.GlobalLower, cutPoints.First()));
+                            modes.Add(LocalMode(modeLocations.First(), histogram.GlobalLower, cutPoints.First()));
                             for (int i = 1; i < modeLocations.Count - 1; i++)
-                                modes.Add(new RangedMode(modeLocations[i], cutPoints[i - 1], cutPoints[i]));
-                            modes.Add(new RangedMode(modeLocations.Last(), cutPoints.Last(), histogram.GlobalUpper));
+                                modes.Add(LocalMode(modeLocations[i], cutPoints[i - 1], cutPoints[i]));
+                            modes.Add(LocalMode(modeLocations.Last(), cutPoints.Last(), histogram.GlobalUpper));
                         }
                             break;
                     }
