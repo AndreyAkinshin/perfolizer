@@ -49,7 +49,7 @@ namespace Perfolizer.Tests.Mathematics.Modality
             output.WriteLine("ExpectedModality : " + expectedModality);
             output.WriteLine("-----");
             output.WriteLine("Modes:");
-            output.WriteLine(modalityData.Present());
+            output.WriteLine(Present(modalityData));
             output.WriteLine("-----");
             
             output.WriteLine(StreamUtils.StreamToString(stream => modalityData.DumpAsCsv(stream)));
@@ -67,19 +67,30 @@ namespace Perfolizer.Tests.Mathematics.Modality
 
             var simpleModalityData = detector.DetectModes(values);
             output.WriteLine("SimpleModalityData.Modes:");
-            output.WriteLine(simpleModalityData.Present());
+            output.WriteLine(Present(simpleModalityData));
             output.WriteLine();
             output.WriteLine(simpleModalityData.DensityHistogram.Present());
             output.WriteLine("------------------------------");
 
             var weightedModalityData = detector.DetectModes(values, weights);
             output.WriteLine("WeightedModalityData.Modes:");
-            output.WriteLine(weightedModalityData.Present());
+            output.WriteLine(Present(weightedModalityData));
             output.WriteLine();
             output.WriteLine(weightedModalityData.DensityHistogram.Present());
 
             Assert.Equal(1, simpleModalityData.Modality);
             Assert.Equal(2, weightedModalityData.Modality);
+        }
+
+        private string Present(ModalityData data)
+        {
+            var formatter = new ManualModalityDataFormatter
+            {
+                PresentOutliers = false,
+                PresentModeLocations = true,
+                GroupSeparator = Environment.NewLine
+            };
+            return formatter.Format(data, "N2");
         }
     }
 }

@@ -51,6 +51,9 @@ namespace Perfolizer.Collections
             return SortedReadOnlyDoubleList.Create(values);
         }
 
+        public static double Minimum([NotNull] this ISortedReadOnlyList<double> values) => values.First();
+        public static double Maximum([NotNull] this ISortedReadOnlyList<double> values) => values.Last();
+
         /// <summary>
         /// Returns the index of the minimum element in the given range
         /// </summary>

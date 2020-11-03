@@ -84,53 +84,5 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
         [MemberData(nameof(HdQeTestDataKeys))]
         public void DoubleMadOutlierDetectorHdQeTest([NotNull] string testDataKey) => Check(HdQeTestDataMap[testDataKey],
             values => DoubleMadOutlierDetector.Create(values, quantileEstimator: HarrellDavisQuantileEstimator.Instance));
-
-        [Theory]
-        [InlineData(0, 0, 0, "[7; 13] + [27; 33]")]
-        [InlineData(1, 1, 1, "{1} + [7; 13] + {19} + [27; 33] + {38}")]
-        [InlineData(2, 1, 2, "{1, 2} + [7; 13] + {19} + [27; 33] + {38, 39}")]
-        [InlineData(2, 2, 2, "{1, 2} + [7; 13] + {19, 21} + [27; 33] + {38, 39}")]
-        public void DoubleMadOutlierDetectorLowlandMultimodalTest(int outlier1, int outlier2, int outlier3, [NotNull] string expected)
-        {
-            var random = new Random(42);
-            var values = new List<double>();
-
-            void AddOutliers(int count, int min, int max)
-            {
-                if (count >= 1)
-                    values.Add(min);
-                if (count >= 2)
-                    values.Add(max);
-                if (count >= 3)
-                    values.AddRange(new UniformDistribution(min, max).Random(random).Next(count - 2));
-            }
-
-            AddOutliers(outlier1, 1, 2);
-
-            values.Add(7);
-            values.AddRange(new NormalDistribution(10, 1).Random(random).Next(100).Clamp(7, 13));
-            values.Add(13);
-
-            AddOutliers(outlier2, 19, 21);
-
-            values.Add(27);
-            values.AddRange(new NormalDistribution(30, 1).Random(random).Next(100).Clamp(27, 33));
-            values.Add(33);
-
-            AddOutliers(outlier3, 38, 39);
-
-            DoubleMadOutlierDetectorMultimodalCheck(values, LowlandModalityDetector.Instance, expected);
-        }
-
-        [AssertionMethod]
-        private void DoubleMadOutlierDetectorMultimodalCheck([NotNull] IReadOnlyList<double> values,
-            [NotNull] IModalityDetector modalityDetector, [NotNull] string expectedSummary)
-        {
-            var modalityData = modalityDetector.DetectModes(values);
-            string actualSummary = modalityData.PresentSummary(OutlierDetectorFactory.DoubleMad, "N0", TestCultureInfo.Instance);
-            Output.WriteLine($"Expected : {expectedSummary}");
-            Output.WriteLine($"Actual   : {actualSummary}");
-            Assert.Equal(expectedSummary, actualSummary);
-        }
     }
 }
