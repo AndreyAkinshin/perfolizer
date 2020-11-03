@@ -11,11 +11,11 @@ namespace Perfolizer.Mathematics.Histograms
     /// <summary>
     /// Empirical probability density histogram.
     ///
-    /// See: https://aakinshin.net/posts/epdf-hd/
+    /// See: https://aakinshin.net/posts/qrde-hd/
     /// </summary>
-    public class EmpiricalDensityHistogramBuilder : IDensityHistogramBuilder
+    public class QuantileRespectfulDensityHistogramBuilder : IDensityHistogramBuilder
     {
-        public static readonly EmpiricalDensityHistogramBuilder Instance = new EmpiricalDensityHistogramBuilder();
+        public static readonly QuantileRespectfulDensityHistogramBuilder Instance = new QuantileRespectfulDensityHistogramBuilder();
 
         public DensityHistogram Build(IReadOnlyList<double> values, int binCount) => Build(values, null, binCount, null);
 

@@ -25,7 +25,7 @@ namespace Perfolizer.Mathematics.Multimodality
         }
 
         public ModalityData DetectModes(IReadOnlyList<double> values, [CanBeNull] IReadOnlyList<double> weights = null) =>
-            DetectModes(values.ToSorted(), weights, EmpiricalDensityHistogramBuilder.Instance);
+            DetectModes(values.ToSorted(), weights, QuantileRespectfulDensityHistogramBuilder.Instance);
 
         public ModalityData DetectModes(ISortedReadOnlyList<double> values, [CanBeNull] IReadOnlyList<double> weights,
             [CanBeNull] IDensityHistogramBuilder densityHistogramBuilder, bool diagnostics = false)
@@ -35,7 +35,7 @@ namespace Perfolizer.Mathematics.Multimodality
             if (values.Max() - values.Min() < 1e-9)
                 throw new ArgumentException($"{nameof(values)} should contain at least two different elements", nameof(values));
 
-            densityHistogramBuilder ??= EmpiricalDensityHistogramBuilder.Instance;
+            densityHistogramBuilder ??= QuantileRespectfulDensityHistogramBuilder.Instance;
             int binCount = (int) Math.Round(1 / precision);
             var histogram = densityHistogramBuilder.Build(values, weights, binCount);
             var bins = histogram.Bins;

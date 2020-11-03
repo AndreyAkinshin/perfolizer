@@ -38,7 +38,7 @@ namespace Perfolizer.Tests.Mathematics.Modality
             output.WriteLine($"Case: {name}");
             var modalityTestData = ReferenceDataSet.First(d => d.Name == name);
             int expectedModality = modalityTestData.ExpectedModality;
-            var modalityData = detector.DetectModes(modalityTestData.Values.ToSorted(), null, EmpiricalDensityHistogramBuilder.Instance,
+            var modalityData = detector.DetectModes(modalityTestData.Values.ToSorted(), null, QuantileRespectfulDensityHistogramBuilder.Instance,
                 diagnostics: true) as LowlandModalityDiagnosticsData;
             if (modalityData == null)
                 throw new Exception($"Can't get {nameof(LowlandModalityDiagnosticsData)} from DetectModes");
