@@ -15,7 +15,8 @@ namespace Perfolizer.Samples
             {"QuantileEstimator", () => new QuantileEstimatorSample().Run()},
             {"WeightedQuantileEstimator", () => new WeightedQuantileEstimatorSample().Run()},
             {"ShiftAndRatio", () => new ShiftAndRatioSample().Run()},
-            {"OutlierDetector", () => new OutlierDetectorSample().Run()}
+            {"OutlierDetector", () => new OutlierDetectorSample().Run()},
+            {"MultimodalityDetection", () => new MultimodalityDetectionSample().Run()}
         };
 
         private static void PrintAvailableSamples()
