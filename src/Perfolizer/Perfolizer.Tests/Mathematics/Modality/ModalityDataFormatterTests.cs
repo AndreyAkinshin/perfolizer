@@ -150,7 +150,7 @@ namespace Perfolizer.Tests.Mathematics.Modality
         {
             var testData = TestDataMap[testKey];
             var modalityDetector = new LowlandModalityDetector();
-            var modalityData = modalityDetector.DetectModes(testData.Values.ToSorted());
+            var modalityData = modalityDetector.DetectModes(testData.Values.ToSample());
             var modalityFormatter = testData.ModalityDataFormatter;
 
             string expected = testData.Expected;

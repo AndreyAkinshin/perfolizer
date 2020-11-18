@@ -1,9 +1,9 @@
 using System;
 using Perfolizer.Mathematics.Selectors;
 
-namespace Perfolizer.Samples
+namespace Perfolizer.Examples
 {
-    public class RqqSample
+    public class RqqExample
     {
         public void Run()
         {

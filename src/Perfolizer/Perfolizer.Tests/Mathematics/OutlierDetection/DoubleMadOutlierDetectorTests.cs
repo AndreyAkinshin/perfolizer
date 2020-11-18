@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.Distributions;
-using Perfolizer.Mathematics.Multimodality;
+using Perfolizer.Collections;
 using Perfolizer.Mathematics.OutlierDetection;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Common;
@@ -49,8 +47,18 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 
         [Theory]
         [MemberData(nameof(SimpleQeTestDataKeys))]
-        public void DoubleMadOutlierDetectorSimpleQeTest([NotNull] string testDataKey) => Check(SimpleQeTestDataMap[testDataKey],
-            values => DoubleMadOutlierDetector.Create(values, quantileEstimator: SimpleQuantileEstimator.Instance));
+        public void DoubleMadOutlierDetectorSimpleQeTest([NotNull] string testDataKey)
+        {
+            var testData = SimpleQeTestDataMap[testDataKey];
+
+            void Action() => Check(testData,
+                values => DoubleMadOutlierDetector.Create(values, quantileEstimator: SimpleQuantileEstimator.Instance));
+
+            if (testData.Values.IsEmpty())
+                Assert.Throws<ArgumentOutOfRangeException>(Action);
+            else
+                Action();
+        }
 
         /// <summary>
         /// Data cases for HarrellDavisQuantileEstimator
@@ -82,7 +90,17 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 
         [Theory]
         [MemberData(nameof(HdQeTestDataKeys))]
-        public void DoubleMadOutlierDetectorHdQeTest([NotNull] string testDataKey) => Check(HdQeTestDataMap[testDataKey],
-            values => DoubleMadOutlierDetector.Create(values, quantileEstimator: HarrellDavisQuantileEstimator.Instance));
+        public void DoubleMadOutlierDetectorHdQeTest([NotNull] string testDataKey)
+        {
+            var testData = HdQeTestDataMap[testDataKey];
+
+            void Action() => Check(testData,
+                values => DoubleMadOutlierDetector.Create(values, quantileEstimator: HarrellDavisQuantileEstimator.Instance));
+
+            if (testData.Values.IsEmpty())
+                Assert.Throws<ArgumentOutOfRangeException>(Action);
+            else
+                Action();
+        }
     }
 }

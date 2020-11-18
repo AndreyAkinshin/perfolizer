@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Xunit;
 
@@ -31,7 +32,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute")]
         public void QuartileNullTest()
         {
-            Assert.Throws<ArgumentNullException>(() => Quartiles.Create(null));
+            Assert.Throws<ArgumentNullException>(() => Quartiles.Create((Sample)null));
         }
 
         [Fact]

@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Sequences;
 
-namespace Perfolizer.Samples
+namespace Perfolizer.Examples
 {
-    public class WeightedQuantileEstimatorSample
+    public class WeightedQuantileEstimatorExample
     {
         public void Run()
         {
@@ -17,9 +18,9 @@ namespace Perfolizer.Samples
 
             double GetMedian(int count, int halfLife)
             {
-                var sample = values.Take(count).ToList();
-                var weights = ExponentialDecaySequence.CreateFromHalfLife(halfLife).GenerateReverseArray(count);
-                return HarrellDavisQuantileEstimator.Instance.GetWeightedQuantile(sample, weights, 0.5);
+                double[] weights = ExponentialDecaySequence.CreateFromHalfLife(halfLife).GenerateReverseArray(count);
+                var sample = new Sample(values.Take(count).ToList(), weights);
+                return HarrellDavisQuantileEstimator.Instance.GetQuantile(sample, 0.5);
             }
 
             Console.WriteLine("Size       WeightedMedian");

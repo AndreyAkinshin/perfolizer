@@ -24,20 +24,17 @@ namespace Perfolizer.Mathematics.Multimodality
             this.precision = precision;
         }
 
-        public ModalityData DetectModes(IReadOnlyList<double> values, [CanBeNull] IReadOnlyList<double> weights = null) =>
-            DetectModes(values.ToSorted(), weights, QuantileRespectfulDensityHistogramBuilder.Instance);
+        public ModalityData DetectModes(Sample sample) => DetectModes(sample, QuantileRespectfulDensityHistogramBuilder.Instance);
 
-        public ModalityData DetectModes(ISortedReadOnlyList<double> values, [CanBeNull] IReadOnlyList<double> weights,
-            [CanBeNull] IDensityHistogramBuilder densityHistogramBuilder, bool diagnostics = false)
+        public ModalityData DetectModes(Sample sample, [CanBeNull] IDensityHistogramBuilder densityHistogramBuilder, bool diagnostics = false)
         {
-            Assertion.NotNullOrEmpty(nameof(values), values);
-            Assertion.MoreThan($"{nameof(values)}.Count", values.Count, 0);
-            if (values.Max() - values.Min() < 1e-9)
-                throw new ArgumentException($"{nameof(values)} should contain at least two different elements", nameof(values));
+            Assertion.NotNull(nameof(sample), sample);
+            if (sample.Values.Max() - sample.Values.Min() < 1e-9)
+                throw new ArgumentException($"{nameof(sample)} should contain at least two different elements", nameof(sample));
 
             densityHistogramBuilder ??= QuantileRespectfulDensityHistogramBuilder.Instance;
             int binCount = (int) Math.Round(1 / precision);
-            var histogram = densityHistogramBuilder.Build(values, weights, binCount);
+            var histogram = densityHistogramBuilder.Build(sample, binCount);
             var bins = histogram.Bins;
             double binArea = 1.0 / bins.Count;
             var binHeights = bins.Select(bin => bin.Height).ToList();
@@ -55,14 +52,14 @@ namespace Perfolizer.Mathematics.Multimodality
                         diagnosticsBins[i].IsPeak = true;
                 }
 
-            RangedMode GlobalMode(double location) => new RangedMode(location, histogram.GlobalLower, histogram.GlobalUpper, values);
+            RangedMode GlobalMode(double location) => new RangedMode(location, histogram.GlobalLower, histogram.GlobalUpper, sample);
             RangedMode LocalMode(double location, double left, double right)
             {
                 var modeValues = new List<double>();
-                foreach (double value in values)
+                foreach (double value in sample.SortedValues)
                     if (left <= value && value <= right)
                         modeValues.Add(value);
-                return new RangedMode(location, left, right, SortedReadOnlyDoubleList.Create(modeValues));
+                return new RangedMode(location, left, right, new Sample(modeValues));
             }
 
             ModalityData Result(IReadOnlyList<RangedMode> modes) => diagnostics

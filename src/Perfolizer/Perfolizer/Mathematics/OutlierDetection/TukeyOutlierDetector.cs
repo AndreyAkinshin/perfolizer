@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using Perfolizer.Collections;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Mathematics.OutlierDetection
@@ -38,16 +38,13 @@ namespace Perfolizer.Mathematics.OutlierDetection
         }
 
         [NotNull]
-        public static TukeyOutlierDetector Create([NotNull] ISortedReadOnlyList<double> values, double k = DefaultK,
+        public static TukeyOutlierDetector Create([NotNull] Sample sample, double k = DefaultK,
             [CanBeNull] IQuantileEstimator quantileEstimator = null)
         {
-            if (values == null)
-                throw new ArgumentNullException(nameof(values));
-            if (values.Count == 0)
-                return EmptySampleDetector;
+            Assertion.NotNull(nameof(sample), sample);
 
             quantileEstimator ??= HarrellDavisQuantileEstimator.Instance;
-            return new TukeyOutlierDetector(Quartiles.Create(values, quantileEstimator), k);
+            return new TukeyOutlierDetector(Quartiles.Create(sample, quantileEstimator), k);
         }
 
         [NotNull]

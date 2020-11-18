@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Mathematics.OutlierDetection
@@ -18,32 +18,27 @@ namespace Perfolizer.Mathematics.OutlierDetection
     {
         private const double DefaultK = 3;
 
-        private DoubleMadOutlierDetector([NotNull] ISortedReadOnlyList<double> values, double k, double consistencyConstant,
+        private DoubleMadOutlierDetector([NotNull] Sample sample, double k, double consistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator)
         {
-            if (values.Count == 0)
-            {
-                HandleEmptySample();
-                return;
-            }
+            Assertion.NotNull(nameof(sample), sample);
 
             quantileEstimator ??= HarrellDavisQuantileEstimator.Instance;
-            double median = quantileEstimator.GetMedian(values);
-            double lowerMad = MedianAbsoluteDeviation.CalcLowerMad(values, consistencyConstant, quantileEstimator);
-            double upperMad = MedianAbsoluteDeviation.CalcUpperMad(values, consistencyConstant, quantileEstimator);
+            double median = quantileEstimator.GetMedian(sample);
+            double lowerMad = MedianAbsoluteDeviation.CalcLowerMad(sample, consistencyConstant, quantileEstimator);
+            double upperMad = MedianAbsoluteDeviation.CalcUpperMad(sample, consistencyConstant, quantileEstimator);
             LowerFence = median - k * lowerMad;
             UpperFence = median + k * upperMad;
         }
 
         [NotNull]
-        public static DoubleMadOutlierDetector Create([NotNull] ISortedReadOnlyList<double> values, double k = DefaultK,
+        public static DoubleMadOutlierDetector Create([NotNull] Sample sample, double k = DefaultK,
             double consistencyConstant = MedianAbsoluteDeviation.DefaultConsistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator = null)
         {
-            if (values == null)
-                throw new ArgumentNullException(nameof(values));
+            Assertion.NotNull(nameof(sample), sample);
 
-            return new DoubleMadOutlierDetector(values, k, consistencyConstant, quantileEstimator);
+            return new DoubleMadOutlierDetector(sample, k, consistencyConstant, quantileEstimator);
         }
 
         [NotNull]
@@ -51,10 +46,9 @@ namespace Perfolizer.Mathematics.OutlierDetection
             double consistencyConstant = MedianAbsoluteDeviation.DefaultConsistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator = null)
         {
-            if (values == null)
-                throw new ArgumentNullException(nameof(values));
+            Assertion.NotNull(nameof(values), values);
 
-            return new DoubleMadOutlierDetector(values.ToSorted(), k, consistencyConstant, quantileEstimator);
+            return new DoubleMadOutlierDetector(values.ToSample(), k, consistencyConstant, quantileEstimator);
         }
     }
 }

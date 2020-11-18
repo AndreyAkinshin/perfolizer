@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.Multimodality;
 
-namespace Perfolizer.Samples
+namespace Perfolizer.Examples
 {
-    public class MultimodalityDetectionSample
+    public class MultimodalityDetectionExample
     {
         public void Run()
         {

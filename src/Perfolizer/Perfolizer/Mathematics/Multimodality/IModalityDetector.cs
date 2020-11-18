@@ -1,11 +1,11 @@
-using System.Collections.Generic;
 using JetBrains.Annotations;
+using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.Multimodality
 {
     public interface IModalityDetector
     {
         [NotNull, Pure]
-        ModalityData DetectModes([NotNull] IReadOnlyList<double> values, IReadOnlyList<double> weights = null);
+        ModalityData DetectModes([NotNull] Sample sample);
     }
 }

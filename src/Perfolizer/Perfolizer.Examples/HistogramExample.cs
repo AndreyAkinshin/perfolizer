@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.Histograms;
 
-namespace Perfolizer.Samples
+namespace Perfolizer.Examples
 {
-    public class HistogramSample
+    public class HistogramExample
     {
         public void Run()
         {

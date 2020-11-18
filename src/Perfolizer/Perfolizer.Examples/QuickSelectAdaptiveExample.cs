@@ -2,9 +2,9 @@ using System;
 using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Mathematics.Selectors;
 
-namespace Perfolizer.Samples
+namespace Perfolizer.Examples
 {
-    public class QuickSelectAdaptiveSample
+    public class QuickSelectAdaptiveExample
     {
         public void Run()
         {

@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
-using Perfolizer.Collections;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.OutlierDetection;
 
@@ -125,8 +124,8 @@ namespace Perfolizer.Mathematics.Multimodality
                 for (int i = 0; i < modes.Count; i++)
                 {
                     var mode = modes[i];
-                    bunch.Min = mode.Values.Minimum();
-                    bunch.Max = mode.Values.Maximum();
+                    bunch.Min = mode.Min();
+                    bunch.Max = mode.Max();
                     if (PresentModeLocations)
                         bunch.Mode = mode.Location;
                     bunch.Count = mode.Values.Count;

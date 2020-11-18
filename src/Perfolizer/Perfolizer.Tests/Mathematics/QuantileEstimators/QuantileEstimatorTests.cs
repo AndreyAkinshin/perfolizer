@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Common;
 using Xunit;
@@ -44,10 +45,11 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             if (testData.Weights == null)
                 CheckSimple(testData, estimator.GetQuantiles(testData.Source, testData.Quantiles), "Non-Weighted");
 
-            if (estimator is IWeightedQuantileEstimator weightedEstimator)
+            if (estimator.SupportsWeightedSamples)
             {
-                var weights = testData.Weights ?? Enumerable.Range(0, testData.Source.Length).Select(_ => 1.0).ToArray();
-                CheckSimple(testData, weightedEstimator.GetWeightedQuantiles(testData.Source, weights, testData.Quantiles), "Weighted");
+                double[] weights = testData.Weights ?? Enumerable.Range(0, testData.Source.Length).Select(_ => 1.0).ToArray();
+                var sample = new Sample(testData.Source, weights);
+                CheckSimple(testData, estimator.GetQuantiles(sample, testData.Quantiles), "Weighted");
             }
         }
         

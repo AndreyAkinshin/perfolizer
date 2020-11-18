@@ -1,5 +1,5 @@
 using System;
-using Perfolizer.Collections;
+using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
@@ -20,7 +20,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
             this.type = type;
         }
-        
+
         /// <summary>
         /// Returns 1-based real index estimation
         /// </summary>
@@ -38,11 +38,14 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             _ => throw new InvalidOperationException()
         };
 
-        public double GetQuantile(ISortedReadOnlyList<double> data, double probability)
+        public virtual double GetQuantile(Sample sample, double probability)
         {
-            QuantileEstimatorHelper.CheckArguments(data, probability);
+            Assertion.NotNull(nameof(sample), sample);
+            Assertion.NonWeighted(nameof(sample), sample);
+            Assertion.InRangeInclusive(nameof(probability), probability, 0, 1);
 
-            int n = data.Count;
+            int n = sample.Count;
+            var sortedValues = sample.SortedValues;
             double p = probability;
             double h = GetH(n, p);
 
@@ -50,10 +53,10 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             {
                 index -= 1; // Adapt one-based formula to the zero-based list
                 if (index <= 0)
-                    return data[0];
-                if (index >= data.Count)
-                    return data[data.Count - 1];
-                return data[index];
+                    return sortedValues[0];
+                if (index >= sample.Count)
+                    return sortedValues[sample.Count - 1];
+                return sortedValues[index];
             }
 
             double LinearInterpolation()
@@ -73,5 +76,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
                 _ => LinearInterpolation()
             };
         }
+
+        public virtual bool SupportsWeightedSamples => false;
     }
 }

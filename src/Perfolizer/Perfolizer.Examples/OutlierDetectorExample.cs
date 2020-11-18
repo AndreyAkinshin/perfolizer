@@ -4,9 +4,9 @@ using System.Linq;
 using Perfolizer.Mathematics.OutlierDetection;
 using Perfolizer.Mathematics.QuantileEstimators;
 
-namespace Perfolizer.Samples
+namespace Perfolizer.Examples
 {
-    public class OutlierDetectorSample
+    public class OutlierDetectorExample
     {
         public void Run()
         {

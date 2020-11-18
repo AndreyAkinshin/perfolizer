@@ -1,9 +1,9 @@
 using System;
 using Perfolizer.Mathematics.QuantileEstimators;
 
-namespace Perfolizer.Samples
+namespace Perfolizer.Examples
 {
-    public class QuantileEstimatorSample
+    public class QuantileEstimatorExample
     {
         public void Run()
         {

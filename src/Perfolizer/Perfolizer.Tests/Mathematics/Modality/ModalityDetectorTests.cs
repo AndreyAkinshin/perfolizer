@@ -38,7 +38,7 @@ namespace Perfolizer.Tests.Mathematics.Modality
             output.WriteLine($"Case: {name}");
             var modalityTestData = ReferenceDataSet.First(d => d.Name == name);
             int expectedModality = modalityTestData.ExpectedModality;
-            var modalityData = detector.DetectModes(modalityTestData.Values.ToSorted(), null, QuantileRespectfulDensityHistogramBuilder.Instance,
+            var modalityData = detector.DetectModes(modalityTestData.Values.ToSample(), QuantileRespectfulDensityHistogramBuilder.Instance,
                 diagnostics: true) as LowlandModalityDiagnosticsData;
             if (modalityData == null)
                 throw new Exception($"Can't get {nameof(LowlandModalityDiagnosticsData)} from DetectModes");
@@ -64,6 +64,7 @@ namespace Perfolizer.Tests.Mathematics.Modality
             var values = new GumbelDistribution().Random(random).Next(30).Concat(
                 new GumbelDistribution(10).Random(random).Next(10)).ToList();
             double[] weights = ExponentialDecaySequence.CreateFromHalfLife(10).GenerateReverseArray(40);
+            var sample = new Sample(values, weights);
 
             var simpleModalityData = detector.DetectModes(values);
             output.WriteLine("SimpleModalityData.Modes:");
@@ -72,7 +73,7 @@ namespace Perfolizer.Tests.Mathematics.Modality
             output.WriteLine(simpleModalityData.DensityHistogram.Present());
             output.WriteLine("------------------------------");
 
-            var weightedModalityData = detector.DetectModes(values, weights);
+            var weightedModalityData = detector.DetectModes(sample);
             output.WriteLine("WeightedModalityData.Modes:");
             output.WriteLine(Present(weightedModalityData));
             output.WriteLine();

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using Perfolizer.Collections;
+using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
@@ -26,13 +26,13 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             Q4 = q4;
         }
 
-        public static Quartiles Create([NotNull] ISortedReadOnlyList<double> values,
+        public static Quartiles Create([NotNull] Sample sample,
             [CanBeNull] IQuantileEstimator quantileEstimator = null)
         {
-            QuantileEstimatorHelper.CheckArguments(values, 0);
+            Assertion.NotNull(nameof(sample), sample);
             quantileEstimator ??= SimpleQuantileEstimator.Instance;
 
-            double GetQuantile(double q) => quantileEstimator.GetQuantile(values, q);
+            double GetQuantile(double q) => quantileEstimator.GetQuantile(sample, q);
 
             double q0 = GetQuantile(0.00);
             double q1 = GetQuantile(0.25);
@@ -43,7 +43,13 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             return new Quartiles(q0, q1, q2, q3, q4);
         }
 
-        public static Quartiles Create([NotNull] IReadOnlyList<double> values, [CanBeNull] IQuantileEstimator quantileEstimator = null)
-            => Create(values.ToSorted(), quantileEstimator);
+        public static Quartiles Create(
+            [NotNull] IReadOnlyList<double> values,
+            [CanBeNull] IQuantileEstimator quantileEstimator = null)
+        {
+            Assertion.NotNull(nameof(values), values);
+
+            return Create(new Sample(values), quantileEstimator);
+        }
     }
 }

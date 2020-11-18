@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using Perfolizer.Collections;
+using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
@@ -18,56 +18,51 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         /// </summary>
         public const double DefaultConsistencyConstant = 1.482602218505602;
 
-        public static double CalcMad([NotNull] ISortedReadOnlyList<double> values, double consistencyConstant = DefaultConsistencyConstant,
-            [CanBeNull] IQuantileEstimator quantileEstimator = null)
-        {
-            quantileEstimator ??= SimpleQuantileEstimator.Instance;
-
-            double median = quantileEstimator.GetMedian(values);
-            var deviations = new double[values.Count];
-            for (int i = 0; i < values.Count; i++)
-                deviations[i] = Math.Abs(values[i] - median);
-            return consistencyConstant * quantileEstimator.GetMedian(deviations);
-        }
-
-        public static double CalcMad([NotNull] IReadOnlyList<double> values, double consistencyConstant = DefaultConsistencyConstant,
-            [CanBeNull] IQuantileEstimator quantileEstimator = null) =>
-            CalcMad(values.ToSorted(), consistencyConstant, quantileEstimator);
-
-        public static double CalcLowerMad([NotNull] ISortedReadOnlyList<double> values,
+        public static double CalcMad(
+            [NotNull] Sample sample,
             double consistencyConstant = DefaultConsistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator = null)
         {
+            Assertion.NotNull(nameof(sample), sample);
             quantileEstimator ??= SimpleQuantileEstimator.Instance;
 
-            double median = quantileEstimator.GetMedian(values);
-            var deviations = new List<double>(values.Count);
-            for (int i = 0; i < values.Count; i++)
-                if (values[i] <= median)
-                    deviations.Add(Math.Abs(values[i] - median));
-            return consistencyConstant * quantileEstimator.GetMedian(deviations);
+            double median = quantileEstimator.GetMedian(sample);
+            double[] deviations = new double[sample.Count];
+            for (int i = 0; i < sample.Count; i++)
+                deviations[i] = Math.Abs(sample.Values[i] - median);
+            return consistencyConstant * quantileEstimator.GetMedian(new Sample(deviations));
         }
 
-        public static double CalcLowerMad([NotNull] IReadOnlyList<double> values, double consistencyConstant = DefaultConsistencyConstant,
-            [CanBeNull] IQuantileEstimator quantileEstimator = null) =>
-            CalcLowerMad(values.ToSorted(), consistencyConstant, quantileEstimator);
-        
-        public static double CalcUpperMad([NotNull] ISortedReadOnlyList<double> values,
+        public static double CalcLowerMad(
+            [NotNull] Sample sample,
             double consistencyConstant = DefaultConsistencyConstant,
             [CanBeNull] IQuantileEstimator quantileEstimator = null)
         {
+            Assertion.NotNull(nameof(sample), sample);
             quantileEstimator ??= SimpleQuantileEstimator.Instance;
 
-            double median = quantileEstimator.GetMedian(values);
-            var deviations = new List<double>(values.Count);
-            for (int i = 0; i < values.Count; i++)
-                if (values[i] >= median)
-                    deviations.Add(Math.Abs(values[i] - median));
-            return consistencyConstant * quantileEstimator.GetMedian(deviations);
+            double median = quantileEstimator.GetMedian(sample);
+            var deviations = new List<double>(sample.Count);
+            for (int i = 0; i < sample.Count; i++)
+                if (sample.Values[i] <= median)
+                    deviations.Add(Math.Abs(sample.Values[i] - median));
+            return consistencyConstant * quantileEstimator.GetMedian(new Sample(deviations));
         }
 
-        public static double CalcUpperMad([NotNull] IReadOnlyList<double> values, double consistencyConstant = DefaultConsistencyConstant,
-            [CanBeNull] IQuantileEstimator quantileEstimator = null) =>
-            CalcUpperMad(values.ToSorted(), consistencyConstant, quantileEstimator);
+        public static double CalcUpperMad(
+            [NotNull] Sample sample,
+            double consistencyConstant = DefaultConsistencyConstant,
+            [CanBeNull] IQuantileEstimator quantileEstimator = null)
+        {
+            Assertion.NotNull(nameof(sample), sample);
+            quantileEstimator ??= SimpleQuantileEstimator.Instance;
+
+            double median = quantileEstimator.GetMedian(sample);
+            var deviations = new List<double>(sample.Count);
+            for (int i = 0; i < sample.Count; i++)
+                if (sample.Values[i] >= median)
+                    deviations.Add(Math.Abs(sample.Values[i] - median));
+            return consistencyConstant * quantileEstimator.GetMedian(new Sample(deviations));
+        }
     }
 }

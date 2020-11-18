@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Perfolizer.Collections;
 using Perfolizer.Mathematics.OutlierDetection;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Common;
@@ -49,9 +51,19 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 
         [Theory]
         [MemberData(nameof(SimpleQeTestDataKeys))]
-        public void MadOutlierDetectorSimpleQeTest([NotNull] string testDataKey) => Check(SimpleQeTestDataMap[testDataKey], 
-            values => MadOutlierDetector.Create(values, quantileEstimator: SimpleQuantileEstimator.Instance));
-        
+        public void MadOutlierDetectorSimpleQeTest([NotNull] string testDataKey)
+        {
+            var testData = SimpleQeTestDataMap[testDataKey];
+            
+            void Action() => Check(testData,
+                values => MadOutlierDetector.Create(values, quantileEstimator: SimpleQuantileEstimator.Instance));
+            
+            if (testData.Values.IsEmpty())
+                Assert.Throws<ArgumentOutOfRangeException>(Action);
+            else
+                Action();
+        }
+
         /// <summary>
         /// Data cases for HarrellDavisQuantileEstimator
         /// </summary>
@@ -82,7 +94,17 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 
         [Theory]
         [MemberData(nameof(HdQeTestDataKeys))]
-        public void MadOutlierDetectorHdQeTest([NotNull] string testDataKey) => Check(HdQeTestDataMap[testDataKey],
-            values => MadOutlierDetector.Create(values, quantileEstimator: HarrellDavisQuantileEstimator.Instance));
+        public void MadOutlierDetectorHdQeTest([NotNull] string testDataKey)
+        {
+            var testData = HdQeTestDataMap[testDataKey];
+            
+            void Action() => Check(testData,
+                values => MadOutlierDetector.Create(values, quantileEstimator: HarrellDavisQuantileEstimator.Instance));
+            
+            if (testData.Values.IsEmpty())
+                Assert.Throws<ArgumentOutOfRangeException>(Action);
+            else
+                Action();
+        }
     }
 }

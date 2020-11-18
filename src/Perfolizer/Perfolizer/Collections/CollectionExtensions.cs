@@ -25,7 +25,7 @@ namespace Perfolizer.Collections
                 }
                 case IReadOnlyList<double> list:
                 {
-                    var result = new double[list.Count];
+                    double[] result = new double[list.Count];
                     for (int i = 0; i < list.Count; i++)
                         result[i] = list[i];
                     return result;
@@ -42,17 +42,6 @@ namespace Perfolizer.Collections
             Array.Sort(array);
             return array;
         }
-
-        [NotNull]
-        public static ISortedReadOnlyList<double> ToSorted([NotNull] this IReadOnlyList<double> values)
-        {
-            if (values is ISortedReadOnlyList<double> sortedValues)
-                return sortedValues;
-            return SortedReadOnlyDoubleList.Create(values);
-        }
-
-        public static double Minimum([NotNull] this ISortedReadOnlyList<double> values) => values.First();
-        public static double Maximum([NotNull] this ISortedReadOnlyList<double> values) => values.Last();
 
         /// <summary>
         /// Returns the index of the minimum element in the given range
@@ -105,5 +94,16 @@ namespace Perfolizer.Collections
         /// Returns the index of the maximum element
         /// </summary>
         internal static int WhichMax([NotNull] this IReadOnlyList<double> source) => WhichMax(source, 0, source.Count);
+
+        [NotNull]
+        public static Sample ToSample([NotNull] this IEnumerable<double> values)
+        {
+            Assertion.NotNull(nameof(values), values);
+            if (values is IReadOnlyList<double> list)
+                return new Sample(list);
+            return new Sample(values.ToList());
+        }
+
+        public static bool IsEmpty<T>(this IEnumerable<T> values) => !values.Any();
     }
 }

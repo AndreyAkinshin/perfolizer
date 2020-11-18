@@ -121,7 +121,7 @@ namespace Perfolizer.Mathematics.Common
                        });
     }
 
-    public struct ConfidenceInterval
+    public readonly struct ConfidenceInterval
     {
         [PublicAPI] public int N { get; }
         [PublicAPI] public double Mean { get; }

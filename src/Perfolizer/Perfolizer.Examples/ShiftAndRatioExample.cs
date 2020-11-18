@@ -4,9 +4,9 @@ using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.RangeEstimators;
 
-namespace Perfolizer.Samples
+namespace Perfolizer.Examples
 {
-    public class ShiftAndRatioSample
+    public class ShiftAndRatioExample
     {
         public void Run()
         {

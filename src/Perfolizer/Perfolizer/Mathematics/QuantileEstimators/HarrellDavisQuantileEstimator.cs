@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Perfolizer.Collections;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Distributions;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
@@ -11,45 +8,33 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator. Biometrika, 69(3), pp.635-640.
     /// </remarks>
     /// </summary>
-    public class HarrellDavisQuantileEstimator : IWeightedQuantileEstimator
+    public class HarrellDavisQuantileEstimator : IQuantileEstimator
     {
-        public static readonly IWeightedQuantileEstimator Instance = new HarrellDavisQuantileEstimator();
+        public static readonly IQuantileEstimator Instance = new HarrellDavisQuantileEstimator();
 
-        public double GetQuantile(ISortedReadOnlyList<double> data, double probability)
+        public double GetQuantile(Sample sample, double probability)
         {
-            QuantileEstimatorHelper.CheckArguments(data, probability);
+            Assertion.NotNull(nameof(sample), sample);
+            Assertion.InRangeInclusive(nameof(probability), probability, 0, 1);
 
-            return GetQuantile(data, probability, i => 1.0 / data.Count);
-        }
-
-        public double GetWeightedQuantile(ISortedReadOnlyList<double> data, IReadOnlyList<double> weights, double probability)
-        {
-            QuantileEstimatorHelper.CheckWeightedArguments(data, weights, probability);
-
-            double totalWeight = weights.Sum();
-            return GetQuantile(data, probability, i => weights[i] / totalWeight);
-        }
-
-        private static double GetQuantile(ISortedReadOnlyList<double> data, double probability, Func<int, double> getWeight)
-        {
-            QuantileEstimatorHelper.CheckArguments(data, probability);
-
-            int n = data.Count;
+            int n = sample.Count;
             double a = (n + 1) * probability, b = (n + 1) * (1 - probability);
             var distribution = new BetaDistribution(a, b);
 
             double result = 0;
             double betaCdfRight = 0;
             double currentProbability = 0;
-            for (int j = 0; j < data.Count; j++)
+            for (int j = 0; j < sample.Count; j++)
             {
                 double betaCdfLeft = betaCdfRight;
-                currentProbability += getWeight(j);
+                currentProbability += sample.SortedWeights[j] / sample.TotalWeight;
                 betaCdfRight = distribution.Cdf(currentProbability);
-                result += (betaCdfRight - betaCdfLeft) * data[j];
+                result += (betaCdfRight - betaCdfLeft) * sample.SortedValues[j];
             }
 
             return result;
         }
+
+        public bool SupportsWeightedSamples => true;
     }
 }

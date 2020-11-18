@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
+using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.Common
 {
-    public struct Moments
+    public readonly struct Moments
     {
         public double Mean { get; }
         public double Variance { get; }
@@ -22,8 +24,9 @@ namespace Perfolizer.Mathematics.Common
             StandardDeviation = Math.Sqrt(Variance);
         }
 
-        public static Moments Create(IReadOnlyList<double> values)
+        public static Moments Create([NotNull] IReadOnlyList<double> values)
         {
+            Assertion.NotNull(nameof(values), values);
             int n = values.Count;
             double mean = values.Average();
             double variance = n == 1 ? 0 : values.Sum(d => Math.Pow(d - mean, 2)) / (n - 1);
@@ -32,5 +35,7 @@ namespace Perfolizer.Mathematics.Common
             double kurtosis = CalcCentralMoment(4) / variance.Pow(2);
             return new Moments(mean, variance, skewness, kurtosis);
         }
+
+        public static Moments Create(Sample sample) => Create(sample.Values);
     }
 }

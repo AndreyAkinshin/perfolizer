@@ -1,18 +1,16 @@
 using System;
-using System.Collections.Generic;
 using JetBrains.Annotations;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.EffectSizes
 {
     public static class CohenDEffectSize
     {
-        public static double Calc([NotNull] IReadOnlyList<double> x, [NotNull] IReadOnlyList<double> y)
+        public static double Calc([NotNull] Sample x, [NotNull] Sample y)
         {
-            if (x == null)
-                throw new ArgumentNullException(nameof(x));
-            if (y == null)
-                throw new ArgumentNullException(nameof(y));
+            Assertion.NotNull(nameof(x), x);
+            Assertion.NotNull(nameof(y), y);
             if (x.Count < 2)
                 throw new ArgumentOutOfRangeException(nameof(x), $"{nameof(x)} should contain at least 2 elements");
             if (y.Count < 2)

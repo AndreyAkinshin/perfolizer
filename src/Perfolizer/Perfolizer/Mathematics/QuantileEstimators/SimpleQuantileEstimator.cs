@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
-using Perfolizer.Collections;
+using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
@@ -11,19 +9,23 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// Hyndman, R. J. and Fan, Y. (1996) Sample quantiles in statistical packages, American Statistician 50, 361–365. doi: 10.2307/2684934.
     /// </remarks>
     /// </summary>
-    public class SimpleQuantileEstimator : HyndmanYanQuantileEstimator, IWeightedQuantileEstimator
+    public class SimpleQuantileEstimator : HyndmanYanQuantileEstimator
     {
-        public static readonly IWeightedQuantileEstimator Instance = new SimpleQuantileEstimator();
+        public static readonly IQuantileEstimator Instance = new SimpleQuantileEstimator();
 
         private SimpleQuantileEstimator() : base(HyndmanYanType.Type7)
         {
         }
         
-        public double GetWeightedQuantile(ISortedReadOnlyList<double> data, IReadOnlyList<double> weights, double probability)
+        public override double GetQuantile(Sample sample, double probability)
         {
-            QuantileEstimatorHelper.CheckWeightedArguments(data, weights, probability);
+            if (!sample.IsWeighted)
+                return base.GetQuantile(sample, probability);
+            
+            Assertion.NotNull(nameof(sample), sample);
+            Assertion.InRangeInclusive(nameof(probability), probability, 0, 1);
 
-            int n = data.Count;
+            int n = sample.Count;
             double p = probability;
             double h = GetH(n, p);
             double left = (h - 1) / n;
@@ -38,17 +40,19 @@ namespace Perfolizer.Mathematics.QuantileEstimators
                 return x * n - h + 1;
             }
             
-            double totalWeight = weights.Sum();
+            double totalWeight = sample.TotalWeight;
             double result = 0;
             double current = 0;
             for (int i = 0; i < n; i++)
             {
-                double next = current + weights[i] / totalWeight;
-                result += data[i] * (Cdf(next) - Cdf(current));
+                double next = current + sample.Weights[i] / totalWeight;
+                result += sample.SortedValues[i] * (Cdf(next) - Cdf(current));
                 current = next;
             }
 
             return result;
         }
+
+        public override bool SupportsWeightedSamples => true;
     }
 }

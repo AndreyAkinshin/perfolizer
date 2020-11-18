@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using JetBrains.Annotations;
+using Perfolizer.Collections;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.EffectSizes;
 using Perfolizer.Tests.Common;
@@ -37,8 +39,8 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
 
             for (int i = 0; i < n; i++)
             {
-                var x = new NormalDistribution(0, 1).Random(random).Next(200);
-                var y = new NormalDistribution(delta, 1).Random(random).Next(200);
+                var x = new Sample(new NormalDistribution(0, 1).Random(random).Next(200));
+                var y = new Sample(new NormalDistribution(delta, 1).Random(random).Next(200));
                 var gamma = GammaEffectSize.CalcRange(x, y, 0.5);
                 double d = CohenDEffectSize.Calc(x, y);
                 diffs[i] = Math.Abs(d - gamma.Middle);
@@ -75,10 +77,10 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
             var random = new Random(42);
             var x = new NormalDistribution(0, 1).Random(random).Next(200)
                 .Concat(new NormalDistribution(10, 1).Random(random).Next(200))
-                .ToList();
+                .ToSample();
             var y = new NormalDistribution(0, 1).Random(random).Next(200)
                 .Concat(new NormalDistribution(20, 1).Random(random).Next(200))
-                .ToList();
+                .ToSample();
 
             var probabilities = new[] {0.2, 0.3, 0.4, 0.6, 0.7, 0.8};
             var minExpected = new[] {-0.1, -0.1, -0.1, 0.8, 0.8, 0.8};

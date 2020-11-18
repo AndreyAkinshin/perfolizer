@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Perfolizer.Exceptions;
 
 namespace Perfolizer.Common
 {
@@ -19,7 +20,7 @@ namespace Perfolizer.Common
             if (values == null)
                 throw new ArgumentNullException(name, $"{name} can't be null");
             if (values.Count == 0)
-                throw new ArgumentException(name, $"{name} can't be empty");
+                throw new ArgumentOutOfRangeException(name, $"{name} can't be empty");
         }
 
         [AssertionMethod]
@@ -30,6 +31,7 @@ namespace Perfolizer.Common
                     throw new ArgumentNullException($"{name}[{i}] == null, but {name} should not contain null items");
         }
 
+        [AssertionMethod]
         public static void InRangeInclusive(string name, double value, double min, double max)
         {
             if (value < min || value > max)
@@ -39,6 +41,21 @@ namespace Perfolizer.Common
             }
         }
 
+        [AssertionMethod]
+        public static void InRangeInclusive(string name, IReadOnlyList<double> values, double min, double max)
+        {
+            for (int i = 0; i < values.Count; i++)
+            {
+                double value = values[i];
+                if (value < min || value > max)
+                {
+                    string message = Format("{0}[{1}]={2}, but it should be in range [{3};{4}]", name, i, value, min, max);
+                    throw new ArgumentOutOfRangeException(name, value, message);
+                }
+            }
+        }
+
+        [AssertionMethod]
         public static void InRangeExclusive(string name, double value, double min, double max)
         {
             if (value <= min || value >= max)
@@ -48,6 +65,7 @@ namespace Perfolizer.Common
             }
         }
 
+        [AssertionMethod]
         public static void Positive(string name, double value)
         {
             if (value <= 0)
@@ -57,6 +75,7 @@ namespace Perfolizer.Common
             }
         }
 
+        [AssertionMethod]
         public static void NonNegative(string name, double value)
         {
             if (value < 0)
@@ -85,7 +104,7 @@ namespace Perfolizer.Common
                 throw new ArgumentOutOfRangeException(name1, value1, message);
             }
         }
-        
+
         [AssertionMethod]
         public static void Equal([NotNull] string name, double value, double expectedValue, double eps = 1e-9)
         {
@@ -94,6 +113,14 @@ namespace Perfolizer.Common
                 string message = Format("{0}={1}, but it should be equal to {2}", name, value, expectedValue);
                 throw new ArgumentOutOfRangeException(name, value, message);
             }
+        }
+
+        [AssertionMethod]
+        public static void NonWeighted([NotNull] string name, [NotNull] Sample sample)
+        {
+            NotNull(name, sample);
+            if (sample.IsWeighted)
+                throw new WeightedSampleNotSupportedException(name);
         }
 
         [StringFormatMethod("format")]

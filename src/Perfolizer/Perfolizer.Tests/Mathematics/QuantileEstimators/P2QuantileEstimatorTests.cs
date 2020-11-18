@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.QuantileEstimators;
@@ -38,18 +39,18 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 Distribution = distribution;
             }
 
-            public double[] Generate()
+            public Sample Generate()
             {
                 var random = new Random(Seed);
                 if (Randomize)
-                    return Distribution.Random(random).Next(N);
+                    return new Sample(Distribution.Random(random).Next(N));
                 
                 double[] values = Enumerable.Range(0, N)
                     .Select(x => (x + 1.0) / (N + 1))
                     .Select(x => Distribution.Quantile(x))
                     .ToArray();
                 new Shuffler(random).Shuffle(values);
-                return values;
+                return new Sample(values);
             }
         }
 
@@ -96,17 +97,17 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         {
             var testData = TestDataMap[testKey];
             double p = testData.Probability;
-            double[] values = testData.Generate();
+            var sample = testData.Generate();
             var estimator = new P2QuantileEstimator(p);
-            foreach (double x in values)
+            foreach (double x in sample.Values)
                 estimator.AddValue(x);
             
             double actual = estimator.GetQuantile();
-            double expected = SimpleQuantileEstimator.Instance.GetQuantile(values, p);
+            double expected = SimpleQuantileEstimator.Instance.GetQuantile(sample, p);
             double pDelta = 0.1 + Math.Abs(p - 0.5) * 0.2 + 2.0 / testData.N;
-            double expectedMin = SimpleQuantileEstimator.Instance.GetQuantile(values, (p - pDelta).Clamp(0, 1));
-            double expectedMax = SimpleQuantileEstimator.Instance.GetQuantile(values, (p + pDelta).Clamp(0, 1));
-            double mad = MedianAbsoluteDeviation.CalcMad(values);
+            double expectedMin = SimpleQuantileEstimator.Instance.GetQuantile(sample, (p - pDelta).Clamp(0, 1));
+            double expectedMax = SimpleQuantileEstimator.Instance.GetQuantile(sample, (p + pDelta).Clamp(0, 1));
+            double mad = MedianAbsoluteDeviation.CalcMad(sample);
             double error = Math.Abs(actual - expected);
             double errorNorm = error / mad;
 
