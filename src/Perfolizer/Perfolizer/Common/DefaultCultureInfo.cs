@@ -10,6 +10,7 @@ namespace Perfolizer.Common
         {
             Instance = (CultureInfo) CultureInfo.InvariantCulture.Clone();
             Instance.NumberFormat.NumberDecimalSeparator = ".";
+            Instance.NumberFormat.NumberGroupSeparator = "";
         }
     }
 }
