@@ -20,7 +20,6 @@ namespace Perfolizer.Mathematics.Multimodality
 
         public RangedMode(double location, double left, double right, [NotNull] Sample sample)
         {
-            Assertion.NonWeighted(nameof(sample), sample);
             Location = location;
             Left = left;
             Right = right;

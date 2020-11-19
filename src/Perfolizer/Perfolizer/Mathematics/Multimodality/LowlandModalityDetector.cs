@@ -56,10 +56,19 @@ namespace Perfolizer.Mathematics.Multimodality
             RangedMode LocalMode(double location, double left, double right)
             {
                 var modeValues = new List<double>();
-                foreach (double value in sample.SortedValues)
+                var modeWeights = sample.IsWeighted ? new List<double>() : null;
+                for (int i = 0; i < sample.SortedValues.Count; i++)
+                {
+                    double value = sample.SortedValues[i];
                     if (left <= value && value <= right)
+                    {
                         modeValues.Add(value);
-                return new RangedMode(location, left, right, new Sample(modeValues));
+                        modeWeights?.Add(sample.SortedWeights[i]);
+                    }
+                }
+
+                var modeSample = modeWeights == null ? new Sample(modeValues) : new Sample(modeValues, modeWeights);
+                return new RangedMode(location, left, right, modeSample);
             }
 
             ModalityData Result(IReadOnlyList<RangedMode> modes) => diagnostics
