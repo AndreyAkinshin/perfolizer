@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
@@ -93,6 +95,47 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
                 output.WriteLine($"{p}: {gamma:0.0000}");
                 Assert.True(minExpected[i] < gamma && gamma < maxExpected[i]);
             }
+        }
+
+        private class TestData
+        {
+            public double[] X { get; }
+            public double[] Y { get; }
+            public double Probability { get; }
+            public double ExpectedGammaEffectSize { get; }
+
+            public TestData(double[] x, double[] y, double probability, double expectedGammaEffectSize)
+            {
+                X = x;
+                Y = y;
+                Probability = probability;
+                ExpectedGammaEffectSize = expectedGammaEffectSize;
+            }
+        }
+
+        private static readonly IDictionary<string, TestData> TestDataMap = new Dictionary<string, TestData>
+        {
+            {"Corner/3-1", new TestData(new []{1.0, 2.0, 3.0}, new[] {2.0}, 0.5, 0.0)},
+            {"Corner/1-3", new TestData(new []{2.0}, new[] {1.0, 2.0, 3.0}, 0.5, 0.0)},
+            {"Corner/1-1/Same", new TestData(new []{2.0}, new[] {2.0}, 0.5, 0.0)},
+            {"Corner/1-1/Less", new TestData(new []{2.0}, new[] {3.0}, 0.5, double.PositiveInfinity)},
+            {"Corner/Identical-Identical/Same", new TestData(new []{1.0, 1.0}, new[] {1.0, 1.0}, 0.5, 0.0)},
+            {"Corner/Identical-Identical/Less", new TestData(new []{1.0, 1.0}, new[] {2.0, 2.0}, 0.5, double.PositiveInfinity)},
+            {"Corner/Identical-Identical/More", new TestData(new []{2.0, 2.0}, new[] {1.0, 1.0}, 0.5, double.NegativeInfinity)},
+        };
+
+        [UsedImplicitly] public static TheoryData<string> TestDataKeys = TheoryDataHelper.Create(TestDataMap.Keys);
+
+        [Theory]
+        [MemberData(nameof(TestDataKeys))]
+        public void GammaEffectSizeGeneralTest(string testKey)
+        {
+            var testData = TestDataMap[testKey];
+            var x = testData.X.ToSample();
+            var y = testData.Y.ToSample();
+            double expected = testData.ExpectedGammaEffectSize;
+            double actual = GammaEffectSize.CalcValue(x, y, testData.Probability);
+            Assert.Equal(expected, actual);
         }
     }
 }

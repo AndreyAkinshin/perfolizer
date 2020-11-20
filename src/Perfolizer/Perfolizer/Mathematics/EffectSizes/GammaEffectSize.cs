@@ -10,28 +10,47 @@ namespace Perfolizer.Mathematics.EffectSizes
 {
     public static class GammaEffectSize
     {
+        private const double Epsilon = 1e-9;
+
         public static Range CalcRange([NotNull] Sample x, [NotNull] Sample y, IReadOnlyList<double> probabilities)
         {
             Assertion.NotNull(nameof(x), x);
             Assertion.NotNull(nameof(y), y);
+            Assertion.NotNullOrEmpty(nameof(probabilities), probabilities);
             Assertion.InRangeInclusive(nameof(probabilities), probabilities, 0, 1);
 
-            int k = probabilities.Count;
-            var quantileEstimator = HarrellDavisQuantileEstimator.Instance;
-            double[] qx = quantileEstimator.GetQuantiles(x, probabilities);
-            double[] qy = quantileEstimator.GetQuantiles(y, probabilities);
+            try
+            {
+                int k = probabilities.Count;
+                var quantileEstimator = HarrellDavisQuantileEstimator.Instance;
+                double xMad = MedianAbsoluteDeviation.CalcMad(x);
+                double yMad = MedianAbsoluteDeviation.CalcMad(y);
+                if (xMad < Epsilon && yMad < Epsilon)
+                {
+                    double mx = quantileEstimator.GetQuantile(x, 0.5);
+                    double my = quantileEstimator.GetQuantile(y, 0.5);
+                    if (Math.Abs(mx - my) < Epsilon)
+                        return Range.Zero;
+                    return mx < my ? Range.PositiveInfinity : Range.NegativeInfinity;
+                }
 
-            double xMad = MedianAbsoluteDeviation.CalcMad(x);
-            double yMad = MedianAbsoluteDeviation.CalcMad(y);
-            int nx = x.Count;
-            int ny = y.Count;
-            double xyMad = Math.Sqrt(((nx - 1) * xMad * xMad + (ny - 1) * yMad * yMad) / (nx + ny - 2));
+                double[] qx = quantileEstimator.GetQuantiles(x, probabilities);
+                double[] qy = quantileEstimator.GetQuantiles(y, probabilities);
 
-            var gammas = Enumerable.Range(0, k).Select(i => (qy[i] - qx[i]) / xyMad).ToList();
-            double min = gammas.Min();
-            double max = gammas.Max();
+                int nx = x.Count;
+                int ny = y.Count;
+                double xyMad = Math.Sqrt(((nx - 1) * xMad * xMad + (ny - 1) * yMad * yMad) / (nx + ny - 2));
 
-            return Range.Of(min, max);
+                var gammas = Enumerable.Range(0, k).Select(i => (qy[i] - qx[i]) / xyMad).ToList();
+                double min = gammas.Min();
+                double max = gammas.Max();
+
+                return Range.Of(min, max);
+            }
+            catch (Exception)
+            {
+                return Range.NaN;
+            }
         }
 
         public static Range CalcRange([NotNull] Sample x, [NotNull] Sample y, double p = 0.2, int? count = null)
