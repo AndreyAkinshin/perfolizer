@@ -34,13 +34,13 @@ namespace Perfolizer.Mathematics.QuantileEstimators
                     Array.Sort(q);
 
                     for (int i = 0; i < 5; i++)
-                        n[i] = i + 1;
+                        n[i] = i;
 
-                    ns[0] = 1;
-                    ns[1] = 1 + 2 * p;
-                    ns[2] = 1 + 4 * p;
-                    ns[3] = 3 + 2 * p;
-                    ns[4] = 5;
+                    ns[0] = 0;
+                    ns[1] = 2 * p;
+                    ns[2] = 4 * p;
+                    ns[3] = 2 + 2 * p;
+                    ns[4] = 4;
 
                     dns[0] = 0;
                     dns[1] = p / 2;
@@ -95,7 +95,6 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             count++;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private double Parabolic(int i, double d)
         {
             return q[i] + d / (n[i + 1] - n[i - 1]) * (
