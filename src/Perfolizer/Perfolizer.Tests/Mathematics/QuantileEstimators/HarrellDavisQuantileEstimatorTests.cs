@@ -1,5 +1,9 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Perfolizer.Collections;
+using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Common;
 using Xunit;
@@ -247,6 +251,37 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         public void HarrellDavisQuantileEstimatorTest([NotNull] string testDataKey)
         {
             Check(HarrellDavisQuantileEstimator.Instance, TestDataMap[testDataKey]);
+        }
+        
+        [Theory]
+        [InlineData(0.99, 0.9, 1.0)]
+        [InlineData(0.80, 0.7, 1.0)]
+        [InlineData(0.50, 0.3, 0.8)]
+        public void MaritzJarrettConfidenceIntervalTest(double confidenceLevel, double minSuccessRate, double maxSuccessRate)
+        {
+            var random = new Random(42);
+            var distribution = new BetaDistribution(2, 10);
+            var generator = distribution.Random(random);
+            var estimator = HarrellDavisQuantileEstimator.Instance;
+            double median = distribution.Median;
+            const int iterations = 100;
+            for (int n = 5; n <= 10; n++)
+            {
+                int successCount = 0;
+                for (int i = 0; i < iterations; i++)
+                {
+                    var sample = generator.Next(n).ToSample();
+                    var confidenceInterval = estimator
+                        .GetQuantileConfidenceIntervalEstimator(sample, 0.5)
+                        .GetConfidenceInterval(confidenceLevel);
+                    if (confidenceInterval.Contains(median))
+                        successCount++;
+                }
+
+                double successRate = successCount * 1.0 / iterations;
+                Output.WriteLine($"n = {n}, successRate = {successRate:N2}");
+                Assert.True(minSuccessRate <= successRate && successRate <= maxSuccessRate);
+            }
         }
     }
 }

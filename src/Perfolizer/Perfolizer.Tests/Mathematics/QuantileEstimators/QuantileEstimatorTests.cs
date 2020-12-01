@@ -11,11 +11,11 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 {
     public abstract class QuantileEstimatorTests
     {
-        private readonly ITestOutputHelper output;
+        protected readonly ITestOutputHelper Output;
 
         protected QuantileEstimatorTests(ITestOutputHelper output)
         {
-            this.output = output;
+            Output = output;
         }
 
         protected class TestData
@@ -37,7 +37,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         private void DumpArray([NotNull] string name, [NotNull] IEnumerable<double> values)
         {
             string valuesString = string.Join("; ", values.Select(x => x.ToString(TestCultureInfo.Instance)));
-            output.WriteLine($"{name}: [{valuesString}]");
+            Output.WriteLine($"{name}: [{valuesString}]");
         }
 
         protected void Check([NotNull] IQuantileEstimator estimator, [NotNull] TestData testData)
@@ -59,10 +59,10 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             DumpArray("Source    ", testData.Source);
             for (int i = 0; i < testData.Quantiles.Length; i++)
             {
-                output.WriteLine($"----- {kind} -----");
-                output.WriteLine("Quantile : " + testData.Quantiles[i]);
-                output.WriteLine("Expected : " + testData.Expected[i]);
-                output.WriteLine("Actual   : " + actual[i]);
+                Output.WriteLine($"----- {kind} -----");
+                Output.WriteLine("Quantile : " + testData.Quantiles[i]);
+                Output.WriteLine("Expected : " + testData.Expected[i]);
+                Output.WriteLine("Actual   : " + actual[i]);
                 Assert.Equal(testData.Expected[i], actual[i], comparer);
             }
         }
