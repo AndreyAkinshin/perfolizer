@@ -98,12 +98,6 @@ namespace Perfolizer.Tests.Mathematics.Cpd
             26, 79, 136, 230, 387, 643, 1051, 1671, 2552, 3692, 4998, 6305, 7445, 8326, 8946, 9354, 9610, 9767, 9861, 9918, 9971
         });
 
-        
-        public void Foo()
-        {
-            
-        }
-
         [Fact]
         public void Check_WhenTwoMinDistanceLessThanDataLength_ReturnEmptyArray() => Check(new double[]
         {
