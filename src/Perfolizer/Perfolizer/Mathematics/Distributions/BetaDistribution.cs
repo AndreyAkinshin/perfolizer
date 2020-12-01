@@ -5,10 +5,12 @@ using static System.Math;
 
 namespace Perfolizer.Mathematics.Distributions
 {
-    public class BetaDistribution
+    public class BetaDistribution : IDistribution
     {
         public double Alpha { get; }
         public double Beta { get; }
+        
+        private readonly Lazy<double> lazyMedian;
 
         public BetaDistribution(double alpha, double beta)
         {
@@ -19,6 +21,7 @@ namespace Perfolizer.Mathematics.Distributions
 
             Alpha = alpha;
             Beta = beta;
+            lazyMedian = new Lazy<double>(() => Quantile(0.5));
         }
 
         /// <summary>
@@ -55,9 +58,12 @@ namespace Perfolizer.Mathematics.Distributions
         /// </summary>
         public double Cdf(double x) => BetaFunction.RegularizedIncompleteValue(Alpha, Beta, x);
 
+        public double Quantile(double x) => BetaFunction.RegularizedIncompleteInverseValue(Alpha, Beta, x);
+
         public double Mean => Alpha / (Alpha + Beta);
+        public double Median => lazyMedian.Value;
         public double Variance => Alpha * Beta / (Alpha + Beta).Sqr() / (Alpha + Beta + 1);
-        public double StdDev => Variance.Sqrt();
+        public double StandardDeviation => Variance.Sqrt();
         public double Skewness => 2 * (Beta - Alpha) * Sqrt(Alpha + Beta + 1) / (Alpha + Beta + 2) / Sqrt(Alpha * Beta);
     }
 }

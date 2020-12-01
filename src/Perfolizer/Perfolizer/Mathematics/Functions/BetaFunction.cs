@@ -109,5 +109,66 @@ namespace Perfolizer.Mathematics.Functions
             // Ix(a, b) = x^a * (1-x)^b / (a*B(a, b)) * 1 / (1 + d[1] / (1 + d[2] / (1 + d[3] / (...))))
             return Exp(Log(x) * a + Log(1.0 - x) * b - CompleteLogValue(a, b)) / a * (f - 1);
         }
+
+        public static double RegularizedIncompleteInverseValue(double a, double b, double p)
+        {
+            // The implementation is based on "Incomplete Beta Function" from "Numerical Recipes", 3rd edition, page 273
+
+            Assertion.NonNegative(nameof(a), a);
+            Assertion.NonNegative(nameof(b), b);
+
+            if (p <= 0)
+                return 0;
+            if (p >= 1)
+                return 1;
+
+            const double eps = 1e-8;
+            double t, u, x, w;
+
+            if (a >= 1 && b >= 1)
+            {
+                double pp = p < 0.5 ? p : 1.0 - p;
+                t = Sqrt(-2.0 * Log(pp));
+                x = (2.30753 + t * 0.27061) / (1.0 + t * (0.99229 + t * 0.04481)) - t;
+                if (p < 0.5)
+                    x = -x;
+                double al = (x.Sqr() - 3.0) / 6.0;
+                double h = 2.0 / (1.0 / (2.0 * a - 1.0) + 1.0 / (2.0 * b - 1.0));
+                w = x * Sqrt(al + h) / h - (1.0 / (2.0 * b - 1) - 1.0 / (2.0 * a - 1.0)) * (al + 5.0 / 6.0 - 2.0 / (3.0 * h));
+                x = a / (a + b * Exp(2.0 * w));
+            }
+            else
+            {
+                double lna = Log(a / (a + b));
+                double lnb = Log(b / (a + b));
+                t = Exp(a * lna) / a;
+                u = Exp(b * lnb) / b;
+                w = t + u;
+                x = p < t / w
+                    ? Pow(a * w * p, 1.0 / a)
+                    : 1.0 - Pow(b * w * (1.0 - p), 1.0 / b);
+            }
+
+            double afac = -GammaFunction.LogValue(a) - GammaFunction.LogValue(b) + GammaFunction.LogValue(a + b);
+            for (int iteration = 0; iteration < 10; iteration++)
+            {
+                if (x < eps || x > 1.0 - eps)
+                    return x; // a or b are too small for accurate calculations
+
+                double error = RegularizedIncompleteValue(a, b, x) - p;
+                t = Exp((a - 1) * Log(x) + (b - 1) * Log(1.0 - x) + afac);
+                u = error / t;
+                t = u / (1.0 - 0.5 * Min(1.0, u * ((a - 1) / x - (b - 1) / (1.0 - x)))); // Halley's method
+                x -= t;
+                if (x <= 0.0)
+                    x = 0.5 * (x + t);
+                if (x >= 1.0)
+                    x = 0.5 * (x + t + 1.0); // Bisect if x tries to go negative or > 1
+                if (Abs(t) < eps * x && iteration > 0)
+                    break;
+            }
+
+            return x;
+        }
     }
 }
