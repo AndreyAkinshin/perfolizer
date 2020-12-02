@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Perfolizer.Collections;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.RangeEstimators;
 using Perfolizer.Tests.Common;
@@ -22,15 +24,15 @@ namespace Perfolizer.Tests.Mathematics.RangeEstimator
         {
             public Range ExpectedShift { get; }
             public Range ExpectedRatio { get; }
-            public double[] A { get; }
-            public double[] B { get; }
+            public Sample A { get; }
+            public Sample B { get; }
 
             public TestData(Range expectedShift, Range expectedRatio, double[] a, double[] b)
             {
                 ExpectedShift = expectedShift;
                 ExpectedRatio = expectedRatio;
-                A = a;
-                B = b;
+                A = a.ToSample();
+                B = b.ToSample();
             }
         }
 

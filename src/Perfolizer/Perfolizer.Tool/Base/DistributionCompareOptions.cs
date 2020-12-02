@@ -1,6 +1,7 @@
 using System;
 using CommandLine;
 using JetBrains.Annotations;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.RangeEstimators;
 
@@ -40,8 +41,8 @@ namespace Perfolizer.Tool.Base
 
         protected static void Run(DistributionCompareOptions options, DistributionCompareFunction function)
         {
-            var x = options.GetSourceArray1();
-            var y = options.GetSourceArray2();
+            var x = new Sample(options.GetSourceArray1());
+            var y = new Sample(options.GetSourceArray2());
             if (string.IsNullOrEmpty(options.Probabilities))
             {
                 var rangeEstimator = new DistributionCompareRangeEstimator(function);
@@ -52,8 +53,8 @@ namespace Perfolizer.Tool.Base
             }
             else
             {
-                var probabilities = options.ConvertStringToArray(options.Probabilities, "probabilities");
-                Console.WriteLine(string.Join(";", function.Values(x, y, probabilities)));
+                double[] probabilities = options.ConvertStringToArray(options.Probabilities, "probabilities");
+                Console.WriteLine(string.Join(";", function.GetValues(x, y, probabilities)));
             }
         }
     }

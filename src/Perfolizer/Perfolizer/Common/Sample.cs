@@ -33,6 +33,10 @@ namespace Perfolizer.Common
                 () => (Values.CopyToArrayAndSort(), Weights));
         }
 
+        public Sample(params IEnumerable<double>[] values) : this(values.SelectMany(x => x).ToList())
+        {
+        }
+
         public Sample([NotNull] IReadOnlyList<double> values, [NotNull] IReadOnlyList<double> weights)
         {
             Assertion.NotNullOrEmpty(nameof(values), values);

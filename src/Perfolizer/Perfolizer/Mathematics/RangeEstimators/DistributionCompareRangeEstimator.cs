@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using JetBrains.Annotations;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 
@@ -14,22 +16,27 @@ namespace Perfolizer.Mathematics.RangeEstimators
             this.distributionCompareFunction = distributionCompareFunction;
         }
 
-        public Range GetRange(double[] a, double[] b, double margin)
+        public Range GetRange([NotNull] Sample a, [NotNull] Sample b, double margin)
         {
-            if (margin < 0 || margin > 0.5)
-                throw new ArgumentOutOfRangeException(nameof(margin), $"{nameof(margin)} should be inside [0;0.5]");
+            Assertion.NotNull(nameof(a), a);
+            Assertion.NotNull(nameof(b), b);
+            Assertion.InRangeInclusive(nameof(margin), margin, 0, 0.5);
+            
             int minQuantile = Math.Min(50, (int) Math.Round(margin * 100));
             int maxQuantile = 100 - minQuantile;
-            var probabilities = new double[maxQuantile - minQuantile + 1];
+            double[] probabilities = new double[maxQuantile - minQuantile + 1];
             for (int i = 0; i < probabilities.Length; i++)
                 probabilities[i] = (minQuantile + i) / 100.0;
-            var quantileValues = distributionCompareFunction.Values(a, b, probabilities);
+            double[] quantileValues = distributionCompareFunction.GetValues(a, b, probabilities);
             return Range.Of(quantileValues.Min(), quantileValues.Max());
         }
 
-        public Range GetRange(double[] a, double[] b)
+        public Range GetRange([NotNull] Sample a, [NotNull] Sample b)
         {
-            int n = Math.Min(a.Length, b.Length);
+            Assertion.NotNull(nameof(a), a);
+            Assertion.NotNull(nameof(b), b);
+            
+            int n = Math.Min(a.Count, b.Count);
             double margin = Math.Min(0.5, 1 - 0.001.Pow(1.0 / n));
             return GetRange(a, b, margin);
         }

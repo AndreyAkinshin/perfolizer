@@ -1,5 +1,5 @@
-using System;
 using JetBrains.Annotations;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Mathematics.Functions
@@ -8,28 +8,37 @@ namespace Perfolizer.Mathematics.Functions
     {
         [NotNull] private readonly IQuantileEstimator quantileEstimator;
 
-        public DistributionCompareFunction([NotNull] IQuantileEstimator quantileEstimator)
+        protected DistributionCompareFunction([CanBeNull] IQuantileEstimator quantileEstimator = null)
         {
-            this.quantileEstimator = quantileEstimator;
-        }
-        
-        public DistributionCompareFunction()
-        {
-            quantileEstimator = HarrellDavisQuantileEstimator.Instance;
+            this.quantileEstimator = quantileEstimator ?? HarrellDavisQuantileEstimator.Instance;
         }
 
-        public double[] Values([NotNull] double[] a, [NotNull] double[] b, [NotNull] double[] probabilities)
+        public double GetValue([NotNull] Sample a, [NotNull] Sample b, double probability)
         {
-            for (int i = 0; i < probabilities.Length; i++)
-                if (probabilities[i] < 0 || probabilities[i] > 1)
-                    throw new ArgumentOutOfRangeException(nameof(probabilities),
-                        $"{nameof(probabilities)}[{i}] = {probabilities[i]}, but it should be inside [0;1]");
+            Assertion.NotNull(nameof(a), a);
+            Assertion.NotNull(nameof(b), b);
+            Assertion.InRangeInclusive(nameof(probability), probability, 0, 1);
 
-            var qa = quantileEstimator.GetQuantiles(a, probabilities);
-            var qb = quantileEstimator.GetQuantiles(b, probabilities);
-            return CalculateValues(qa, qb);
+            double quantileA = quantileEstimator.GetQuantile(a, probability);
+            double quantileB = quantileEstimator.GetQuantile(b, probability);
+            return CalculateValue(quantileA, quantileB);
         }
 
-        protected abstract double[] CalculateValues(double[] probabilitiesA, double[] probabilitiesB);
+        [NotNull]
+        public double[] GetValues([NotNull] Sample a, [NotNull] Sample b, [NotNull] double[] probabilities)
+        {
+            Assertion.NotNull(nameof(a), a);
+            Assertion.NotNull(nameof(b), b);
+            Assertion.InRangeInclusive(nameof(probabilities), probabilities, 0, 1);
+
+            double[] quantilesA = quantileEstimator.GetQuantiles(a, probabilities);
+            double[] quantilesB = quantileEstimator.GetQuantiles(b, probabilities);
+            double[] values = new double[probabilities.Length];
+            for (int i = 0; i < values.Length; i++)
+                values[i] = CalculateValue(quantilesA[i], quantilesB[i]);
+            return values;
+        }
+
+        protected abstract double CalculateValue(double quantileA, double quantileB);
     }
 }
