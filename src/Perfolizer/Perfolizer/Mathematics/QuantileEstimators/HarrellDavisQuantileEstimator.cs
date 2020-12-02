@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions;
@@ -16,7 +17,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
         public bool SupportsWeightedSamples => true;
 
-        public double GetQuantile(Sample sample, double probability)
+        public double GetQuantile(Sample sample, Probability probability)
         {
             return GetMoments(sample, probability, false).C1;
         }
@@ -25,7 +26,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         /// Estimates confidence intervals using the Maritz-Jarrett method
         /// </summary>
         /// <returns></returns>
-        public ConfidenceIntervalEstimator GetQuantileConfidenceIntervalEstimator(Sample sample, double probability)
+        public ConfidenceIntervalEstimator GetQuantileConfidenceIntervalEstimator(Sample sample, Probability probability)
         {
             (double c1, double c2) = GetMoments(sample, probability, true);
             double median = c1;
@@ -51,10 +52,9 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             }
         }
 
-        private static Moments GetMoments(Sample sample, double probability, bool calcSecondMoment)
+        private static Moments GetMoments([NotNull] Sample sample, Probability probability, bool calcSecondMoment)
         {
             Assertion.NotNull(nameof(sample), sample);
-            Assertion.InRangeInclusive(nameof(probability), probability, 0, 1);
 
             int n = sample.Count;
             double a = (n + 1) * probability, b = (n + 1) * (1 - probability);

@@ -38,11 +38,7 @@ namespace Perfolizer.Mathematics.Distributions
             return (x - Min) / (Max - Min);
         }
 
-        public double Quantile(double q)
-        {
-            Assertion.InRangeInclusive(nameof(q), q, 0, 1);
-            return Min + q * (Max - Min);
-        }
+        public double Quantile(Probability p) => Min + p * (Max - Min);
 
         public double Mean => (Min + Max) / 2;
         public double Median => (Min + Max) / 2;

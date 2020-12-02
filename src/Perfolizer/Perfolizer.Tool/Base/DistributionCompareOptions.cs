@@ -2,6 +2,7 @@ using System;
 using CommandLine;
 using JetBrains.Annotations;
 using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.RangeEstimators;
 
@@ -53,7 +54,7 @@ namespace Perfolizer.Tool.Base
             }
             else
             {
-                double[] probabilities = options.ConvertStringToArray(options.Probabilities, "probabilities");
+                var probabilities = Probability.ToProbabilities(options.ConvertStringToArray(options.Probabilities, "probabilities"));
                 Console.WriteLine(string.Join(";", function.GetValues(x, y, probabilities)));
             }
         }

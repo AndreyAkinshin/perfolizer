@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Exceptions;
+using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Sequences;
 
@@ -28,7 +29,8 @@ namespace Perfolizer.Mathematics.Histograms
             if (sample.IsWeighted && !quantileEstimator.SupportsWeightedSamples)
                 throw new WeightedSampleNotSupportedException();
 
-            double[] probabilities = new ArithmeticProgressionSequence(0, 1.0 / binCount).GenerateArray(binCount + 1);
+            Probability[] probabilities = Probability.ToProbabilities(
+                new ArithmeticProgressionSequence(0, 1.0 / binCount).GenerateArray(binCount + 1));
             double[] quantiles = quantileEstimator.GetQuantiles(sample, probabilities);
 
             var bins = new List<DensityHistogramBin>(binCount);

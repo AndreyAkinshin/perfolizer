@@ -58,7 +58,7 @@ namespace Perfolizer.Mathematics.Distributions
         /// </summary>
         public double Cdf(double x) => BetaFunction.RegularizedIncompleteValue(Alpha, Beta, x);
 
-        public double Quantile(double x) => BetaFunction.RegularizedIncompleteInverseValue(Alpha, Beta, x);
+        public double Quantile(Probability p) => BetaFunction.RegularizedIncompleteInverseValue(Alpha, Beta, p);
 
         public double Mean => Alpha / (Alpha + Beta);
         public double Median => lazyMedian.Value;

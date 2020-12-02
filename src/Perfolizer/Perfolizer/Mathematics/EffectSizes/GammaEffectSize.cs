@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.RangeEstimators;
 
@@ -12,12 +13,11 @@ namespace Perfolizer.Mathematics.EffectSizes
     {
         private const double Epsilon = 1e-9;
 
-        public static Range CalcRange([NotNull] Sample x, [NotNull] Sample y, IReadOnlyList<double> probabilities)
+        public static Range CalcRange([NotNull] Sample x, [NotNull] Sample y, IReadOnlyList<Probability> probabilities)
         {
             Assertion.NotNull(nameof(x), x);
             Assertion.NotNull(nameof(y), y);
             Assertion.NotNullOrEmpty(nameof(probabilities), probabilities);
-            Assertion.InRangeInclusive(nameof(probabilities), probabilities, 0, 1);
 
             try
             {
@@ -63,13 +63,13 @@ namespace Perfolizer.Mathematics.EffectSizes
 
             int k = count ?? Math.Max(1, (int) Math.Floor((1 - 2 * p) / 0.01));
             var probabilities = k == 1
-                ? new List<double> {0.5}
-                : Enumerable.Range(0, k).Select(i => p + (1 - 2 * p) * i / (k - 1)).ToList();
+                ? new List<Probability> {0.5}
+                : Enumerable.Range(0, k).Select(i => (Probability)(p + (1 - 2 * p) * i / (k - 1))).ToList();
 
             return CalcRange(x, y, probabilities);
         }
 
-        public static double CalcValue([NotNull] Sample x, [NotNull] Sample y, double p = 0.5)
+        public static double CalcValue([NotNull] Sample x, [NotNull] Sample y, Probability p)
         {
             return CalcRange(x, y, new[] {p}).Middle;
         }

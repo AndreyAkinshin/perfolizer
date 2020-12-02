@@ -25,12 +25,12 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         private class TestData
         {
             public int Seed { get; }
-            public double Probability { get; }
+            public Probability Probability { get; }
             public int N { get; }
             public bool Randomize { get; }
             public IDistribution Distribution { get; }
 
-            public TestData(int seed, double probability, int n, bool randomize, IDistribution distribution)
+            public TestData(int seed, Probability probability, int n, bool randomize, IDistribution distribution)
             {
                 Seed = seed;
                 Probability = probability;
@@ -73,7 +73,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             };
             foreach (bool randomize in new[] {false, true})
             foreach (int seed in seedMap[randomize])
-            foreach (double probability in new[] {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9})
+            foreach (Probability probability in new Probability[] {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9})
             foreach (int n in new[] {5, 10, 100, 1000})
             foreach (var distribution in distributions)
             {

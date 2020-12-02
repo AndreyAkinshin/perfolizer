@@ -22,11 +22,11 @@ namespace Perfolizer.Mathematics.RangeEstimators
             Assertion.NotNull(nameof(b), b);
             Assertion.InRangeInclusive(nameof(margin), margin, 0, 0.5);
             
-            int minQuantile = Math.Min(50, (int) Math.Round(margin * 100));
-            int maxQuantile = 100 - minQuantile;
-            double[] probabilities = new double[maxQuantile - minQuantile + 1];
+            int minProbability = Math.Min(50, (int) Math.Round(margin * 100));
+            int maxProbability = 100 - minProbability;
+            Probability[] probabilities = new Probability[maxProbability - minProbability + 1];
             for (int i = 0; i < probabilities.Length; i++)
-                probabilities[i] = (minQuantile + i) / 100.0;
+                probabilities[i] = (minProbability + i) / 100.0;
             double[] quantileValues = distributionCompareFunction.GetValues(a, b, probabilities);
             return Range.Of(quantileValues.Min(), quantileValues.Max());
         }

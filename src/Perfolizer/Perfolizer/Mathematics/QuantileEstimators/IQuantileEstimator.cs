@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
@@ -11,7 +12,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         /// <param name="sample">A sample</param>
         /// <param name="probability">Value in range [0;1] that describes the requested quantile</param>
         /// <returns>Quantile estimation for the given sample</returns>
-        double GetQuantile([NotNull] Sample sample, double probability);
+        double GetQuantile([NotNull] Sample sample, Probability probability);
         
         bool SupportsWeightedSamples { get; }
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
@@ -11,16 +12,15 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// </summary>
     public class P2QuantileEstimator : ISequentialQuantileEstimator
     {
-        private readonly double p;
+        private readonly Probability p;
         private readonly int[] n = new int[5];
         private readonly double[] ns = new double[5];
         private readonly double[] dns = new double[5];
         private readonly double[] q = new double[5];
         private int count;
 
-        public P2QuantileEstimator(double probability)
+        public P2QuantileEstimator(Probability probability)
         {
-            Assertion.InRangeExclusive(nameof(probability), probability, 0, 1);
             p = probability;
         }
 

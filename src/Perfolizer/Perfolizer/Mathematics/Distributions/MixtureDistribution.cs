@@ -62,6 +62,6 @@ namespace Perfolizer.Mathematics.Distributions
 
         public double Cdf(double x) => Aggregate(d => d.Cdf(x));
 
-        public double Quantile(double x) => inverseCdf.GetValue(x);
+        public double Quantile(Probability p) => inverseCdf.GetValue(p);
     }
 }

@@ -27,7 +27,7 @@ namespace Perfolizer.Mathematics.Distributions
 
         public double Cdf(double x) => Gauss((x - Mean) / StandardDeviation);
 
-        public double Quantile(double x) => Mean + StandardDeviation * Constants.Sqrt2 * ErrorFunction.InverseValue(2 * x - 1);
+        public double Quantile(Probability p) => Mean + StandardDeviation * Constants.Sqrt2 * ErrorFunction.InverseValue(2 * p - 1);
 
         private class NormalRandomGenerator : RandomGenerator
         {

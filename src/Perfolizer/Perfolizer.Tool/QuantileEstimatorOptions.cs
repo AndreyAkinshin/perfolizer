@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using CommandLine;
 using CommandLine.Text;
+using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tool.Base;
 
@@ -48,7 +49,7 @@ namespace Perfolizer.Tool
             };
 
             var data = options.GetSourceArray();
-            var probabilities = options.ConvertStringToArray(options.Probabilities, "probabilities");
+            var probabilities = Probability.ToProbabilities(options.ConvertStringToArray(options.Probabilities, "probabilities"));
 
             var quantiles = estimator.GetQuantiles(data, probabilities);
             Console.WriteLine(string.Join(options.SourceSeparator, quantiles));

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Common;
 using Xunit;
@@ -115,7 +116,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             public HyndmanYanType Type { get; }
             [NotNull] public double[] Expected { get; }
             [NotNull] public abstract double[] Source { get; }
-            [NotNull] public abstract double[] Quantiles { get; }
+            [NotNull] public abstract Probability[] Probabilities { get; }
 
             protected HyTestData(HyndmanYanType type, [NotNull] double[] expected)
             {
@@ -126,14 +127,15 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 
         private class HyTestDataCase1 : HyTestData
         {
-            private static readonly double[] DefaultQuantiles = Enumerable.Range(0, 101).Select(x => x / 100.0).ToArray();
+            private static readonly Probability[] DefaultProbabilities = Enumerable.Range(0, 101)
+                .Select(x => (Probability)(x / 100.0)).ToArray();
 
             public HyTestDataCase1(HyndmanYanType type, [NotNull] double[] expected) : base(type, expected)
             {
             }
 
             public override double[] Source => new double[] {0, 25, 50, 75, 100};
-            public override double[] Quantiles => DefaultQuantiles;
+            public override Probability[] Probabilities => DefaultProbabilities;
         }
 
         [UsedImplicitly] public static TheoryData<string> TestDataKeys = TheoryDataHelper.Create(TestDataMap.Keys);
@@ -148,7 +150,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 ? (IQuantileEstimator) SimpleQuantileEstimator.Instance
                 : new HyndmanYanQuantileEstimator(data.Type);
 
-            Check(estimator, new TestData(data.Source, data.Quantiles, data.Expected));
+            Check(estimator, new TestData(data.Source, data.Probabilities, data.Expected));
         }
     }
 }

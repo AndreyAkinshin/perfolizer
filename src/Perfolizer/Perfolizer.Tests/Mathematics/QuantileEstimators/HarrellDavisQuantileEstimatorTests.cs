@@ -22,7 +22,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             {
                 "Case1", new TestData(
                     new double[] {0, 25, 50, 75, 100},
-                    new[] {0, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8, 0.9, 1.0},
+                    new Probability[] {0, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8, 0.9, 1.0},
                     new[]
                     {
                         0, 4.81290947065674, 13.7443607731199, 19.2481103578583, 25.1415863187833, 37.4702805366232, 50, 62.5297194633768,
@@ -66,7 +66,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                         53.2517428036315, 56.95555228195, 44.4460556027605, 45.6960370656108,
                         44.3413065957311, 42.703930002488, 50.3999127662058, 53.266021698246
                     },
-                    new[]
+                    new Probability[]
                     {
                         0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1,
                         0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21,
@@ -156,7 +156,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                         86.8272985495699, 54.7770135323528, 67.0461170406262, 62.6213591272305,
                         74.2310234302153, 59.6914364143579, 73.1245718875274, 52.0144312008348
                     },
-                    new[]
+                    new Probability[]
                     {
                         0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1,
                         0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21,
@@ -203,42 +203,42 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             {
                 "WeightedCase1", new TestData(
                     new[] {1.0, 2.0, 3.0, 4.0, 5.0},
-                    new[] {0.5},
+                    new Probability[] {0.5},
                     new[] {3.0},
                     new[] {0.0, 1.0, 1.0, 1.0, 0.0})
             },
             {
                 "WeightedCase2", new TestData(
                     new[] {1.0, 2.0, 3.0, 4.0, 5.0},
-                    new[] {0.5},
+                    new Probability[] {0.5},
                     new[] {2.0},
                     new[] {1.0, 1.0, 1.0, 0.0, 0.0})
             },
             {
                 "WeightedCase3", new TestData(
                     new[] {1.0, 2.0, 3.0, 4.0, 5.0},
-                    new[] {0.5},
+                    new Probability[] {0.5},
                     new[] {2.419753079637479},
                     new[] {1.0, 1.0, 0.0, 0.0, 1.0})
             },
             {
                 "WeightedCase4", new TestData(
                     new[] {1.0, 2.0, 3.0, 4.0, 5.0},
-                    new[] {0.5},
+                    new Probability[] {0.5},
                     new[] {2.1410844421648347},
                     new[] {1.0, 1.0, 0.2, 0.4, 0.4})
             },
             {
                 "WeightedCase5", new TestData(
                     new[] {1.0, 2.0, 3.0, 4.0, 5.0},
-                    new[] {0.5},
+                    new Probability[] {0.5},
                     new[] {3.0},
                     new[] {1.0, 0.0, 0.0, 0.0, 1.0})
             },
             {
                 "WeightedCase6", new TestData(
                     new[] {1.0, 2.0, 3.0, 4.0, 5.0},
-                    new[] {0.5},
+                    new Probability[] {0.5},
                     new[] {2.990671779712344},
                     new[] {1.0, 0.01, 0.0, 0.0, 1.0})
             }

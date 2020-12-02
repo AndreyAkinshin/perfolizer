@@ -1,5 +1,6 @@
 using System;
 using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
@@ -38,15 +39,13 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             _ => throw new InvalidOperationException()
         };
 
-        public virtual double GetQuantile(Sample sample, double probability)
+        public virtual double GetQuantile(Sample sample, Probability probability)
         {
-            Assertion.NotNull(nameof(sample), sample);
             Assertion.NonWeighted(nameof(sample), sample);
-            Assertion.InRangeInclusive(nameof(probability), probability, 0, 1);
 
             int n = sample.Count;
             var sortedValues = sample.SortedValues;
-            double p = probability;
+            var p = probability;
             double h = GetH(n, p);
 
             double Value(int index)

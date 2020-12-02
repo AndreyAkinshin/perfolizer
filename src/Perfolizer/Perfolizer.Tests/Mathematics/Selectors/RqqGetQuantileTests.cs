@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Mathematics.Selectors;
@@ -100,11 +101,11 @@ namespace Perfolizer.Tests.Mathematics.Selectors
         {
             var rqq = new Rqq(new double[] {0, 0, 0, 0, 0, 100, 100, 100, 100});
             DumpRqqTree(rqq);
-            var probs = Enumerable.Range(0, 10).Select(x => x * 1.0 / 9.0).ToArray();
-            foreach (double prob in probs)
+            var probabilities = Enumerable.Range(0, 10).Select(x => (Probability)(x * 1.0 / 9.0)).ToArray();
+            foreach (var probability in probabilities)
             {
-                Assert.Equal(0, rqq.GetQuantile(0, 4, prob));
-                Assert.Equal(100, rqq.GetQuantile(5, 8, prob));
+                Assert.Equal(0, rqq.GetQuantile(0, 4, probability));
+                Assert.Equal(100, rqq.GetQuantile(5, 8, probability));
             }
         }
     }

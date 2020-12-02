@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Mathematics.Functions
@@ -13,11 +14,10 @@ namespace Perfolizer.Mathematics.Functions
             this.quantileEstimator = quantileEstimator ?? HarrellDavisQuantileEstimator.Instance;
         }
 
-        public double GetValue([NotNull] Sample a, [NotNull] Sample b, double probability)
+        public double GetValue([NotNull] Sample a, [NotNull] Sample b, Probability probability)
         {
             Assertion.NotNull(nameof(a), a);
             Assertion.NotNull(nameof(b), b);
-            Assertion.InRangeInclusive(nameof(probability), probability, 0, 1);
 
             double quantileA = quantileEstimator.GetQuantile(a, probability);
             double quantileB = quantileEstimator.GetQuantile(b, probability);
@@ -25,11 +25,10 @@ namespace Perfolizer.Mathematics.Functions
         }
 
         [NotNull]
-        public double[] GetValues([NotNull] Sample a, [NotNull] Sample b, [NotNull] double[] probabilities)
+        public double[] GetValues([NotNull] Sample a, [NotNull] Sample b, [NotNull] Probability[] probabilities)
         {
             Assertion.NotNull(nameof(a), a);
             Assertion.NotNull(nameof(b), b);
-            Assertion.InRangeInclusive(nameof(probabilities), probabilities, 0, 1);
 
             double[] quantilesA = quantileEstimator.GetQuantiles(a, probabilities);
             double[] quantilesB = quantileEstimator.GetQuantiles(b, probabilities);

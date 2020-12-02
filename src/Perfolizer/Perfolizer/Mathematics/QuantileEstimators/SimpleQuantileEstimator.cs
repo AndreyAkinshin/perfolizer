@@ -1,4 +1,5 @@
 using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
@@ -17,13 +18,12 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         {
         }
         
-        public override double GetQuantile(Sample sample, double probability)
+        public override double GetQuantile(Sample sample, Probability probability)
         {
             if (!sample.IsWeighted)
                 return base.GetQuantile(sample, probability);
             
             Assertion.NotNull(nameof(sample), sample);
-            Assertion.InRangeInclusive(nameof(probability), probability, 0, 1);
 
             int n = sample.Count;
             double p = probability;

@@ -32,15 +32,13 @@ namespace Perfolizer.Mathematics.Distributions
 
         public double Cdf(double x) => Exp(-Exp(-Z(x)));
 
-        public double Quantile(double x)
+        public double Quantile(Probability p)
         {
-            if (x < 0 || x > 1)
-                throw new ArgumentOutOfRangeException(nameof(x), $"{nameof(x)} should be be between 0 and 1");
-            return x switch
+            return p.Value switch
             {
                 0 => double.NegativeInfinity,
                 1 => double.PositiveInfinity,
-                _ => M - S * Log(-Log(x))
+                _ => M - S * Log(-Log(p))
             };
         }
 

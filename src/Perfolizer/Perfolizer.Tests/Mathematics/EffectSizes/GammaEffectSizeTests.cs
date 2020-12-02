@@ -5,6 +5,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.EffectSizes;
 using Perfolizer.Tests.Common;
@@ -84,13 +85,13 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
                 .Concat(new NormalDistribution(20, 1).Random(random).Next(200))
                 .ToSample();
 
-            var probabilities = new[] {0.2, 0.3, 0.4, 0.6, 0.7, 0.8};
+            var probabilities = new Probability[] {0.2, 0.3, 0.4, 0.6, 0.7, 0.8};
             var minExpected = new[] {-0.1, -0.1, -0.1, 0.8, 0.8, 0.8};
             var maxExpected = new[] {0.1, 0.1, 0.1, 0.9, 0.9, 0.9};
 
             for (int i = 0; i < probabilities.Length; i++)
             {
-                double p = probabilities[i];
+                Probability p = probabilities[i];
                 double gamma = GammaEffectSize.CalcValue(x, y, p);
                 output.WriteLine($"{p}: {gamma:0.0000}");
                 Assert.True(minExpected[i] < gamma && gamma < maxExpected[i]);
@@ -101,10 +102,10 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
         {
             public double[] X { get; }
             public double[] Y { get; }
-            public double Probability { get; }
+            public Probability Probability { get; }
             public double ExpectedGammaEffectSize { get; }
 
-            public TestData(double[] x, double[] y, double probability, double expectedGammaEffectSize)
+            public TestData(double[] x, double[] y, Probability probability, double expectedGammaEffectSize)
             {
                 X = x;
                 Y = y;

@@ -1,3 +1,5 @@
+using Perfolizer.Mathematics.Common;
+
 namespace Perfolizer.Mathematics.Distributions
 {
     public interface IDistribution
@@ -15,7 +17,7 @@ namespace Perfolizer.Mathematics.Distributions
         /// <summary>
         /// Quantile function
         /// </summary>
-        double Quantile(double x);
+        double Quantile(Probability p);
 
         double Mean { get; }
         double Median { get; }

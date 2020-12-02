@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
@@ -10,7 +11,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         public static double[] GetQuantiles(
             [NotNull] this IQuantileEstimator estimator,
             [NotNull] Sample sample,
-            [NotNull] IReadOnlyList<double> probabilities)
+            [NotNull] IReadOnlyList<Probability> probabilities)
         {
             Assertion.NotNull(nameof(estimator), estimator);
             Assertion.NotNull(nameof(sample), sample);
@@ -33,7 +34,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         public static double GetQuantile(
             [NotNull] this IQuantileEstimator estimator,
             [NotNull] IReadOnlyList<double> values,
-            double probability)
+            Probability probability)
         {
             return estimator.GetQuantile(new Sample(values), probability);
         }
@@ -42,7 +43,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         public static double[] GetQuantiles(
             [NotNull] this IQuantileEstimator estimator,
             [NotNull] IReadOnlyList<double> values,
-            [NotNull] IReadOnlyList<double> probabilities)
+            [NotNull] IReadOnlyList<Probability> probabilities)
         {
             return estimator.GetQuantiles(new Sample(values), probabilities);
         }
