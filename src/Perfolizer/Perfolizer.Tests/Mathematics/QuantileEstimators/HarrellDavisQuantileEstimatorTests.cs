@@ -5,6 +5,7 @@ using Perfolizer.Collections;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.QuantileEstimators;
+using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
@@ -261,10 +262,10 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         {
             var random = new Random(42);
             var distribution = new BetaDistribution(2, 10);
-            var generator = distribution.Random(random);
+            var generator = new LimitedRandomGenerator(distribution.Random(random).Next(1000), random);
             var estimator = HarrellDavisQuantileEstimator.Instance;
             double median = distribution.Median;
-            const int iterations = 100;
+            const int iterations = 1000;
             for (int n = 5; n <= 10; n++)
             {
                 int successCount = 0;
@@ -279,7 +280,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 }
 
                 double successRate = successCount * 1.0 / iterations;
-                Output.WriteLine($"n = {n}, successRate = {successRate:N2}");
+                Output.WriteLine($"n = {n}, successRate = {successRate:N4}");
                 Assert.True(minSuccessRate <= successRate && successRate <= maxSuccessRate);
             }
         }
