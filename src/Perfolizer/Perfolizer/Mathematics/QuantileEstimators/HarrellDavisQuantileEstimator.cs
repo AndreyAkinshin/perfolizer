@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
@@ -16,6 +17,18 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         public static readonly HarrellDavisQuantileEstimator Instance = new HarrellDavisQuantileEstimator();
 
         public bool SupportsWeightedSamples => true;
+
+        private readonly int cacheSize;
+        [CanBeNull] private readonly ConcurrentDictionary<(double a, double b, double x), double> betaCdfCache;
+
+        public HarrellDavisQuantileEstimator(int cacheSize = 10_000)
+        {
+            Assertion.NonNegative(nameof(cacheSize), cacheSize);
+            this.cacheSize = cacheSize;
+            betaCdfCache = cacheSize > 0
+                ? new ConcurrentDictionary<(double a, double b, double x), double>(1, cacheSize)
+                : null;
+        }
 
         public double GetQuantile(Sample sample, Probability probability)
         {
@@ -52,7 +65,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             }
         }
 
-        private static Moments GetMoments([NotNull] Sample sample, Probability probability, bool calcSecondMoment)
+        private Moments GetMoments([NotNull] Sample sample, Probability probability, bool calcSecondMoment)
         {
             Assertion.NotNull(nameof(sample), sample);
 
@@ -68,7 +81,26 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             {
                 double betaCdfLeft = betaCdfRight;
                 currentProbability += sample.SortedWeights[j] / sample.TotalWeight;
-                betaCdfRight = distribution.Cdf(currentProbability);
+
+                double cdfValue;
+                if (betaCdfCache != null)
+                {
+                    var key = (a, b, currentProbability);
+                    if (betaCdfCache.ContainsKey(key))
+                    {
+                        cdfValue = betaCdfCache[key];
+                    }
+                    else
+                    {
+                        cdfValue = distribution.Cdf(currentProbability);
+                        if (betaCdfCache.Count < cacheSize)
+                            betaCdfCache[key] = cdfValue;
+                    }
+                }
+                else
+                    cdfValue = distribution.Cdf(currentProbability);
+
+                betaCdfRight = cdfValue;
                 double w = betaCdfRight - betaCdfLeft;
                 c1 += w * sample.SortedValues[j];
                 if (calcSecondMoment)
