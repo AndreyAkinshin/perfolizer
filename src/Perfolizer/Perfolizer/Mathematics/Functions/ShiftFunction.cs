@@ -3,9 +3,9 @@ using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Mathematics.Functions
 {
-    public class ShiftFunction : DistributionCompareFunction
+    public class ShiftFunction : QuantileCompareFunction
     {
-        public static readonly DistributionCompareFunction Instance = new ShiftFunction();
+        public static readonly QuantileCompareFunction Instance = new ShiftFunction();
 
         public ShiftFunction([CanBeNull] IQuantileEstimator quantileEstimator = null) : base(quantileEstimator)
         {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
@@ -8,6 +7,7 @@ using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.EffectSizes;
+using Perfolizer.Mathematics.Functions;
 using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
@@ -40,11 +40,12 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
             output.WriteLine("mean(X)-mean(Y) : " + delta);
             output.WriteLine("StandardDeviation : " + stdDev);
 
+            var gammaEffectSizeFunction = GammaEffectSizeFunction.Instance;
             for (int i = 0; i < n; i++)
             {
                 var x = new Sample(new NormalDistribution(0, 1).Random(random).Next(200));
                 var y = new Sample(new NormalDistribution(delta, 1).Random(random).Next(200));
-                var gamma = GammaEffectSize.CalcRange(x, y, 0.5);
+                var gamma = gammaEffectSizeFunction.GetRange(x, y, 0.5);
                 double d = CohenDEffectSize.Calc(x, y);
                 diffs[i] = Math.Abs(d - gamma.Middle);
             }
@@ -89,10 +90,11 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
             var minExpected = new[] {-0.1, -0.1, -0.1, 0.8, 0.8, 0.8};
             var maxExpected = new[] {0.1, 0.1, 0.1, 0.9, 0.9, 0.9};
 
+            var gammaEffectSizeFunction = GammaEffectSizeFunction.Instance;
             for (int i = 0; i < probabilities.Length; i++)
             {
-                Probability p = probabilities[i];
-                double gamma = GammaEffectSize.CalcValue(x, y, p);
+                var p = probabilities[i];
+                double gamma = gammaEffectSizeFunction.GetValue(x, y, p);
                 output.WriteLine($"{p}: {gamma:0.0000}");
                 Assert.True(minExpected[i] < gamma && gamma < maxExpected[i]);
             }
@@ -135,7 +137,7 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
             var x = testData.X.ToSample();
             var y = testData.Y.ToSample();
             double expected = testData.ExpectedGammaEffectSize;
-            double actual = GammaEffectSize.CalcValue(x, y, testData.Probability);
+            double actual = GammaEffectSizeFunction.Instance.GetValue(x, y, testData.Probability);
             Assert.Equal(expected, actual);
         }
     }

@@ -76,6 +76,16 @@ namespace Perfolizer.Common
         }
 
         [AssertionMethod]
+        public static void Positive(string name, int value)
+        {
+            if (value <= 0)
+            {
+                string message = Format("{0}={1}, but it should be positive", name, value);
+                throw new ArgumentOutOfRangeException(name, value, message);
+            }
+        }
+
+        [AssertionMethod]
         public static void NonNegative(string name, double value)
         {
             if (value < 0)

@@ -1,0 +1,78 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using JetBrains.Annotations;
+using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.QuantileEstimators;
+
+namespace Perfolizer.Mathematics.Functions
+{
+    public abstract class QuantileCompareFunction
+    {
+        [NotNull] protected IQuantileEstimator QuantileEstimator { get; }
+
+        protected QuantileCompareFunction([CanBeNull] IQuantileEstimator quantileEstimator = null)
+        {
+            QuantileEstimator = quantileEstimator ?? HarrellDavisQuantileEstimator.Instance;
+        }
+
+        public virtual double GetValue([NotNull] Sample a, [NotNull] Sample b, Probability probability)
+        {
+            Assertion.NotNull(nameof(a), a);
+            Assertion.NotNull(nameof(b), b);
+
+            double quantileA = QuantileEstimator.GetQuantile(a, probability);
+            double quantileB = QuantileEstimator.GetQuantile(b, probability);
+            return CalculateValue(quantileA, quantileB);
+        }
+
+        [NotNull]
+        public virtual double[] GetValues([NotNull] Sample a, [NotNull] Sample b, [NotNull] IReadOnlyList<Probability> probabilities)
+        {
+            Assertion.NotNull(nameof(a), a);
+            Assertion.NotNull(nameof(b), b);
+
+            double[] quantilesA = QuantileEstimator.GetQuantiles(a, probabilities);
+            double[] quantilesB = QuantileEstimator.GetQuantiles(b, probabilities);
+            double[] values = new double[probabilities.Count];
+            for (int i = 0; i < values.Length; i++)
+                values[i] = CalculateValue(quantilesA[i], quantilesB[i]);
+            return values;
+        }
+
+        protected abstract double CalculateValue(double quantileA, double quantileB);
+        
+        public Range GetRange([NotNull] Sample a, [NotNull] Sample b, Probability margin, int? quantizationCount = null)
+        {
+            Assertion.NotNull(nameof(a), a);
+            Assertion.NotNull(nameof(b), b);
+            Assertion.InRangeInclusive(nameof(margin), margin, 0, 0.5);
+            if (quantizationCount.HasValue)
+                Assertion.Positive(nameof(quantizationCount), quantizationCount.Value);
+
+            double left = margin.Value;
+            double right = 1 - left;
+            int count = quantizationCount ?? (int)Math.Round((right - left) / 0.01 + 1);
+            var probabilities = new Probability[count];
+            if (count == 1)
+                probabilities[0] = Probability.Half;
+            else
+                for (int i = 0; i < count; i++)
+                    probabilities[i] = left + (right - left) / (count - 1) * i;
+                
+            double[] quantileValues = GetValues(a, b, probabilities);
+            return Range.Of(quantileValues.Min(), quantileValues.Max());
+        }
+
+        public Range GetRange([NotNull] Sample a, [NotNull] Sample b)
+        {
+            Assertion.NotNull(nameof(a), a);
+            Assertion.NotNull(nameof(b), b);
+            
+            int n = Math.Min(a.Count, b.Count);
+            double margin = Math.Min(0.5, 1 - 0.001.Pow(1.0 / n));
+            return GetRange(a, b, margin);
+        }
+    }
+}

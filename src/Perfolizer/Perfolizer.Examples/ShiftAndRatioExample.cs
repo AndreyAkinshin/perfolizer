@@ -3,7 +3,6 @@ using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.Functions;
-using Perfolizer.Mathematics.RangeEstimators;
 
 namespace Perfolizer.Examples
 {
@@ -32,8 +31,8 @@ namespace Perfolizer.Examples
                     ratio[i].ToString("N1").PadLeft(5));
 
             Console.WriteLine();
-            Console.WriteLine("Shift Range: " + ShiftRangeEstimator.Instance.GetRange(x, y));
-            Console.WriteLine("Ratio Range: " + RatioRangeEstimator.Instance.GetRange(x, y));
+            Console.WriteLine("Shift Range: " + ShiftFunction.Instance.GetRange(x, y));
+            Console.WriteLine("Ratio Range: " + RatioFunction.Instance.GetRange(x, y));
         }
     }
 }

@@ -3,8 +3,9 @@ using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions;
-using Perfolizer.Mathematics.RangeEstimators;
+using Perfolizer.Mathematics.Functions;
 using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
@@ -117,8 +118,8 @@ namespace Perfolizer.Tests.Mathematics.RangeEstimator
         public void ShiftAndRatioRangeEstimators([NotNull] string testDataKey)
         {
             var testData = TestDataMap[testDataKey];
-            var shift = ShiftRangeEstimator.Instance.GetRange(testData.A, testData.B);
-            var ratio = RatioRangeEstimator.Instance.GetRange(testData.A, testData.B);
+            var shift = ShiftFunction.Instance.GetRange(testData.A, testData.B);
+            var ratio = RatioFunction.Instance.GetRange(testData.A, testData.B);
             output.WriteLine($"Shift: {shift}");
             output.WriteLine($"Ratio: {ratio}");
             Assert.True(shift.IsInside(testData.ExpectedShift));

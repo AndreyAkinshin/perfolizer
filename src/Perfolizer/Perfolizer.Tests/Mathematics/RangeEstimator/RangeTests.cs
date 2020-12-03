@@ -1,6 +1,6 @@
 using System.Globalization;
 using JetBrains.Annotations;
-using Perfolizer.Mathematics.RangeEstimators;
+using Perfolizer.Mathematics.Common;
 using Perfolizer.Tests.Common;
 using Xunit;
 

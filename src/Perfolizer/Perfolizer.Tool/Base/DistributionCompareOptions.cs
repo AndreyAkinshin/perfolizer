@@ -4,7 +4,6 @@ using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
-using Perfolizer.Mathematics.RangeEstimators;
 
 namespace Perfolizer.Tool.Base
 {
@@ -40,17 +39,16 @@ namespace Perfolizer.Tool.Base
         [NotNull]
         public double[] GetSourceArray2() => GetArrayFromDataOrFile(Data2, FileName2, "second source array");
 
-        protected static void Run(DistributionCompareOptions options, DistributionCompareFunction function)
+        protected static void Run(DistributionCompareOptions options, QuantileCompareFunction function)
         {
             var x = new Sample(options.GetSourceArray1());
             var y = new Sample(options.GetSourceArray2());
             if (string.IsNullOrEmpty(options.Probabilities))
             {
-                var rangeEstimator = new DistributionCompareRangeEstimator(function);
                 if (options.Margin.HasValue)
-                    Console.WriteLine(rangeEstimator.GetRange(x, y, options.Margin.Value).ToString());
+                    Console.WriteLine(function.GetRange(x, y, options.Margin.Value).ToString());
                 else
-                    Console.WriteLine(rangeEstimator.GetRange(x, y).ToString());
+                    Console.WriteLine(function.GetRange(x, y).ToString());
             }
             else
             {

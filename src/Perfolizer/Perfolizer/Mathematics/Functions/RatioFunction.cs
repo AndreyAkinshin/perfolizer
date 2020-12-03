@@ -3,9 +3,9 @@ using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Mathematics.Functions
 {
-    public class RatioFunction : DistributionCompareFunction
+    public class RatioFunction : QuantileCompareFunction
     {
-        public static readonly DistributionCompareFunction Instance = new RatioFunction();
+        public static readonly QuantileCompareFunction Instance = new RatioFunction();
 
         public RatioFunction([CanBeNull] IQuantileEstimator quantileEstimator = null) : base(quantileEstimator)
         {
