@@ -5,12 +5,12 @@ namespace Perfolizer.Mathematics.Common
 {
     public class ConfidenceIntervalEstimator
     {
-        public int SampleSize { get; }
+        public double SampleSize { get; }
         public double Estimation { get; }
         public double StandardError { get; }
-        private int DegreeOfFreedom => SampleSize - 1;
+        private double DegreeOfFreedom => SampleSize - 1;
 
-        public ConfidenceIntervalEstimator(int sampleSize, double estimation, double standardError)
+        public ConfidenceIntervalEstimator(double sampleSize, double estimation, double standardError)
         {
             Assertion.MoreThan(nameof(sampleSize), sampleSize, 1);
 

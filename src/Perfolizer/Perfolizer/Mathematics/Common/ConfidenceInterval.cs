@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.Common
 {
-    public readonly struct ConfidenceInterval
+    public readonly struct ConfidenceInterval : IEquatable<ConfidenceInterval>
     {
         private const string DefaultFormat = "N2";
 
@@ -43,6 +44,40 @@ namespace Perfolizer.Mathematics.Common
             }
 
             return builder.ToString();
+        }
+
+
+        public bool Equals(ConfidenceInterval other)
+        {
+            return Estimation.Equals(other.Estimation) &&
+                   Lower.Equals(other.Lower) &&
+                   Upper.Equals(other.Upper) &&
+                   ConfidenceLevel.Equals(other.ConfidenceLevel);
+        }
+
+        public bool Equals(ConfidenceInterval other, IEqualityComparer<double> comparer)
+        {
+            return comparer.Equals(Estimation, other.Estimation) &&
+                   comparer.Equals(Lower, other.Lower) &&
+                   comparer.Equals(Upper, other.Upper) &&
+                   comparer.Equals(ConfidenceLevel, other.ConfidenceLevel);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ConfidenceInterval other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = Estimation.GetHashCode();
+                hashCode = (hashCode * 397) ^ Lower.GetHashCode();
+                hashCode = (hashCode * 397) ^ Upper.GetHashCode();
+                hashCode = (hashCode * 397) ^ ConfidenceLevel.GetHashCode();
+                return hashCode;
+            }
         }
     }
 }

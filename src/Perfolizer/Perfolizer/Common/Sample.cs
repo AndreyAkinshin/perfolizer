@@ -10,7 +10,11 @@ namespace Perfolizer.Common
     {
         [NotNull] public IReadOnlyList<double> Values { get; }
         [NotNull] public IReadOnlyList<double> Weights { get; }
-        public double TotalWeight;
+        public double TotalWeight { get; }
+        /// <summary>
+        /// Sum of weighted normalized by the maximum weight
+        /// </summary>
+        public double WeightedCount { get; }
         public bool IsWeighted { get; }
 
         [NotNull] private readonly Lazy<(IReadOnlyList<double> SortedValues, IReadOnlyList<double> SortedWeights)> lazySortedData;
@@ -25,14 +29,16 @@ namespace Perfolizer.Common
             Assertion.NotNullOrEmpty(nameof(values), values);
 
             Values = values;
-            Weights = new IdenticalReadOnlyList<double>(values.Count, 1.0 / values.Count);
+            double weight = 1.0 / values.Count;
+            Weights = new IdenticalReadOnlyList<double>(values.Count, weight);
             TotalWeight = 1.0;
+            WeightedCount = values.Count;
             IsWeighted = false;
 
             lazySortedData = new Lazy<(IReadOnlyList<double> SortedValues, IReadOnlyList<double> SortedWeights)>(
                 () => (Values.CopyToArrayAndSort(), Weights));
         }
-
+        
         public Sample(params IEnumerable<double>[] values) : this(values.SelectMany(x => x).ToList())
         {
         }
@@ -44,15 +50,24 @@ namespace Perfolizer.Common
             if (values.Count != weights.Count)
                 throw new ArgumentException($"{nameof(weights)} should have the same number of elements as {nameof(values)}",
                     nameof(weights));
-            if (weights.Any(w => w < 0))
+
+            double totalWeight = 0, maxWeight = double.MinValue, minWeight = double.MaxValue;
+            foreach (double weight in weights)
+            {
+                totalWeight += weight;
+                maxWeight = Math.Max(maxWeight, weight);
+                minWeight = Math.Min(minWeight, weight);
+            }
+            
+            if (minWeight < 0)
                 throw new ArgumentOutOfRangeException(nameof(weights), $"All weights in {nameof(weights)} should be non-negative");
-            double totalWeight = weights.Sum();
             if (totalWeight < 1e-9)
                 throw new ArgumentException(nameof(weights), $"The sum of all elements from {nameof(weights)} should be positive");
 
             Values = values;
             Weights = weights;
             TotalWeight = totalWeight;
+            WeightedCount = totalWeight / maxWeight;
             IsWeighted = true;
 
             lazySortedData = new Lazy<(IReadOnlyList<double> SortedValues, IReadOnlyList<double> SortedWeights)>(() =>

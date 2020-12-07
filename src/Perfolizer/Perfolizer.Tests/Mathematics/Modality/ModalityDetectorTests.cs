@@ -62,8 +62,8 @@ namespace Perfolizer.Tests.Mathematics.Modality
         {
             var random = new Random(42);
             var values = new GumbelDistribution().Random(random).Next(30).Concat(
-                new GumbelDistribution(10).Random(random).Next(10)).ToList();
-            double[] weights = ExponentialDecaySequence.CreateFromHalfLife(10).GenerateReverseArray(40);
+                new GumbelDistribution(10).Random(random).Next(30)).ToList();
+            double[] weights = ExponentialDecaySequence.CreateFromHalfLife(10).GenerateReverseArray(values.Count);
             var sample = new Sample(values, weights);
 
             var simpleModalityData = detector.DetectModes(values);
@@ -79,8 +79,8 @@ namespace Perfolizer.Tests.Mathematics.Modality
             output.WriteLine();
             output.WriteLine(weightedModalityData.DensityHistogram.Present());
 
-            Assert.Equal(1, simpleModalityData.Modality);
-            Assert.Equal(2, weightedModalityData.Modality);
+            Assert.Equal(2, simpleModalityData.Modality);
+            Assert.Equal(1, weightedModalityData.Modality);
         }
 
         private string Present(ModalityData data)

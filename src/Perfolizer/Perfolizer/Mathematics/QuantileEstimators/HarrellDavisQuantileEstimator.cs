@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
@@ -44,7 +45,8 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             (double c1, double c2) = GetMoments(sample, probability, true);
             double median = c1;
             double standardError = Math.Sqrt(c2 - c1.Sqr());
-            return new ConfidenceIntervalEstimator(sample.Count, median, standardError);
+            double weightedCount = sample.WeightedCount;
+            return new ConfidenceIntervalEstimator(weightedCount, median, standardError);
         }
 
         private readonly struct Moments
@@ -69,7 +71,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         {
             Assertion.NotNull(nameof(sample), sample);
 
-            int n = sample.Count;
+            double n = sample.WeightedCount;
             double a = (n + 1) * probability, b = (n + 1) * (1 - probability);
             var distribution = new BetaDistribution(a, b);
 

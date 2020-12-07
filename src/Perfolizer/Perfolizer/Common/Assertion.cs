@@ -96,6 +96,16 @@ namespace Perfolizer.Common
         }
 
         [AssertionMethod]
+        public static void MoreThan(string name, double value, int threshold)
+        {
+            if (value <= threshold)
+            {
+                string message = Format("{0}={1}, but it should be more than {2}", name, value, threshold);
+                throw new ArgumentOutOfRangeException(name, value, message);
+            }
+        }
+
+        [AssertionMethod]
         public static void MoreThan(string name, int value, int threshold)
         {
             if (value <= threshold)

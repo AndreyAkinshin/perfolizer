@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Randomization;
+using Perfolizer.Mathematics.Sequences;
 using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
@@ -219,14 +222,14 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 "WeightedCase3", new TestData(
                     new[] {1.0, 2.0, 3.0, 4.0, 5.0},
                     new Probability[] {0.5},
-                    new[] {2.419753079637479},
+                    new[] {2.518518510335957},
                     new[] {1.0, 1.0, 0.0, 0.0, 1.0})
             },
             {
                 "WeightedCase4", new TestData(
                     new[] {1.0, 2.0, 3.0, 4.0, 5.0},
                     new Probability[] {0.5},
-                    new[] {2.1410844421648347},
+                    new[] {2.2239999964651336},
                     new[] {1.0, 1.0, 0.2, 0.4, 0.4})
             },
             {
@@ -283,6 +286,55 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 Output.WriteLine($"n = {n}, successRate = {successRate:N4}");
                 Assert.True(minSuccessRate <= successRate && successRate <= maxSuccessRate);
             }
+        }
+        
+        [Fact]
+        public void MaritzJarrettConfidenceIntervalWeighedTest1()
+        {
+            var random = new Random(42);
+            var distribution = new BetaDistribution(2, 10);
+            double[] data = distribution.Random(random).Next(10);
+            var sample1 = new Sample(data);
+            var sample2 = new Sample(data, new ConstantSequence(1).GenerateArray(data.Length));
+            var sample3 = new Sample(
+                data.Concat(new[] {10.0, 10.0, 10.0}).ToArray(),
+                new ConstantSequence(1).GenerateArray(data.Length).Concat(new[] {0.0, 0.0, 0.0}).ToArray()
+            );
+            
+            var estimator = HarrellDavisQuantileEstimator.Instance;
+            var probability = Probability.Half;
+            var level = ConfidenceLevel.L90;
+            
+            var ci1 = estimator.GetQuantileConfidenceIntervalEstimator(sample1, probability).GetConfidenceInterval(level);
+            var ci2 = estimator.GetQuantileConfidenceIntervalEstimator(sample2, probability).GetConfidenceInterval(level);
+            var ci3 = estimator.GetQuantileConfidenceIntervalEstimator(sample3, probability).GetConfidenceInterval(level);
+
+            Output.WriteLine("CI1: " + ci1.ToString("N9"));
+            Output.WriteLine("CI2: " + ci2.ToString("N9"));
+            Output.WriteLine("CI3: " + ci3.ToString("N9"));
+
+            var comparer = new AbsoluteEqualityComparer(1e-9);
+            Assert.True(ci1.Equals(ci2, comparer));
+            Assert.True(ci1.Equals(ci3, comparer));
+        }
+        
+        [Fact]
+        public void HarrellDavisQuantileEstimatorWeightedTest1()
+        {
+            var random = new Random(42);
+            var distribution = new BetaDistribution(2, 10);
+            double[] data1 = distribution.Random(random).Next(10);
+            double[] data2 = data1.Select(x => x + 100).ToArray();
+            double[] data = data1.Concat(data2).ToArray();
+            var samples = new List<Sample> { new Sample(data1)};
+            for (int i = 1; i <= 40; i++)
+                samples.Add(new Sample(data, ExponentialDecaySequence.CreateFromHalfLife(i).GenerateArray(data.Length)));
+            samples.Add(new Sample(data));
+            var medians = samples.Select(s => HarrellDavisQuantileEstimator.Instance.GetMedian(s)).ToList();
+            for (int i = 0; i < medians.Count; i++)
+                Output.WriteLine($"Median[{i}] =  {medians[i]:N9}");
+            for (int i = 0; i < medians.Count - 1; i++)
+                Assert.True(medians[i] < medians[i + 1]);
         }
     }
 }
