@@ -38,10 +38,6 @@ namespace Perfolizer.Common
             lazySortedData = new Lazy<(IReadOnlyList<double> SortedValues, IReadOnlyList<double> SortedWeights)>(
                 () => (Values.CopyToArrayAndSort(), Weights));
         }
-        
-        public Sample(params IEnumerable<double>[] values) : this(values.SelectMany(x => x).ToList())
-        {
-        }
 
         public Sample([NotNull] IReadOnlyList<double> values, [NotNull] IReadOnlyList<double> weights)
         {

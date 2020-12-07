@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions;
@@ -11,12 +12,12 @@ namespace Perfolizer.Examples
         public void Run()
         {
             var x = new Sample(
-                new NormalDistribution(mean: 20, stdDev: 2).Random(1).Next(20),
-                new NormalDistribution(mean: 40, stdDev: 2).Random(2).Next(20)
+                new NormalDistribution(mean: 20, stdDev: 2).Random(1).Next(20).Concat(
+                    new NormalDistribution(mean: 40, stdDev: 2).Random(2).Next(20)).ToArray()
             );
             var y = new Sample(
-                new NormalDistribution(mean: 20, stdDev: 2).Random(3).Next(20),
-                new NormalDistribution(mean: 80, stdDev: 2).Random(4).Next(20)
+                new NormalDistribution(mean: 20, stdDev: 2).Random(3).Next(20).Concat(
+                    new NormalDistribution(mean: 80, stdDev: 2).Random(4).Next(20)).ToArray()
             );
 
             var probabilities = new Probability[] {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
