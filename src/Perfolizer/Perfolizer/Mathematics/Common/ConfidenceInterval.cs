@@ -38,8 +38,8 @@ namespace Perfolizer.Mathematics.Common
             if (showLevel)
             {
                 builder.Append(" (CI ");
-                builder.Append(ConfidenceLevel);
-                builder.Append("%)");
+                builder.Append(ConfidenceLevel.ToString());
+                builder.Append(")");
             }
 
             return builder.ToString();
