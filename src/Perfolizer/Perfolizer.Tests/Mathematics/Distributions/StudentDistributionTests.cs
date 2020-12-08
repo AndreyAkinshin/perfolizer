@@ -5,37 +5,49 @@ namespace Perfolizer.Tests.Mathematics.Distributions
 {
     public class StudentDistributionTests
     {
-        [Fact]
-        public void Cdf()
+        [Theory]
+        [InlineData(-2, 3, 0.0696629842794216)]
+        [InlineData(-1, 3, 0.195501109477885)]
+        [InlineData(-0.5, 3, 0.325723982424076)]
+        [InlineData(0, 3, 0.5)]
+        [InlineData(0.5, 3, 0.674276017575924)]
+        [InlineData(1, 3, 0.804498890522115)]
+        [InlineData(2, 3, 0.930337015720578)]
+        [InlineData(4.13346570549486, 2, 0.973077323749692)]
+        [InlineData(4.13346570549486, 2.088, 0.975)]
+        public void Cdf(double x, double df, double expected)
         {
-            var x = new[] {-2, -1, -0.5, 0, 0.5, 1, 2};
-            var expectedCdf = new[]
-            {
-                0.0696629842794216, 0.195501109477885, 0.325723982424076, 0.5,
-                0.674276017575924, 0.804498890522115, 0.930337015720578
-            };
-            for (int i = 0; i < x.Length; i++)
-            {
-                double actualCdf = new StudentDistribution(3).Cdf(x[i]);
-                Assert.Equal(expectedCdf[i], actualCdf, 5);
-            }
+            double actual = new StudentDistribution(df).Cdf(x);
+            Assert.Equal(expected, actual, 5);
         }
 
-        [Fact]
-        public void Quantile()
+        [Theory]
+        [InlineData(0.1, 3, -1.63774435369621)]
+        [InlineData(0.25, 3, -0.764892328404345)]
+        [InlineData(0.5, 3, 0)]
+        [InlineData(0.75, 3, 0.764892328404345)]
+        [InlineData(0.9, 3, 1.63774435369621)]
+        [InlineData(0.975, 3, 3.18244630528371)]
+        [InlineData(0.975, 2, 4.30265272974946)]
+        [InlineData(0.975, 2.088, 4.13346570549486)]
+        public void Quantile(double x, double df, double expected)
         {
-            var x = new[] {0.1, 0.25, 0.5, 0.75, 0.9};
-            var expected = new[]
-            {
-                -1.63774435369621,
-                -0.764892328404345, 0, 0.764892328404345,
-                1.63774435369621
-            };
-            for (int i = 0; i < x.Length; i++)
-            {
-                double actual = new StudentDistribution(3).Quantile(x[i]);
-                Assert.Equal(expected[i], actual, 5);
-            }
+            double actual = new StudentDistribution(df).Quantile(x);
+            Assert.Equal(expected, actual, 5);
+        }
+        
+        [Theory]
+        [InlineData(-2, 3, 0.0675096606638929)]
+        [InlineData(-1, 3, 0.206748335783172)]
+        [InlineData(0, 3, 0.367552596947861)]
+        [InlineData(1, 3, 0.206748335783172)]
+        [InlineData(2, 3, 0.0675096606638929)]
+        [InlineData(2, 3.1, 0.0673978108812023)]
+        [InlineData(2, 32, 0.0566892970024942)]
+        public void Pdf(double x, double df, double expected)
+        {
+            double actual = new StudentDistribution(df).Pdf(x);
+            Assert.Equal(expected, actual, 5);
         }
         
         [Theory]
@@ -47,7 +59,7 @@ namespace Perfolizer.Tests.Mathematics.Distributions
         [InlineData(1.488, 20, 0.9238254)]
         public void StudentOneTailTest(double t, double n, double expected)
         {
-            double actual = StudentDistribution.StudentOneTail(t, n);
+            double actual = new StudentDistribution(n).Cdf(t);
             Assert.Equal(expected, actual, 4);
         }
     }

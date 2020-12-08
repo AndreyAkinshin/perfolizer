@@ -25,6 +25,10 @@ namespace Perfolizer.Mathematics.Common
             return new ConfidenceInterval(Estimation, Estimation - margin, Estimation + margin, confidenceLevel);
         }
 
-        private double GetZLevel(double confidenceLevel) => StudentDistribution.InverseTwoTailStudent(1 - confidenceLevel, DegreeOfFreedom);
+        private double GetZLevel(ConfidenceLevel confidenceLevel)
+        {
+            double x = 1 - (1 - confidenceLevel) / 2;
+            return new StudentDistribution(DegreeOfFreedom).Quantile(x);
+        }
     }
 }

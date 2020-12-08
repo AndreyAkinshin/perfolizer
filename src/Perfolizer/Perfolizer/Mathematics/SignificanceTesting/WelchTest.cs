@@ -32,7 +32,7 @@ namespace Perfolizer.Mathematics.SignificanceTesting
             double t = ((m1 - m2) - thresholdValue) / se;
             double df = (v1 / n1 + v2 / n2).Sqr() /
                         ((v1 / n1).Sqr() / (n1 - 1) + (v2 / n2).Sqr() / (n2 - 1));
-            double pValue = 1 - StudentDistribution.StudentOneTail(t, df);
+            double pValue = 1 - new StudentDistribution(df).Cdf(t);
 
             return new WelchResult(t, df, pValue, threshold);
         }

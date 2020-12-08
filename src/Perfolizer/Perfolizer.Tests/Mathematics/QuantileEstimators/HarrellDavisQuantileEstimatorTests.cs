@@ -317,7 +317,19 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             Assert.True(ci1.Equals(ci2, comparer));
             Assert.True(ci1.Equals(ci3, comparer));
         }
-        
+
+        [Fact]
+        public void MaritzJarrettConfidenceIntervalWeighedTest2()
+        {
+            var sample = new Sample(new[] {1.0, 2.0, 2.5, 4.0, 5.0}, new[] {0.1, 0.4, 0.3, 0.5, 0.244});
+            var interval = HarrellDavisQuantileEstimator.Instance
+                .GetQuantileConfidenceIntervalEstimator(sample, 0.5)
+                .GetConfidenceInterval(ConfidenceLevel.L95);
+            var comparer = new AbsoluteEqualityComparer(1e-6);
+            Assert.Equal(-0.983888521830027, interval.Lower, comparer);
+            Assert.Equal(7.26422828233614, interval.Upper, comparer);
+        }
+
         [Fact]
         public void HarrellDavisQuantileEstimatorWeightedTest1()
         {

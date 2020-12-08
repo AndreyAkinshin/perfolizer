@@ -1,10 +1,10 @@
-using System;
 using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.Functions;
 using static System.Math;
 
 namespace Perfolizer.Mathematics.Distributions
 {
-    public class StudentDistribution
+    public class StudentDistribution : IDistribution
     {
         private readonly double df;
 
@@ -13,135 +13,39 @@ namespace Perfolizer.Mathematics.Distributions
             this.df = df;
         }
 
-        /// <summary>
-        /// Cumulative distribution function
-        /// </summary>
-        public double Cdf(double x) => StudentOneTail(x, df);
-        
-        /// <summary>
-        /// Quantile function
-        /// </summary>
-        public double Quantile(double x)
+        public double Pdf(double x)
         {
-            if (x < 0 || x > 1)
-                throw new ArgumentOutOfRangeException(nameof(x), "x should be in [0;1]");
-            return InverseOneTailStudent(x, df);
+            double df2 = (df + 1) / 2;
+            
+            // Ln( Г((df + 1) / 2) / Г(df / 2) )
+            double term1 = GammaFunction.LogValue(df2) - GammaFunction.LogValue(df / 2);
+
+            // Ln( (1 + x^2 / df) ^ (-(df + 1) / 2) )
+            double term2 = Log(1 + x.Sqr() / df) * -df2;
+            
+            return Exp(term1 + term2) / Sqrt(PI * df);
         }
 
-        /// <summary>
-        /// ACM Algorithm 395: Student's t-distribution
-        ///
-        /// Evaluates the two-tail probability P(t|n) that t is exceeded
-        /// in magnitude for Student's t-distribution with n degrees of freedom.
-        ///
-        /// http://dl.acm.org/citation.cfm?id=355599
-        /// </summary>
-        /// <param name="t">t-value, t > 0</param>
-        /// <param name="n">Degree of freedom, n >= 1</param>
-        /// <returns>2-tail p-value</returns>
-        public static double StudentTwoTail(double t, double n)
+        public double Cdf(double x)
         {
-            if (t < 0)
-                throw new ArgumentOutOfRangeException(nameof(t), "t should be >= 0");
-            if (n < 1)
-                throw new ArgumentOutOfRangeException(nameof(n), "n should be >= 1");
-            t = t.Sqr();
-            double y = t / n;
-            double b = y + 1.0;
-            int nn = (int) Round(n);
-            if (Abs(n - nn) > 1e-9 || n >= 20 || t < n && n > 200)
-            {
-                if (y > 1.0e-6)
-                    y = Log(b);
-                double a = n - 0.5;
-                b = 48.0 * a.Sqr();
-                y = a * y;
-                y = (((((-0.4 * y - 3.3) * y - 24.0) * y - 85.5) / (0.8 * y.Sqr() + 100.0 + b) + y + 3.0) / b + 1.0) * Sqrt(y);
-                return 2 * NormalDistribution.Gauss(-y);
-            }
-
-            {
-                double z = 1;
-
-                double a;
-                if (n < 20 && t < 4.0)
-                {
-                    y = Sqrt(y);
-                    a = y;
-                    if (nn == 1)
-                        a = 0;
-                }
-                else
-                {
-                    a = Sqrt(b);
-                    y = a * nn;
-                    int j = 0;
-                    while (Abs(a - z) > 0)
-                    {
-                        j += 2;
-                        z = a;
-                        y *= (j - 1) / (b * j);
-                        a += y / (nn + j);
-                    }
-
-                    nn += 2;
-                    z = 0;
-                    y = 0;
-                    a = -a;
-                }
-
-                while (true)
-                {
-                    nn -= 2;
-                    if (nn > 1)
-                        a = (nn - 1) / (b * nn) * a + y;
-                    else
-                        break;
-                }
-
-                a = nn == 0 ? a / Sqrt(b) : (Atan(y) + a / b) * 2 / PI;
-                return z - a;
-            }
+            double p = 0.5 * BetaFunction.RegularizedIncompleteValue(0.5 * df, 0.5, df / (df + x.Sqr()));
+            return x > 0 ? 1 - p : p;
         }
 
-        public static double StudentOneTail(double t, double n) => t >= 0
-            ? 1 - StudentTwoTail(t, n) / 2
-            : 1 - StudentOneTail(-t, n);
-
-        // TODO: Optimize, support corner cases
-        public static double InverseTwoTailStudent(double p, double n)
+        public double Quantile(Probability p)
         {
-            double lower = 0.0;
-            double upper = 1000.0;
-            while (upper - lower > 1e-9)
-            {
-                double t = (lower + upper) / 2;
-                double p2 = StudentTwoTail(t, n);
-                if (p2 < p)
-                    upper = t;
-                else
-                    lower = t;
-            }
-
-            return (lower + upper) / 2;
+            double x = BetaFunction.RegularizedIncompleteInverseValue(0.5 * df, 0.5, 2 * Min(p, 1 - p));
+            x = Sqrt(df * (1 - x) / x);
+            return p >= 0.5 ? x : -x;
         }
-        
-        // TODO: Optimize, support corner cases
-        public static double InverseOneTailStudent(double p, double n)
-        {
-            double lower = -1000.0;
-            double upper = 1000.0;
-            while (upper - lower > 1e-9)
-            {
-                double t = (lower + upper) / 2;
-                double p2 = StudentOneTail(t, n);
-                if (p2 > p)
-                    upper = t;
-                else
-                    lower = t;
-            }
 
-            return (lower + upper) / 2;
-        }
+        public double Mean => df > 1 ? 0 : double.NaN;
+
+        public double Median => 0;
+        public double Variance => df > 2 
+            ? df / (df - 2) 
+            : df > 1 ? double.PositiveInfinity : double.NaN;
+
+        public double StandardDeviation => Variance.Sqrt();
     }
 }

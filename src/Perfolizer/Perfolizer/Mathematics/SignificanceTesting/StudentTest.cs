@@ -25,7 +25,7 @@ namespace Perfolizer.Mathematics.SignificanceTesting
 
             double t = (mean - value) /
                        (stdDev / Math.Sqrt(n));
-            double pValue = 1 - StudentDistribution.StudentOneTail(t, df);
+            double pValue = 1 - new StudentDistribution(df).Cdf(t);
 
             return new OneSidedTestResult(pValue, threshold);
         }
