@@ -74,6 +74,7 @@ namespace Perfolizer.Tests.Mathematics.Common
         [InlineData(0.999, 19, 3.921646)]
         [InlineData(0.999, 20, 3.883406)]
         [InlineData(0.999, 100, 3.391529)]
+        [InlineData(0.999, 1, double.NaN)]
         public void ZValueTest(double confidenceLevel, int n, double expected)
         {
             var approximation = new ConfidenceIntervalEstimator(n, 0, 1);

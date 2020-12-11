@@ -1,4 +1,3 @@
-using Perfolizer.Common;
 using Perfolizer.Mathematics.Distributions;
 
 namespace Perfolizer.Mathematics.Common
@@ -12,8 +11,6 @@ namespace Perfolizer.Mathematics.Common
 
         public ConfidenceIntervalEstimator(double sampleSize, double estimation, double standardError)
         {
-            Assertion.MoreThan(nameof(sampleSize), sampleSize, 1);
-
             SampleSize = sampleSize;
             Estimation = estimation;
             StandardError = standardError;
@@ -21,6 +18,8 @@ namespace Perfolizer.Mathematics.Common
 
         public ConfidenceInterval GetConfidenceInterval(ConfidenceLevel confidenceLevel)
         {
+            if (DegreeOfFreedom <= 0)
+                return new ConfidenceInterval(Estimation, double.NaN, double.NaN, confidenceLevel);
             double margin = StandardError * GetZLevel(confidenceLevel);
             return new ConfidenceInterval(Estimation, Estimation - margin, Estimation + margin, confidenceLevel);
         }
