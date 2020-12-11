@@ -10,13 +10,13 @@ using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Mathematics.Sequences;
 using Perfolizer.Tests.Mathematics.Cpd.TestDataSets;
 
-namespace Perfolizer.Simulator.RqqPelt
+namespace Perfolizer.Simulations
 {
-    public class Runner : IDisposable
+    public class RqqPeltSimulation : IDisposable
     {
         private readonly StreamWriter writer;
 
-        public Runner() => writer = new StreamWriter("report.txt");
+        public RqqPeltSimulation() => writer = new StreamWriter("report.txt");
         public void Dispose() => writer.Close();
 
         private void PrintLine(string message = "")

@@ -5,9 +5,9 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.Functions;
 
-namespace Perfolizer.Examples
+namespace Perfolizer.Demo
 {
-    public class ShiftAndRatioExample
+    public class ShiftAndRatioDemo
     {
         public void Run()
         {

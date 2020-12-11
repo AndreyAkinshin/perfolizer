@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Perfolizer.Examples
+namespace Perfolizer.Demo
 {
     static class Program
     {
         private static readonly Dictionary<string, Action> Examples = new Dictionary<string, Action>
         {
-            {"ChangePoint", () => new ChangePointExample().Run()},
-            {"Histogram", () => new HistogramExample().Run()},
-            {"Rqq", () => new RqqExample().Run()},
-            {"Multimodal", () => new MultimodalExample().Run()},
-            {"QuickSelectAdaptive", () => new QuickSelectAdaptiveExample().Run()},
-            {"QuantileEstimator", () => new QuantileEstimatorExample().Run()},
-            {"WeightedQuantileEstimator", () => new WeightedQuantileEstimatorExample().Run()},
-            {"ShiftAndRatio", () => new ShiftAndRatioExample().Run()},
-            {"OutlierDetector", () => new OutlierDetectorExample().Run()},
-            {"MultimodalityDetection", () => new MultimodalityDetectionExample().Run()}
+            {"ChangePoint", () => new ChangePointDemo().Run()},
+            {"Histogram", () => new HistogramDemo().Run()},
+            {"Rqq", () => new RqqDemo().Run()},
+            {"Multimodal", () => new MultimodalDemo().Run()},
+            {"QuickSelectAdaptive", () => new QuickSelectAdaptiveDemo().Run()},
+            {"QuantileEstimator", () => new QuantileEstimatorDemo().Run()},
+            {"WeightedQuantileEstimator", () => new WeightedQuantileEstimatorDemo().Run()},
+            {"ShiftAndRatio", () => new ShiftAndRatioDemo().Run()},
+            {"OutlierDetector", () => new OutlierDetectorDemo().Run()},
+            {"MultimodalityDetection", () => new MultimodalityDetectionDemo().Run()}
         };
 
         private static void PrintAvailableExamples()

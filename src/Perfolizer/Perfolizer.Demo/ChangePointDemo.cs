@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Perfolizer.Mathematics.Cpd;
 using Perfolizer.Mathematics.Distributions;
 
-namespace Perfolizer.Examples
+namespace Perfolizer.Demo
 {
-    public class ChangePointExample
+    public class ChangePointDemo
     {
         public void Run()
         {

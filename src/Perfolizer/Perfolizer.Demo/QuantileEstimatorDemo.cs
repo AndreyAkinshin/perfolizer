@@ -2,9 +2,9 @@ using System;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 
-namespace Perfolizer.Examples
+namespace Perfolizer.Demo
 {
-    public class QuantileEstimatorExample
+    public class QuantileEstimatorDemo
     {
         public void Run()
         {

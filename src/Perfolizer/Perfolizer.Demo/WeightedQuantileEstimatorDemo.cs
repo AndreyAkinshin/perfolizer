@@ -5,9 +5,9 @@ using Perfolizer.Mathematics.Distributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Sequences;
 
-namespace Perfolizer.Examples
+namespace Perfolizer.Demo
 {
-    public class WeightedQuantileEstimatorExample
+    public class WeightedQuantileEstimatorDemo
     {
         public void Run()
         {

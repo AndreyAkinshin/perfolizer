@@ -4,11 +4,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer", "Perfolizer\Pe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer.Tests", "Perfolizer.Tests\Perfolizer.Tests.csproj", "{D88E3369-4BB7-4165-9648-48F45CFEC63B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer.Examples", "Perfolizer.Examples\Perfolizer.Examples.csproj", "{2EF9D14D-7570-4DED-8A47-5554D037B3E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer.Demo", "Perfolizer.Demo\Perfolizer.Demo.csproj", "{2EF9D14D-7570-4DED-8A47-5554D037B3E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer.Tool", "Perfolizer.Tool\Perfolizer.Tool.csproj", "{E89D57E4-3D16-41C6-ABDE-3FEE292ECEB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer.Simulator.RqqPelt", "Perfolizer.Simulator.RqqPelt\Perfolizer.Simulator.RqqPelt.csproj", "{C9338572-948F-4164-A1B7-43DEA1B9B696}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer.Simulations", "Perfolizer.Simulations\Perfolizer.Simulations.csproj", "{C9338572-948F-4164-A1B7-43DEA1B9B696}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
