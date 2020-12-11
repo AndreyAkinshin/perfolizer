@@ -41,18 +41,23 @@ namespace Perfolizer.Mathematics.Functions
         /// The value of the inverse error function
         ///
         /// <remarks>
-        /// Numerical approximation, relative precision is better than 4 * 10^(-3)
-        /// See Sergei Winitzki, A handy approximation for the error function and its inverse, equation 7
+        /// Numerical recipes, 3rd ed., page 265
         /// </remarks>
         /// </summary>
-        public static double InverseValue(double x)
+        public static double InverseValue(double p)
         {
-            Assertion.InRangeExclusive(nameof(x), x, -1, 1);
+            Assertion.InRangeExclusive(nameof(p), p, -1, 1);
 
-            const double a = 8 * (PI - 3) / (3 * PI * (4 - PI));
-            const double b = 2 / PI / a;
-            double c = Log(1 - x * x);
-            return Sign(x) * (((b + c / 2).Sqr() - c / a).Sqrt() - (b + c / 2)).Sqrt();
+            p = 1 - p;
+            double pp = p < 1.0 ? p : 2 - p;
+            double t = Sqrt(-2 * Log(pp / 2));
+            double x = -0.70711 * ((2.30753 + t * 0.27061) / (1 + t * (0.99229 + t * 0.04481)) - t);
+            for (int i = 0; i < 2; i++)
+            {
+                double err = (1 - Value(x)) - pp;
+                x += err / (1.12837916709551257 * Exp(-x.Sqr()) - x * err);
+            }
+            return p < 1.0 ? x : -x;
         }
     }
 }

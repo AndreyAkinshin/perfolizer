@@ -31,7 +31,7 @@ namespace Perfolizer.Tests.Mathematics.Functions
         public void ErrorFunctionInverseValueTest(double x, double expectedValue)
         {
             double actualValue = ErrorFunction.InverseValue(x);
-            Assert.Equal(expectedValue, actualValue, new AbsoluteEqualityComparer(4e-3));
+            Assert.Equal(expectedValue, actualValue, new AbsoluteEqualityComparer(1e-6));
         } 
     }
 }
