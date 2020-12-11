@@ -13,12 +13,12 @@ namespace Perfolizer.Mathematics.Distributions
             this.distribution = distribution ?? throw new ArgumentNullException(nameof(distribution));
         }
 
-        public DistributionRandomGenerator(int seed, [NotNull] IDistribution distribution) : base(seed)
+        public DistributionRandomGenerator([NotNull] IDistribution distribution, int seed) : base(seed)
         {
             this.distribution = distribution ?? throw new ArgumentNullException(nameof(distribution));
         }
 
-        public DistributionRandomGenerator([NotNull] Random random, [NotNull] IDistribution distribution) : base(random)
+        public DistributionRandomGenerator([NotNull] IDistribution distribution, [CanBeNull] Random random = null) : base(random ?? new Random())
         {
             this.distribution = distribution ?? throw new ArgumentNullException(nameof(distribution));
         }

@@ -1,4 +1,6 @@
+using System;
 using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions
 {
@@ -18,6 +20,8 @@ namespace Perfolizer.Mathematics.Distributions
         /// Quantile function
         /// </summary>
         double Quantile(Probability p);
+
+        RandomGenerator Random(Random random = null);
 
         double Mean { get; }
         double Median { get; }

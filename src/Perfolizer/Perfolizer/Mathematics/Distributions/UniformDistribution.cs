@@ -2,6 +2,7 @@ using System;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions
 {
@@ -38,6 +39,8 @@ namespace Perfolizer.Mathematics.Distributions
         }
 
         public double Quantile(Probability p) => Min + p * (Max - Min);
+        
+        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => (Min + Max) / 2;
         public double Median => (Min + Max) / 2;

@@ -1,6 +1,8 @@
+using System;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.Randomization;
 using static System.Math;
 
 namespace Perfolizer.Mathematics.Distributions
@@ -24,6 +26,8 @@ namespace Perfolizer.Mathematics.Distributions
         public double Cdf(double x) => 1 - Pow(Xm / x, Alpha);
 
         public double Quantile(Probability p) => Xm * Pow(1 - p, -1 / Alpha);
+        
+        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => Alpha <= 1 ? double.PositiveInfinity : Alpha * Xm / (Alpha - 1);
         public double Median => Xm * Pow(2, 1 / Alpha);

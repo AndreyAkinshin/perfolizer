@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
+using Perfolizer.Mathematics.Randomization;
 using static System.Math;
 
 namespace Perfolizer.Mathematics.Distributions
@@ -59,6 +60,8 @@ namespace Perfolizer.Mathematics.Distributions
         public double Cdf(double x) => BetaFunction.RegularizedIncompleteValue(Alpha, Beta, x);
 
         public double Quantile(Probability p) => BetaFunction.RegularizedIncompleteInverseValue(Alpha, Beta, p);
+
+        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => Alpha / (Alpha + Beta);
         public double Median => lazyMedian.Value;

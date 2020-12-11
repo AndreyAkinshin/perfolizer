@@ -84,6 +84,20 @@ namespace Perfolizer.Common
                 throw new ArgumentOutOfRangeException(name, value, message);
             }
         }
+        
+        [AssertionMethod]
+        public static void Positive(string name, IReadOnlyList<double> values)
+        {
+            for (int i = 0; i < values.Count; i++)
+            {
+                double value = values[i];
+                if (value <= 0)
+                {
+                    string message = Format("{0}[{1}]={2}, but it should be positive", name, i, value);
+                    throw new ArgumentOutOfRangeException(name, value, message);                    
+                }
+            }
+        }
 
         [AssertionMethod]
         public static void NonNegative(string name, double value)

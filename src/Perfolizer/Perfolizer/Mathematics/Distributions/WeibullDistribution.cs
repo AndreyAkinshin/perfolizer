@@ -1,7 +1,9 @@
+using System;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
+using Perfolizer.Mathematics.Randomization;
 using static System.Math;
 
 namespace Perfolizer.Mathematics.Distributions
@@ -36,6 +38,8 @@ namespace Perfolizer.Mathematics.Distributions
                 _ => Lambda * Pow(-Log(1 - p), 1 / K)
             };
         }
+        
+        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => Lambda * GammaFunction.Value(1 + 1 / K);
         public double Median => Lambda * Pow(Constants.Log2, 1 / K);

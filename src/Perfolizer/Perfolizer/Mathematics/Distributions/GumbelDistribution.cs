@@ -2,6 +2,7 @@ using System;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.Randomization;
 using static System.Math;
 
 namespace Perfolizer.Mathematics.Distributions
@@ -43,6 +44,8 @@ namespace Perfolizer.Mathematics.Distributions
                 _ => M - S * Log(-Log(p))
             };
         }
+        
+        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => M + S * Constants.EulerMascheroni;
         public double Median => M - S * Log(Log(2));

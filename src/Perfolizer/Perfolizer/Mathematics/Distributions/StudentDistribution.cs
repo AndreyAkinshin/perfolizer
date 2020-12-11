@@ -1,7 +1,9 @@
+using System;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
+using Perfolizer.Mathematics.Randomization;
 using static System.Math;
 
 namespace Perfolizer.Mathematics.Distributions
@@ -40,6 +42,8 @@ namespace Perfolizer.Mathematics.Distributions
             x = Sqrt(df * (1 - x) / x);
             return p >= 0.5 ? x : -x;
         }
+        
+        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => df > 1 ? 0 : double.NaN;
 

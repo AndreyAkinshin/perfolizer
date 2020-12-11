@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
+using Perfolizer.Mathematics.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions
 {
@@ -36,7 +37,11 @@ namespace Perfolizer.Mathematics.Distributions
             weights ??= GetDefaultWeights(distributions);
             Assertion.NotNullOrEmpty(nameof(weights), weights);
             Assertion.Equal($"{nameof(distributions)}.Length", distributions.Count, $"{nameof(weights)}.Length", weights.Count);
-            Assertion.Equal($"sum({nameof(weights)})", weights.Sum(), 1);
+            Assertion.Positive(nameof(weights), weights);
+
+            double totalWeight = weights.Sum();
+            if (Math.Abs(totalWeight - 1) < 1e-9)
+                weights = weights.Select(w => w / totalWeight).ToArray();
 
             n = distributions.Count;
             this.distributions = distributions;
@@ -86,6 +91,33 @@ namespace Perfolizer.Mathematics.Distributions
 
         public double Quantile(Probability p) => inverseCdf.GetValue(p);
 
+        public RandomGenerator Random(Random random = null) => new MixtureRandomGenerator(this, random ?? new Random());
+
         public override string ToString() => lazyToString.Value;
+
+        private class MixtureRandomGenerator : RandomGenerator
+        {
+            private readonly MixtureDistribution mixture;
+            private readonly RandomGenerator[] generators;
+
+            public MixtureRandomGenerator(MixtureDistribution mixture, Random random) : base(random)
+            {
+                this.mixture = mixture;
+                generators = mixture.distributions.Select(d => d.Random(Random)).ToArray();
+            }
+
+            public override double Next()
+            {
+                double value = Random.NextDouble();
+                double sum = 0;
+                for (int i = 0; i < mixture.n; i++)
+                {
+                    sum += mixture.weights[i];
+                    if (value < sum)
+                        return generators[i].Next();
+                }
+                return generators.Last().Next();
+            }
+        }
     }
 }

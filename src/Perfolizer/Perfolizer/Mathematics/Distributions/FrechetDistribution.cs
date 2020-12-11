@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
+using Perfolizer.Mathematics.Randomization;
 using static System.Math;
 
 namespace Perfolizer.Mathematics.Distributions
@@ -48,6 +49,8 @@ namespace Perfolizer.Mathematics.Distributions
                 _ => M + S * Pow(-Log(p), -1 / A)
             };
         }
+        
+        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => A <= 1 ? double.PositiveInfinity : M + S * GammaFunction.Value(1 - 1 / A);
         public double Median => M + S / Pow(Constants.Log2, 1 / A);
