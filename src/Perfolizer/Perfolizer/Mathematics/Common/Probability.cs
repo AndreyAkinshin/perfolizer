@@ -25,6 +25,11 @@ namespace Perfolizer.Mathematics.Common
         {
             return Value.ToString(DefaultCultureInfo.Instance);
         }
+        
+        public string ToString(IFormatProvider formatProvider)
+        {
+            return Value.ToString(formatProvider);
+        }
 
         public string ToString(string format, IFormatProvider formatProvider = null)
         {

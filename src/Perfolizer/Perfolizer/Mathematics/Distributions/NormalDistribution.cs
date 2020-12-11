@@ -10,12 +10,12 @@ namespace Perfolizer.Mathematics.Distributions
 {
     public class NormalDistribution : IDistribution
     {
-        public static readonly NormalDistribution Standard = new NormalDistribution(0, 1);
+        public static readonly NormalDistribution Standard = new();
 
         public double Mean { get; }
         public double StandardDeviation { get; }
 
-        public NormalDistribution(double mean, double stdDev)
+        public NormalDistribution(double mean = 0, double stdDev = 1)
         {
             Assertion.Positive(nameof(stdDev), stdDev);
 
@@ -27,7 +27,15 @@ namespace Perfolizer.Mathematics.Distributions
 
         public double Cdf(double x) => Gauss((x - Mean) / StandardDeviation);
 
-        public double Quantile(Probability p) => Mean + StandardDeviation * Constants.Sqrt2 * ErrorFunction.InverseValue(2 * p - 1);
+        public double Quantile(Probability p)
+        {
+            return p.Value switch
+            {
+                0 => double.NegativeInfinity,
+                1 => double.PositiveInfinity,
+                _ => Mean + StandardDeviation * Constants.Sqrt2 * ErrorFunction.InverseValue(2 * p - 1)
+            };
+        }
 
         private class NormalRandomGenerator : RandomGenerator
         {

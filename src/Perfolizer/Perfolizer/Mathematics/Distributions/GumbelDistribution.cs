@@ -20,8 +20,8 @@ namespace Perfolizer.Mathematics.Distributions
 
         public GumbelDistribution(double location = 0, double scale = 1)
         {
-            if (scale <= 0)
-                throw new ArgumentOutOfRangeException(nameof(scale), $"{nameof(scale)} should be positive");
+            Assertion.Positive(nameof(scale), scale);
+
             Location = location;
             Scale = scale;
         }

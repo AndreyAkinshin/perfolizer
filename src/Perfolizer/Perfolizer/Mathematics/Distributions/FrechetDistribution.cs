@@ -23,10 +23,8 @@ namespace Perfolizer.Mathematics.Distributions
 
         public FrechetDistribution(double location = 0, double scale = 1, double shape = 1)
         {
-            if (scale <= 0)
-                throw new ArgumentOutOfRangeException(nameof(scale), $"{nameof(scale)} should be positive");
-            if (shape <= 0)
-                throw new ArgumentOutOfRangeException(nameof(shape), $"{nameof(shape)} should be positive");
+            Assertion.Positive(nameof(scale), scale);
+            Assertion.Positive(nameof(shape), shape);
 
             Location = location;
             Scale = scale;
@@ -45,7 +43,7 @@ namespace Perfolizer.Mathematics.Distributions
         {
             return p.Value switch
             {
-                0 => M,
+                0 => double.NaN,
                 1 => double.PositiveInfinity,
                 _ => M + S * Pow(-Log(p), -1 / A)
             };
