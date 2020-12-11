@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
@@ -14,6 +15,7 @@ namespace Perfolizer.Mathematics.Distributions
         [NotNull] private readonly IReadOnlyList<IDistribution> distributions;
         [NotNull] private readonly IReadOnlyList<double> weights;
         [NotNull] private readonly InverseMonotonousFunction inverseCdf;
+        private readonly Lazy<string> lazyToString;
 
         public double Mean { get; }
         public double Median { get; }
@@ -30,6 +32,7 @@ namespace Perfolizer.Mathematics.Distributions
             Assertion.NotNullOrEmpty(nameof(distributions), distributions);
             Assertion.ItemNotNull(nameof(distributions), distributions);
 
+            bool isWeighted = weights != null;
             weights ??= GetDefaultWeights(distributions);
             Assertion.NotNullOrEmpty(nameof(weights), weights);
             Assertion.Equal($"{nameof(distributions)}.Length", distributions.Count, $"{nameof(weights)}.Length", weights.Count);
@@ -44,6 +47,25 @@ namespace Perfolizer.Mathematics.Distributions
             Mean = Aggregate(d => d.Mean);
             Variance = Aggregate(d => d.Variance + d.Mean.Sqr()) - Mean * Mean;
             StandardDeviation = Variance.Sqrt();
+
+            lazyToString = new Lazy<string>(() =>
+            {
+                var builder = new StringBuilder();
+                builder.Append("Mix(");
+                for (int i = 0; i < distributions.Count; i++)
+                {
+                    if (i != 0)
+                        builder.Append(";");
+                    builder.Append(distributions[i]);
+                    if (isWeighted)
+                    {
+                        builder.Append("|");
+                        builder.Append(weights[i].ToStringInvariant());
+                    }
+                }
+                builder.Append(")");
+                return builder.ToString();
+            });
         }
 
         [NotNull]
@@ -63,5 +85,7 @@ namespace Perfolizer.Mathematics.Distributions
         public double Cdf(double x) => Aggregate(d => d.Cdf(x));
 
         public double Quantile(Probability p) => inverseCdf.GetValue(p);
+
+        public override string ToString() => lazyToString.Value;
     }
 }

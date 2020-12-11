@@ -1,4 +1,6 @@
 using System;
+using JetBrains.Annotations;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using static System.Math;
 
@@ -46,5 +48,8 @@ namespace Perfolizer.Mathematics.Distributions
         public double Median => M - S * Log(Log(2));
         public double Variance => PI * PI * S * S / 6;
         public double StandardDeviation => Variance.Sqrt();
+
+        [NotNull]
+        public override string ToString() => $"Gumbel({Location.ToStringInvariant()},{Scale.ToStringInvariant()})";
     }
 }

@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 using static System.Math;
@@ -47,5 +49,8 @@ namespace Perfolizer.Mathematics.Distributions
             : df > 1 ? double.PositiveInfinity : double.NaN;
 
         public double StandardDeviation => Variance.Sqrt();
+
+        [NotNull]
+        public override string ToString() => $"Student({df.ToStringInvariant()})";
     }
 }

@@ -1,4 +1,6 @@
 using System;
+using JetBrains.Annotations;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 using static System.Math;
@@ -57,5 +59,9 @@ namespace Perfolizer.Mathematics.Distributions
             : S.Sqr() * (GammaFunction.Value(1 - 2 / A) - GammaFunction.Value(1 - 1 / A).Sqr());
 
         public double StandardDeviation => Variance.Sqrt();
+
+        [NotNull]
+        public override string ToString() =>
+            $"Frechet({Location.ToStringInvariant()},{Scale.ToStringInvariant()},{Shape.ToStringInvariant()})";
     }
 }

@@ -117,5 +117,8 @@ namespace Perfolizer.Mathematics.Distributions
 
             return x > 0.0 ? (z + 1.0) / 2 : (1.0 - z) / 2;
         }
+
+        [NotNull]
+        public override string ToString() => $"Normal({Mean.ToStringInvariant()},{StandardDeviation.ToStringInvariant()}^2)";
     }
 }

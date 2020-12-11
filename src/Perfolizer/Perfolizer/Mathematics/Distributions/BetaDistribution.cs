@@ -1,4 +1,6 @@
 using System;
+using JetBrains.Annotations;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 using static System.Math;
@@ -9,15 +11,13 @@ namespace Perfolizer.Mathematics.Distributions
     {
         public double Alpha { get; }
         public double Beta { get; }
-        
+
         private readonly Lazy<double> lazyMedian;
 
         public BetaDistribution(double alpha, double beta)
         {
-            if (alpha < 0)
-                throw new ArgumentOutOfRangeException(nameof(alpha), $"{nameof(alpha)} should be non-negative");
-            if (beta < 0)
-                throw new ArgumentOutOfRangeException(nameof(beta), $"{nameof(beta)} should be non-negative");
+            Assertion.NonNegative(nameof(alpha), alpha);
+            Assertion.NonNegative(nameof(beta), beta);
 
             Alpha = alpha;
             Beta = beta;
@@ -65,5 +65,8 @@ namespace Perfolizer.Mathematics.Distributions
         public double Variance => Alpha * Beta / (Alpha + Beta).Sqr() / (Alpha + Beta + 1);
         public double StandardDeviation => Variance.Sqrt();
         public double Skewness => 2 * (Beta - Alpha) * Sqrt(Alpha + Beta + 1) / (Alpha + Beta + 2) / Sqrt(Alpha * Beta);
+
+        [NotNull]
+        public override string ToString() => $"Beta({Alpha.ToStringInvariant()},{Beta.ToStringInvariant()})";
     }
 }

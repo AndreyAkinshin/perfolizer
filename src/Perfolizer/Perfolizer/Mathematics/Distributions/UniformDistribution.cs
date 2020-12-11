@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
@@ -47,18 +46,6 @@ namespace Perfolizer.Mathematics.Distributions
         public double Skewness => 0;
 
         [NotNull]
-        public string ToString([CanBeNull] CultureInfo cultureInfo, [CanBeNull] string format)
-        {
-            cultureInfo ??= DefaultCultureInfo.Instance;
-            return format == null
-                ? $"unif({Min.ToString(cultureInfo)}, {Max.ToString(cultureInfo)})"
-                : $"unif({Min.ToString(format, cultureInfo)}, {Max.ToString(format, cultureInfo)})";
-        }
-
-        [NotNull]
-        public string ToString([NotNull] string format) => ToString(null, format);
-
-        [NotNull]
-        public override string ToString() => ToString(null, null);
+        public override string ToString() => $"Uniform({Min.ToStringInvariant()},{Max.ToStringInvariant()})";
     }
 }
