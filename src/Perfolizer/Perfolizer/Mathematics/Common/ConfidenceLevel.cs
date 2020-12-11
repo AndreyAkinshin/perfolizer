@@ -82,5 +82,10 @@ namespace Perfolizer.Mathematics.Common
         /// 99.9% confidence level
         /// </summary>
         [PublicAPI] public static readonly ConfidenceLevel L999 = 0.999;
+        
+        /// <summary>
+        /// 99.99% confidence level
+        /// </summary>
+        [PublicAPI] public static readonly ConfidenceLevel L9999 = 0.9999;
     }
 }
