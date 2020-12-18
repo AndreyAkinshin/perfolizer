@@ -63,9 +63,9 @@ namespace Perfolizer.Tests.Mathematics.Histograms
             double mValue = MValueCalculator.Calculate(values);
             var cultureInfo = TestCultureInfo.Instance;
             var binSizeInterval = TimeInterval.FromNanoseconds(histogram.BinSize);
-            output.WriteLine($"=== {title}:Short (BinSize={binSizeInterval.ToString(cultureInfo)}, mValue={mValue.ToString("0.##", cultureInfo)}) ===");
+            output.WriteLine($"=== {title}:Short (BinSize={binSizeInterval.ToString("N4", cultureInfo)}, mValue={mValue.ToString("0.##", cultureInfo)}) ===");
             output.WriteLine(histogram.ToString(histogram.CreateNanosecondFormatter(cultureInfo, "0.0000")));
-            output.WriteLine($"=== {title}:Full (BinSize={binSizeInterval.ToString(cultureInfo)}, mValue={mValue.ToString("0.##", cultureInfo)}) ===");
+            output.WriteLine($"=== {title}:Full (BinSize={binSizeInterval.ToString("N4", cultureInfo)}, mValue={mValue.ToString("0.##", cultureInfo)}) ===");
             output.WriteLine(histogram.ToString(histogram.CreateNanosecondFormatter(cultureInfo, "0.0000"), full: true));
         }
     }

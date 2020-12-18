@@ -1,19 +1,22 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 
 namespace Perfolizer.Horology
 {
     [PublicAPI]
-    public struct Frequency
+    public struct Frequency : IEquatable<Frequency>, IComparable<Frequency>
     {
+        private const string DefaultFormat = "";
+        
         [PublicAPI] public double Hertz { get; }
 
         [PublicAPI] public Frequency(double hertz) => Hertz = hertz;
 
         [PublicAPI] public Frequency(double value, FrequencyUnit unit) : this(value * unit.HertzAmount) { }
 
-        [PublicAPI] public static readonly Frequency Zero = new Frequency(0);
+        [PublicAPI] public static readonly Frequency Zero = new(0);
         [PublicAPI] public static readonly Frequency Hz = FrequencyUnit.Hz.ToFrequency();
         [PublicAPI] public static readonly Frequency KHz = FrequencyUnit.KHz.ToFrequency();
         [PublicAPI] public static readonly Frequency MHz = FrequencyUnit.MHz.ToFrequency();
@@ -31,16 +34,22 @@ namespace Perfolizer.Horology
         [PublicAPI, Pure] public static Frequency FromMHz(double value) => MHz * value;
         [PublicAPI, Pure] public static Frequency FromGHz(double value) => GHz * value;
 
-        [PublicAPI, Pure] public static implicit operator Frequency(double value) => new Frequency(value);
+        [PublicAPI, Pure] public static implicit operator Frequency(double value) => new(value);
         [PublicAPI, Pure] public static implicit operator double(Frequency property) => property.Hertz;
 
         [PublicAPI, Pure] public static double operator /(Frequency a, Frequency b) => 1.0 * a.Hertz / b.Hertz;
-        [PublicAPI, Pure] public static Frequency operator /(Frequency a, double k) => new Frequency(a.Hertz / k);
-        [PublicAPI, Pure] public static Frequency operator /(Frequency a, int k) => new Frequency(a.Hertz / k);
-        [PublicAPI, Pure] public static Frequency operator *(Frequency a, double k) => new Frequency(a.Hertz * k);
-        [PublicAPI, Pure] public static Frequency operator *(Frequency a, int k) => new Frequency(a.Hertz * k);
-        [PublicAPI, Pure] public static Frequency operator *(double k, Frequency a) => new Frequency(a.Hertz * k);
-        [PublicAPI, Pure] public static Frequency operator *(int k, Frequency a) => new Frequency(a.Hertz * k);
+        [PublicAPI, Pure] public static Frequency operator /(Frequency a, double k) => new(a.Hertz / k);
+        [PublicAPI, Pure] public static Frequency operator /(Frequency a, int k) => new(a.Hertz / k);
+        [PublicAPI, Pure] public static Frequency operator *(Frequency a, double k) => new(a.Hertz * k);
+        [PublicAPI, Pure] public static Frequency operator *(Frequency a, int k) => new(a.Hertz * k);
+        [PublicAPI, Pure] public static Frequency operator *(double k, Frequency a) => new(a.Hertz * k);
+        [PublicAPI, Pure] public static Frequency operator *(int k, Frequency a) => new(a.Hertz * k);
+        [PublicAPI, Pure] public static bool operator <(Frequency a, Frequency b) => a.Hertz < b.Hertz;
+        [PublicAPI, Pure] public static bool operator >(Frequency a, Frequency b) => a.Hertz > b.Hertz;
+        [PublicAPI, Pure] public static bool operator <=(Frequency a, Frequency b) => a.Hertz <= b.Hertz;
+        [PublicAPI, Pure] public static bool operator >=(Frequency a, Frequency b) => a.Hertz >= b.Hertz;
+        [PublicAPI, Pure] public static bool operator ==(Frequency a, Frequency b) => a.Hertz.Equals(b.Hertz);
+        [PublicAPI, Pure] public static bool operator !=(Frequency a, Frequency b) => !a.Hertz.Equals(b.Hertz);
 
         [PublicAPI, Pure] public static bool TryParse(string s, FrequencyUnit unit, out Frequency freq)
         {
@@ -54,6 +63,43 @@ namespace Perfolizer.Horology
         [PublicAPI, Pure] public static bool TryParseMHz(string s, out Frequency freq) => TryParse(s, FrequencyUnit.MHz, out freq);
         [PublicAPI, Pure] public static bool TryParseGHz(string s, out Frequency freq) => TryParse(s, FrequencyUnit.GHz, out freq);
 
-        [PublicAPI, Pure] public override string ToString() => Hertz + " " + FrequencyUnit.Hz.Name;
+        [PublicAPI, Pure, NotNull]
+        public string ToString(
+            [CanBeNull] string format,
+            [CanBeNull] IFormatProvider formatProvider = null,
+            [CanBeNull] UnitPresentation unitPresentation = null)
+        {
+            return ToString(null, format, formatProvider, unitPresentation);
+        }
+
+        [PublicAPI, Pure, NotNull]
+        public string ToString(
+            [CanBeNull] FrequencyUnit frequencyUnit,
+            [CanBeNull] string format = null,
+            [CanBeNull] IFormatProvider formatProvider = null,
+            [CanBeNull] UnitPresentation unitPresentation = null)
+        {
+            frequencyUnit ??= FrequencyUnit.GetBestFrequencyUnit(Hertz);
+            format ??= DefaultFormat;
+            formatProvider ??= DefaultCultureInfo.Instance;
+            unitPresentation ??= UnitPresentation.Default;
+            double unitValue = FrequencyUnit.Convert(Hertz, FrequencyUnit.Hz, frequencyUnit);
+            if (unitPresentation.IsVisible)
+            {
+                string unitName = frequencyUnit.Name.PadLeft(unitPresentation.MinUnitWidth);
+                return $"{unitValue.ToString(format, formatProvider)} {unitName}";
+            }
+
+            return unitValue.ToString(format, formatProvider);
+        }
+        
+        [PublicAPI, Pure, NotNull] public override string ToString() => ToString(DefaultFormat);
+        
+        public bool Equals(Frequency other) => Hertz.Equals(other.Hertz);
+        public bool Equals(Frequency other, double hertzEpsilon) => Math.Abs(Hertz - other.Hertz) < hertzEpsilon;
+        public override bool Equals(object obj) => obj is Frequency other && Equals(other);
+        public override int GetHashCode() => Hertz.GetHashCode();
+        public int CompareTo(Frequency other)=> Hertz.CompareTo(other.Hertz);
+
     }
 }

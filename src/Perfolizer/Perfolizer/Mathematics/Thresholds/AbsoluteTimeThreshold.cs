@@ -10,7 +10,7 @@ namespace Perfolizer.Mathematics.Thresholds
 
         public AbsoluteTimeThreshold(TimeInterval timeInterval) : base(timeInterval.Nanoseconds) => this.timeInterval = timeInterval;
 
-        public override string ToString() => timeInterval.ToString(DefaultCultureInfo.Instance, format: "0.##");
+        public override string ToString() => timeInterval.ToString("0.##");
 
         public bool Equals(AbsoluteTimeThreshold other) => other != null && timeInterval.Equals(other.timeInterval);
 

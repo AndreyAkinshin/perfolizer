@@ -1,11 +1,13 @@
-﻿using System.Globalization;
+﻿using System;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 
 namespace Perfolizer.Horology
 {
-    public readonly struct TimeInterval
+    public readonly struct TimeInterval : IEquatable<TimeInterval>, IComparable<TimeInterval>
     {
+        private const string DefaultFormat = "N4";
+        
         public double Nanoseconds { get; }
 
         public TimeInterval(double nanoseconds) => Nanoseconds = nanoseconds;
@@ -20,7 +22,8 @@ namespace Perfolizer.Horology
         public static readonly TimeInterval Hour = TimeUnit.Hour.ToInterval();
         public static readonly TimeInterval Day = TimeUnit.Day.ToInterval();
 
-        [Pure] public Frequency ToFrequency() => new Frequency(Second / this);
+        [Pure] public Frequency ToFrequency() => new(Second / this);
+        [Pure] public TimeInterval Abs() => new(Math.Abs(Nanoseconds));
 
         [Pure] public double ToNanoseconds() => this / Nanosecond;
         [Pure] public double ToMicroseconds() => this / Microsecond;
@@ -39,47 +42,55 @@ namespace Perfolizer.Horology
         [Pure] public static TimeInterval FromDays(double value) => Day * value;
 
         [Pure] public static double operator /(TimeInterval a, TimeInterval b) => 1.0 * a.Nanoseconds / b.Nanoseconds;
-        [Pure] public static TimeInterval operator /(TimeInterval a, double k) => new TimeInterval(a.Nanoseconds / k);
-        [Pure] public static TimeInterval operator /(TimeInterval a, int k) => new TimeInterval(a.Nanoseconds / k);
-        [Pure] public static TimeInterval operator *(TimeInterval a, double k) => new TimeInterval(a.Nanoseconds * k);
-        [Pure] public static TimeInterval operator *(TimeInterval a, int k) => new TimeInterval(a.Nanoseconds * k);
-        [Pure] public static TimeInterval operator *(double k, TimeInterval a) => new TimeInterval(a.Nanoseconds * k);
-        [Pure] public static TimeInterval operator *(int k, TimeInterval a) => new TimeInterval(a.Nanoseconds * k);
+        [Pure] public static TimeInterval operator /(TimeInterval a, double k) => new(a.Nanoseconds / k);
+        [Pure] public static TimeInterval operator /(TimeInterval a, int k) => new(a.Nanoseconds / k);
+        [Pure] public static TimeInterval operator *(TimeInterval a, double k) => new(a.Nanoseconds * k);
+        [Pure] public static TimeInterval operator *(TimeInterval a, int k) => new(a.Nanoseconds * k);
+        [Pure] public static TimeInterval operator *(double k, TimeInterval a) => new(a.Nanoseconds * k);
+        [Pure] public static TimeInterval operator *(int k, TimeInterval a) => new(a.Nanoseconds * k);
         [Pure] public static bool operator <(TimeInterval a, TimeInterval b) => a.Nanoseconds < b.Nanoseconds;
         [Pure] public static bool operator >(TimeInterval a, TimeInterval b) => a.Nanoseconds > b.Nanoseconds;
         [Pure] public static bool operator <=(TimeInterval a, TimeInterval b) => a.Nanoseconds <= b.Nanoseconds;
         [Pure] public static bool operator >=(TimeInterval a, TimeInterval b) => a.Nanoseconds >= b.Nanoseconds;
+        [Pure] public static bool operator ==(TimeInterval a, TimeInterval b) => a.Nanoseconds.Equals(b.Nanoseconds);
+        [Pure] public static bool operator !=(TimeInterval a, TimeInterval b) => !a.Nanoseconds.Equals(b.Nanoseconds);
 
         [Pure, NotNull]
         public string ToString(
-            [CanBeNull] CultureInfo cultureInfo,
-            [CanBeNull] string format = "N4",
+            [CanBeNull] string format,
+            [CanBeNull] IFormatProvider formatProvider = null,
             [CanBeNull] UnitPresentation unitPresentation = null)
         {
-            return ToString(null, cultureInfo, format, unitPresentation);
+            return ToString(null, format, formatProvider, unitPresentation);
         }
 
         [Pure, NotNull]
         public string ToString(
             [CanBeNull] TimeUnit timeUnit,
-            [CanBeNull] CultureInfo cultureInfo,
-            [CanBeNull] string format = "N4",
+            [CanBeNull] string format = null,
+            [CanBeNull] IFormatProvider formatProvider = null,
             [CanBeNull] UnitPresentation unitPresentation = null)
         {
-            timeUnit = timeUnit ?? TimeUnit.GetBestTimeUnit(Nanoseconds);
-            cultureInfo = cultureInfo ?? DefaultCultureInfo.Instance;
-            format = format ?? "N4";
-            unitPresentation = unitPresentation ?? UnitPresentation.Default;
+            timeUnit ??= TimeUnit.GetBestTimeUnit(Nanoseconds);
+            format ??= DefaultFormat;
+            formatProvider ??= DefaultCultureInfo.Instance;
+            unitPresentation ??= UnitPresentation.Default;
             double unitValue = TimeUnit.Convert(Nanoseconds, TimeUnit.Nanosecond, timeUnit);
             if (unitPresentation.IsVisible)
             {
                 string unitName = timeUnit.Name.PadLeft(unitPresentation.MinUnitWidth);
-                return $"{unitValue.ToString(format, cultureInfo)} {unitName}";
+                return $"{unitValue.ToString(format, formatProvider)} {unitName}";
             }
 
-            return unitValue.ToString(format, cultureInfo);
+            return unitValue.ToString(format, formatProvider);
         }
+        
+        [Pure] public override string ToString() => ToString(DefaultFormat);
 
-        [Pure] public override string ToString() => ToString(DefaultCultureInfo.Instance);
+        public int CompareTo(TimeInterval other) => Nanoseconds.CompareTo(other.Nanoseconds);
+        public bool Equals(TimeInterval other) => Nanoseconds.Equals(other.Nanoseconds);
+        public bool Equals(TimeInterval other, double nanosecondEpsilon) => Math.Abs(other.Nanoseconds - Nanoseconds) < nanosecondEpsilon;
+        public override bool Equals(object obj) => obj is TimeInterval other && Equals(other);
+        public override int GetHashCode() => Nanoseconds.GetHashCode();
     }
 }

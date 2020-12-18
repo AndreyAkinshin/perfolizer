@@ -69,6 +69,15 @@ namespace Perfolizer.Tests.Horology
             Assert.Equal(3, d.Hertz, 4);
         }
 
+        [Theory]
+        [InlineData(1, "1 Hz")]
+        [InlineData(2_300, "2.3 KHz")]
+        [InlineData(3_456_000, "3.456 MHz")]
+        public void ToStringTest(double hertz, string expectedToString)
+        {
+            Assert.Equal(Frequency.FromHz(hertz).ToString(), expectedToString);
+        }
+
         [AssertionMethod]
         private static void AreEqual(Frequency expected, Frequency actual) => AreEqual(expected.Hertz, actual.Hertz);
 

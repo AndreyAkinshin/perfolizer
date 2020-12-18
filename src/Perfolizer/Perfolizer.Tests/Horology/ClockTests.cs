@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading;
 using Perfolizer.Horology;
-using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -40,7 +39,7 @@ namespace Perfolizer.Tests.Horology
             var spans = startedClocks.Select(startedClock => startedClock.GetElapsed()).ToList();
             for (int i = 0; i < clocks.Count; i++)
             {
-                output.WriteLine(clocks[i].Title + ": " + TimeInterval.FromSeconds(spans[i].GetSeconds()).ToString(TimeUnit.Second, TestCultureInfo.Instance));
+                output.WriteLine(clocks[i].Title + ": " + TimeInterval.FromSeconds(spans[i].GetSeconds()).ToString(TimeUnit.Second));
                 var interval = spans[i].GetTimeValue();
                 Assert.True(interval > TimeInterval.Millisecond);
                 Assert.True(interval < TimeInterval.Hour);
