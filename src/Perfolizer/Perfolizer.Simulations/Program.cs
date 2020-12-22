@@ -9,6 +9,7 @@ namespace Perfolizer.Simulations
         private static readonly Dictionary<string, Action<string[]>> Simulations = new Dictionary<string, Action<string[]>>
         {
             {"RqqPelt", args => new RqqPeltSimulation().Run(args)},
+            {"QuantileCi", args => new QuantileCiSimulation().Run(args)},
         };
 
         private static void PrintAvailableSimulations()
