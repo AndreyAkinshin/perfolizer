@@ -100,7 +100,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             var sample = testData.Generate();
             var estimator = new P2QuantileEstimator(p);
             foreach (double x in sample.Values)
-                estimator.AddValue(x);
+                estimator.Add(x);
             
             double actual = estimator.GetQuantile();
             double expected = SimpleQuantileEstimator.Instance.GetQuantile(sample, p);
@@ -131,7 +131,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             };
             var estimator = new P2QuantileEstimator(0.5);
             foreach (double x in values)
-                estimator.AddValue(x);
+                estimator.Add(x);
 
             double actual = estimator.GetQuantile();
             const double expected = 4.44;

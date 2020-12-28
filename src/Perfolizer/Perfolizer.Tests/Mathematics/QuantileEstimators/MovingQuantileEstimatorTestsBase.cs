@@ -1,0 +1,134 @@
+using System;
+using System.Linq;
+using System.Text;
+using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.QuantileEstimators;
+using Perfolizer.Tests.Common;
+using Xunit;
+using Xunit.Abstractions;
+
+namespace Perfolizer.Tests.Mathematics.QuantileEstimators
+{
+    public abstract class MovingQuantileEstimatorTestsBase
+    {
+        private static bool DiagnosticsMode = false;
+        private readonly ITestOutputHelper output;
+
+        protected MovingQuantileEstimatorTestsBase(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
+        protected abstract ISequentialQuantileEstimator CreateSelector(int windowSize, int k,
+            MovingQuantileEstimatorInitStrategy initStrategy);
+
+        protected abstract ISequentialQuantileEstimator CreateSelector(int windowSize, Probability p);
+
+        [Theory]
+        [InlineData(300, 5, 0)]
+        [InlineData(300, 5, 1)]
+        [InlineData(300, 5, 2)]
+        [InlineData(300, 5, 3)]
+        [InlineData(300, 5, 4)]
+        [InlineData(300, 127, 62)]
+        [InlineData(300, 127, 63)]
+        [InlineData(300, 127, 64)]
+        [InlineData(300, 127, 65)]
+        [InlineData(300, 127, 66)]
+        [InlineData(300, 128, 62)]
+        [InlineData(300, 128, 63)]
+        [InlineData(300, 128, 64)]
+        [InlineData(300, 128, 65)]
+        [InlineData(300, 128, 66)]
+        [InlineData(300, 129, 62)]
+        [InlineData(300, 129, 63)]
+        [InlineData(300, 129, 64)]
+        [InlineData(300, 129, 65)]
+        [InlineData(300, 129, 66)]
+        [InlineData(10_000, 1023, 511)]
+        public void MovingSelectorTest(int totalElementCount, int windowSize, int k)
+        {
+            var random = new Random(42);
+            foreach (var initStrategy in new[]
+                {MovingQuantileEstimatorInitStrategy.OrderStatistics, MovingQuantileEstimatorInitStrategy.QuantileApproximation})
+            {
+                output.WriteLine($"*** {nameof(MovingQuantileEstimatorInitStrategy)} = {initStrategy} ***");
+                DoTest(CreateSelector(windowSize, k, initStrategy), initStrategy,
+                    totalElementCount, windowSize, k, _ => (double) random.Next(10_000));
+            }
+        }
+
+        [Theory]
+        [InlineData(20, 5, 0)]
+        [InlineData(20, 5, 1)]
+        [InlineData(20, 5, 2)]
+        [InlineData(20, 5, 3)]
+        [InlineData(20, 5, 4)]
+        public void MovingSelectorEqualTest(int totalElementCount, int windowSize, int k)
+        {
+            var random = new Random(42);
+            foreach (var initStrategy in new[]
+                {MovingQuantileEstimatorInitStrategy.OrderStatistics, MovingQuantileEstimatorInitStrategy.QuantileApproximation})
+            {
+                output.WriteLine($"*** {nameof(MovingQuantileEstimatorInitStrategy)} = {initStrategy} ***");
+                DoTest(CreateSelector(windowSize, k, initStrategy), initStrategy,
+                    totalElementCount, windowSize, k, _ => (double) random.Next(10_000));
+            }
+        }
+
+        [Theory]
+        [InlineData(300, 5)]
+        [InlineData(300, 17)]
+        [InlineData(300, 127)]
+        [InlineData(10_000, 1023)]
+        public void MovingSelectorMedianTest(int totalElementCount, int windowSize)
+        {
+            DoTest(CreateSelector(windowSize, Probability.Half), MovingQuantileEstimatorInitStrategy.QuantileApproximation,
+                totalElementCount, windowSize, windowSize / 2, _ => 1.0);
+        }
+
+        private void DoTest(ISequentialQuantileEstimator estimator, MovingQuantileEstimatorInitStrategy initStrategy, int totalElementCount,
+            int windowSize, int k,
+            Func<int, double> generator)
+        {
+            double[] source = Enumerable.Range(0, totalElementCount).Select(generator).ToArray();
+
+            var outputBuilder = new StringBuilder();
+            for (int i = 0; i < source.Length; i++)
+            {
+                double[] windowElements = source.Take(i + 1).TakeLast(windowSize).ToArray();
+                estimator.Add(source[i]);
+
+                if (DiagnosticsMode)
+                {
+                    outputBuilder.AppendLine($"i = {i}");
+                    outputBuilder.AppendLine(
+                        $"Data = [{string.Join(", ", windowElements.Select(x => x.ToString(TestCultureInfo.Instance)))}]");
+                    if (estimator is DoubleHeapMovingQuantileEstimator doubleHeapMovingSelector)
+                        outputBuilder.AppendLine($"Heap = [{doubleHeapMovingSelector.Dump()}]");
+                    outputBuilder.AppendLine();
+                }
+
+                if (initStrategy == MovingQuantileEstimatorInitStrategy.OrderStatistics && k >= windowElements.Length)
+                {
+                    Assert.Throws<IndexOutOfRangeException>(() => estimator.GetQuantile());
+                }
+                else
+                {
+                    double actual = estimator.GetQuantile();
+                    Array.Sort(windowElements);
+                    double expected = initStrategy switch
+                    {
+                        MovingQuantileEstimatorInitStrategy.QuantileApproximation => windowElements[windowElements.Length * k / windowSize],
+                        MovingQuantileEstimatorInitStrategy.OrderStatistics => windowElements[Math.Min(windowElements.Length - 1, k)],
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                    Assert.Equal(expected, actual);
+                }
+            }
+
+            if (DiagnosticsMode)
+                output.WriteLine(outputBuilder.ToString());
+        }
+    }
+}

@@ -24,11 +24,11 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             p = probability;
         }
 
-        public void AddValue(double x)
+        public void Add(double value)
         {
             if (count < 5)
             {
-                q[count++] = x;
+                q[count++] = value;
                 if (count == 5)
                 {
                     Array.Sort(q);
@@ -53,22 +53,22 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             }
 
             int k;
-            if (x < q[0])
+            if (value < q[0])
             {
-                q[0] = x;
+                q[0] = value;
                 k = 0;
             }
-            else if (x < q[1])
+            else if (value < q[1])
                 k = 0;
-            else if (x < q[2])
+            else if (value < q[2])
                 k = 1;
-            else if (x < q[3])
+            else if (value < q[3])
                 k = 2;
-            else if (x < q[4])
+            else if (value < q[4])
                 k = 3;
             else
             {
-                q[4] = x;
+                q[4] = value;
                 k = 3;
             }
 

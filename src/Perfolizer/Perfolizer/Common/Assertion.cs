@@ -42,6 +42,16 @@ namespace Perfolizer.Common
         }
 
         [AssertionMethod]
+        public static void InRangeInclusive(string name, int value, int min, int max)
+        {
+            if (value < min || value > max)
+            {
+                string message = Format("{0}={1}, but it should be in range [{2};{3}]", name, value, min, max);
+                throw new ArgumentOutOfRangeException(name, value, message);
+            }
+        }
+
+        [AssertionMethod]
         public static void InRangeInclusive(string name, IReadOnlyList<double> values, double min, double max)
         {
             for (int i = 0; i < values.Count; i++)

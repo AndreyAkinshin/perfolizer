@@ -2,7 +2,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 {
     public interface ISequentialQuantileEstimator
     {
-        void AddValue(double x);
+        void Add(double value);
         double GetQuantile();
     }
 }
