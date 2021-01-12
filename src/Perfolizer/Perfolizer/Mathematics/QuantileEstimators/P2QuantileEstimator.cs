@@ -1,6 +1,4 @@
 using System;
-using System.Runtime.CompilerServices;
-using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
@@ -110,6 +108,8 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
         public double GetQuantile()
         {
+            if (count == 0)
+                throw new IndexOutOfRangeException("There are no any values");
             if (count <= 5)
             {
                 Array.Sort(q, 0, count);
@@ -118,6 +118,11 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             }
 
             return q[2];
+        }
+
+        public void Clear()
+        {
+            count = 0;
         }
     }
 }
