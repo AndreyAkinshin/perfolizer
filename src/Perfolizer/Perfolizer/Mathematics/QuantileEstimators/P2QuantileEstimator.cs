@@ -1,4 +1,5 @@
 using System;
+using Perfolizer.Exceptions;
 using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
@@ -109,7 +110,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         public double GetQuantile()
         {
             if (count == 0)
-                throw new IndexOutOfRangeException("There are no any values");
+                throw new EmptySequenceException();
             if (count <= 5)
             {
                 Array.Sort(q, 0, count);

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Perfolizer.Collections;
 using Perfolizer.Common;
+using Perfolizer.Exceptions;
 using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
@@ -45,7 +46,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             if (n >= windowSize)
                 return GetOrderStatistics(k);
             if (n == 0)
-                throw new IndexOutOfRangeException("There are no any values");
+                throw new EmptySequenceException();
 
             // 0 < n < windowSize
             switch (initStrategy)

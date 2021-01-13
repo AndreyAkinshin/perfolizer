@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using JetBrains.Annotations;
 using Perfolizer.Common;
+using Perfolizer.Exceptions;
 using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
@@ -208,7 +209,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         public double GetQuantile()
         {
             if (totalElementCount == 0)
-                throw new IndexOutOfRangeException("There are no any values");
+                throw new EmptySequenceException();
             if (initStrategy == MovingQuantileEstimatorInitStrategy.OrderStatistics && k >= totalElementCount)
                 throw new IndexOutOfRangeException($"Not enough values (n = {totalElementCount}, k = {k})");
             return h[rootHeapIndex];

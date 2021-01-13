@@ -1,5 +1,6 @@
 using System;
 using Perfolizer.Common;
+using Perfolizer.Exceptions;
 using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
@@ -32,7 +33,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         public double GetQuantile()
         {
             if (n == 0)
-                throw new IndexOutOfRangeException("There are no any values");
+                throw new EmptySequenceException();
             if (n < windowSize)
                 return estimator.GetQuantile();
             
