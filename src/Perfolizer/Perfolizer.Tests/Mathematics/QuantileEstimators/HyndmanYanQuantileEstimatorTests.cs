@@ -15,7 +15,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         {
         }
 
-        private static readonly IDictionary<string, HyTestData> TestDataMap = new Dictionary<string, HyTestData>
+        public static readonly IDictionary<string, HyTestData> TestDataMap = new Dictionary<string, HyTestData>
         {
             {
                 "Type1", new HyTestDataCase1(HyndmanYanType.Type1, new[]
@@ -111,7 +111,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             }
         };
 
-        private abstract class HyTestData
+        public abstract class HyTestData
         {
             public HyndmanYanType Type { get; }
             [NotNull] public double[] Expected { get; }

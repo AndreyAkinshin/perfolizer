@@ -9,6 +9,7 @@ namespace Perfolizer.Mathematics.Common
         public static readonly Probability Zero = 0.0;
         public static readonly Probability Half = 0.5;
         public static readonly Probability One = 1.0;
+        public static readonly Probability NaN = double.NaN;
 
         public readonly double Value;
 

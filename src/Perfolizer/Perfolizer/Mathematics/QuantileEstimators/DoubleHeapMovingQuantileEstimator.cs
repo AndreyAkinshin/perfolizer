@@ -23,11 +23,13 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     public class DoubleHeapMovingQuantileEstimator : ISequentialQuantileEstimator
     {
         private readonly int windowSize, k;
+        private readonly Probability probability;
         private readonly double[] h;
         private readonly int[] heapToElementIndex;
         private readonly int[] elementToHeapIndex;
         private readonly int rootHeapIndex, lowerHeapMaxSize;
         private readonly MovingQuantileEstimatorInitStrategy initStrategy;
+        private readonly HyndmanYanType? hyndmanYanType = null;
         private int upperHeapSize, lowerHeapSize, totalElementCount;
 
         public DoubleHeapMovingQuantileEstimator(int windowSize, int k,
@@ -38,6 +40,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
             this.windowSize = windowSize;
             this.k = k;
+            probability = Probability.NaN;
             h = new double[windowSize];
             heapToElementIndex = new int[windowSize];
             elementToHeapIndex = new int[windowSize];
@@ -47,24 +50,33 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             rootHeapIndex = k;
         }
 
-        public DoubleHeapMovingQuantileEstimator(int windowSize, Probability p) : this(windowSize, (int) Math.Round((windowSize - 1) * p))
+        public DoubleHeapMovingQuantileEstimator(int windowSize, Probability p) 
+            : this(windowSize, (int) Math.Round((windowSize - 1) * p))
         {
+            probability = p;
         }
 
-    private void Swap(int heapIndex1, int heapIndex2)
-    {
-        int elementIndex1 = heapToElementIndex[heapIndex1];
-        int elementIndex2 = heapToElementIndex[heapIndex2];
-        double value1 = h[heapIndex1];
-        double value2 = h[heapIndex2];
+        public DoubleHeapMovingQuantileEstimator(int windowSize, Probability p, HyndmanYanType hyndmanYanType)
+            : this(windowSize, ((int) HyndmanYanEquations.GetH(hyndmanYanType, windowSize, p) - 1).Clamp(0, windowSize - 1))
+        {
+            this.hyndmanYanType = hyndmanYanType;
+            probability = p;
+        }
 
-        h[heapIndex1] = value2;
-        h[heapIndex2] = value1;
-        heapToElementIndex[heapIndex1] = elementIndex2;
-        heapToElementIndex[heapIndex2] = elementIndex1;
-        elementToHeapIndex[elementIndex1] = heapIndex2;
-        elementToHeapIndex[elementIndex2] = heapIndex1;
-    }
+        private void Swap(int heapIndex1, int heapIndex2)
+        {
+            int elementIndex1 = heapToElementIndex[heapIndex1];
+            int elementIndex2 = heapToElementIndex[heapIndex2];
+            double value1 = h[heapIndex1];
+            double value2 = h[heapIndex2];
+
+            h[heapIndex1] = value2;
+            h[heapIndex2] = value1;
+            heapToElementIndex[heapIndex1] = elementIndex2;
+            heapToElementIndex[heapIndex2] = elementIndex1;
+            elementToHeapIndex[elementIndex1] = heapIndex2;
+            elementToHeapIndex[elementIndex2] = heapIndex1;
+        }
 
         [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToSwitchStatement")]
@@ -210,6 +222,22 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         {
             if (totalElementCount == 0)
                 throw new EmptySequenceException();
+            if (hyndmanYanType != null && !double.IsNaN(probability))
+            {
+                if (totalElementCount < windowSize)
+                    throw new InvalidOperationException($"Sequence should contain at least {windowSize} elements");
+                
+                double GetValue(int index)
+                {
+                    index = (index - 1).Clamp(0, windowSize - 1); // Adapt one-based formula to the zero-based list
+                    if (k - 1 <= index && index <= k + 1)
+                        return h[rootHeapIndex + index - k];
+                    throw new InvalidOperationException();
+                }
+
+                return HyndmanYanEquations.Evaluate(hyndmanYanType.Value, windowSize, probability, GetValue);
+            }
+            
             if (initStrategy == MovingQuantileEstimatorInitStrategy.OrderStatistics && k >= totalElementCount)
                 throw new IndexOutOfRangeException($"Not enough values (n = {totalElementCount}, k = {k})");
             return h[rootHeapIndex];

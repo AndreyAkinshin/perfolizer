@@ -12,17 +12,17 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
     public abstract class MovingQuantileEstimatorTestsBase
     {
         private static bool DiagnosticsMode = false;
-        private readonly ITestOutputHelper output;
+        protected ITestOutputHelper Output { get; }
 
         protected MovingQuantileEstimatorTestsBase(ITestOutputHelper output)
         {
-            this.output = output;
+            Output = output;
         }
 
-        protected abstract ISequentialQuantileEstimator CreateSelector(int windowSize, int k,
+        protected abstract ISequentialQuantileEstimator CreateEstimator(int windowSize, int k,
             MovingQuantileEstimatorInitStrategy initStrategy);
 
-        protected abstract ISequentialQuantileEstimator CreateSelector(int windowSize, Probability p);
+        protected abstract ISequentialQuantileEstimator CreateEstimator(int windowSize, Probability p);
 
         [Theory]
         [InlineData(300, 5, 0)]
@@ -52,8 +52,8 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             foreach (var initStrategy in new[]
                 {MovingQuantileEstimatorInitStrategy.OrderStatistics, MovingQuantileEstimatorInitStrategy.QuantileApproximation})
             {
-                output.WriteLine($"*** {nameof(MovingQuantileEstimatorInitStrategy)} = {initStrategy} ***");
-                DoTest(CreateSelector(windowSize, k, initStrategy), initStrategy,
+                Output.WriteLine($"*** {nameof(MovingQuantileEstimatorInitStrategy)} = {initStrategy} ***");
+                DoTest(CreateEstimator(windowSize, k, initStrategy), initStrategy,
                     totalElementCount, windowSize, k, _ => (double) random.Next(10_000));
             }
         }
@@ -70,8 +70,8 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             foreach (var initStrategy in new[]
                 {MovingQuantileEstimatorInitStrategy.OrderStatistics, MovingQuantileEstimatorInitStrategy.QuantileApproximation})
             {
-                output.WriteLine($"*** {nameof(MovingQuantileEstimatorInitStrategy)} = {initStrategy} ***");
-                DoTest(CreateSelector(windowSize, k, initStrategy), initStrategy,
+                Output.WriteLine($"*** {nameof(MovingQuantileEstimatorInitStrategy)} = {initStrategy} ***");
+                DoTest(CreateEstimator(windowSize, k, initStrategy), initStrategy,
                     totalElementCount, windowSize, k, _ => (double) random.Next(10_000));
             }
         }
@@ -83,7 +83,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         [InlineData(10_000, 1023)]
         public void MovingSelectorMedianTest(int totalElementCount, int windowSize)
         {
-            DoTest(CreateSelector(windowSize, Probability.Half), MovingQuantileEstimatorInitStrategy.QuantileApproximation,
+            DoTest(CreateEstimator(windowSize, Probability.Half), MovingQuantileEstimatorInitStrategy.QuantileApproximation,
                 totalElementCount, windowSize, windowSize / 2, _ => 1.0);
         }
 
@@ -128,7 +128,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             }
 
             if (DiagnosticsMode)
-                output.WriteLine(outputBuilder.ToString());
+                Output.WriteLine(outputBuilder.ToString());
         }
     }
 }

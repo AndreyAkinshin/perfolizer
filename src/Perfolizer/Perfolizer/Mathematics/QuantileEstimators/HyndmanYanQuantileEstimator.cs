@@ -25,7 +25,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         /// <summary>
         /// Returns 1-based real index estimation
         /// </summary>
-        protected double GetH(double n, double p) => type switch
+        protected double GetH(double n, Probability p) => type switch
         {
             HyndmanYanType.Type1 => n * p + 0.5,
             HyndmanYanType.Type2 => n * p + 0.5,
@@ -43,12 +43,8 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         {
             Assertion.NonWeighted(nameof(sample), sample);
 
-            int n = sample.Count;
             var sortedValues = sample.SortedValues;
-            var p = probability;
-            double h = GetH(n, p);
-
-            double Value(int index)
+            double GetValue(int index)
             {
                 index -= 1; // Adapt one-based formula to the zero-based list
                 if (index <= 0)
@@ -58,22 +54,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
                 return sortedValues[index];
             }
 
-            double LinearInterpolation()
-            {
-                int hFloor = (int) h;
-                double fraction = h - hFloor;
-                if (hFloor + 1 <= n)
-                    return Value(hFloor) * (1 - fraction) + Value(hFloor + 1) * fraction;
-                return Value(hFloor);
-            }
-
-            return type switch
-            {
-                HyndmanYanType.Type1 => Value((int) Math.Ceiling(h - 0.5)),
-                HyndmanYanType.Type2 => (Value((int) Math.Ceiling(h - 0.5)) + Value((int) Math.Floor(h + 0.5))) / 2,
-                HyndmanYanType.Type3 => Value((int) Math.Round(h, MidpointRounding.ToEven)),
-                _ => LinearInterpolation()
-            };
+            return HyndmanYanEquations.Evaluate(type, sample.Count, probability, GetValue);
         }
 
         public virtual bool SupportsWeightedSamples => false;
