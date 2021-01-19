@@ -29,7 +29,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         private readonly int[] elementToHeapIndex;
         private readonly int rootHeapIndex, lowerHeapMaxSize;
         private readonly MovingQuantileEstimatorInitStrategy initStrategy;
-        private readonly HyndmanYanType? hyndmanYanType = null;
+        private readonly HyndmanFanType? HyndmanFanType = null;
         private int upperHeapSize, lowerHeapSize, totalElementCount;
 
         public DoubleHeapMovingQuantileEstimator(int windowSize, int k,
@@ -56,10 +56,10 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             probability = p;
         }
 
-        public DoubleHeapMovingQuantileEstimator(int windowSize, Probability p, HyndmanYanType hyndmanYanType)
-            : this(windowSize, ((int) HyndmanYanEquations.GetH(hyndmanYanType, windowSize, p) - 1).Clamp(0, windowSize - 1))
+        public DoubleHeapMovingQuantileEstimator(int windowSize, Probability p, HyndmanFanType HyndmanFanType)
+            : this(windowSize, ((int) HyndmanFanEquations.GetH(HyndmanFanType, windowSize, p) - 1).Clamp(0, windowSize - 1))
         {
-            this.hyndmanYanType = hyndmanYanType;
+            this.HyndmanFanType = HyndmanFanType;
             probability = p;
         }
 
@@ -222,7 +222,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         {
             if (totalElementCount == 0)
                 throw new EmptySequenceException();
-            if (hyndmanYanType != null && !double.IsNaN(probability))
+            if (HyndmanFanType != null && !double.IsNaN(probability))
             {
                 if (totalElementCount < windowSize)
                     throw new InvalidOperationException($"Sequence should contain at least {windowSize} elements");
@@ -235,7 +235,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
                     throw new InvalidOperationException();
                 }
 
-                return HyndmanYanEquations.Evaluate(hyndmanYanType.Value, windowSize, probability, GetValue);
+                return HyndmanFanEquations.Evaluate(HyndmanFanType.Value, windowSize, probability, GetValue);
             }
             
             if (initStrategy == MovingQuantileEstimatorInitStrategy.OrderStatistics && k >= totalElementCount)

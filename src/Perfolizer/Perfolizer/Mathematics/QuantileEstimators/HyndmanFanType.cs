@@ -6,7 +6,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// Hyndman, R. J. and Fan, Y. (1996) Sample quantiles in statistical packages, American Statistician 50, 361–365. doi: 10.2307/2684934.
     /// </remarks>
     /// </summary>
-    public enum HyndmanYanType
+    public enum HyndmanFanType
     {
         Type1,
         Type2,

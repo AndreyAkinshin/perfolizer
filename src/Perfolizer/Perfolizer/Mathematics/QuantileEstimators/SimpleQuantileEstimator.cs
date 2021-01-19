@@ -10,11 +10,11 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// Hyndman, R. J. and Fan, Y. (1996) Sample quantiles in statistical packages, American Statistician 50, 361–365. doi: 10.2307/2684934.
     /// </remarks>
     /// </summary>
-    public class SimpleQuantileEstimator : HyndmanYanQuantileEstimator
+    public class SimpleQuantileEstimator : HyndmanFanQuantileEstimator
     {
         public static readonly IQuantileEstimator Instance = new SimpleQuantileEstimator();
 
-        private SimpleQuantileEstimator() : base(HyndmanYanType.Type7)
+        private SimpleQuantileEstimator() : base(HyndmanFanType.Type7)
         {
         }
         

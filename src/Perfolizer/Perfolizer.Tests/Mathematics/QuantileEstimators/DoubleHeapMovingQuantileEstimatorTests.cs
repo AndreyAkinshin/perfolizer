@@ -30,14 +30,14 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         }
 
         [Fact]
-        public void HyndmanYanDoubleHeapQuantileEstimatorTest()
+        public void HyndmanFanDoubleHeapQuantileEstimatorTest()
         {
             double[] fullSource = {1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66};
             var probabilities = Enumerable.Range(0, 101).Select(x => (Probability) (x / 100.0)).ToArray();
             var types = new[]
             {
-                HyndmanYanType.Type1, HyndmanYanType.Type2, HyndmanYanType.Type3, HyndmanYanType.Type4, HyndmanYanType.Type5,
-                HyndmanYanType.Type6, HyndmanYanType.Type7, HyndmanYanType.Type8, HyndmanYanType.Type9,
+                HyndmanFanType.Type1, HyndmanFanType.Type2, HyndmanFanType.Type3, HyndmanFanType.Type4, HyndmanFanType.Type5,
+                HyndmanFanType.Type6, HyndmanFanType.Type7, HyndmanFanType.Type8, HyndmanFanType.Type9,
             };
 
             var comparer = new AbsoluteEqualityComparer(1e-2);
@@ -52,7 +52,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                     {
                         var probability = probabilities[i];
 
-                        var hyEstimator = new HyndmanYanQuantileEstimator(type);
+                        var hyEstimator = new HyndmanFanQuantileEstimator(type);
                         double expectedValue = hyEstimator.GetQuantile(sample, probability);
 
                         var dhEstimator = new DoubleHeapMovingQuantileEstimator(n, probability, type);
