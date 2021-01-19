@@ -33,7 +33,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             }
 
             var mp2Estimator = new MovingP2QuantileEstimator(probability, windowSize);
-            var dhEstimator = new DoubleHeapMovingQuantileEstimator(windowSize, probability);
+            var phEstimator = new PartitioningHeapsMovingQuantileEstimator(windowSize, probability);
 
             var outputBuilder = new StringBuilder();
             outputBuilder.AppendLine("i,data,estimation,true");
@@ -41,10 +41,10 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             for (int i = 0; i < n; i++)
             {
                 mp2Estimator.Add(data[i]);
-                dhEstimator.Add(data[i]);
+                phEstimator.Add(data[i]);
 
                 double mp2Estimation = mp2Estimator.GetQuantile();
-                double trueValue = dhEstimator.GetQuantile();
+                double trueValue = phEstimator.GetQuantile();
 
                 if (Math.Abs(mp2Estimation - trueValue) / trueValue < relativeThreshold)
                     successCounter++;

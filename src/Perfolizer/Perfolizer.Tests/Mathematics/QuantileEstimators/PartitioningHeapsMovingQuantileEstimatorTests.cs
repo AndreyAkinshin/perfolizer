@@ -12,25 +12,25 @@ using Xunit.Abstractions;
 namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 {
     [UsedImplicitly]
-    public class DoubleHeapMovingQuantileEstimatorTests : MovingQuantileEstimatorTestsBase
+    public class PartitioningHeapsMovingQuantileEstimatorTests : MovingQuantileEstimatorTestsBase
     {
-        public DoubleHeapMovingQuantileEstimatorTests(ITestOutputHelper output) : base(output)
+        public PartitioningHeapsMovingQuantileEstimatorTests(ITestOutputHelper output) : base(output)
         {
         }
 
         protected override ISequentialQuantileEstimator CreateEstimator(int windowSize, int k,
             MovingQuantileEstimatorInitStrategy initStrategy)
         {
-            return new DoubleHeapMovingQuantileEstimator(windowSize, k, initStrategy);
+            return new PartitioningHeapsMovingQuantileEstimator(windowSize, k, initStrategy);
         }
 
         protected override ISequentialQuantileEstimator CreateEstimator(int windowSize, Probability p)
         {
-            return new DoubleHeapMovingQuantileEstimator(windowSize, p);
+            return new PartitioningHeapsMovingQuantileEstimator(windowSize, p);
         }
 
         [Fact]
-        public void HyndmanFanDoubleHeapQuantileEstimatorTest()
+        public void HyndmanFanPartitioningHeapsQuantileEstimatorTest()
         {
             double[] fullSource = {1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66};
             var probabilities = Enumerable.Range(0, 101).Select(x => (Probability) (x / 100.0)).ToArray();
@@ -55,11 +55,11 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                         var hyEstimator = new HyndmanFanQuantileEstimator(type);
                         double expectedValue = hyEstimator.GetQuantile(sample, probability);
 
-                        var dhEstimator = new DoubleHeapMovingQuantileEstimator(n, probability, type);
+                        var phEstimator = new PartitioningHeapsMovingQuantileEstimator(n, probability, type);
                         shuffler.Shuffle(source);
                         foreach (double value in source)
-                            dhEstimator.Add(value);
-                        double actualValue = dhEstimator.GetQuantile();
+                            phEstimator.Add(value);
+                        double actualValue = phEstimator.GetQuantile();
 
                         if (!comparer.Equals(expectedValue, actualValue))
                             Output.WriteLine($"n = {n}, type = {type}, p = {probability}: E = {expectedValue}, A = {actualValue}");

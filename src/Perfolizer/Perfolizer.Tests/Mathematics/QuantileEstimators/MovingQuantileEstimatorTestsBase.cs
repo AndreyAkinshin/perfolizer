@@ -104,8 +104,8 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                     outputBuilder.AppendLine($"i = {i}");
                     outputBuilder.AppendLine(
                         $"Data = [{string.Join(", ", windowElements.Select(x => x.ToString(TestCultureInfo.Instance)))}]");
-                    if (estimator is DoubleHeapMovingQuantileEstimator doubleHeapMovingSelector)
-                        outputBuilder.AppendLine($"Heap = [{doubleHeapMovingSelector.Dump()}]");
+                    if (estimator is PartitioningHeapsMovingQuantileEstimator partitioningHeapsMovingQuantileEstimator)
+                        outputBuilder.AppendLine($"Heap = [{partitioningHeapsMovingQuantileEstimator.Dump()}]");
                     outputBuilder.AppendLine();
                 }
 

@@ -9,7 +9,7 @@ using Perfolizer.Mathematics.Common;
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
     /// <summary>
-    /// A moving selector based on a double heap data structure.
+    /// A moving selector based on a partitioning heaps.
     /// Memory: O(windowSize).
     /// Add complexity: O(log(windowSize)).
     /// GetValue complexity: O(1).
@@ -20,7 +20,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// Series C (Applied Statistics) 44, no. 2 (1995): 258-264.
     /// </remarks>
     /// </summary>
-    public class DoubleHeapMovingQuantileEstimator : ISequentialQuantileEstimator
+    public class PartitioningHeapsMovingQuantileEstimator : ISequentialQuantileEstimator
     {
         private readonly int windowSize, k;
         private readonly Probability probability;
@@ -32,7 +32,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         private readonly HyndmanFanType? HyndmanFanType = null;
         private int upperHeapSize, lowerHeapSize, totalElementCount;
 
-        public DoubleHeapMovingQuantileEstimator(int windowSize, int k,
+        public PartitioningHeapsMovingQuantileEstimator(int windowSize, int k,
             MovingQuantileEstimatorInitStrategy initStrategy = MovingQuantileEstimatorInitStrategy.QuantileApproximation)
         {
             Assertion.Positive(nameof(windowSize), windowSize);
@@ -50,13 +50,13 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             rootHeapIndex = k;
         }
 
-        public DoubleHeapMovingQuantileEstimator(int windowSize, Probability p) 
+        public PartitioningHeapsMovingQuantileEstimator(int windowSize, Probability p) 
             : this(windowSize, (int) Math.Round((windowSize - 1) * p))
         {
             probability = p;
         }
 
-        public DoubleHeapMovingQuantileEstimator(int windowSize, Probability p, HyndmanFanType HyndmanFanType)
+        public PartitioningHeapsMovingQuantileEstimator(int windowSize, Probability p, HyndmanFanType HyndmanFanType)
             : this(windowSize, ((int) HyndmanFanEquations.GetH(HyndmanFanType, windowSize, p) - 1).Clamp(0, windowSize - 1))
         {
             this.HyndmanFanType = HyndmanFanType;
