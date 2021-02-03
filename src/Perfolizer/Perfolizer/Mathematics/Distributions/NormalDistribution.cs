@@ -65,7 +65,13 @@ namespace Perfolizer.Mathematics.Distributions
             /// </remarks>
             public override double Next()
             {
-                double stdDevFactor = Sqrt(-2.0 * Log(Random.NextDouble())) * Sin(2.0 * PI * Random.NextDouble());
+                double u = 0, v = 0;
+                while (u < 1e-100)
+                {
+                    u = Random.NextDouble();
+                    v = Random.NextDouble();
+                }
+                double stdDevFactor = Sqrt(-2.0 * Log(u)) * Sin(2.0 * PI * v);
                 return distribution.Mean + distribution.StandardDeviation * stdDevFactor;
             }
         }
