@@ -82,7 +82,9 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             for (int j = 0; j < sample.Count; j++)
             {
                 double betaCdfLeft = betaCdfRight;
-                currentProbability += sample.SortedWeights[j] / sample.TotalWeight;
+                currentProbability += sample.IsWeighted
+                    ? sample.SortedWeights[j] / sample.TotalWeight
+                    : 1.0 / sample.Count;
 
                 double cdfValue;
                 if (betaCdfCache != null)
