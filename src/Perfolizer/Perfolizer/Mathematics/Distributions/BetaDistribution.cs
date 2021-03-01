@@ -51,6 +51,9 @@ namespace Perfolizer.Mathematics.Distributions
                 return double.PositiveInfinity;
             }
 
+            if (Alpha < 1e-9 || Beta < 1e-9)
+                return 0;
+
             return Exp((Alpha - 1) * Log(x) + (Beta - 1) * Log(1 - x) - BetaFunction.CompleteLogValue(Alpha, Beta));
         }
 
