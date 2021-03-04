@@ -4,9 +4,9 @@ using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Randomization;
 
-namespace Perfolizer.Mathematics.Distributions
+namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 {
-    public class UniformDistribution : IDistribution
+    public class UniformDistribution : IContinuousDistribution
     {
         /// <summary>
         /// The minimum value of the uniform distribution

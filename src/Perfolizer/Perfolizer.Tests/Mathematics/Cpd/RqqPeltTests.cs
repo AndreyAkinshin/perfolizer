@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Cpd;
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Tests.Common;
 using Perfolizer.Tests.Mathematics.Cpd.TestDataSets;
 using Xunit;

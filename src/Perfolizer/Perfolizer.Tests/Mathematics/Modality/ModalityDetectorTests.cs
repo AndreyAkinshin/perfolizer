@@ -4,7 +4,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Common;
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Histograms;
 using Perfolizer.Mathematics.Multimodality;
 using Perfolizer.Mathematics.Sequences;

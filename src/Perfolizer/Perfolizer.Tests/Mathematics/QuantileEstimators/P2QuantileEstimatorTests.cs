@@ -4,7 +4,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Tests.Common;
@@ -28,9 +28,9 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             public Probability Probability { get; }
             public int N { get; }
             public bool Randomize { get; }
-            public IDistribution Distribution { get; }
+            public IContinuousDistribution Distribution { get; }
 
-            public TestData(int seed, Probability probability, int n, bool randomize, IDistribution distribution)
+            public TestData(int seed, Probability probability, int n, bool randomize, IContinuousDistribution distribution)
             {
                 Seed = seed;
                 Probability = probability;
@@ -60,7 +60,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         static P2QuantileEstimatorTests()
         {
             TestDataMap = new Dictionary<string, TestData>();
-            var distributions = new IDistribution[]
+            var distributions = new IContinuousDistribution[]
             {
                 new UniformDistribution(0, 1),
                 new NormalDistribution(0, 1),

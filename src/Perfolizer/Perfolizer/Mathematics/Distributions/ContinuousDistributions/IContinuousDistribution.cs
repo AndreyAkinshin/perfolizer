@@ -2,9 +2,9 @@ using System;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Randomization;
 
-namespace Perfolizer.Mathematics.Distributions
+namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 {
-    public interface IDistribution
+    public interface IContinuousDistribution
     {
         /// <summary>
         /// Probability density function 

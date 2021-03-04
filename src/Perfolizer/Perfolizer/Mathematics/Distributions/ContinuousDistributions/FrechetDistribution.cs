@@ -6,12 +6,12 @@ using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.Randomization;
 using static System.Math;
 
-namespace Perfolizer.Mathematics.Distributions
+namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 {
     /// <summary>
     /// Fréchet distribution (Generalized Extreme Value distribution Type-II)
     /// </summary>
-    public class FrechetDistribution : IDistribution
+    public class FrechetDistribution : IContinuousDistribution
     {
         public double Location { get; }
         public double Scale { get; }

@@ -1,4 +1,4 @@
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
 namespace Perfolizer.Mathematics.Common
 {

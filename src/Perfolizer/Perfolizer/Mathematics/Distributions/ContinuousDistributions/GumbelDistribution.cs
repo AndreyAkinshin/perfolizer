@@ -5,12 +5,12 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Randomization;
 using static System.Math;
 
-namespace Perfolizer.Mathematics.Distributions
+namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 {
     /// <summary>
     /// Gumbel distribution (Generalized Extreme Value distribution Type-I)
     /// </summary>
-    public class GumbelDistribution : IDistribution
+    public class GumbelDistribution : IContinuousDistribution
     {
         public double Location { get; }
         public double Scale { get; }

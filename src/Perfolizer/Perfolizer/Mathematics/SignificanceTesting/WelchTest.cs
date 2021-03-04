@@ -1,7 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Thresholds;
 
 namespace Perfolizer.Mathematics.SignificanceTesting

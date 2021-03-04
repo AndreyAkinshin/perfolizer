@@ -29,7 +29,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         private readonly int[] elementToHeapIndex;
         private readonly int rootHeapIndex, lowerHeapMaxSize;
         private readonly MovingQuantileEstimatorInitStrategy initStrategy;
-        private readonly HyndmanFanType? HyndmanFanType = null;
+        private readonly HyndmanFanType? hyndmanFanType;
         private int upperHeapSize, lowerHeapSize, totalElementCount;
 
         public PartitioningHeapsMovingQuantileEstimator(int windowSize, int k,
@@ -59,7 +59,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         public PartitioningHeapsMovingQuantileEstimator(int windowSize, Probability p, HyndmanFanType HyndmanFanType)
             : this(windowSize, ((int) HyndmanFanEquations.GetH(HyndmanFanType, windowSize, p) - 1).Clamp(0, windowSize - 1))
         {
-            this.HyndmanFanType = HyndmanFanType;
+            this.hyndmanFanType = HyndmanFanType;
             probability = p;
         }
 
@@ -222,7 +222,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         {
             if (totalElementCount == 0)
                 throw new EmptySequenceException();
-            if (HyndmanFanType != null && !double.IsNaN(probability))
+            if (hyndmanFanType != null && !double.IsNaN(probability))
             {
                 if (totalElementCount < windowSize)
                     throw new InvalidOperationException($"Sequence should contain at least {windowSize} elements");
@@ -235,7 +235,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
                     throw new InvalidOperationException();
                 }
 
-                return HyndmanFanEquations.Evaluate(HyndmanFanType.Value, windowSize, probability, GetValue);
+                return HyndmanFanEquations.Evaluate(hyndmanFanType.Value, windowSize, probability, GetValue);
             }
             
             if (initStrategy == MovingQuantileEstimatorInitStrategy.OrderStatistics && k >= totalElementCount)

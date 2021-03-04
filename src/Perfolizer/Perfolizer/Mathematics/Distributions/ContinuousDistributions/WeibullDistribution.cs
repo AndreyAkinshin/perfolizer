@@ -6,9 +6,9 @@ using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.Randomization;
 using static System.Math;
 
-namespace Perfolizer.Mathematics.Distributions
+namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 {
-    public class WeibullDistribution : IDistribution
+    public class WeibullDistribution : IContinuousDistribution
     {
         public double Scale { get; }
         public double Shape { get; }

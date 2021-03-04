@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Perfolizer.Tests.Mathematics.Distributions
+namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions
 {
     public class DistributionTestsBase
     {
@@ -36,14 +36,14 @@ namespace Perfolizer.Tests.Mathematics.Distributions
 
         protected class TestData
         {
-            public IDistribution Distribution { get; }
+            public IContinuousDistribution Distribution { get; }
             public double[] X { get; }
             public double[] ExpectedPdf { get; }
             public double[] ExpectedCdf { get; }
             public double[] P { get; }
             public double[] ExpectedQuantiles { get; }
 
-            public TestData(IDistribution distribution,
+            public TestData(IContinuousDistribution distribution,
                 double[] x,
                 double[] expectedPdf,
                 double[] expectedCdf,

@@ -5,9 +5,9 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Randomization;
 using static System.Math;
 
-namespace Perfolizer.Mathematics.Distributions
+namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 {
-    public class ParetoDistribution : IDistribution
+    public class ParetoDistribution : IContinuousDistribution
     {
         public double Xm { get; }
         public double Alpha { get; }

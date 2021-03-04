@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.EffectSizes;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Tests.Common;

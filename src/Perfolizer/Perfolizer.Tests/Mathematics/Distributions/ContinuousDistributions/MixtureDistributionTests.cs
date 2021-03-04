@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Tests.Common;
 using Xunit;
 
-namespace Perfolizer.Tests.Mathematics.Distributions
+namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions
 {
     public class MixtureDistributionTests
     {

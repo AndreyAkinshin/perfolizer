@@ -6,9 +6,9 @@ using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.Randomization;
 using static System.Math;
 
-namespace Perfolizer.Mathematics.Distributions
+namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 {
-    public class NormalDistribution : IDistribution
+    public class NormalDistribution : IContinuousDistribution
     {
         public static readonly NormalDistribution Standard = new();
 

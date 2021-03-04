@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Histograms;
 
 namespace Perfolizer.Demo

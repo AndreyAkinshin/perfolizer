@@ -3,7 +3,7 @@ using System.Linq;
 using Perfolizer.Collections;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Xunit;
 using Xunit.Abstractions;

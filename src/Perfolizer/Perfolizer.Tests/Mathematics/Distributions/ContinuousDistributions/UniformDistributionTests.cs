@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Perfolizer.Tests.Mathematics.Distributions
+namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions
 {
     public class UniformDistributionTests : DistributionTestsBase
     {

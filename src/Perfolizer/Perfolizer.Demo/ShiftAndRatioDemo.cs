@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Functions;
 
 namespace Perfolizer.Demo

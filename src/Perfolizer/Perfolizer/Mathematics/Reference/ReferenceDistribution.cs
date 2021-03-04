@@ -1,4 +1,4 @@
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
 namespace Perfolizer.Mathematics.Reference
 {
@@ -6,15 +6,15 @@ namespace Perfolizer.Mathematics.Reference
     {
         public string Key { get; }
         public string Description { get; }
-        public IDistribution Distribution { get; }
+        public IContinuousDistribution Distribution { get; }
 
-        public ReferenceDistribution(IDistribution distribution)
+        public ReferenceDistribution(IContinuousDistribution distribution)
         {
             Key = Description = distribution.ToString();
             Distribution = distribution;
         }
 
-        public ReferenceDistribution(string key, IDistribution distribution)
+        public ReferenceDistribution(string key, IContinuousDistribution distribution)
         {
             Key = key;
             Description = distribution.ToString();
@@ -22,7 +22,7 @@ namespace Perfolizer.Mathematics.Reference
         }
 
 
-        public ReferenceDistribution(string key, string description, IDistribution distribution)
+        public ReferenceDistribution(string key, string description, IContinuousDistribution distribution)
         {
             Key = key;
             Description = description;

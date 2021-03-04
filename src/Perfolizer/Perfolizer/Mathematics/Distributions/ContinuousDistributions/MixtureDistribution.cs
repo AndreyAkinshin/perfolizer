@@ -8,12 +8,12 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.Randomization;
 
-namespace Perfolizer.Mathematics.Distributions
+namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 {
-    public class MixtureDistribution : IDistribution
+    public class MixtureDistribution : IContinuousDistribution
     {
         private readonly int n;
-        [NotNull] private readonly IReadOnlyList<IDistribution> distributions;
+        [NotNull] private readonly IReadOnlyList<IContinuousDistribution> distributions;
         [NotNull] private readonly IReadOnlyList<double> weights;
         [NotNull] private readonly InverseMonotonousFunction inverseCdf;
         private readonly Lazy<string> lazyToString;
@@ -23,11 +23,11 @@ namespace Perfolizer.Mathematics.Distributions
         public double Variance { get; }
         public double StandardDeviation { get; }
 
-        public MixtureDistribution([NotNull, ItemNotNull] params IDistribution[] distributions) : this(distributions, null)
+        public MixtureDistribution([NotNull, ItemNotNull] params IContinuousDistribution[] distributions) : this(distributions, null)
         {
         }
 
-        public MixtureDistribution([NotNull, ItemNotNull] IReadOnlyList<IDistribution> distributions,
+        public MixtureDistribution([NotNull, ItemNotNull] IReadOnlyList<IContinuousDistribution> distributions,
             [CanBeNull] IReadOnlyList<double> weights = null)
         {
             Assertion.NotNullOrEmpty(nameof(distributions), distributions);
@@ -74,10 +74,10 @@ namespace Perfolizer.Mathematics.Distributions
         }
 
         [NotNull]
-        private static double[] GetDefaultWeights([CanBeNull] IReadOnlyList<IDistribution> distributions) =>
+        private static double[] GetDefaultWeights([CanBeNull] IReadOnlyList<IContinuousDistribution> distributions) =>
             distributions?.Select(d => 1.0 / distributions.Count).ToArray() ?? Array.Empty<double>();
 
-        private double Aggregate(Func<IDistribution, double> func)
+        private double Aggregate(Func<IContinuousDistribution, double> func)
         {
             double result = 0;
             for (int i = 0; i < n; i++)

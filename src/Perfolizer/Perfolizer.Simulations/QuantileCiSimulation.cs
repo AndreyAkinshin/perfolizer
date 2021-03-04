@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.Distributions;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Reference;
 
@@ -49,7 +49,7 @@ namespace Perfolizer.Simulations
             }
         }
 
-        private double GetCoveragePercentage(IDistribution distribution, Probability probability, ConfidenceLevel confidenceLevel,
+        private double GetCoveragePercentage(IContinuousDistribution distribution, Probability probability, ConfidenceLevel confidenceLevel,
             Random random, int sampleSize, int repetitions)
         {
             var generator = distribution.Random(random);
