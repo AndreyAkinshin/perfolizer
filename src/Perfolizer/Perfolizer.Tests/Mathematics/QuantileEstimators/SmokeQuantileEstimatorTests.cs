@@ -54,19 +54,28 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 
         static SmokeQuantileEstimatorTests()
         {
-            var distributions = new List<(string Name, IContinuousDistribution distribution)>()
+            var distributions = new List<(string Name, IContinuousDistribution distribution)>
             {
                 ("Normal", NormalDistribution.Standard),
                 ("Gumbel", new GumbelDistribution())
             };
-            var estimators = new List<(string Name, IQuantileEstimator estimator)>()
+            var estimators = new List<(string Name, IQuantileEstimator estimator)>
             {
+                ("HF1", new HyndmanFanQuantileEstimator(HyndmanFanType.Type1)),
+                ("HF2", new HyndmanFanQuantileEstimator(HyndmanFanType.Type2)),
+                ("HF3", new HyndmanFanQuantileEstimator(HyndmanFanType.Type3)),
+                ("HF4", new HyndmanFanQuantileEstimator(HyndmanFanType.Type4)),
+                ("HF5", new HyndmanFanQuantileEstimator(HyndmanFanType.Type5)),
+                ("HF6", new HyndmanFanQuantileEstimator(HyndmanFanType.Type6)),
                 ("HF7", new HyndmanFanQuantileEstimator(HyndmanFanType.Type7)),
+                ("HF8", new HyndmanFanQuantileEstimator(HyndmanFanType.Type8)),
+                ("HF9", new HyndmanFanQuantileEstimator(HyndmanFanType.Type9)),
                 ("HD", HarrellDavisQuantileEstimator.Instance),
                 ("WHD", new WinsorizedHarrellDavisQuantileEstimator(0.01)),
                 ("SV1", SfakianakisVerginis1QuantileEstimator.Instance),
                 ("SV2", SfakianakisVerginis2QuantileEstimator.Instance),
                 ("SV3", SfakianakisVerginis3QuantileEstimator.Instance),
+                ("NO", NavruzOzdemirQuantileEstimator.Instance),
             };
             int[] sampleSizes = {10, 50, 100};
             var probabilities = new Probability[] {0.25, 0.5, 0.75};
