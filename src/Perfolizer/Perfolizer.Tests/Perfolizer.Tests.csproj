@@ -18,8 +18,4 @@
       <ProjectReference Include="..\Perfolizer\Perfolizer.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Mathematics\Distributions" />
-    </ItemGroup>
-
 </Project>

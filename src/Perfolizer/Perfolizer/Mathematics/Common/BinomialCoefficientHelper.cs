@@ -1,4 +1,6 @@
 using System;
+using Perfolizer.Common;
+using Perfolizer.Mathematics.Functions;
 
 namespace Perfolizer.Mathematics.Common
 {
@@ -31,6 +33,17 @@ namespace Perfolizer.Mathematics.Common
             }
 
             return pascalTriangle[n, k];
+        }
+
+        /// <summary>
+        /// Log(C(n, k))
+        /// </summary>
+        public static double GetLogBinomialCoefficient(int n, int k)
+        {
+            Assertion.Positive(nameof(n), n);
+            Assertion.InRangeInclusive(nameof(k), k, 0, n);
+            
+            return FactorialFunction.LogValue(n) - FactorialFunction.LogValue(k) - FactorialFunction.LogValue(n - k);
         }
     }
 }

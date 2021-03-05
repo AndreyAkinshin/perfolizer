@@ -6,8 +6,6 @@ namespace Perfolizer.Mathematics.Functions
 {
     public static class GammaFunction
     {
-        public static double Factorial(double n) => Value(n + 1);
-
         public static double Value(double x)
         {
             if (x < 1e-5)

@@ -612,7 +612,7 @@ namespace Perfolizer.Tests.Mathematics.Functions
             for (int n = 1; n <= 30; n++)
             {
                 actual *= n;
-                double expected = GammaFunction.Factorial(n);
+                double expected = GammaFunction.Value(n + 1);
                 
                 output.WriteLine($"N = {n}");
                 output.WriteLine($"Expected = {expected}");
