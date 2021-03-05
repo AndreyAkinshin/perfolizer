@@ -31,6 +31,8 @@ namespace Perfolizer.Mathematics.Common
             return outerRange.Left <= Left && Right <= outerRange.Right;
         }
 
+        public bool ContainsInclusive(double value) => Left <= value && value <= Right;
+
         [NotNull]
         public string ToString([CanBeNull] CultureInfo cultureInfo, [CanBeNull] string format = "N2")
         {
