@@ -11,13 +11,15 @@ namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions
 {
     public class DistributionTestsBase
     {
-        private static readonly IEqualityComparer<double> EqualityComparer = new AbsoluteEqualityComparer(1e-5);
+        protected virtual double Eps => 1e-5;
+        private readonly IEqualityComparer<double> equalityComparer;
 
         private readonly ITestOutputHelper output;
 
         protected DistributionTestsBase(ITestOutputHelper output)
         {
             this.output = output;
+            equalityComparer = new AbsoluteEqualityComparer(Eps);
         }
 
         protected static double[] DefaultProbs = new double[]
@@ -89,7 +91,7 @@ namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions
             output.WriteLine($"{name}:");
             output.WriteLine($"  Expected = {expected}");
             output.WriteLine($"  Actual   = {actual}");
-            Assert.Equal(expected, actual, EqualityComparer);
+            Assert.Equal(expected, actual, equalityComparer);
         }
     }
 }

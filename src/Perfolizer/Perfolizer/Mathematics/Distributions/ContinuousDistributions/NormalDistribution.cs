@@ -37,7 +37,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             };
         }
 
-        private class NormalRandomGenerator : RandomGenerator
+        internal class NormalRandomGenerator : RandomGenerator
         {
             private readonly NormalDistribution distribution;
 

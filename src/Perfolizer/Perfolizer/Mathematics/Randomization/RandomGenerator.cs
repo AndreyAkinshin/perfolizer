@@ -17,9 +17,9 @@ namespace Perfolizer.Mathematics.Randomization
             Random = new Random(seed);
         }
 
-        protected RandomGenerator(Random random)
+        protected RandomGenerator([CanBeNull] Random random)
         {
-            Random = random;
+            Random = random ?? new Random();
         }
 
         /// <summary>
