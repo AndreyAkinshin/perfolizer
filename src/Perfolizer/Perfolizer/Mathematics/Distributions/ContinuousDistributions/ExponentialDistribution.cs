@@ -1,0 +1,38 @@
+using System;
+using JetBrains.Annotations;
+using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
+using Perfolizer.Mathematics.Randomization;
+using static System.Math;
+
+namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
+{
+    public class ExponentialDistribution : IContinuousDistribution
+    {
+        public double Rate { get; }
+
+        public ExponentialDistribution(double rate = 1.0)
+        {
+            Assertion.Positive(nameof(rate), rate);
+            
+            Rate = rate;
+        }
+
+        public double Pdf(double x) => Rate * Exp(-Rate * x);
+
+        public double Cdf(double x) => 1 - Exp(-Rate * x);
+
+        public double Quantile(Probability p) => - Log(1 - p) / Rate;
+
+        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
+
+        public double Mean => 1 / Rate;
+        public double Median => Constants.Log2 / Rate;
+        public double Variance => 1 / Rate.Sqr();
+        public double StandardDeviation => 1 / Rate;
+        
+        [NotNull]
+        public override string ToString() => $"Exp({Rate.ToStringInvariant()})";
+    }
+}
