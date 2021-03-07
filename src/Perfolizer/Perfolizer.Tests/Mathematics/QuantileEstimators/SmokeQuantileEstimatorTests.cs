@@ -72,6 +72,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 ("HF9", new HyndmanFanQuantileEstimator(HyndmanFanType.Type9)),
                 ("HD", HarrellDavisQuantileEstimator.Instance),
                 ("WHD", new WinsorizedHarrellDavisQuantileEstimator(0.01)),
+                ("THD", new TrimmedHarrellDavisQuantileEstimator(0.01)),
                 ("SV1", SfakianakisVerginis1QuantileEstimator.Instance),
                 ("SV2", SfakianakisVerginis2QuantileEstimator.Instance),
                 ("SV3", SfakianakisVerginis3QuantileEstimator.Instance),
