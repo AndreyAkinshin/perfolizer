@@ -12,20 +12,20 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// </summary>
     public class HyndmanFanQuantileEstimator : IQuantileEstimator
     {
-        private readonly HyndmanFanType type;
+        public HyndmanFanType Type { get; }
 
         public HyndmanFanQuantileEstimator(HyndmanFanType type)
         {
             if (!Enum.IsDefined(typeof(HyndmanFanType), type))
                 throw new ArgumentOutOfRangeException(nameof(type), type, "Unknown type");
 
-            this.type = type;
+            Type = type;
         }
 
         /// <summary>
         /// Returns 1-based real index estimation
         /// </summary>
-        protected double GetH(double n, Probability p) => type switch
+        protected double GetH(double n, Probability p) => Type switch
         {
             HyndmanFanType.Type1 => n * p + 0.5,
             HyndmanFanType.Type2 => n * p + 0.5,
@@ -54,7 +54,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
                 return sortedValues[index];
             }
 
-            return HyndmanFanEquations.Evaluate(type, sample.Count, probability, GetValue);
+            return HyndmanFanEquations.Evaluate(Type, sample.Count, probability, GetValue);
         }
 
         public virtual bool SupportsWeightedSamples => false;
