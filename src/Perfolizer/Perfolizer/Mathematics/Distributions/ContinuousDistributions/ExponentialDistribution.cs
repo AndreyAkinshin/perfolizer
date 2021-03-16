@@ -19,9 +19,19 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             Rate = rate;
         }
 
-        public double Pdf(double x) => Rate * Exp(-Rate * x);
+        public double Pdf(double x)
+        {
+            if (x < 0)
+                return 0;
+            return Rate * Exp(-Rate * x);
+        }
 
-        public double Cdf(double x) => 1 - Exp(-Rate * x);
+        public double Cdf(double x)
+        {
+            if (x < 0)
+                return 0;
+            return 1 - Exp(-Rate * x);
+        }
 
         public double Quantile(Probability p) => - Log(1 - p) / Rate;
 
