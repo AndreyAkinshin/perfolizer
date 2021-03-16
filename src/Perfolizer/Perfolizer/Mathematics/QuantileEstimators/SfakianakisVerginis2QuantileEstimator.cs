@@ -18,7 +18,9 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         private SfakianakisVerginis2QuantileEstimator()
         {
         }
-        
+
+        public override string Alias => "SV2";
+
         protected override double GetQuantile(IReadOnlyList<double> x, Probability probability, double[] b)
         {
             int n = x.Count;

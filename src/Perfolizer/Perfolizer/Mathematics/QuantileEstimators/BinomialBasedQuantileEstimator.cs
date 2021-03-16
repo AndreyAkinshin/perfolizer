@@ -24,6 +24,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         }
 
         public bool SupportsWeightedSamples => false;
+        public abstract string Alias { get; }
 
         protected abstract double GetQuantile(IReadOnlyList<double> x, Probability probability, double[] b);
     }

@@ -18,6 +18,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         public static readonly HarrellDavisQuantileEstimator Instance = new HarrellDavisQuantileEstimator();
 
         public bool SupportsWeightedSamples => true;
+        public string Alias => "HD";
 
         private readonly int cacheSize;
         [CanBeNull] private readonly ConcurrentDictionary<(double a, double b, double x), double> betaCdfCache;

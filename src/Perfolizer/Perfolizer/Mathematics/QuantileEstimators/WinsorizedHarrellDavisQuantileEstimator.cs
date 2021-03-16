@@ -1,3 +1,4 @@
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
@@ -9,5 +10,6 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         }
 
         protected override bool IsWinsorized => true;
+        public override string Alias => $"WHD|{TrimPercent.ToStringInvariant()}";
     }
 }

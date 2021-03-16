@@ -15,5 +15,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         double GetQuantile([NotNull] Sample sample, Probability probability);
         
         bool SupportsWeightedSamples { get; }
+        
+        string Alias { get; }
     }
 }

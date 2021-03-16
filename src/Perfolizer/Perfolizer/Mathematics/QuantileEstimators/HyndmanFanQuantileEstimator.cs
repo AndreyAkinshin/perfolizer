@@ -58,5 +58,6 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         }
 
         public virtual bool SupportsWeightedSamples => false;
+        public string Alias => "HF" + (int) Type;
     }
 }

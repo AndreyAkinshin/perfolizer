@@ -10,11 +10,11 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     {
         protected abstract bool IsWinsorized { get; }
         
-        private readonly Probability trimPercent;
+        protected Probability TrimPercent { get; }
 
         public ModifiedHarrellDavisQuantileEstimator(Probability trimPercent)
         {
-            this.trimPercent = trimPercent;
+            TrimPercent = trimPercent;
         }
 
         public double GetQuantile(Sample sample, Probability probability)
@@ -39,6 +39,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         }
 
         public bool SupportsWeightedSamples => true;
+        public abstract string Alias { get; }
 
         private readonly struct Moments
         {
@@ -69,7 +70,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             double n = sample.WeightedCount;
             double a = (n + 1) * probability, b = (n + 1) * (1 - probability);
             var distribution = new BetaDistribution(a, b);
-            double targetPercent = 1.0 - trimPercent;
+            double targetPercent = 1.0 - TrimPercent;
             bool symmetricMode = Math.Abs(probability - 0.5) < 1e-9;
 
             double c1 = 0;
