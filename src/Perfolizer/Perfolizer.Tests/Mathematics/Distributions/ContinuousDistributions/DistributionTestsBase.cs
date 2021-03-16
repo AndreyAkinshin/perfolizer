@@ -62,27 +62,42 @@ namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions
         }
 
         [AssertionMethod]
-        protected void Check(TestData data)
+        protected void Check(
+            TestData data,
+            bool skipStdDev = false,
+            bool skipPdf = false,
+            bool skipCdf = false,
+            bool skipQuantile = false)
         {
             output.WriteLine();
             output.WriteLine($"*** {data.Distribution} *** ");
 
-            AssertEqual("StandardDeviation", data.Distribution.StandardDeviation, data.Distribution.Variance.Sqrt());
+            if (!skipStdDev)
+                AssertEqual("StandardDeviation", data.Distribution.StandardDeviation, data.Distribution.Variance.Sqrt());
 
-            output.WriteLine("---");
-            for (int i = 0; i < data.X.Length; i++)
-                AssertEqual($"Pdf({data.X[i]})", data.ExpectedPdf[i], data.Distribution.Pdf(data.X[i]));
+            if (!skipPdf)
+            {
+                output.WriteLine("---");
+                for (int i = 0; i < data.X.Length; i++)
+                    AssertEqual($"Pdf({data.X[i]})", data.ExpectedPdf[i], data.Distribution.Pdf(data.X[i]));
+            }
 
-            output.WriteLine("---");
-            for (int i = 0; i < data.X.Length; i++)
-                AssertEqual($"Cdf({data.X[i]})", data.ExpectedCdf[i], data.Distribution.Cdf(data.X[i]));
+            if (!skipCdf)
+            {
+                output.WriteLine("---");
+                for (int i = 0; i < data.X.Length; i++)
+                    AssertEqual($"Cdf({data.X[i]})", data.ExpectedCdf[i], data.Distribution.Cdf(data.X[i]));
+            }
 
-            output.WriteLine("---");
-            for (int i = 0; i < data.P.Length; i++)
-                AssertEqual($"Quantile({data.P[i]})", data.ExpectedQuantiles[i], data.Distribution.Quantile(data.P[i]));
+            if (!skipQuantile)
+            {
+                output.WriteLine("---");
+                for (int i = 0; i < data.P.Length; i++)
+                    AssertEqual($"Quantile({data.P[i]})", data.ExpectedQuantiles[i], data.Distribution.Quantile(data.P[i]));
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => data.Distribution.Quantile(-1));
-            Assert.Throws<ArgumentOutOfRangeException>(() => data.Distribution.Quantile(2));
+                Assert.Throws<ArgumentOutOfRangeException>(() => data.Distribution.Quantile(-1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => data.Distribution.Quantile(2));
+            }
         }
 
         [AssertionMethod]
