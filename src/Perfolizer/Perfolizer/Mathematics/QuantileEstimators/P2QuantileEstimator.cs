@@ -6,8 +6,13 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 {
     /// <summary>
     /// Piecewise-Parabolic (P^2) quantile estimator 
-    /// 
-    /// See https://www.cse.wustl.edu/~jain/papers/ftp/psqr.pdf
+    ///
+    /// <remarks>
+    /// Based on the following paper:
+    /// Jain, Raj, and Imrich Chlamtac. "The P2 algorithm for dynamic calculation of quantiles and histograms without storing observations."
+    /// Communications of the ACM 28, no. 10 (1985): 1076-1085.
+    /// https://doi.org/10.1145/4372.4378
+    /// </remarks>
     /// </summary>
     public class P2QuantileEstimator : ISequentialQuantileEstimator
     {

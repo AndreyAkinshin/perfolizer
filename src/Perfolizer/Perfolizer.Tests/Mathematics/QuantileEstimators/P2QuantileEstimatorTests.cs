@@ -121,6 +121,13 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             Assert.True(expectedMin <= actual && actual <= expectedMax);
         }
 
+        /// <summary>
+        /// This test corresponds to Table I from the original paper:
+        /// Jain, Raj, and Imrich Chlamtac.
+        /// "The P2 algorithm for dynamic calculation of quantiles and histograms without storing observations."
+        /// Communications of the ACM 28, no. 10 (1985): 1076-1085.
+        /// https://doi.org/10.1145/4372.4378
+        /// </summary>
         [Fact]
         public void P2QuantileEstimatorReferenceTest()
         {
