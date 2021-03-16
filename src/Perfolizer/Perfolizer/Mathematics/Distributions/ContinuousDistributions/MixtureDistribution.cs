@@ -47,7 +47,13 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             this.distributions = distributions;
             this.weights = weights;
 
-            inverseCdf = new InverseMonotonousFunction(Cdf);
+            double cdfMin = distributions.Select(d => d.Quantile(0)).Min();
+            if (double.IsInfinity(cdfMin))
+                cdfMin = double.MinValue / 3;
+            double cdfMax = distributions.Select(d => d.Quantile(1)).Max();
+            if (double.IsInfinity(cdfMax))
+                cdfMax = double.MaxValue / 3;
+            inverseCdf = new InverseMonotonousFunction(Cdf, cdfMin, cdfMax);
             Median = Quantile(0.5);
             Mean = Aggregate(d => d.Mean);
             Variance = Aggregate(d => d.Variance + d.Mean.Sqr()) - Mean * Mean;

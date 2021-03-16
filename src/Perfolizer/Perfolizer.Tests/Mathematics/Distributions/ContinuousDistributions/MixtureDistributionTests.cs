@@ -1,13 +1,22 @@
 using System;
 using System.Collections.Generic;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Tests.Common;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions
 {
     public class MixtureDistributionTests
     {
+        private readonly ITestOutputHelper output;
+
+        public MixtureDistributionTests(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         private static readonly IEqualityComparer<double> Comparer = new AbsoluteEqualityComparer(1e-7);
 
         [Fact]
@@ -24,7 +33,7 @@ namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions
             Assert.Equal(0.5, mixture.Cdf(1), Comparer);
             Assert.Equal(0.75, mixture.Cdf(1.5), Comparer);
             Assert.Equal(1, mixture.Cdf(2), Comparer);
-            
+
             for (double p = 0; p < 1.0; p += 0.01)
                 Assert.Equal(p, mixture.Cdf(mixture.Quantile(p)), Comparer);
         }
@@ -39,6 +48,21 @@ namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions
 
             for (double p = 0; p < 1.0; p += 0.01)
                 Assert.Equal(p, mixture.Cdf(mixture.Quantile(p)), Comparer);
+        }
+
+        [Fact]
+        public void MixtureExponentialTest1()
+        {
+            var exp = new ExponentialDistribution();
+            var mixture = new MixtureDistribution(exp, new ShiftedDistribution(exp, 10));
+
+            var comparer = new AbsoluteEqualityComparer(1e-4);
+            for (double p = 0; p < 1.0; p += 0.01)
+            {
+                double q = mixture.Quantile(p);
+                output.WriteLine($"{p.ToStringInvariant("N2")}: {q.ToStringInvariant()}");
+                Assert.Equal(p, mixture.Cdf(q), comparer);
+            }
         }
     }
 }
