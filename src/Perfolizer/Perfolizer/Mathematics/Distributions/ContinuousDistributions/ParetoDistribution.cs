@@ -35,6 +35,6 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
         public double StandardDeviation => Variance.Sqrt();
 
         [NotNull]
-        public override string ToString() => $"Pareto({Xm.ToStringInvariant()},{Alpha.ToStringInvariant()}";
+        public override string ToString() => $"Pareto({Xm.ToStringInvariant()},{Alpha.ToStringInvariant()})";
     }
 }
