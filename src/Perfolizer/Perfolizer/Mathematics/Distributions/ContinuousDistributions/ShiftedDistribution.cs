@@ -31,7 +31,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
         public double StandardDeviation => distribution.StandardDeviation;
         
         [NotNull]
-        public override string ToString() => $"Shifted({distribution}, {shift.ToStringInvariant()})";
+        public override string ToString() => $"Shifted({distribution},{shift.ToStringInvariant()})";
         
         private class ShiftedRandomGenerator : RandomGenerator
         {

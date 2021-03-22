@@ -21,9 +21,19 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             Alpha = alpha;
         }
 
-        public double Pdf(double x) => Alpha * Pow(Xm, Alpha) / Pow(x, Alpha + 1);
+        public double Pdf(double x)
+        {
+            if (x <= Xm)
+                return 0;
+            return Alpha * Pow(Xm, Alpha) / Pow(x, Alpha + 1);
+        }
 
-        public double Cdf(double x) => 1 - Pow(Xm / x, Alpha);
+        public double Cdf(double x)
+        {
+            if (x <= Xm)
+                return 0;
+            return 1 - Pow(Xm / x, Alpha);
+        }
 
         public double Quantile(Probability p) => Xm * Pow(1 - p, -1 / Alpha);
         

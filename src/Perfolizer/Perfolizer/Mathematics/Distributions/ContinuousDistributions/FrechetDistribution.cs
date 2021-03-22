@@ -34,17 +34,24 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 
         public double Pdf(double x)
         {
+            if (x <= M)
+                return 0;
             double z = Z(x);
             return A / S * Pow(z, -1 - A) * Exp(-Pow(z, -A));
         }
 
-        public double Cdf(double x) => Exp(-Pow(Z(x), -A));
+        public double Cdf(double x)
+        {
+            if (x <= M)
+                return 0;
+            return Exp(-Pow(Z(x), -A));
+        }
 
         public double Quantile(Probability p)
         {
             return p.Value switch
             {
-                0 => double.NaN,
+                0 => double.Epsilon,
                 1 => double.PositiveInfinity,
                 _ => M + S * Pow(-Log(p), -1 / A)
             };

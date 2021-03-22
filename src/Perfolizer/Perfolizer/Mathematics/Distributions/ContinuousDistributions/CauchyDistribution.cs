@@ -47,5 +47,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
         public double Median => Location;
         public double Variance => double.NaN;
         public double StandardDeviation => double.NaN;
+
+        public override string ToString() => $"Cauchy({Location.ToStringInvariant()},{Scale.ToStringInvariant()})";
     }
 }

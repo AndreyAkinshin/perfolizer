@@ -261,7 +261,7 @@ namespace Perfolizer.Mathematics.Reference
                         new NormalDistribution(1000, 65),
                         new NormalDistribution(1500, 65)
                     }, new[] {0.333, 0.334, 0.333})),
-                new ReferenceDistribution("302", "trimodal normal outliers", new MixtureDistribution(
+                new ReferenceDistribution("303", "trimodal normal outliers", new MixtureDistribution(
                     new IContinuousDistribution[]
                     {
                         new NormalDistribution(500, 100),
