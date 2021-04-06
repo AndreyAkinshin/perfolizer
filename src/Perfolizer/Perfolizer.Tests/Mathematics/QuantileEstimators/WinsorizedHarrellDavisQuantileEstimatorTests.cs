@@ -5,6 +5,7 @@ using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
+using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -34,6 +35,63 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             output.WriteLine("Median-WHD = " + whdMedian.ToStringInvariant());
 
             Assert.True(Math.Abs(whdMedian) < 4);
+        }
+        
+        [Fact]
+        public void WinsorizedHarrellDavisQuantileEstimatorTest2()
+        {
+            var randomGenerator = new UniformDistribution(5, 15).Random(42);
+            const int n = 10;
+            double[] values1 = randomGenerator.Next(n);
+            Array.Sort(values1);
+            values1[0] = 0;
+            values1[n - 1] = 20;
+            
+            double[] values2 = new double[n];
+            Array.Copy(values1, values2, n);
+            values2[0] = values2[1];
+            values2[n - 1] = values2[n - 2];
+            
+            var sample1 = values1.ToSample();
+            var sample2 = values2.ToSample();
+            var hdEstimator = new HarrellDavisQuantileEstimator();
+            var whdEstimator = new WinsorizedHarrellDavisQuantileEstimator(0.01);
+            double actual = whdEstimator.GetMedian(sample1);
+            double expected = hdEstimator.GetMedian(sample2);
+            output.WriteLine("Actual  = " + actual.ToStringInvariant());
+            output.WriteLine("Expected = " + expected.ToStringInvariant());
+
+            Assert.Equal(expected, actual, new AbsoluteEqualityComparer(1e-9));
+        }
+        
+        [Fact]
+        public void WinsorizedHarrellDavisQuantileEstimatorTest3()
+        {
+            var randomGenerator = new UniformDistribution(25, 35).Random(42);
+            const int n = 19;
+            double[] values1 = randomGenerator.Next(n);
+            Array.Sort(values1);
+            for (int i = 6; i < n; i++)
+                values1[i] = 1e10;
+            
+            double[] values2 = new double[n];
+            Array.Copy(values1, values2, n);
+            for (int i = 6; i < n; i++)
+                values2[i] = values2[5];
+            
+            var sample1 = values1.ToSample();
+            var sample2 = values2.ToSample();
+            var hdEstimator = new HarrellDavisQuantileEstimator();
+            var whdEstimator = new WinsorizedHarrellDavisQuantileEstimator(0.01);
+            double actual = whdEstimator.GetQuantile(sample1, 0.1);
+            double expected = hdEstimator.GetQuantile(sample2, 0.1);
+            output.WriteLine("Actual  = " + actual.ToStringInvariant());
+            output.WriteLine("Expected = " + expected.ToStringInvariant());
+
+            var interval = whdEstimator.GetWinsorizedInterval(n, 0.1);
+            output.WriteLine($"WinsorizedInterval = [{interval.left}; {interval.right}]");
+
+            Assert.Equal(expected, actual, new AbsoluteEqualityComparer(1e-9));
         }
 
         [Theory]

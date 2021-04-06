@@ -12,7 +12,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         
         protected Probability TrimPercent { get; }
 
-        public ModifiedHarrellDavisQuantileEstimator(Probability trimPercent)
+        protected ModifiedHarrellDavisQuantileEstimator(Probability trimPercent)
         {
             TrimPercent = trimPercent;
         }
