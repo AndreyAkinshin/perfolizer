@@ -44,10 +44,10 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         public ConfidenceIntervalEstimator GetQuantileConfidenceIntervalEstimator(Sample sample, Probability probability)
         {
             (double c1, double c2) = GetMoments(sample, probability, true);
-            double median = c1;
+            double estimation = c1;
             double standardError = Math.Sqrt(c2 - c1.Sqr());
             double weightedCount = sample.WeightedCount;
-            return new ConfidenceIntervalEstimator(weightedCount, median, standardError);
+            return new ConfidenceIntervalEstimator(weightedCount, estimation, standardError);
         }
 
         private readonly struct Moments
