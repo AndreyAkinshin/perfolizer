@@ -89,6 +89,7 @@ namespace Perfolizer.Tests.Mathematics.Modality
             {
                 PresentOutliers = false,
                 PresentModeLocations = true,
+                CompactMiddleModes = false,
                 GroupSeparator = Environment.NewLine
             };
             return formatter.Format(data, "N2");

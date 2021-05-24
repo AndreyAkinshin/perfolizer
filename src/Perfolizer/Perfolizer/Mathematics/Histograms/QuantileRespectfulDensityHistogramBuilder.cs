@@ -37,8 +37,11 @@ namespace Perfolizer.Mathematics.Histograms
             for (int i = 0; i < binCount; i++)
             {
                 double width = quantiles[i + 1] - quantiles[i];
-                double value = 1.0 / binCount / width;
-                bins.Add(new DensityHistogramBin(quantiles[i], quantiles[i + 1], value));
+                if (width > 1e-9)
+                {
+                    double value = 1.0 / binCount / width;
+                    bins.Add(new DensityHistogramBin(quantiles[i], quantiles[i + 1], value));
+                }
             }
 
             return new DensityHistogram(bins);

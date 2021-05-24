@@ -8,6 +8,7 @@ using Perfolizer.Mathematics.Histograms;
 
 namespace Perfolizer.Mathematics.Multimodality
 {
+    // https://aakinshin.net/posts/lowland-multimodality-detection/
     public class LowlandModalityDetector : IModalityDetector
     {
         [NotNull] public static readonly LowlandModalityDetector Instance = new LowlandModalityDetector();
@@ -33,8 +34,9 @@ namespace Perfolizer.Mathematics.Multimodality
                 throw new ArgumentException($"{nameof(sample)} should contain at least two different elements", nameof(sample));
 
             densityHistogramBuilder ??= QuantileRespectfulDensityHistogramBuilder.Instance;
-            int binCount = (int) Math.Round(1 / precision);
-            var histogram = densityHistogramBuilder.Build(sample, binCount);
+            int desiredBinCount = (int) Math.Round(1 / precision);
+            var histogram = densityHistogramBuilder.Build(sample, desiredBinCount);
+            int binCount = histogram.Bins.Count;
             var bins = histogram.Bins;
             double binArea = 1.0 / bins.Count;
             var binHeights = bins.Select(bin => bin.Height).ToList();
@@ -66,6 +68,9 @@ namespace Perfolizer.Mathematics.Multimodality
                         modeWeights?.Add(sample.SortedWeights[i]);
                     }
                 }
+                if (modeValues.IsEmpty())
+                    throw new InvalidOperationException(
+                        $"Can't find any values in [{left.ToStringInvariant()}, {right.ToStringInvariant()}]");
 
                 var modeSample = modeWeights == null ? new Sample(modeValues) : new Sample(modeValues, modeWeights);
                 return new RangedMode(location, left, right, modeSample);

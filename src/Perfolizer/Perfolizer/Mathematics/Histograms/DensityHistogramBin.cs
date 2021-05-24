@@ -1,3 +1,5 @@
+using Perfolizer.Common;
+
 namespace Perfolizer.Mathematics.Histograms
 {
     public class DensityHistogramBin
@@ -10,9 +12,17 @@ namespace Perfolizer.Mathematics.Histograms
 
         public DensityHistogramBin(double lower, double upper, double height)
         {
+            Assertion.NonNegative(nameof(height), height);
+            Assertion.Positive("width", upper - lower);
+            
             Lower = lower;
             Upper = upper;
             Height = height;
+        }
+
+        public override string ToString()
+        {
+            return $"[{Lower.ToStringInvariant()}; {Upper.ToStringInvariant()}] H = {Height.ToStringInvariant()}";
         }
     }
 }
