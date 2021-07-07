@@ -57,7 +57,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         }
 
         public PartitioningHeapsMovingQuantileEstimator(int windowSize, Probability p, HyndmanFanType HyndmanFanType)
-            : this(windowSize, ((int) HyndmanFanEquations.GetH(HyndmanFanType, windowSize, p) - 1).Clamp(0, windowSize - 1))
+            : this(windowSize, ((int) HyndmanFanHelper.GetH(HyndmanFanType, windowSize, p) - 1).Clamp(0, windowSize - 1))
         {
             this.hyndmanFanType = HyndmanFanType;
             probability = p;
@@ -235,7 +235,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
                     throw new InvalidOperationException();
                 }
 
-                return HyndmanFanEquations.Evaluate(hyndmanFanType.Value, windowSize, probability, GetValue);
+                return HyndmanFanHelper.Evaluate(hyndmanFanType.Value, windowSize, probability, GetValue);
             }
             
             if (initStrategy == MovingQuantileEstimatorInitStrategy.OrderStatistics && k >= totalElementCount)

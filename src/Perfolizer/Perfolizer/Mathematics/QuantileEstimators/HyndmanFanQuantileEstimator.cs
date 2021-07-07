@@ -25,25 +25,55 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         /// <summary>
         /// Returns 1-based real index estimation
         /// </summary>
-        protected double GetH(double n, Probability p) => Type switch
-        {
-            HyndmanFanType.Type1 => n * p + 0.5,
-            HyndmanFanType.Type2 => n * p + 0.5,
-            HyndmanFanType.Type3 => n * p,
-            HyndmanFanType.Type4 => n * p,
-            HyndmanFanType.Type5 => n * p + 0.5,
-            HyndmanFanType.Type6 => (n + 1) * p,
-            HyndmanFanType.Type7 => (n - 1) * p + 1,
-            HyndmanFanType.Type8 => (n + 1.0 / 3) * p + 1.0 / 3,
-            HyndmanFanType.Type9 => (n + 1.0 / 4) * p + 3.0 / 8,
-            _ => throw new InvalidOperationException()
-        };
+        private double GetH(double n, Probability p) => HyndmanFanHelper.GetH(Type, n, p);
 
         public virtual double GetQuantile(Sample sample, Probability probability)
         {
-            Assertion.NonWeighted(nameof(sample), sample);
+            if (!SupportsWeightedSamples)
+                Assertion.NonWeighted(nameof(sample), sample);
 
+            return sample.IsWeighted
+                ? GetQuantileForWeightedSample(sample, probability)
+                : GetQuantileForNonWeightedSample(sample, probability);
+        }
+
+        // See https://aakinshin.net/posts/weighted-quantiles/
+        private double GetQuantileForWeightedSample(Sample sample, Probability probability)
+        {
+            Assertion.NotNull(nameof(sample), sample);
+
+            int n = sample.Count;
+            double p = probability;
+            double h = GetH(n, p).Clamp(1, n);
+            double left = (h - 1) / n;
+            double right = h / n;
+
+            double Cdf(double x)
+            {
+                if (x <= left)
+                    return 0;
+                if (x >= right)
+                    return 1;
+                return x * n - h + 1;
+            }
+
+            double totalWeight = sample.TotalWeight;
+            double result = 0;
+            double current = 0;
+            for (int i = 0; i < n; i++)
+            {
+                double next = current + sample.Weights[i] / totalWeight;
+                result += sample.SortedValues[i] * (Cdf(next) - Cdf(current));
+                current = next;
+            }
+
+            return result;
+        }
+
+        private double GetQuantileForNonWeightedSample(Sample sample, Probability probability)
+        {
             var sortedValues = sample.SortedValues;
+
             double GetValue(int index)
             {
                 index -= 1; // Adapt one-based formula to the zero-based list
@@ -54,10 +84,10 @@ namespace Perfolizer.Mathematics.QuantileEstimators
                 return sortedValues[index];
             }
 
-            return HyndmanFanEquations.Evaluate(Type, sample.Count, probability, GetValue);
+            return HyndmanFanHelper.Evaluate(Type, sample.Count, probability, GetValue);
         }
 
-        public virtual bool SupportsWeightedSamples => false;
-        public string Alias => "HF" + (int) Type;
+        public virtual bool SupportsWeightedSamples => HyndmanFanHelper.SupportsWeightedSamples(Type);
+        public string Alias => "HF" + (int)Type;
     }
 }

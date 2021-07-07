@@ -3,8 +3,15 @@ using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
-    internal static class HyndmanFanEquations
+    internal static class HyndmanFanHelper
     {
+        public static readonly HyndmanFanType[] AllTypes =
+        {
+            HyndmanFanType.Type1, HyndmanFanType.Type2, HyndmanFanType.Type3,
+            HyndmanFanType.Type4, HyndmanFanType.Type5, HyndmanFanType.Type6,
+            HyndmanFanType.Type7, HyndmanFanType.Type8, HyndmanFanType.Type9,
+        };
+
         /// <summary>
         /// Returns 1-based real index estimation
         /// </summary>
@@ -28,7 +35,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
             double LinearInterpolation()
             {
-                int hFloor = (int) h;
+                int hFloor = (int)h;
                 double fraction = h - hFloor;
                 if (hFloor + 1 <= n)
                     return getValue(hFloor) * (1 - fraction) + getValue(hFloor + 1) * fraction;
@@ -37,11 +44,25 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
             return type switch
             {
-                HyndmanFanType.Type1 => getValue((int) Math.Ceiling(h - 0.5)),
-                HyndmanFanType.Type2 => (getValue((int) Math.Ceiling(h - 0.5)) + getValue((int) Math.Floor(h + 0.5))) / 2,
-                HyndmanFanType.Type3 => getValue((int) Math.Round(h, MidpointRounding.ToEven)),
+                HyndmanFanType.Type1 => getValue((int)Math.Ceiling(h - 0.5)),
+                HyndmanFanType.Type2 => (getValue((int)Math.Ceiling(h - 0.5)) + getValue((int)Math.Floor(h + 0.5))) / 2,
+                HyndmanFanType.Type3 => getValue((int)Math.Round(h, MidpointRounding.ToEven)),
                 _ => LinearInterpolation()
             };
         }
+
+        public static bool SupportsWeightedSamples(HyndmanFanType type) => type switch
+        {
+            HyndmanFanType.Type1 => false,
+            HyndmanFanType.Type2 => false,
+            HyndmanFanType.Type3 => false,
+            HyndmanFanType.Type4 => true,
+            HyndmanFanType.Type5 => true,
+            HyndmanFanType.Type6 => true,
+            HyndmanFanType.Type7 => true,
+            HyndmanFanType.Type8 => true,
+            HyndmanFanType.Type9 => true,
+            _ => throw new InvalidOperationException()
+        };
     }
 }

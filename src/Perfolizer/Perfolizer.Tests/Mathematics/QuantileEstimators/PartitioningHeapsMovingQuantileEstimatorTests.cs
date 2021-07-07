@@ -34,11 +34,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         {
             double[] fullSource = {1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66};
             var probabilities = Enumerable.Range(0, 101).Select(x => (Probability) (x / 100.0)).ToArray();
-            var types = new[]
-            {
-                HyndmanFanType.Type1, HyndmanFanType.Type2, HyndmanFanType.Type3, HyndmanFanType.Type4, HyndmanFanType.Type5,
-                HyndmanFanType.Type6, HyndmanFanType.Type7, HyndmanFanType.Type8, HyndmanFanType.Type9,
-            };
+            var types = HyndmanFanHelper.AllTypes;
 
             var comparer = new AbsoluteEqualityComparer(1e-2);
             var shuffler = new Shuffler(new Random(42));

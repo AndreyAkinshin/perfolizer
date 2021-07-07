@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Perfolizer.Collections;
 using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Common;
 using Xunit;
@@ -15,10 +17,10 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         {
         }
 
-        public static readonly IDictionary<string, HyTestData> TestDataMap = new Dictionary<string, HyTestData>
+        public static readonly IDictionary<string, HfTestData> TestDataMap = new Dictionary<string, HfTestData>
         {
             {
-                "Type1", new HyTestDataCase1(HyndmanFanType.Type1, new[]
+                "Type1", new HfTestDataCase1(HyndmanFanType.Type1, new[]
                 {
                     0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
                     25, 25, 25, 25, 25, 25, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 75, 75, 75, 75,
@@ -27,7 +29,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 })
             },
             {
-                "Type2", new HyTestDataCase1(HyndmanFanType.Type2, new[]
+                "Type2", new HfTestDataCase1(HyndmanFanType.Type2, new[]
                 {
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12.5, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
                     25, 25, 25, 25, 25, 25, 37.5, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 62.5, 75, 75,
@@ -36,7 +38,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 })
             },
             {
-                "Type3", new HyTestDataCase1(HyndmanFanType.Type3, new[]
+                "Type3", new HfTestDataCase1(HyndmanFanType.Type3, new[]
                 {
                     0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 25, 25, 25, 25, 25,
                     25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50,
@@ -45,7 +47,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 })
             },
             {
-                "Type4", new HyTestDataCase1(HyndmanFanType.Type4, new[]
+                "Type4", new HfTestDataCase1(HyndmanFanType.Type4, new[]
                 {
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.25, 2.5, 3.75, 5, 6.25, 7.5, 8.75, 10, 11.25, 12.5,
                     13.75, 15, 16.25, 17.5, 18.75, 20, 21.25, 22.5, 23.75, 25, 26.25, 27.5, 28.75, 30, 31.25, 32.5, 33.75, 35, 36.25, 37.5,
@@ -55,7 +57,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 })
             },
             {
-                "Type5", new HyTestDataCase1(HyndmanFanType.Type5, new[]
+                "Type5", new HfTestDataCase1(HyndmanFanType.Type5, new[]
                 {
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.25, 2.5, 3.75, 5, 6.25, 7.5, 8.75, 10, 11.25, 12.5, 13.75, 15, 16.25, 17.5, 18.75,
                     20, 21.25, 22.5, 23.75, 25, 26.25, 27.5, 28.75, 30, 31.25, 32.5, 33.75, 35, 36.25, 37.5, 38.75, 40, 41.25, 42.5, 43.75,
@@ -65,7 +67,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 })
             },
             {
-                "Type6", new HyTestDataCase1(HyndmanFanType.Type6, new[]
+                "Type6", new HfTestDataCase1(HyndmanFanType.Type6, new[]
                 {
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 2, 3.5, 5, 6.5, 8, 9.5, 11, 12.5, 14, 15.5, 17, 18.5, 20, 21.5,
                     23, 24.5, 26, 27.5, 29, 30.5, 32, 33.5, 35, 36.5, 38, 39.5, 41, 42.5, 44, 45.5, 47, 48.5, 50, 51.5, 53, 54.5, 56, 57.5,
@@ -74,7 +76,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 })
             },
             {
-                "Type7", new HyTestDataCase1(HyndmanFanType.Type7, new[]
+                "Type7", new HfTestDataCase1(HyndmanFanType.Type7, new[]
                 {
                     0.0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
                     32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61,
@@ -83,7 +85,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 })
             },
             {
-                "Type8", new HyTestDataCase1(HyndmanFanType.Type8, new[]
+                "Type8", new HfTestDataCase1(HyndmanFanType.Type8, new[]
                 {
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.666666666666671, 2, 3.33333333333333, 4.66666666666667, 6.00000000000001,
                     7.33333333333334, 8.66666666666667, 10, 11.3333333333333, 12.6666666666667, 14, 15.3333333333333, 16.6666666666667, 18,
@@ -98,7 +100,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 })
             },
             {
-                "Type9", new HyTestDataCase1(HyndmanFanType.Type9, new[]
+                "Type9", new HfTestDataCase1(HyndmanFanType.Type9, new[]
                 {
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.124999999999997, 1.4375, 2.75, 4.0625, 5.375, 6.6875, 8, 9.3125, 10.625, 11.9375,
                     13.25, 14.5625, 15.875, 17.1875, 18.5, 19.8125, 21.125, 22.4375, 23.75, 25.0625, 26.375, 27.6875, 29, 30.3125, 31.625,
@@ -111,26 +113,26 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             }
         };
 
-        public abstract class HyTestData
+        public abstract class HfTestData
         {
             public HyndmanFanType Type { get; }
             [NotNull] public double[] Expected { get; }
             [NotNull] public abstract double[] Source { get; }
             [NotNull] public abstract Probability[] Probabilities { get; }
 
-            protected HyTestData(HyndmanFanType type, [NotNull] double[] expected)
+            protected HfTestData(HyndmanFanType type, [NotNull] double[] expected)
             {
                 Type = type;
                 Expected = expected;
             }
         }
 
-        private class HyTestDataCase1 : HyTestData
+        private class HfTestDataCase1 : HfTestData
         {
-            private static readonly Probability[] DefaultProbabilities = Enumerable.Range(0, 101)
+            public static readonly Probability[] DefaultProbabilities = Enumerable.Range(0, 101)
                 .Select(x => (Probability)(x / 100.0)).ToArray();
 
-            public HyTestDataCase1(HyndmanFanType type, [NotNull] double[] expected) : base(type, expected)
+            public HfTestDataCase1(HyndmanFanType type, [NotNull] double[] expected) : base(type, expected)
             {
             }
 
@@ -145,12 +147,28 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         public void HyndmanFanQuantileEstimatorTest([NotNull] string testDataKey)
         {
             var data = TestDataMap[testDataKey];
-
-            var estimator = data.Type == HyndmanFanType.Type7
-                ? (IQuantileEstimator) SimpleQuantileEstimator.Instance
-                : new HyndmanFanQuantileEstimator(data.Type);
-
+            var estimator = new HyndmanFanQuantileEstimator(data.Type);
             Check(estimator, new TestData(data.Source, data.Probabilities, data.Expected));
+        }
+        
+        [Theory]
+        [InlineData(0, 1)]
+        [InlineData(1, 2)]
+        [InlineData(2, 3)]
+        [InlineData(4, 10)]
+        [InlineData(5, 20)]
+        [InlineData(6, 30)]
+        public void HyndmanFanQuantileEstimatorWeightedTest1(int seed, int n)
+        {
+            var types = HyndmanFanHelper.AllTypes.Where(HyndmanFanHelper.SupportsWeightedSamples).ToArray();
+            var sample = NormalDistribution.Standard.Random(seed).Next(n).ToSample();
+            var probabilities = HfTestDataCase1.DefaultProbabilities;
+            foreach (var type in types)
+            {
+                var estimator = new HyndmanFanQuantileEstimator(type);
+                double[] expected = estimator.GetQuantiles(sample, probabilities);
+                Check(estimator, new TestData(sample.Values.ToArray(), probabilities, expected));
+            }
         }
     }
 }
