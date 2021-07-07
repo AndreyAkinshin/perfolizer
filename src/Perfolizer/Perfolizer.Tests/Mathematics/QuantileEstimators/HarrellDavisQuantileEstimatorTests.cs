@@ -229,7 +229,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 "WeightedCase4", new TestData(
                     new[] {1.0, 2.0, 3.0, 4.0, 5.0},
                     new Probability[] {0.5},
-                    new[] {2.2239999964651336},
+                    new[] {2.1837078599504114},
                     new[] {1.0, 1.0, 0.2, 0.4, 0.4})
             },
             {
@@ -333,8 +333,8 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 .GetQuantileConfidenceIntervalEstimator(sample, 0.5)
                 .GetConfidenceInterval(ConfidenceLevel.L95);
             var comparer = new AbsoluteEqualityComparer(1e-6);
-            Assert.Equal(-0.983888521830027, interval.Lower, comparer);
-            Assert.Equal(7.26422828233614, interval.Upper, comparer);
+            Assert.Equal(0.23619006531720732, interval.Lower, comparer);
+            Assert.Equal(6.029669559847112, interval.Upper, comparer);
         }
 
         [Fact]
@@ -346,7 +346,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             double[] data2 = data1.Select(x => x + 100).ToArray();
             double[] data = data1.Concat(data2).ToArray();
             var samples = new List<Sample> { new Sample(data1)};
-            for (int i = 1; i <= 40; i++)
+            for (int i = 2; i <= 40; i++)
                 samples.Add(new Sample(data, ExponentialDecaySequence.CreateFromHalfLife(i).GenerateArray(data.Length)));
             samples.Add(new Sample(data));
             var medians = samples.Select(s => HarrellDavisQuantileEstimator.Instance.GetMedian(s)).ToList();

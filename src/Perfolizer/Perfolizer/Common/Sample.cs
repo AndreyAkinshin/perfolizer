@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
+using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Common
 {
@@ -11,10 +11,6 @@ namespace Perfolizer.Common
         [NotNull] public IReadOnlyList<double> Values { get; }
         [NotNull] public IReadOnlyList<double> Weights { get; }
         public double TotalWeight { get; }
-        /// <summary>
-        /// Sum of weighted normalized by the maximum weight
-        /// </summary>
-        public double WeightedCount { get; }
         public bool IsWeighted { get; }
 
         [NotNull] private readonly Lazy<(IReadOnlyList<double> SortedValues, IReadOnlyList<double> SortedWeights)> lazySortedData;
@@ -22,7 +18,15 @@ namespace Perfolizer.Common
         [NotNull] public IReadOnlyList<double> SortedValues => lazySortedData.Value.SortedValues;
         [NotNull] public IReadOnlyList<double> SortedWeights => lazySortedData.Value.SortedWeights;
 
+        /// <summary>
+        /// Sample size
+        /// </summary>
         public int Count => Values.Count;
+
+        /// <summary>
+        /// Kish's Effective Sample Size
+        /// </summary>
+        public double WeightedCount { get; }
 
         public Sample([NotNull] IReadOnlyList<double> values)
         {
@@ -48,9 +52,11 @@ namespace Perfolizer.Common
                     nameof(weights));
 
             double totalWeight = 0, maxWeight = double.MinValue, minWeight = double.MaxValue;
+            double totalWeightSquared = 0; // Sum of weight squares
             foreach (double weight in weights)
             {
                 totalWeight += weight;
+                totalWeightSquared += weight.Sqr();
                 maxWeight = Math.Max(maxWeight, weight);
                 minWeight = Math.Min(minWeight, weight);
             }
@@ -63,7 +69,7 @@ namespace Perfolizer.Common
             Values = values;
             Weights = weights;
             TotalWeight = totalWeight;
-            WeightedCount = totalWeight / maxWeight;
+            WeightedCount = totalWeight.Sqr() / totalWeightSquared;
             IsWeighted = true;
 
             lazySortedData = new Lazy<(IReadOnlyList<double> SortedValues, IReadOnlyList<double> SortedWeights)>(() =>
