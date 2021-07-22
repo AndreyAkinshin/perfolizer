@@ -8,13 +8,16 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 {
     public abstract class ModifiedHarrellDavisQuantileEstimator: IQuantileEstimator, IQuantileConfidenceIntervalEstimator
     {
+        protected const int DefaultMinTargetCount = 1;
         protected abstract bool IsWinsorized { get; }
         
-        protected Probability TrimPercent { get; }
+        protected Probability TrimPercentage { get; }
+        protected int MinTargetCount { get; }
 
-        protected ModifiedHarrellDavisQuantileEstimator(Probability trimPercent)
+        protected ModifiedHarrellDavisQuantileEstimator(Probability trimPercentage, int minTargetCount = DefaultMinTargetCount)
         {
-            TrimPercent = trimPercent;
+            TrimPercentage = trimPercentage;
+            MinTargetCount = minTargetCount;
         }
 
         public double GetQuantile(Sample sample, Probability probability)
@@ -70,7 +73,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             double n = sample.WeightedCount;
             double a = (n + 1) * probability, b = (n + 1) * (1 - probability);
             var distribution = new BetaDistribution(a, b);
-            double targetPercent = 1.0 - TrimPercent;
+            double targetPercentage = 1.0 - TrimPercentage;
             bool symmetricMode = Math.Abs(probability - 0.5) < 1e-9;
 
             double c1 = 0;
@@ -103,7 +106,8 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             Process(indexLeft, betaCdfRight - betaCdfLeft);
             double betaPdfLeft = distribution.Pdf(probabilityLeft);
             double betaPdfRight = distribution.Pdf(probabilityRight);
-            while ((betaCdfRight - betaCdfLeft < targetPercent ||
+            while ((betaCdfRight - betaCdfLeft < targetPercentage ||
+                    indexRight - indexLeft + 1 < MinTargetCount ||
                     symmetricMode && (indexLeft != sample.Count - 1 - indexRight)) &&
                    (indexLeft > 0 || indexRight < sample.Count - 1))
             {

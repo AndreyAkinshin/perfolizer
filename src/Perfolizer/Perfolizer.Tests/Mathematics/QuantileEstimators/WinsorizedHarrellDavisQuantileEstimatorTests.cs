@@ -94,6 +94,32 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             Assert.Equal(expected, actual, new AbsoluteEqualityComparer(1e-9));
         }
 
+        [Fact]
+        public void WinsorizedHarrellDavisQuantileEstimator_MinCountTest()
+        {
+            int[] sampleSizes = Enumerable.Range(2, 9).Concat(new[] { 1_000 }).ToArray();
+            double[] probabilities = { 0, 0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99, 1 };
+            int[] expectedMinCounts = { 2, 5 };
+            foreach (int sampleSize in sampleSizes)
+            foreach (Probability quantileProbability in probabilities)
+            foreach (Probability trimmingPercentage in probabilities)
+            foreach (int expectedMinCount in expectedMinCounts)
+                if (expectedMinCount <= sampleSize)
+                {
+                    var estimator = new WinsorizedHarrellDavisQuantileEstimator(trimmingPercentage, expectedMinCount);
+                    (int l, int r) = estimator.GetWinsorizedInterval(sampleSize, quantileProbability);
+                    int actualCount = r - l + 1;
+                    output.TraceLine(string.Join(", ",
+                        $"n = {sampleSize}",
+                        $"p = {quantileProbability}",
+                        $"trimmingPercentage = {trimmingPercentage}",
+                        $"expectedMinCount = {expectedMinCount}",
+                        $"actualCount = {actualCount}")
+                    );
+                    Assert.True(actualCount >= expectedMinCount);
+                }
+        }
+
         [Theory]
         [InlineData(0.01)]
         [InlineData(0.05)]

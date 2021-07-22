@@ -5,11 +5,12 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 {
     public class WinsorizedHarrellDavisQuantileEstimator : ModifiedHarrellDavisQuantileEstimator
     {
-        public WinsorizedHarrellDavisQuantileEstimator(Probability trimPercent) : base(trimPercent)
+        public WinsorizedHarrellDavisQuantileEstimator(Probability trimPercentage, int minTargetCount = DefaultMinTargetCount)
+            : base(trimPercentage, minTargetCount)
         {
         }
 
         protected override bool IsWinsorized => true;
-        public override string Alias => $"WHD|{TrimPercent.ToStringInvariant()}";
+        public override string Alias => $"WHD|{TrimPercentage.ToStringInvariant()}|Min{MinTargetCount}";
     }
 }
