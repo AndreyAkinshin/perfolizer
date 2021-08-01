@@ -39,8 +39,12 @@ namespace Perfolizer.Common
             WeightedCount = values.Count;
             IsWeighted = false;
 
-            lazySortedData = new Lazy<(IReadOnlyList<double> SortedValues, IReadOnlyList<double> SortedWeights)>(
-                () => (Values.CopyToArrayAndSort(), Weights));
+            lazySortedData = new Lazy<(IReadOnlyList<double> SortedValues, IReadOnlyList<double> SortedWeights)>(() =>
+            {
+                if (IsSorted(Values))
+                    return (Values, Weights);
+                return (Values.CopyToArrayAndSort(), Weights);
+            });
         }
 
         public Sample([NotNull] IReadOnlyList<double> values, [NotNull] IReadOnlyList<double> weights)
