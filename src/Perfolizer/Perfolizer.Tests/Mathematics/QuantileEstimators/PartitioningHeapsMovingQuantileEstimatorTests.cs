@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using JetBrains.Annotations;
+using Perfolizer.Collections;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
@@ -42,7 +43,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             for (int n = 1; n <= fullSource.Length; n++)
             {
                 double[] source = fullSource.Take(n).ToArray();
-                var sample = new Sample(source);
+                var sample = new Sample(source.CopyToArray());
                 foreach (var type in types)
                     for (int i = 0; i < probabilities.Length; i++)
                     {
