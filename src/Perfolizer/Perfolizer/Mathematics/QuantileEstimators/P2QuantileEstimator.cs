@@ -21,7 +21,8 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         private readonly double[] ns = new double[5];
         private readonly double[] dns = new double[5];
         private readonly double[] q = new double[5];
-        private int count;
+
+        public int Count { get; private set; }
 
         public P2QuantileEstimator(Probability probability)
         {
@@ -30,10 +31,10 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
         public void Add(double value)
         {
-            if (count < 5)
+            if (Count < 5)
             {
-                q[count++] = value;
-                if (count == 5)
+                q[Count++] = value;
+                if (Count == 5)
                 {
                     Array.Sort(q);
 
@@ -96,7 +97,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
                 }
             }
 
-            count++;
+            Count++;
         }
 
         private double Parabolic(int i, double d)
@@ -114,12 +115,12 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
         public double GetQuantile()
         {
-            if (count == 0)
+            if (Count == 0)
                 throw new EmptySequenceException();
-            if (count <= 5)
+            if (Count <= 5)
             {
-                Array.Sort(q, 0, count);
-                int index = (int) Math.Round((count - 1) * p);
+                Array.Sort(q, 0, Count);
+                int index = (int)Math.Round((Count - 1) * p);
                 return q[index];
             }
 
@@ -128,7 +129,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
         public void Clear()
         {
-            count = 0;
+            Count = 0;
         }
     }
 }
