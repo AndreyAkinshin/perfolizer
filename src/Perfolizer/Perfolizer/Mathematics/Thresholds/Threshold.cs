@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using Perfolizer.Common;
 using Perfolizer.Horology;
 using Perfolizer.Mathematics.SignificanceTesting;
 
@@ -27,6 +29,11 @@ namespace Perfolizer.Mathematics.Thresholds
 
         public static bool TryParse(string input, out Threshold parsed)
         {
+            return TryParse(input, NumberStyles.Any, DefaultCultureInfo.Instance, out parsed);
+        }
+
+        public static bool TryParse(string input, NumberStyles numberStyle, IFormatProvider formatProvider, out Threshold parsed)
+        {
             if (string.IsNullOrWhiteSpace(input))
             {
                 parsed = default;
@@ -37,7 +44,8 @@ namespace Perfolizer.Mathematics.Thresholds
             var number = new string(trimmed.TakeWhile(c => char.IsDigit(c) || c == '.' || c == ',').ToArray());
             var unit = new string(trimmed.SkipWhile(c => char.IsDigit(c) || c == '.' || c == ',' || char.IsWhiteSpace(c)).ToArray());
 
-            if (!double.TryParse(number, out var parsedValue) || !ThresholdUnitExtensions.ShortNameToUnit.TryGetValue(unit, out var parsedUnit))
+            if (!double.TryParse(number, numberStyle, formatProvider, out var parsedValue)
+                || !ThresholdUnitExtensions.ShortNameToUnit.TryGetValue(unit, out var parsedUnit))
             {
                 parsed = default;
                 return false;
