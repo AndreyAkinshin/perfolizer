@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Horology;
@@ -66,6 +67,22 @@ namespace Perfolizer.Tests.Horology
             Assert.True(Frequency.TryParseMHz("9.87654321", out var c));
             Assert.Equal(9876543.21, c.Hertz, 4);
             Assert.True(Frequency.TryParseGHz("0.000000003", out var d));
+            Assert.Equal(3, d.Hertz, 4);
+        }
+
+        [Fact]
+        public void ParseTestDifferentFormat()
+        {
+            var numberStyle = NumberStyles.Any;
+            var frenchFormat = new CultureInfo("fr-FR");
+
+            Assert.True(Frequency.TryParseHz("2", numberStyle, frenchFormat, out var a));
+            Assert.Equal(2, a.Hertz, 4);
+            Assert.True(Frequency.TryParseKHz("3,456", numberStyle, frenchFormat, out var b));
+            Assert.Equal(3456, b.Hertz, 4);
+            Assert.True(Frequency.TryParseMHz("9,87654321", numberStyle, frenchFormat, out var c));
+            Assert.Equal(9876543.21, c.Hertz, 4);
+            Assert.True(Frequency.TryParseGHz("0,000000003", numberStyle, frenchFormat, out var d));
             Assert.Equal(3, d.Hertz, 4);
         }
 

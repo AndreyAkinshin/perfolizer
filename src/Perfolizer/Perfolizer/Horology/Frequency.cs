@@ -9,7 +9,7 @@ namespace Perfolizer.Horology
     public struct Frequency : IEquatable<Frequency>, IComparable<Frequency>
     {
         private const string DefaultFormat = "";
-        
+
         [PublicAPI] public double Hertz { get; }
 
         [PublicAPI] public Frequency(double hertz) => Hertz = hertz;
@@ -51,17 +51,39 @@ namespace Perfolizer.Horology
         [PublicAPI, Pure] public static bool operator ==(Frequency a, Frequency b) => a.Hertz.Equals(b.Hertz);
         [PublicAPI, Pure] public static bool operator !=(Frequency a, Frequency b) => !a.Hertz.Equals(b.Hertz);
 
-        [PublicAPI, Pure] public static bool TryParse(string s, FrequencyUnit unit, out Frequency freq)
+        [PublicAPI, Pure]
+        public static bool TryParse(string s, FrequencyUnit unit, out Frequency freq)
         {
-            bool success = double.TryParse(s, NumberStyles.Any, DefaultCultureInfo.Instance, out double result);
+            return TryParse(s, unit, NumberStyles.Any, DefaultCultureInfo.Instance, out freq);
+        }
+
+        [PublicAPI, Pure]
+        public static bool TryParse(string s, FrequencyUnit unit, NumberStyles numberStyle, IFormatProvider formatProvider, out Frequency freq)
+        {
+            bool success = double.TryParse(s, numberStyle, formatProvider, out double result);
             freq = new Frequency(result, unit);
             return success;
         }
 
         [PublicAPI, Pure] public static bool TryParseHz(string s, out Frequency freq) => TryParse(s, FrequencyUnit.Hz, out freq);
+        [PublicAPI, Pure]
+        public static bool TryParseHz(string s, NumberStyles numberStyle, IFormatProvider formatProvider, out Frequency freq)
+            => TryParse(s, FrequencyUnit.Hz, numberStyle, formatProvider, out freq);
+
         [PublicAPI, Pure] public static bool TryParseKHz(string s, out Frequency freq) => TryParse(s, FrequencyUnit.KHz, out freq);
+        [PublicAPI, Pure]
+        public static bool TryParseKHz(string s, NumberStyles numberStyle, IFormatProvider formatProvider, out Frequency freq)
+            => TryParse(s, FrequencyUnit.KHz, numberStyle, formatProvider, out freq);
+
         [PublicAPI, Pure] public static bool TryParseMHz(string s, out Frequency freq) => TryParse(s, FrequencyUnit.MHz, out freq);
+        [PublicAPI, Pure]
+        public static bool TryParseMHz(string s, NumberStyles numberStyle, IFormatProvider formatProvider, out Frequency freq)
+            => TryParse(s, FrequencyUnit.MHz, numberStyle, formatProvider, out freq);
+
         [PublicAPI, Pure] public static bool TryParseGHz(string s, out Frequency freq) => TryParse(s, FrequencyUnit.GHz, out freq);
+        [PublicAPI, Pure]
+        public static bool TryParseGHz(string s, NumberStyles numberStyle, IFormatProvider formatProvider, out Frequency freq)
+            => TryParse(s, FrequencyUnit.GHz, numberStyle, formatProvider, out freq);
 
         [PublicAPI, Pure, NotNull]
         public string ToString(
@@ -92,14 +114,14 @@ namespace Perfolizer.Horology
 
             return unitValue.ToString(format, formatProvider);
         }
-        
+
         [PublicAPI, Pure, NotNull] public override string ToString() => ToString(DefaultFormat);
-        
+
         public bool Equals(Frequency other) => Hertz.Equals(other.Hertz);
         public bool Equals(Frequency other, double hertzEpsilon) => Math.Abs(Hertz - other.Hertz) < hertzEpsilon;
         public override bool Equals(object obj) => obj is Frequency other && Equals(other);
         public override int GetHashCode() => Hertz.GetHashCode();
-        public int CompareTo(Frequency other)=> Hertz.CompareTo(other.Hertz);
+        public int CompareTo(Frequency other) => Hertz.CompareTo(other.Hertz);
 
     }
 }
