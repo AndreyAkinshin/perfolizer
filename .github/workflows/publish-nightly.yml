@@ -1,7 +1,6 @@
 name: publish-nightly
 
 on:
-  pull_request:
   push:
     branches:
       - master
