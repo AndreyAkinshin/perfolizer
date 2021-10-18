@@ -259,9 +259,10 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         
         [Theory]
         [MemberData(nameof(TestDataKeys))]
-        public void WinsorizedHarrellDavisQuantileEstimatorTest([NotNull] string testDataKey)
+        public void TrimmedHarrellDavisQuantileEstimatorTest([NotNull] string testDataKey)
         {
-            Check(new WinsorizedHarrellDavisQuantileEstimator(Probability.Zero), TestDataMap[testDataKey]);
+            var thd = new TrimmedHarrellDavisQuantileEstimator(_ => 1.0, "HD");
+            Check(thd, TestDataMap[testDataKey]);
         }
         
         [Theory]
