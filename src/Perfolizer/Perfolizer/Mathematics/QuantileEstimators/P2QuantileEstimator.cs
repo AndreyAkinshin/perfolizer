@@ -19,7 +19,6 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         private readonly Probability p;
         private readonly int[] n = new int[5];
         private readonly double[] ns = new double[5];
-        private readonly double[] dns = new double[5];
         private readonly double[] q = new double[5];
 
         public int Count { get; private set; }
@@ -46,12 +45,6 @@ namespace Perfolizer.Mathematics.QuantileEstimators
                     ns[2] = 4 * p;
                     ns[3] = 2 + 2 * p;
                     ns[4] = 4;
-
-                    dns[0] = 0;
-                    dns[1] = p / 2;
-                    dns[2] = p;
-                    dns[3] = (1 + p) / 2;
-                    dns[4] = 1;
                 }
 
                 return;
@@ -79,8 +72,10 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
             for (int i = k + 1; i < 5; i++)
                 n[i]++;
-            for (int i = 0; i < 5; i++)
-                ns[i] += dns[i];
+            ns[1] = Count * p / 2;
+            ns[2] = Count * p;
+            ns[3] = Count * (1 + p) / 2;
+            ns[4] = Count;
 
             for (int i = 1; i <= 3; i++)
             {
