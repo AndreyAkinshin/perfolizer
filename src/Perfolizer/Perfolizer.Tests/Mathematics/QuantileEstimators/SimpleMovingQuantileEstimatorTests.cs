@@ -12,12 +12,12 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         {
         }
 
-        protected override ISequentialQuantileEstimator CreateEstimator(int windowSize, int k, MovingQuantileEstimatorInitStrategy initStrategy)
+        protected override ISequentialSpecificQuantileEstimator CreateEstimator(int windowSize, int k, MovingQuantileEstimatorInitStrategy initStrategy)
         {
             return new SimpleMovingQuantileEstimator(windowSize, k, initStrategy);
         }
 
-        protected override ISequentialQuantileEstimator CreateEstimator(int windowSize, Probability p)
+        protected override ISequentialSpecificQuantileEstimator CreateEstimator(int windowSize, Probability p)
         {
             return new SimpleMovingQuantileEstimator(windowSize, p);
         }

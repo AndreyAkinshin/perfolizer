@@ -20,7 +20,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// Series C (Applied Statistics) 44, no. 2 (1995): 258-264.
     /// </remarks>
     /// </summary>
-    public class PartitioningHeapsMovingQuantileEstimator : ISequentialQuantileEstimator
+    public class PartitioningHeapsMovingQuantileEstimator : ISequentialSpecificQuantileEstimator
     {
         private readonly int windowSize, k;
         private readonly Probability probability;

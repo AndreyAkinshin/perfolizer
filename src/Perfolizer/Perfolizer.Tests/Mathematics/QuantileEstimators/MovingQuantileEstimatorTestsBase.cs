@@ -19,10 +19,10 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             Output = output;
         }
 
-        protected abstract ISequentialQuantileEstimator CreateEstimator(int windowSize, int k,
+        protected abstract ISequentialSpecificQuantileEstimator CreateEstimator(int windowSize, int k,
             MovingQuantileEstimatorInitStrategy initStrategy);
 
-        protected abstract ISequentialQuantileEstimator CreateEstimator(int windowSize, Probability p);
+        protected abstract ISequentialSpecificQuantileEstimator CreateEstimator(int windowSize, Probability p);
 
         [Theory]
         [InlineData(300, 5, 0)]
@@ -87,7 +87,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 totalElementCount, windowSize, windowSize / 2, _ => 1.0);
         }
 
-        private void DoTest(ISequentialQuantileEstimator estimator, MovingQuantileEstimatorInitStrategy initStrategy, int totalElementCount,
+        private void DoTest(ISequentialSpecificQuantileEstimator estimator, MovingQuantileEstimatorInitStrategy initStrategy, int totalElementCount,
             int windowSize, int k,
             Func<int, double> generator)
         {

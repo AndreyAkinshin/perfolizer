@@ -5,7 +5,7 @@ using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
-    public class MovingP2QuantileEstimator : ISequentialQuantileEstimator
+    public class MovingP2QuantileEstimator : ISequentialSpecificQuantileEstimator
     {
         private readonly P2QuantileEstimator estimator;
         private readonly int windowSize;

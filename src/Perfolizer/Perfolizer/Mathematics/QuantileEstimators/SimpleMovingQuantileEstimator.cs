@@ -13,7 +13,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// Add complexity: O(1).
     /// GetValue complexity: O(windowSize * log(windowSize)).
     /// </summary>
-    public class SimpleMovingQuantileEstimator : ISequentialQuantileEstimator
+    public class SimpleMovingQuantileEstimator : ISequentialSpecificQuantileEstimator
     {
         private readonly int windowSize, k;
         private readonly MovingQuantileEstimatorInitStrategy initStrategy;

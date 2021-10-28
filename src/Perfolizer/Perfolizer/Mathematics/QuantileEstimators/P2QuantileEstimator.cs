@@ -14,7 +14,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// https://doi.org/10.1145/4372.4378
     /// </remarks>
     /// </summary>
-    public class P2QuantileEstimator : ISequentialQuantileEstimator
+    public class P2QuantileEstimator : ISequentialSpecificQuantileEstimator
     {
         private readonly Probability p;
         private readonly int[] n = new int[5];
