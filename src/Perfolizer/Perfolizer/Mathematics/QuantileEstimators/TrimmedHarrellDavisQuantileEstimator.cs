@@ -7,6 +7,10 @@ using static System.Math;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
+    /// <summary>
+    /// Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width.
+    /// <remarks>See https://arxiv.org/abs/2111.11776</remarks>
+    /// </summary>
     public class TrimmedHarrellDavisQuantileEstimator : IQuantileEstimator
     {
         private readonly Func<double, Probability> getIntervalWidth;
@@ -43,17 +47,33 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             double c1 = 0;
             double betaCdfRight = 0;
             double currentProbability = 0;
-            for (int j = 0; j < sample.Count; j++)
+            if (sample.IsWeighted)
             {
-                double betaCdfLeft = betaCdfRight;
-                currentProbability += sample.IsWeighted
-                    ? sample.SortedWeights[j] / sample.TotalWeight
-                    : 1.0 / sample.Count;
+                for (int j = 0; j < sample.Count; j++)
+                {
+                    double betaCdfLeft = betaCdfRight;
+                    currentProbability += sample.SortedWeights[j] / sample.TotalWeight;
 
-                double cdfValue = Cdf(currentProbability);
-                betaCdfRight = cdfValue;
-                double w = betaCdfRight - betaCdfLeft;
-                c1 += w * sample.SortedValues[j];
+                    double cdfValue = Cdf(currentProbability);
+                    betaCdfRight = cdfValue;
+                    double w = betaCdfRight - betaCdfLeft;
+                    c1 += w * sample.SortedValues[j];
+                }
+            }
+            else
+            {
+                int jL = (int)Floor(hdi.L * sample.Count);
+                int jR = (int)Ceiling(hdi.R * sample.Count) - 1;
+                for (int j = jL; j <= jR; j++)
+                {
+                    double betaCdfLeft = betaCdfRight;
+                    currentProbability = (j + 1.0) / sample.Count;
+
+                    double cdfValue = Cdf(currentProbability);
+                    betaCdfRight = cdfValue;
+                    double w = betaCdfRight - betaCdfLeft;
+                    c1 += w * sample.SortedValues[j];
+                }
             }
             return c1;
         }
@@ -68,7 +88,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             if (fl < 0 && fr < 0 || fl > 0 && fr > 0)
                 return double.NaN;
 
-            while ((right - left) > 1e-9)
+            while (right - left > 1e-9)
             {
                 double m = (left + right) / 2;
                 double fm = f(m);
