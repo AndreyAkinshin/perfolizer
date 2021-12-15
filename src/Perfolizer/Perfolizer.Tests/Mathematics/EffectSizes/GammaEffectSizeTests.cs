@@ -67,7 +67,7 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
             Check(20, 0.03);
             Check(30, 0.04);
             Check(40, 0.05);
-            Check(50, 0.06);
+            Check(50, 0.07);
             Check(60, 0.08);
             Check(70, 0.10);
             Check(80, 0.13);

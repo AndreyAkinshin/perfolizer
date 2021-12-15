@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Perfolizer.Mathematics.DispersionEstimators;
 using Perfolizer.Mathematics.OutlierDetection;
 using Perfolizer.Mathematics.QuantileEstimators;
 
@@ -12,20 +13,23 @@ namespace Perfolizer.Demo
         {
             var simple = SimpleQuantileEstimator.Instance;
             var hd = HarrellDavisQuantileEstimator.Instance;
+            var simpleMadEstimator = SimpleStdDevConsistentMedianAbsoluteDeviationEstimator.Instance;
+            var hdMadEstimator = HarrellDavisStdDevConsistentMedianAbsoluteDeviationEstimator.Instance;
+
             var detectors = new[]
             {
                 new Detector("TukeySimple", values => TukeyOutlierDetector.Create(values, quantileEstimator: simple)),
                 new Detector("TukeyHd", values => TukeyOutlierDetector.Create(values, quantileEstimator: hd)),
-                new Detector("MadSimple", values => MadOutlierDetector.Create(values, quantileEstimator: simple)),
-                new Detector("MadHd", values => MadOutlierDetector.Create(values, quantileEstimator: hd)),
-                new Detector("DoubleMadSimple", values => DoubleMadOutlierDetector.Create(values, quantileEstimator: simple)),
-                new Detector("DoubleMadHd", values => DoubleMadOutlierDetector.Create(values, quantileEstimator: hd))
+                new Detector("MadSimple", values => MadOutlierDetector.Create(values, simpleMadEstimator)),
+                new Detector("MadHd", values => MadOutlierDetector.Create(values, hdMadEstimator)),
+                new Detector("DoubleMadSimple", values => DoubleMadOutlierDetector.Create(values, simpleMadEstimator)),
+                new Detector("DoubleMadHd", values => DoubleMadOutlierDetector.Create(values, hdMadEstimator))
             };
 
             Case.DumpBaseSample();
-            BuildTable(detectors, new[] {new Case(1, 0), new Case(2, 0), new Case(3, 0)});
-            BuildTable(detectors, new[] {new Case(0, 1), new Case(0, 2), new Case(0, 3)});
-            BuildTable(detectors, new[] {new Case(1, 1), new Case(2, 2), new Case(3, 3)});
+            BuildTable(detectors, new[] { new Case(1, 0), new Case(2, 0), new Case(3, 0) });
+            BuildTable(detectors, new[] { new Case(0, 1), new Case(0, 2), new Case(0, 3) });
+            BuildTable(detectors, new[] { new Case(1, 1), new Case(2, 2), new Case(3, 3) });
         }
 
         private void BuildTable(Detector[] detectors, Case[] cases)
@@ -52,7 +56,7 @@ namespace Perfolizer.Demo
                 for (int i = 0; i < detectors.Length + 1; i++)
                     result[i, j] = result[i, j].PadRight(maxWith + 1);
             }
-            
+
             for (int j = 0; j < cases.Length; j++)
                 cases[j].Dump();
             Console.WriteLine();
@@ -78,8 +82,8 @@ namespace Perfolizer.Demo
                 2266, 2295, 2321, 2419, 2919, 3612
             };
 
-            private static readonly double[] LowerOutliers = {-2002, -2001, -2000};
-            private static readonly double[] UpperOutliers = {6000, 6001, 6002};
+            private static readonly double[] LowerOutliers = { -2002, -2001, -2000 };
+            private static readonly double[] UpperOutliers = { 6000, 6001, 6002 };
 
             public string Name { get; }
             public IReadOnlyList<double> Values { get; }

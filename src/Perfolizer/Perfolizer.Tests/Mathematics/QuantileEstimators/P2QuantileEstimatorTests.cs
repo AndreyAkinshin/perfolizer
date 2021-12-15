@@ -4,6 +4,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.DispersionEstimators;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Randomization;
@@ -107,7 +108,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             double pDelta = 0.1 + Math.Abs(p - 0.5) * 0.2 + 2.0 / testData.N;
             double expectedMin = SimpleQuantileEstimator.Instance.GetQuantile(sample, (p - pDelta).Clamp(0, 1));
             double expectedMax = SimpleQuantileEstimator.Instance.GetQuantile(sample, (p + pDelta).Clamp(0, 1));
-            double mad = MedianAbsoluteDeviation.CalcMad(sample);
+            double mad = SimpleStdDevConsistentMedianAbsoluteDeviationEstimator.Instance.Calc(sample);
             double error = Math.Abs(actual - expected);
             double errorNorm = error / mad;
 

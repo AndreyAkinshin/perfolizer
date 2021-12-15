@@ -57,7 +57,7 @@ namespace Perfolizer.Tests.Mathematics.Modality
             {"Full5", TestData.Full(Sample5, "{0} + [7 | 10 | 13]_50 + {19, 21} + [27 | 30 | 33]_50 + {40}")},
             {
                 "Full6",
-                TestData.Full(Sample6, "{-1, 1} + [7 | 10 | 13]_50 + {20, 27} + [27 | 30 | 33]_49 + {40} + [47 | 50 | 53]_50")
+                TestData.Full(Sample6, "{-1, 1} + [7 | 10 | 13]_50 + {20} + [27 | 30 | 33]_50 + {40} + [47 | 50 | 53]_50")
             },
             {
                 "Full7",
