@@ -9,6 +9,13 @@ using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators
 {
+    /// <summary>
+    /// <remarks>
+    /// Greenwald, Michael, and Sanjeev Khanna. “Space-efficient online computation of quantile summaries.”
+    /// ACM SIGMOD Record 30, no. 2 (2001): 58-66.
+    /// https://doi.org/10.1145/375663.375670
+    /// </remarks>
+    /// </summary>
     public class GreenwaldKhannaQuantileEstimator : ISequentialQuantileEstimator
     {
         private class Tuple
