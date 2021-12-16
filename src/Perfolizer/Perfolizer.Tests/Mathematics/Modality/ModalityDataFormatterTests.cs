@@ -80,13 +80,13 @@ namespace Perfolizer.Tests.Mathematics.Modality
             }
 
             public static TestData Default(IReadOnlyList<double> values, string expected) =>
-                new TestData(ManualModalityDataFormatter.Default(), values, expected);
+                new TestData(ManualModalityDataFormatter.Default, values, expected);
 
             public static TestData Compact(IReadOnlyList<double> values, string expected) =>
-                new TestData(ManualModalityDataFormatter.Compact(), values, expected);
+                new TestData(ManualModalityDataFormatter.Compact, values, expected);
 
             public static TestData Full(IReadOnlyList<double> values, string expected) =>
-                new TestData(ManualModalityDataFormatter.Full(), values, expected);
+                new TestData(ManualModalityDataFormatter.Full, values, expected);
             
             public static TestData Auto(IReadOnlyList<double> values, string expected) =>
                 new TestData(AutomaticModalityDataFormatter.Instance, values, expected);

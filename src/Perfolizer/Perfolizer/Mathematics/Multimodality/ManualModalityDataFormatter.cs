@@ -10,10 +10,10 @@ namespace Perfolizer.Mathematics.Multimodality
     public class ManualModalityDataFormatter : IModalityDataFormatter
     {
         [NotNull]
-        public static IModalityDataFormatter Default() => new ManualModalityDataFormatter();
+        public static readonly IModalityDataFormatter Default = new ManualModalityDataFormatter();
 
         [NotNull]
-        public static IModalityDataFormatter Compact() => new ManualModalityDataFormatter
+        public static readonly IModalityDataFormatter Compact = new ManualModalityDataFormatter
         {
             PresentCount = false,
             PresentModeLocations = false,
@@ -22,7 +22,7 @@ namespace Perfolizer.Mathematics.Multimodality
         };
 
         [NotNull]
-        public static IModalityDataFormatter Full() => new ManualModalityDataFormatter
+        public static readonly IModalityDataFormatter Full = new ManualModalityDataFormatter
         {
             PresentCount = true,
             PresentModeLocations = true,
