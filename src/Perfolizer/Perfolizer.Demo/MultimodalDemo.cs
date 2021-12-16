@@ -5,7 +5,7 @@ using Perfolizer.Mathematics.Multimodality;
 
 namespace Perfolizer.Demo
 {
-    public class MultimodalDemo
+    public class MultimodalDemo: IDemo
     {
         public void Run()
         {

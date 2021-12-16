@@ -7,7 +7,7 @@ using Perfolizer.Mathematics.Functions;
 
 namespace Perfolizer.Demo
 {
-    public class ShiftAndRatioDemo
+    public class ShiftAndRatioDemo : IDemo
     {
         public void Run()
         {

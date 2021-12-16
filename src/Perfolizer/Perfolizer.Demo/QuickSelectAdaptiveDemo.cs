@@ -4,7 +4,7 @@ using Perfolizer.Mathematics.Selectors;
 
 namespace Perfolizer.Demo
 {
-    public class QuickSelectAdaptiveDemo
+    public class QuickSelectAdaptiveDemo : IDemo
     {
         public void Run()
         {

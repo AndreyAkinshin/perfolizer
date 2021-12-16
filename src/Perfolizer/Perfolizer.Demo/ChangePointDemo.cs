@@ -5,7 +5,7 @@ using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
 namespace Perfolizer.Demo
 {
-    public class ChangePointDemo
+    public class ChangePointDemo: IDemo
     {
         public void Run()
         {

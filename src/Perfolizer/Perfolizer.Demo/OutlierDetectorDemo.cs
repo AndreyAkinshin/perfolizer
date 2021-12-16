@@ -7,7 +7,7 @@ using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Demo
 {
-    public class OutlierDetectorDemo
+    public class OutlierDetectorDemo : IDemo
     {
         public void Run()
         {

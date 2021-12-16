@@ -3,7 +3,7 @@ using Perfolizer.Mathematics.Selectors;
 
 namespace Perfolizer.Demo
 {
-    public class RqqDemo
+    public class RqqDemo : IDemo
     {
         public void Run()
         {

@@ -5,7 +5,7 @@ using Perfolizer.Mathematics.Histograms;
 
 namespace Perfolizer.Demo
 {
-    public class HistogramDemo
+    public class HistogramDemo: IDemo
     {
         public void Run()
         {

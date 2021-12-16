@@ -7,7 +7,7 @@ using Perfolizer.Mathematics.Sequences;
 
 namespace Perfolizer.Demo
 {
-    public class WeightedQuantileEstimatorDemo
+    public class WeightedQuantileEstimatorDemo : IDemo
     {
         public void Run()
         {

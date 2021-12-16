@@ -4,7 +4,7 @@ using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Demo
 {
-    public class QuantileEstimatorDemo
+    public class QuantileEstimatorDemo : IDemo
     {
         public void Run()
         {
