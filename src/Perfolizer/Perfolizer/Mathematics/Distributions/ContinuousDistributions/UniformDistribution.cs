@@ -8,6 +8,8 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 {
     public class UniformDistribution : IContinuousDistribution
     {
+        public static readonly UniformDistribution Standard = new(0, 1);
+
         /// <summary>
         /// The minimum value of the uniform distribution
         /// </summary>
@@ -39,7 +41,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
         }
 
         public double Quantile(Probability p) => Min + p * (Max - Min);
-        
+
         public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => (Min + Max) / 2;
