@@ -22,12 +22,12 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         protected override ISequentialSpecificQuantileEstimator CreateEstimator(int windowSize, int k,
             MovingQuantileEstimatorInitStrategy initStrategy)
         {
-            return new PartitioningHeapsMovingQuantileEstimator(windowSize, k, initStrategy);
+            return new PartitioningHeapsMovingQuantileEstimator(k, windowSize, initStrategy);
         }
 
         protected override ISequentialSpecificQuantileEstimator CreateEstimator(int windowSize, Probability p)
         {
-            return new PartitioningHeapsMovingQuantileEstimator(windowSize, p);
+            return new PartitioningHeapsMovingQuantileEstimator(p, windowSize);
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                         var hyEstimator = new HyndmanFanQuantileEstimator(type);
                         double expectedValue = hyEstimator.GetQuantile(sample, probability);
 
-                        var phEstimator = new PartitioningHeapsMovingQuantileEstimator(n, probability, type);
+                        var phEstimator = new PartitioningHeapsMovingQuantileEstimator(probability, n, type);
                         shuffler.Shuffle(source);
                         foreach (double value in source)
                             phEstimator.Add(value);

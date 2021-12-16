@@ -32,14 +32,14 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         private readonly HyndmanFanType? hyndmanFanType;
         private int upperHeapSize, lowerHeapSize, totalElementCount;
 
-        public PartitioningHeapsMovingQuantileEstimator(int windowSize, int k,
+        public PartitioningHeapsMovingQuantileEstimator(int k, int windowSize,
             MovingQuantileEstimatorInitStrategy initStrategy = MovingQuantileEstimatorInitStrategy.QuantileApproximation)
         {
             Assertion.Positive(nameof(windowSize), windowSize);
             Assertion.InRangeInclusive(nameof(k), k, 0, windowSize - 1);
 
-            this.windowSize = windowSize;
             this.k = k;
+            this.windowSize = windowSize;
             probability = Probability.NaN;
             h = new double[windowSize];
             heapToElementIndex = new int[windowSize];
@@ -50,16 +50,16 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             rootHeapIndex = k;
         }
 
-        public PartitioningHeapsMovingQuantileEstimator(int windowSize, Probability p) 
-            : this(windowSize, (int) Math.Round((windowSize - 1) * p))
+        public PartitioningHeapsMovingQuantileEstimator(Probability p, int windowSize) 
+            : this((int) Math.Round((windowSize - 1) * p), windowSize)
         {
             probability = p;
         }
 
-        public PartitioningHeapsMovingQuantileEstimator(int windowSize, Probability p, HyndmanFanType HyndmanFanType)
-            : this(windowSize, ((int) HyndmanFanHelper.GetH(HyndmanFanType, windowSize, p) - 1).Clamp(0, windowSize - 1))
+        public PartitioningHeapsMovingQuantileEstimator(Probability p, int windowSize, HyndmanFanType hyndmanFanType)
+            : this(((int) HyndmanFanHelper.GetH(hyndmanFanType, windowSize, p) - 1).Clamp(0, windowSize - 1), windowSize)
         {
-            this.hyndmanFanType = HyndmanFanType;
+            this.hyndmanFanType = hyndmanFanType;
             probability = p;
         }
 

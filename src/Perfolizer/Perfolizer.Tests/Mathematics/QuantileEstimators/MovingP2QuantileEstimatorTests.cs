@@ -33,7 +33,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             }
 
             var mp2Estimator = new MovingP2QuantileEstimator(probability, windowSize);
-            var phEstimator = new PartitioningHeapsMovingQuantileEstimator(windowSize, probability);
+            var phEstimator = new PartitioningHeapsMovingQuantileEstimator(probability, windowSize);
 
             var outputBuilder = new StringBuilder();
             outputBuilder.AppendLine("i,data,estimation,true");
