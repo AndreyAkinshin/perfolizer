@@ -10,7 +10,8 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 {
     /// <summary>
     /// <remarks>
-    /// Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator. Biometrika, 69(3), pp.635-640.
+    /// Harrell, Frank E., and C. E. Davis. "A new distribution-free quantile estimator." Biometrika 69, no. 3 (1982): 635-640.
+    /// https://doi.org/10.1093/biomet/69.3.635
     /// </remarks>
     /// </summary>
     public class HarrellDavisQuantileEstimator : IQuantileEstimator, IQuantileConfidenceIntervalEstimator

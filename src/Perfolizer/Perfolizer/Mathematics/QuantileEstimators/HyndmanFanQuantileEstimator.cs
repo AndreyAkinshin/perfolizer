@@ -7,7 +7,8 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// <summary>
     /// This quantile estimator supports nine popular estimation algorithms that are described in [Hyndman1996].
     /// <remarks>
-    /// Hyndman, R. J. and Fan, Y. (1996) Sample quantiles in statistical packages, American Statistician 50, 361–365. doi: 10.2307/2684934.
+    /// Hyndman, Rob J., and Yanan Fan. "Sample quantiles in statistical packages." The American Statistician 50, no. 4 (1996): 361-365.
+    /// https://doi.org/10.2307/2684934
     /// </remarks>
     /// </summary>
     public class HyndmanFanQuantileEstimator : IQuantileEstimator

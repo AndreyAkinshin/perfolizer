@@ -9,6 +9,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// Based on the following paper:
     /// Sfakianakis, Michael E., and Dimitris G. Verginis. "A new family of nonparametric quantile estimators."
     /// Communications in Statistics—Simulation and Computation® 37, no. 2 (2008): 337-345.
+    /// https://doi.org/10.1080/03610910701790491
     /// </remarks>
     /// </summary>
     public class SfakianakisVerginis1QuantileEstimator : BinomialBasedQuantileEstimator

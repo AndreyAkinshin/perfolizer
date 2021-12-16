@@ -9,6 +9,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// Based on the following paper:
     /// Navruz, Gözde, and A. Fırat Özdemir. "A new quantile estimator with weights based on a subsampling approach."
     /// British Journal of Mathematical and Statistical Psychology 73, no. 3 (2020): 506-521.
+    /// https://doi.org/10.1111/bmsp.12198
     /// </remarks>
     /// </summary>
     public class NavruzOzdemirQuantileEstimator : BinomialBasedQuantileEstimator
