@@ -11,21 +11,33 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// Based on the following paper:
     /// Jain, Raj, and Imrich Chlamtac. "The P2 algorithm for dynamic calculation of quantiles and histograms without storing observations."
     /// Communications of the ACM 28, no. 10 (1985): 1076-1085.
-    /// https://doi.org/10.1145/4372.4378
+    /// https://doi.org/10.1145/4372.4378 <br />
+    ///
+    /// See also:<br />
+    /// * https://aakinshin.net/posts/p2-quantile-estimator/<br />
+    /// * https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/<br />
+    /// * https://aakinshin.net/posts/p2-quantile-estimator-initialization/
     /// </remarks>
     /// </summary>
     public class P2QuantileEstimator : ISequentialSpecificQuantileEstimator
     {
         private readonly Probability p;
+        private readonly InitializationStrategy strategy;
         private readonly int[] n = new int[5];
         private readonly double[] ns = new double[5];
         private readonly double[] q = new double[5];
 
         public int Count { get; private set; }
 
-        public P2QuantileEstimator(Probability probability)
+        public enum InitializationStrategy
+        {
+            Classic, Adaptive
+        }
+
+        public P2QuantileEstimator(Probability probability, InitializationStrategy strategy = InitializationStrategy.Adaptive)
         {
             p = probability;
+            this.strategy = strategy;
         }
 
         public void Add(double value)
@@ -39,6 +51,17 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
                     for (int i = 0; i < 5; i++)
                         n[i] = i;
+                    
+                    if (strategy == InitializationStrategy.Adaptive)
+                    {
+                        Array.Copy(q, ns, 5);
+                        n[1] = (int)Math.Round(2 * p);
+                        n[2] = (int)Math.Round(4 * p);
+                        n[3] = (int)Math.Round(2 + 2 * p);
+                        q[1] = ns[n[1]];
+                        q[2] = ns[n[2]];
+                        q[3] = ns[n[3]];
+                    }
 
                     ns[0] = 0;
                     ns[1] = 2 * p;

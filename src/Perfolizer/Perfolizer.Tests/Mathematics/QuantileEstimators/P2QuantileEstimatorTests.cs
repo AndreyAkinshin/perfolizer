@@ -23,7 +23,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             this.output = output;
         }
 
-        private class TestData
+        internal class TestData
         {
             public int Seed { get; }
             public Probability Probability { get; }
@@ -55,7 +55,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             }
         }
 
-        private static readonly IDictionary<string, TestData> TestDataMap;
+        internal static readonly IDictionary<string, TestData> TestDataMap;
         [UsedImplicitly] public static TheoryData<string> TestDataKeys;
 
         static P2QuantileEstimatorTests()
@@ -89,12 +89,28 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 TestDataMap[name] = new TestData(seed, probability, n, randomize, distribution);
             }
             TestDataKeys = TheoryDataHelper.Create(TestDataMap.Keys);
+
+            TestStrategyDataMap = new Dictionary<string, TestData>();
+            foreach (int seed in new[] {1, 2, 3})
+            foreach (Probability probability in new Probability[] {0.05, 0.1, 0.2, 0.8, 0.9, 0.95})
+            foreach (int n in new[] {6, 7, 8})
+            foreach (var distribution in distributions)
+            {
+                string name = distribution.GetType().Name.Replace("Distribution", "") +
+                              "/" +
+                              "P" + (probability * 100) +
+                              "/" +
+                              "N" + n +
+                              "/#" + seed;
+                TestStrategyDataMap[name] = new TestData(seed, probability, n, true, distribution);
+            }
+            TestStrategyDataKeys = TheoryDataHelper.Create(TestStrategyDataMap.Keys);
         }
         
 
         [Theory]
         [MemberData(nameof(TestDataKeys))]
-        public void P2QuantileEstimatorTest(string testKey)
+        public void P2QuantileEstimatorTest([NotNull] string testKey)
         {
             var testData = TestDataMap[testKey];
             double p = testData.Probability;
@@ -105,7 +121,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             
             double actual = estimator.GetQuantile();
             double expected = SimpleQuantileEstimator.Instance.GetQuantile(sample, p);
-            double pDelta = 0.1 + Math.Abs(p - 0.5) * 0.2 + 2.0 / testData.N;
+            double pDelta = 0.1 + Math.Abs(p - 0.5) * 0.15 + 1.5 / testData.N;
             double expectedMin = SimpleQuantileEstimator.Instance.GetQuantile(sample, (p - pDelta).Clamp(0, 1));
             double expectedMax = SimpleQuantileEstimator.Instance.GetQuantile(sample, (p + pDelta).Clamp(0, 1));
             double mad = SimpleStdDevConsistentMedianAbsoluteDeviationEstimator.Instance.Calc(sample);
@@ -145,6 +161,55 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             const double expected = 4.44;
 
             Assert.Equal(expected, actual, new AbsoluteEqualityComparer(1e-2));
+        }
+        
+        internal static readonly IDictionary<string, TestData> TestStrategyDataMap;
+        [UsedImplicitly] public static TheoryData<string> TestStrategyDataKeys;
+
+        [Theory]
+        [MemberData(nameof(TestStrategyDataKeys))]
+        public void P2QuantileEstimatorStrategyTest([NotNull] string testKey)
+        {
+            var testData = TestStrategyDataMap[testKey];
+            var random = new Random(testData.Seed);
+            var randomGenerator = testData.Distribution.Random(random);
+            var probability = testData.Probability;
+
+            const int totalIterations = 1_000;
+            int classicIsWinner = 0;
+            for (int iteration = 0; iteration < totalIterations; iteration++)
+            {
+                var p2ClassicEstimator = new P2QuantileEstimator(probability, P2QuantileEstimator.InitializationStrategy.Classic);
+                var p2AdaptiveEstimator = new P2QuantileEstimator(probability, P2QuantileEstimator.InitializationStrategy.Adaptive);
+                var values = new List<double>();
+                for (int i = 0; i < testData.N; i++)
+                {
+                    double x = randomGenerator.Next();
+                    values.Add(x);
+                    p2ClassicEstimator.Add(x);
+                    p2AdaptiveEstimator.Add(x);
+                }
+
+                double simpleEstimation = SimpleQuantileEstimator.Instance.GetQuantile(values, probability);
+                double p2ClassicEstimation = p2ClassicEstimator.GetQuantile();
+                double p2AdaptiveEstimation = p2AdaptiveEstimator.GetQuantile();
+                if (Math.Abs(p2ClassicEstimation - simpleEstimation) < Math.Abs(p2AdaptiveEstimation - simpleEstimation))
+                    classicIsWinner++;
+            }
+
+            int adaptiveIsWinner = totalIterations - classicIsWinner;
+            double factor = testData.N switch
+            {
+                6 => 0.2,
+                7 => 0.29,
+                8 => 0.42,
+                _ => throw new NotSupportedException()
+            };
+            int classicIsWinnerThreshold = (int)Math.Round(totalIterations * factor); 
+            
+            output.WriteLine("ClassicIsWinner  : {0} (Threshold: {1})", classicIsWinner, classicIsWinnerThreshold);
+            output.WriteLine("AdaptiveIsWinner : {0}", adaptiveIsWinner);
+            Assert.True(classicIsWinner < classicIsWinnerThreshold);
         }
     }
 }
