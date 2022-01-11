@@ -16,7 +16,8 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// See also:<br />
     /// * https://aakinshin.net/posts/p2-quantile-estimator/<br />
     /// * https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/<br />
-    /// * https://aakinshin.net/posts/p2-quantile-estimator-initialization/
+    /// * https://aakinshin.net/posts/p2-quantile-estimator-initialization/<br />
+    /// * https://aakinshin.net/posts/p2-quantile-estimator-adjusting-order/
     /// </remarks>
     /// </summary>
     public class P2QuantileEstimator : ISequentialSpecificQuantileEstimator
@@ -100,22 +101,33 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             ns[3] = Count * (1 + p) / 2;
             ns[4] = Count;
 
-            for (int i = 1; i <= 3; i++)
+            if (p >= 0.5)
             {
-                double d = ns[i] - n[i];
-                if (d >= 1 && n[i + 1] - n[i] > 1 || d <= -1 && n[i - 1] - n[i] < -1)
-                {
-                    int dInt = Math.Sign(d);
-                    double qs = Parabolic(i, dInt);
-                    if (q[i - 1] < qs && qs < q[i + 1])
-                        q[i] = qs;
-                    else
-                        q[i] = Linear(i, dInt);
-                    n[i] += dInt;
-                }
+                for (int i = 1; i <= 3; i++)
+                    Adjust(i);
+            }
+            else
+            {
+                for (int i = 3; i >= 1; i--)
+                    Adjust(i);
             }
 
             Count++;
+        }
+
+        private void Adjust(int i)
+        {
+            double d = ns[i] - n[i];
+            if (d >= 1 && n[i + 1] - n[i] > 1 || d <= -1 && n[i - 1] - n[i] < -1)
+            {
+                int dInt = Math.Sign(d);
+                double qs = Parabolic(i, dInt);
+                if (q[i - 1] < qs && qs < q[i + 1])
+                    q[i] = qs;
+                else
+                    q[i] = Linear(i, dInt);
+                n[i] += dInt;
+            }
         }
 
         private double Parabolic(int i, double d)
