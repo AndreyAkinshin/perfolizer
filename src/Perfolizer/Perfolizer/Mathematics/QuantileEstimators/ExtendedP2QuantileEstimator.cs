@@ -20,22 +20,22 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     /// </summary>
     public class ExtendedP2QuantileEstimator : ISequentialQuantileEstimator
     {
-        private readonly Probability[] probabilities;
+        internal readonly Probability[] Probabilities;
         private readonly int m, markerCount;
         private readonly int[] n;
         private readonly double[] ns;
-        private readonly double[] q;
+        internal readonly double[] Q;
 
         public int Count { get; private set; }
 
         public ExtendedP2QuantileEstimator([NotNull] params Probability[] probabilities)
         {
-            this.probabilities = probabilities;
+            this.Probabilities = probabilities;
             m = probabilities.Length;
             markerCount = 2 * m + 3;
             n = new int[markerCount];
             ns = new double[markerCount];
-            q = new double[markerCount];
+            Q = new double[markerCount];
         }
 
         private void UpdateNs(int maxIndex)
@@ -43,32 +43,32 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             // Principal markers
             ns[0] = 0;
             for (int i = 0; i < m; i++)
-                ns[i * 2 + 2] = maxIndex * probabilities[i];
+                ns[i * 2 + 2] = maxIndex * Probabilities[i];
             ns[markerCount - 1] = maxIndex;
 
             // Middle markers
-            ns[1] = maxIndex * probabilities[0] / 2;
+            ns[1] = maxIndex * Probabilities[0] / 2;
             for (int i = 1; i < m; i++)
-                ns[2 * i + 1] = maxIndex * (probabilities[i - 1] + probabilities[i]) / 2;
-            ns[markerCount - 2] = maxIndex * (1 + probabilities[m - 1]) / 2;
+                ns[2 * i + 1] = maxIndex * (Probabilities[i - 1] + Probabilities[i]) / 2;
+            ns[markerCount - 2] = maxIndex * (1 + Probabilities[m - 1]) / 2;
         }
 
         public void Add(double value)
         {
             if (Count < markerCount)
             {
-                q[Count++] = value;
+                Q[Count++] = value;
                 if (Count == markerCount)
                 {
-                    Array.Sort(q);
+                    Array.Sort(Q);
 
                     UpdateNs(markerCount - 1);
                     for (int i = 0; i < markerCount; i++)
                         n[i] = (int)Math.Round(ns[i]);
 
-                    Array.Copy(q, ns, markerCount);
+                    Array.Copy(Q, ns, markerCount);
                     for (int i = 0; i < markerCount; i++)
-                        q[i] = ns[n[i]];
+                        Q[i] = ns[n[i]];
                     UpdateNs(markerCount - 1);
                 }
 
@@ -76,22 +76,22 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             }
 
             int k = -1;
-            if (value < q[0])
+            if (value < Q[0])
             {
-                q[0] = value;
+                Q[0] = value;
                 k = 0;
             }
             else
             {
                 for (int i = 1; i < markerCount; i++)
-                    if (value < q[i])
+                    if (value < Q[i])
                     {
                         k = i - 1;
                         break;
                     }
                 if (k == -1)
                 {
-                    q[markerCount - 1] = value;
+                    Q[markerCount - 1] = value;
                     k = markerCount - 2;
                 }
             }
@@ -121,25 +121,25 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             {
                 int dInt = Math.Sign(d);
                 double qs = Parabolic(i, dInt);
-                if (q[i - 1] < qs && qs < q[i + 1])
-                    q[i] = qs;
+                if (Q[i - 1] < qs && qs < Q[i + 1])
+                    Q[i] = qs;
                 else
-                    q[i] = Linear(i, dInt);
+                    Q[i] = Linear(i, dInt);
                 n[i] += dInt;
             }
         }
 
         private double Parabolic(int i, double d)
         {
-            return q[i] + d / (n[i + 1] - n[i - 1]) * (
-                (n[i] - n[i - 1] + d) * (q[i + 1] - q[i]) / (n[i + 1] - n[i]) +
-                (n[i + 1] - n[i] - d) * (q[i] - q[i - 1]) / (n[i] - n[i - 1])
+            return Q[i] + d / (n[i + 1] - n[i - 1]) * (
+                (n[i] - n[i - 1] + d) * (Q[i + 1] - Q[i]) / (n[i + 1] - n[i]) +
+                (n[i + 1] - n[i] - d) * (Q[i] - Q[i - 1]) / (n[i] - n[i - 1])
             );
         }
 
         private double Linear(int i, int d)
         {
-            return q[i] + d * (q[i + d] - q[i]) / (n[i + d] - n[i]);
+            return Q[i] + d * (Q[i + d] - Q[i]) / (n[i + d] - n[i]);
         }
 
         public double GetQuantile(Probability p)
@@ -148,15 +148,15 @@ namespace Perfolizer.Mathematics.QuantileEstimators
                 throw new EmptySequenceException();
             if (Count <= markerCount)
             {
-                Array.Sort(q, 0, Count);
+                Array.Sort(Q, 0, Count);
                 int index = (int)Math.Round((Count - 1) * p);
-                return q[index];
+                return Q[index];
             }
 
             for (int i = 0; i < m; i++)
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
-                if (probabilities[i] == p)
-                    return q[2 * i + 2];
+                if (Probabilities[i] == p)
+                    return Q[2 * i + 2];
 
             throw new InvalidOperationException($"Target quantile ({p}) wasn't requested in the constructor");
         }
