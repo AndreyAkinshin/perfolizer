@@ -12,7 +12,7 @@ namespace Perfolizer.Mathematics.Functions
     public class GammaEffectSizeFunction : QuantileCompareFunction
     {
         [NotNull] private static readonly IMedianAbsoluteDeviationEstimator DefaultMedianAbsoluteDeviationEstimator =
-            new SimpleStdDevConsistentMedianAbsoluteDeviationEstimator();
+            new SimpleNormalizedMedianAbsoluteDeviationEstimator();
 
         public static readonly GammaEffectSizeFunction Instance = new GammaEffectSizeFunction();
 

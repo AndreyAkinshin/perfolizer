@@ -52,7 +52,7 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
             var testData = SimpleQeTestDataMap[testDataKey];
 
             void Action() => Check(testData,
-                values => DoubleMadOutlierDetector.Create(values, SimpleStdDevConsistentMedianAbsoluteDeviationEstimator.Instance));
+                values => DoubleMadOutlierDetector.Create(values, SimpleNormalizedMedianAbsoluteDeviationEstimator.Instance));
 
             if (testData.Values.IsEmpty())
                 Assert.Throws<ArgumentOutOfRangeException>(Action);
@@ -95,7 +95,7 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
             var testData = HdQeTestDataMap[testDataKey];
 
             void Action() => Check(testData,
-                values => DoubleMadOutlierDetector.Create(values, HarrellDavisStdDevConsistentMedianAbsoluteDeviationEstimator.Instance));
+                values => DoubleMadOutlierDetector.Create(values, HarrellDavisNormalizedMedianAbsoluteDeviationEstimator.Instance));
 
             if (testData.Values.IsEmpty())
                 Assert.Throws<ArgumentOutOfRangeException>(Action);

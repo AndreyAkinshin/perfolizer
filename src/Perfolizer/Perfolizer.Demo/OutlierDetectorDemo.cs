@@ -13,8 +13,8 @@ namespace Perfolizer.Demo
         {
             var simple = SimpleQuantileEstimator.Instance;
             var hd = HarrellDavisQuantileEstimator.Instance;
-            var simpleMadEstimator = SimpleStdDevConsistentMedianAbsoluteDeviationEstimator.Instance;
-            var hdMadEstimator = HarrellDavisStdDevConsistentMedianAbsoluteDeviationEstimator.Instance;
+            var simpleMadEstimator = SimpleNormalizedMedianAbsoluteDeviationEstimator.Instance;
+            var hdMadEstimator = HarrellDavisNormalizedMedianAbsoluteDeviationEstimator.Instance;
 
             var detectors = new[]
             {

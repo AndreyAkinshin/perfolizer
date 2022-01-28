@@ -3,9 +3,9 @@ using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Mathematics.DispersionEstimators
 {
-    public class HarrellDavisStdDevConsistentMedianAbsoluteDeviationEstimator : MedianAbsoluteDeviationEstimatorBase
+    public class HarrellDavisNormalizedMedianAbsoluteDeviationEstimator : MedianAbsoluteDeviationEstimatorBase
     {
-        public static IMedianAbsoluteDeviationEstimator Instance = new HarrellDavisStdDevConsistentMedianAbsoluteDeviationEstimator();
+        public static readonly IMedianAbsoluteDeviationEstimator Instance = new HarrellDavisNormalizedMedianAbsoluteDeviationEstimator();
 
         public override IQuantileEstimator QuantileEstimator => HarrellDavisQuantileEstimator.Instance;
 

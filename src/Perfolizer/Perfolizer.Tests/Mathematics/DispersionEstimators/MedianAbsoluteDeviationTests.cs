@@ -26,7 +26,7 @@ namespace Perfolizer.Tests.Mathematics.DispersionEstimators
         [InlineData(50)]
         public void SimpleEstimatorConsistencyTest(int sampleSize)
         {
-            Check(sampleSize, SimpleStdDevConsistentMedianAbsoluteDeviationEstimator.Instance);
+            Check(sampleSize, SimpleNormalizedMedianAbsoluteDeviationEstimator.Instance);
         }
         
         [Theory]
@@ -36,7 +36,7 @@ namespace Perfolizer.Tests.Mathematics.DispersionEstimators
         [InlineData(50)]
         public void HdEstimatorConsistencyTest(int sampleSize)
         {
-            Check(sampleSize, HarrellDavisStdDevConsistentMedianAbsoluteDeviationEstimator.Instance);
+            Check(sampleSize, HarrellDavisNormalizedMedianAbsoluteDeviationEstimator.Instance);
         }
 
         private void Check(int sampleSize, IMedianAbsoluteDeviationEstimator madEstimator)

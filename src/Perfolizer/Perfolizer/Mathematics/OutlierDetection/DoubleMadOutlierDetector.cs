@@ -19,7 +19,7 @@ namespace Perfolizer.Mathematics.OutlierDetection
         private const double DefaultK = 3;
 
         private static readonly IMedianAbsoluteDeviationEstimator DefaultMedianAbsoluteDeviationEstimator =
-            SimpleStdDevConsistentMedianAbsoluteDeviationEstimator.Instance;
+            SimpleNormalizedMedianAbsoluteDeviationEstimator.Instance;
 
         private DoubleMadOutlierDetector([NotNull] Sample sample, double k,
             [CanBeNull] IMedianAbsoluteDeviationEstimator medianAbsoluteDeviationEstimator = null)
