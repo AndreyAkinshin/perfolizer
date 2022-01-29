@@ -10,14 +10,14 @@ namespace Perfolizer.Mathematics.Functions
 {
     public abstract class QuantileCompareFunction
     {
-        [NotNull] protected IQuantileEstimator QuantileEstimator { get; }
+        protected IQuantileEstimator QuantileEstimator { get; }
 
-        protected QuantileCompareFunction([CanBeNull] IQuantileEstimator quantileEstimator = null)
+        protected QuantileCompareFunction(IQuantileEstimator? quantileEstimator = null)
         {
             QuantileEstimator = quantileEstimator ?? HarrellDavisQuantileEstimator.Instance;
         }
 
-        public virtual double GetValue([NotNull] Sample a, [NotNull] Sample b, Probability probability)
+        public virtual double GetValue(Sample a, Sample b, Probability probability)
         {
             Assertion.NotNull(nameof(a), a);
             Assertion.NotNull(nameof(b), b);
@@ -27,8 +27,7 @@ namespace Perfolizer.Mathematics.Functions
             return CalculateValue(quantileA, quantileB);
         }
 
-        [NotNull]
-        public virtual double[] GetValues([NotNull] Sample a, [NotNull] Sample b, [NotNull] IReadOnlyList<Probability> probabilities)
+        public virtual double[] GetValues(Sample a, Sample b, IReadOnlyList<Probability> probabilities)
         {
             Assertion.NotNull(nameof(a), a);
             Assertion.NotNull(nameof(b), b);
@@ -43,7 +42,7 @@ namespace Perfolizer.Mathematics.Functions
 
         protected abstract double CalculateValue(double quantileA, double quantileB);
         
-        public Range GetRange([NotNull] Sample a, [NotNull] Sample b, Probability margin, int? quantizationCount = null)
+        public Range GetRange(Sample a, Sample b, Probability margin, int? quantizationCount = null)
         {
             Assertion.NotNull(nameof(a), a);
             Assertion.NotNull(nameof(b), b);
@@ -65,7 +64,7 @@ namespace Perfolizer.Mathematics.Functions
             return Range.Of(quantileValues.Min(), quantileValues.Max());
         }
 
-        public Range GetRange([NotNull] Sample a, [NotNull] Sample b)
+        public Range GetRange(Sample a, Sample b)
         {
             Assertion.NotNull(nameof(a), a);
             Assertion.NotNull(nameof(b), b);

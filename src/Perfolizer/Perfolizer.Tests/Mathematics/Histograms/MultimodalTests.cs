@@ -63,7 +63,7 @@ namespace Perfolizer.Tests.Mathematics.Histograms
 
         [Theory]
         [MemberData(nameof(TestDataKeys))]
-        public void MValueTest([NotNull] string testDataKey)
+        public void MValueTest(string testDataKey)
         {
             var testData = TestDataMap[testDataKey];
             var values = testData.Values;

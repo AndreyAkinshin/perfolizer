@@ -6,7 +6,7 @@ namespace Perfolizer.Mathematics.Multimodality
     {
         public static readonly IModalityDataFormatter Instance = new AutomaticModalityDataFormatter();
 
-        public string Format(ModalityData data, string numberFormat = null, IFormatProvider numberFormatProvider = null)
+        public string Format(ModalityData data, string? numberFormat = null, IFormatProvider? numberFormatProvider = null)
         {
             int modality = data.Modality;
             var formatter = new ManualModalityDataFormatter

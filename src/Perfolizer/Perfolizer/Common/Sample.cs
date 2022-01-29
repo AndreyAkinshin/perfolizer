@@ -8,15 +8,15 @@ namespace Perfolizer.Common
 {
     public class Sample
     {
-        [NotNull] public IReadOnlyList<double> Values { get; }
-        [NotNull] public IReadOnlyList<double> Weights { get; }
+        public IReadOnlyList<double> Values { get; }
+        public IReadOnlyList<double> Weights { get; }
         public double TotalWeight { get; }
         public bool IsWeighted { get; }
 
-        [NotNull] private readonly Lazy<(IReadOnlyList<double> SortedValues, IReadOnlyList<double> SortedWeights)> lazySortedData;
+        private readonly Lazy<(IReadOnlyList<double> SortedValues, IReadOnlyList<double> SortedWeights)> lazySortedData;
 
-        [NotNull] public IReadOnlyList<double> SortedValues => lazySortedData.Value.SortedValues;
-        [NotNull] public IReadOnlyList<double> SortedWeights => lazySortedData.Value.SortedWeights;
+        public IReadOnlyList<double> SortedValues => lazySortedData.Value.SortedValues;
+        public IReadOnlyList<double> SortedWeights => lazySortedData.Value.SortedWeights;
 
         /// <summary>
         /// Sample size
@@ -28,7 +28,7 @@ namespace Perfolizer.Common
         /// </summary>
         public double WeightedCount { get; }
 
-        public Sample([NotNull] IReadOnlyList<double> values)
+        public Sample(IReadOnlyList<double> values)
         {
             Assertion.NotNullOrEmpty(nameof(values), values);
 
@@ -47,7 +47,7 @@ namespace Perfolizer.Common
             });
         }
 
-        public Sample([NotNull] IReadOnlyList<double> values, [NotNull] IReadOnlyList<double> weights)
+        public Sample(IReadOnlyList<double> values, IReadOnlyList<double> weights)
         {
             Assertion.NotNullOrEmpty(nameof(values), values);
             Assertion.NotNullOrEmpty(nameof(weights), weights);

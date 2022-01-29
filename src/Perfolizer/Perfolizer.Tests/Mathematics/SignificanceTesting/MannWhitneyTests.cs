@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.SignificanceTesting;
 using Perfolizer.Mathematics.Thresholds;
@@ -299,6 +300,8 @@ namespace Perfolizer.Tests.Mathematics.SignificanceTesting
         private void Check(double[] x, double[] y, Threshold t, double u, double pValue)
         {
             var result = MannWhitneyTest.Instance.IsGreater(x, y, t);
+            if (result == null)
+                throw new NullReferenceException($"{nameof(MannWhitneyTest)} returned null");
             output.WriteLine("Ux      = " + result.Ux);
             output.WriteLine("Uy      = " + result.Uy);
             output.WriteLine("p-value = " + result.PValue);

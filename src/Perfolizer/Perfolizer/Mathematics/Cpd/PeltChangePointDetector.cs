@@ -18,8 +18,7 @@ namespace Perfolizer.Mathematics.Cpd
             double GetCost(int tau0, int tau1, int tau2);
         }
 
-        [NotNull]
-        public abstract ICostCalculator CreateCostCalculator([NotNull] double[] data);
+        public abstract ICostCalculator CreateCostCalculator(double[] data);
 
         /// <summary>
         /// For given array of `double` values, detects locations of changepoints that
@@ -35,8 +34,7 @@ namespace Perfolizer.Mathematics.Cpd
         /// Changepoints correspond to the end of the detected segments.
         /// For example, changepoints for { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2 } are { 5, 11 }.
         /// </returns>
-        [NotNull]
-        public int[] GetChangePointIndexes([NotNull] double[] data, int minDistance = 20)
+        public int[] GetChangePointIndexes(double[] data, int minDistance = 20)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));

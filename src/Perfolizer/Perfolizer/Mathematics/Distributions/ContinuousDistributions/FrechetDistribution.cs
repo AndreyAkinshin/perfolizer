@@ -57,7 +57,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             };
         }
         
-        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
+        public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => A <= 1 ? double.PositiveInfinity : M + S * GammaFunction.Value(1 - 1 / A);
         public double Median => M + S / Pow(Constants.Log2, 1 / A);
@@ -68,7 +68,6 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 
         public double StandardDeviation => Variance.Sqrt();
 
-        [NotNull]
         public override string ToString() =>
             $"Frechet({Location.ToStringInvariant()},{Scale.ToStringInvariant()},{Shape.ToStringInvariant()})";
     }

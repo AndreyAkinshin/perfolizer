@@ -57,7 +57,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             }
         }
 
-        private static Moments GetMoments([NotNull] Sample sample, Probability probability, bool calcSecondMoment)
+        private static Moments GetMoments(Sample sample, Probability probability, bool calcSecondMoment)
         {
             Assertion.NotNull(nameof(sample), sample);
 

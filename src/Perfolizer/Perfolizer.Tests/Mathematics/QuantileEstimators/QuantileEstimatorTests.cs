@@ -21,12 +21,12 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 
         protected class TestData
         {
-            [NotNull] public double[] Source { get; }
-            [NotNull] public Probability[] Probabilities { get; }
-            [NotNull] public double[] Expected { get; }
-            [CanBeNull] public double[] Weights { get; }
+            public double[] Source { get; }
+            public Probability[] Probabilities { get; }
+            public double[] Expected { get; }
+            public double[]? Weights { get; }
 
-            public TestData(double[] source, Probability[] probabilities, double[] expected, double[] weights = null)
+            public TestData(double[] source, Probability[] probabilities, double[] expected, double[]? weights = null)
             {
                 Source = source;
                 Probabilities = probabilities;
@@ -35,13 +35,13 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             }
         }
 
-        private void DumpArray([NotNull] string name, [NotNull] IEnumerable<double> values)
+        private void DumpArray(string name, IEnumerable<double> values)
         {
             string valuesString = string.Join("; ", values.Select(x => x.ToString(TestCultureInfo.Instance)));
             Output.WriteLine($"{name}: [{valuesString}]");
         }
 
-        protected void Check([NotNull] IQuantileEstimator estimator, [NotNull] TestData testData)
+        protected void Check(IQuantileEstimator estimator, TestData testData)
         {
             if (testData.Weights == null)
                 CheckSimple(testData, estimator.GetQuantiles(testData.Source, testData.Probabilities), "Non-Weighted");
@@ -54,7 +54,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             }
         }
         
-        protected void CheckSimple([NotNull] TestData testData, [NotNull] double[] actual, string kind)
+        protected void CheckSimple(TestData testData, double[] actual, string kind)
         {
             var comparer = new AbsoluteEqualityComparer(1e-2);
             DumpArray("Source    ", testData.Source);

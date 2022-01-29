@@ -11,9 +11,9 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 {
     public abstract class OutlierDetectorTests
     {
-        [NotNull] protected readonly ITestOutputHelper Output;
+        protected readonly ITestOutputHelper Output;
 
-        protected OutlierDetectorTests([NotNull] ITestOutputHelper output)
+        protected OutlierDetectorTests(ITestOutputHelper output)
         {
             Output = output;
         }
@@ -231,23 +231,23 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 
         protected class TestData
         {
-            [NotNull] public double[] Values { get; }
-            [NotNull] public double[] ExpectedOutliers { get; }
+            public double[] Values { get; }
+            public double[] ExpectedOutliers { get; }
 
-            public TestData([NotNull] double[] values, [NotNull] double[] expectedOutliers)
+            public TestData(double[] values, double[] expectedOutliers)
             {
                 Values = values;
                 ExpectedOutliers = expectedOutliers;
             }
 
-            public void Deconstruct([NotNull] out double[] values, [NotNull] out double[] expectedOutliers)
+            public void Deconstruct(out double[] values, out double[] expectedOutliers)
             {
                 values = Values;
                 expectedOutliers = ExpectedOutliers;
             }
         }
 
-        protected void Check([NotNull] TestData testData, Func<IReadOnlyList<double>, IOutlierDetector> createOutlierDetector)
+        protected void Check(TestData testData, Func<IReadOnlyList<double>, IOutlierDetector> createOutlierDetector)
         {
             var (values, expectedOutliers) = testData;
             var outlierDetector = createOutlierDetector(values);

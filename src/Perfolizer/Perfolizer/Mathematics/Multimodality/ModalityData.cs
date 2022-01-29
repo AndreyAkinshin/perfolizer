@@ -7,13 +7,13 @@ namespace Perfolizer.Mathematics.Multimodality
 {
     public class ModalityData
     {
-        [NotNull, PublicAPI] public IReadOnlyList<RangedMode> Modes { get; }
+        [PublicAPI] public IReadOnlyList<RangedMode> Modes { get; }
 
         public DensityHistogram DensityHistogram { get; }
 
         public int Modality => Modes.Count;
 
-        public ModalityData([NotNull] IReadOnlyList<RangedMode> modes, DensityHistogram densityHistogram)
+        public ModalityData(IReadOnlyList<RangedMode> modes, DensityHistogram densityHistogram)
         {
             Assertion.NotNull(nameof(modes), modes);
             Assertion.NotNull(nameof(densityHistogram), densityHistogram);

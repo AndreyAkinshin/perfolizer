@@ -5,10 +5,10 @@ namespace Perfolizer.Mathematics.Histograms
 {
     public interface IHistogramBuilder
     {
-        [PublicAPI, Pure, NotNull]
-        Histogram Build([NotNull] IReadOnlyList<double> values);
+        [PublicAPI, Pure]
+        Histogram Build(IReadOnlyList<double> values);
 
-        [PublicAPI, Pure, NotNull]
-        Histogram Build([NotNull] IReadOnlyList<double> values, double binSize);
+        [PublicAPI, Pure]
+        Histogram Build(IReadOnlyList<double> values, double binSize);
     }
 }

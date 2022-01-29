@@ -9,9 +9,8 @@ namespace Perfolizer.Collections
 {
     internal static class CollectionExtensions
     {
-        [NotNull]
         [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
-        public static double[] CopyToArray([NotNull] this IEnumerable<double> values)
+        public static double[] CopyToArray(this IEnumerable<double> values)
         {
             switch (values)
             {
@@ -35,8 +34,7 @@ namespace Perfolizer.Collections
             }
         }
 
-        [NotNull]
-        public static double[] CopyToArrayAndSort([NotNull] this IEnumerable<double> values)
+        public static double[] CopyToArrayAndSort(this IEnumerable<double> values)
         {
             var array = values.CopyToArray();
             Array.Sort(array);
@@ -46,7 +44,7 @@ namespace Perfolizer.Collections
         /// <summary>
         /// Returns the index of the minimum element in the given range
         /// </summary>
-        internal static int WhichMin([NotNull] this IReadOnlyList<double> source, int start, int length)
+        internal static int WhichMin(this IReadOnlyList<double> source, int start, int length)
         {
             Assertion.NotNullOrEmpty(nameof(source), source);
             Assertion.InRangeInclusive(nameof(start), start, 0, source.Count - 1);
@@ -67,12 +65,12 @@ namespace Perfolizer.Collections
         /// <summary>
         /// Returns the index of the minimum element
         /// </summary>
-        internal static int WhichMin([NotNull] this IReadOnlyList<double> source) => WhichMin(source, 0, source.Count);
+        internal static int WhichMin(this IReadOnlyList<double> source) => WhichMin(source, 0, source.Count);
 
         /// <summary>
         /// Returns the index of the maximum element in the given range
         /// </summary>
-        internal static int WhichMax([NotNull] this IReadOnlyList<double> source, int start, int length)
+        internal static int WhichMax(this IReadOnlyList<double> source, int start, int length)
         {
             Assertion.NotNullOrEmpty(nameof(source), source);
             Assertion.InRangeInclusive(nameof(start), start, 0, source.Count - 1);
@@ -93,10 +91,9 @@ namespace Perfolizer.Collections
         /// <summary>
         /// Returns the index of the maximum element
         /// </summary>
-        internal static int WhichMax([NotNull] this IReadOnlyList<double> source) => WhichMax(source, 0, source.Count);
+        internal static int WhichMax(this IReadOnlyList<double> source) => WhichMax(source, 0, source.Count);
 
-        [NotNull]
-        public static Sample ToSample([NotNull] this IEnumerable<double> values)
+        public static Sample ToSample(this IEnumerable<double> values)
         {
             Assertion.NotNull(nameof(values), values);
             if (values is IReadOnlyList<double> list)

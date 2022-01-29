@@ -17,11 +17,11 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         /// </summary>
         public const double DefaultConsistencyConstant = 1.482602218505602;
 
-        public static double CalcQad([NotNull] Sample sample,
+        public static double CalcQad(Sample sample,
             double p,
             double q,
             double consistencyConstant = DefaultConsistencyConstant,
-            [CanBeNull] IQuantileEstimator quantileEstimator = null)
+            IQuantileEstimator? quantileEstimator = null)
         {
             Assertion.NotNull(nameof(sample), sample);
             quantileEstimator ??= SimpleQuantileEstimator.Instance;

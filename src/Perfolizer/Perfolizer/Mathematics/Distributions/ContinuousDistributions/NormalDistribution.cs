@@ -51,7 +51,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
                 this.distribution = distribution;
             }
 
-            public NormalRandomGenerator(Random random, NormalDistribution distribution) : base(random)
+            public NormalRandomGenerator(Random? random, NormalDistribution distribution) : base(random)
             {
                 this.distribution = distribution;
             }
@@ -76,14 +76,11 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             }
         }
 
-        [NotNull]
         public RandomGenerator Random() => new NormalRandomGenerator(this);
 
-        [NotNull]
         public RandomGenerator Random(int seed) => new NormalRandomGenerator(seed, this);
 
-        [NotNull]
-        public RandomGenerator Random(Random random) => new NormalRandomGenerator(random, this);
+        public RandomGenerator Random(Random? random) => new NormalRandomGenerator(random, this);
 
         public double Median => Mean;
         public double Variance => StandardDeviation.Sqr();
@@ -132,7 +129,6 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             return x > 0.0 ? (z + 1.0) / 2 : (1.0 - z) / 2;
         }
 
-        [NotNull]
         public override string ToString() => $"Normal({Mean.ToStringInvariant()},{StandardDeviation.ToStringInvariant()}^2)";
     }
 }

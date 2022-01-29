@@ -12,7 +12,7 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 {
     public class DoubleMadOutlierDetectorTests : OutlierDetectorTests
     {
-        public DoubleMadOutlierDetectorTests([NotNull] ITestOutputHelper output) : base(output)
+        public DoubleMadOutlierDetectorTests(ITestOutputHelper output) : base(output)
         {
         }
 
@@ -47,7 +47,7 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 
         [Theory]
         [MemberData(nameof(SimpleQeTestDataKeys))]
-        public void DoubleMadOutlierDetectorSimpleQeTest([NotNull] string testDataKey)
+        public void DoubleMadOutlierDetectorSimpleQeTest(string testDataKey)
         {
             var testData = SimpleQeTestDataMap[testDataKey];
 
@@ -90,7 +90,7 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 
         [Theory]
         [MemberData(nameof(HdQeTestDataKeys))]
-        public void DoubleMadOutlierDetectorHdQeTest([NotNull] string testDataKey)
+        public void DoubleMadOutlierDetectorHdQeTest(string testDataKey)
         {
             var testData = HdQeTestDataMap[testDataKey];
 

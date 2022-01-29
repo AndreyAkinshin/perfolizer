@@ -47,7 +47,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             return Exp(Mean + Constants.Sqrt2 * StandardDeviation * ErrorFunction.InverseValue(2 * p - 1));
         }
 
-        public RandomGenerator Random(Random random = null)
+        public RandomGenerator Random(Random? random = null)
         {
             var normalDistribution = new NormalDistribution(Mean, StandardDeviation);
             var normalRandomGenerator = new NormalDistribution.NormalRandomGenerator(random, normalDistribution);
@@ -69,7 +69,6 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             public override double Next() => Exp(normalRandomGenerator.Next());
         }
         
-        [NotNull]
         public override string ToString() => $"LogNormal({Mean.ToStringInvariant()},{StandardDeviation.ToStringInvariant()}^2)";        
     }
 }

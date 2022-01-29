@@ -31,14 +31,13 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             ? Mu + Sigma * Log(2 * p)
             : Mu - Sigma * Log(2 - 2 * p);
 
-        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
+        public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => Mu;
         public double Median => Mu;
         public double Variance => 2 * Sigma.Sqr();
         public double StandardDeviation => Constants.Sqrt2 * Sigma;
         
-        [NotNull]
         public override string ToString() => $"Laplace({Mu.ToStringInvariant()},{Sigma.ToStringInvariant()})";
     }
 }

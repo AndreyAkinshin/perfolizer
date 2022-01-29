@@ -12,7 +12,7 @@ namespace Perfolizer.Tests.Mathematics.DispersionEstimators
 {
     public class MedianAbsoluteDeviationTests
     {
-        [NotNull] private readonly ITestOutputHelper output;
+        private readonly ITestOutputHelper output;
 
         public MedianAbsoluteDeviationTests(ITestOutputHelper output)
         {

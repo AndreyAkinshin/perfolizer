@@ -64,7 +64,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 
         public double Quantile(Probability p) => BetaFunction.RegularizedIncompleteInverseValue(Alpha, Beta, p);
 
-        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
+        public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => Alpha / (Alpha + Beta);
         public double Median => lazyMedian.Value;
@@ -72,7 +72,6 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
         public double StandardDeviation => Variance.Sqrt();
         public double Skewness => 2 * (Beta - Alpha) * Sqrt(Alpha + Beta + 1) / (Alpha + Beta + 2) / Sqrt(Alpha * Beta);
 
-        [NotNull]
         public override string ToString() => $"Beta({Alpha.ToStringInvariant()},{Beta.ToStringInvariant()})";
     }
 }

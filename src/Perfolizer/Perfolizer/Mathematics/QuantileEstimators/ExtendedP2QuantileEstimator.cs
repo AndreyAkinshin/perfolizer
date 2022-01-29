@@ -28,7 +28,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
         public int Count { get; private set; }
 
-        public ExtendedP2QuantileEstimator([NotNull] params Probability[] probabilities)
+        public ExtendedP2QuantileEstimator(params Probability[] probabilities)
         {
             this.Probabilities = probabilities;
             m = probabilities.Length;

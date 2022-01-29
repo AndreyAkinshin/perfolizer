@@ -71,7 +71,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
                 : B - Sqrt((1 - p) * (B - A) * (B - C));
         }
 
-        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
+        public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => (Min + Mode + Max) / 3;
         public double Median => C >= (A + B) / 2
@@ -80,7 +80,6 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
         public double Variance => (A.Sqr() + B.Sqr() + C.Sqr() - A * B - A * C - B * C) / 18;
         public double StandardDeviation => Sqrt(Variance);
 
-        [NotNull]
         public override string ToString() => $"Tri({A.ToStringInvariant()},{C.ToStringInvariant()},{B.ToStringInvariant()})";
     }
 }

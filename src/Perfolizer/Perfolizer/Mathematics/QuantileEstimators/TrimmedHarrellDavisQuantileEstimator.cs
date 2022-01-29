@@ -17,7 +17,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
         public static readonly IQuantileEstimator SqrtInstance = new TrimmedHarrellDavisQuantileEstimator(n => 1.0 / Sqrt(n), "SQRT");
 
-        public TrimmedHarrellDavisQuantileEstimator(Func<double, Probability> getIntervalWidth, [CanBeNull] string alias = null)
+        public TrimmedHarrellDavisQuantileEstimator(Func<double, Probability> getIntervalWidth, string? alias = null)
         {
             this.getIntervalWidth = getIntervalWidth;
             Alias = string.IsNullOrEmpty(alias) ? "THD" : "THD-" + alias;
@@ -81,7 +81,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         public bool SupportsWeightedSamples => true;
         public string Alias { get; }
 
-        private static double BinarySearch([NotNull] Func<double, double> f, double left, double right)
+        private static double BinarySearch(Func<double, double> f, double left, double right)
         {
             double fl = f(left);
             double fr = f(right);

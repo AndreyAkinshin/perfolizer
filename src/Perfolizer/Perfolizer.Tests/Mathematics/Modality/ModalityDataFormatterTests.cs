@@ -146,7 +146,7 @@ namespace Perfolizer.Tests.Mathematics.Modality
 
         [Theory]
         [MemberData(nameof(TestDataKeys))]
-        public void ManualModalityDataFormatterTest([NotNull] string testKey)
+        public void ManualModalityDataFormatterTest(string testKey)
         {
             var testData = TestDataMap[testKey];
             var modalityDetector = new LowlandModalityDetector();

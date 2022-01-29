@@ -6,7 +6,7 @@ namespace Perfolizer.Common
 {
     internal static class StringBuilderExtensions
     {
-        public static StringBuilder TrimEnd([CanBeNull] this StringBuilder builder, params char[] trimChars)
+        public static StringBuilder? TrimEnd(this StringBuilder? builder, params char[] trimChars)
         {
             if (builder == null)
                 return null;

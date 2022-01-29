@@ -243,7 +243,6 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             return h[rootHeapIndex];
         }
 
-        [NotNull]
         internal string Dump()
         {
             var builder = new StringBuilder();

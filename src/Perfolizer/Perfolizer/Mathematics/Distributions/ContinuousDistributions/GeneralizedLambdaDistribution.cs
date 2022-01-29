@@ -32,7 +32,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 
         public double Quantile(Probability p) => Mu + Sigma * (Pow(p, A) - Pow(1 - p, B));
 
-        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
+        public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => throw new NotImplementedException();
         public double Median => throw new NotImplementedException();

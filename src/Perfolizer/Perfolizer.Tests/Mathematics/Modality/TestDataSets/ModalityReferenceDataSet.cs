@@ -6,8 +6,7 @@ namespace Perfolizer.Tests.Mathematics.Modality.TestDataSets
 {
     public static class ModalityReferenceDataSet
     {
-        [NotNull]
-        public static List<ModalityTestData> Generate([NotNull] Random random, int repetitions = 10)
+        public static List<ModalityTestData> Generate(Random random, int repetitions = 10)
         {
             string GetNamePostfix(int i) => repetitions == 1 ? "" : $"@{i}";
 

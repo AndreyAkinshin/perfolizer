@@ -34,7 +34,7 @@ namespace Perfolizer.Mathematics.Cpd
             private readonly int n, k;
             private readonly int[] partialSums;
 
-            public CostCalculator([NotNull] double[] data)
+            public CostCalculator(double[] data)
             {
                 n = data.Length;
 
@@ -77,8 +77,7 @@ namespace Perfolizer.Mathematics.Cpd
             /// </remarks>
             /// </summary>
             [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
-            [NotNull]
-            private static int[] GetPartialSums([NotNull] double[] data, int k)
+            private static int[] GetPartialSums(double[] data, int k)
             {
                 int n = data.Length;
                 var partialSums = new int[k * (n + 1)];

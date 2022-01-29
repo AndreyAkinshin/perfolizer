@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Randomization;
@@ -23,14 +22,13 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 
         public double Quantile(Probability p) => distribution.Quantile(p) + shift;
 
-        public RandomGenerator Random(Random random = null) => new ShiftedRandomGenerator(distribution.Random(random), shift);
+        public RandomGenerator Random(Random? random = null) => new ShiftedRandomGenerator(distribution.Random(random), shift);
 
         public double Mean => distribution.Mean + shift;
         public double Median => distribution.Median + shift;
         public double Variance => distribution.Variance;
         public double StandardDeviation => distribution.StandardDeviation;
         
-        [NotNull]
         public override string ToString() => $"Shifted({distribution},{shift.ToStringInvariant()})";
         
         private class ShiftedRandomGenerator : RandomGenerator

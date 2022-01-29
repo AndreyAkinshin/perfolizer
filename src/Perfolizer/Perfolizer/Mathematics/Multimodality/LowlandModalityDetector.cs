@@ -11,7 +11,7 @@ namespace Perfolizer.Mathematics.Multimodality
     // https://aakinshin.net/posts/lowland-multimodality-detection/
     public class LowlandModalityDetector : IModalityDetector
     {
-        [NotNull] public static readonly LowlandModalityDetector Instance = new LowlandModalityDetector();
+        public static readonly LowlandModalityDetector Instance = new LowlandModalityDetector();
 
         private readonly double sensitivity;
         private readonly double precision;
@@ -27,7 +27,7 @@ namespace Perfolizer.Mathematics.Multimodality
 
         public ModalityData DetectModes(Sample sample) => DetectModes(sample, QuantileRespectfulDensityHistogramBuilder.Instance);
 
-        public ModalityData DetectModes(Sample sample, [CanBeNull] IDensityHistogramBuilder densityHistogramBuilder, bool diagnostics = false)
+        public ModalityData DetectModes(Sample sample, IDensityHistogramBuilder? densityHistogramBuilder, bool diagnostics = false)
         {
             Assertion.NotNull(nameof(sample), sample);
             if (sample.Values.Max() - sample.Values.Min() < 1e-9)

@@ -78,7 +78,7 @@ namespace Perfolizer.Mathematics.Cpd
             private readonly double[] quantileLeft;
             private readonly double[] quantileRight;
 
-            public CostCalculator([NotNull] double[] data, RqqPeltChangePointDetector detector)
+            public CostCalculator(double[] data, RqqPeltChangePointDetector detector)
             {
                 this.detector = detector;
                 quantileLeft = new double[QuantileCount];
@@ -117,7 +117,7 @@ namespace Perfolizer.Mathematics.Cpd
                 return CalcDistance(quantileLeft, quantileRight);
             }
 
-            private double CalcDistance([NotNull] double[] qa, [NotNull] double[] qb)
+            private double CalcDistance(double[] qa, double[] qb)
             {
                 double sumA = 0, sumB = 0;
                 int minJ = 0;

@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Randomization;
@@ -37,14 +36,13 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 
         public double Quantile(Probability p) => Xm * Pow(1 - p, -1 / Alpha);
         
-        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
+        public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => Alpha <= 1 ? double.PositiveInfinity : Alpha * Xm / (Alpha - 1);
         public double Median => Xm * Pow(2, 1 / Alpha);
         public double Variance => Alpha <= 2 ? double.PositiveInfinity : Xm.Sqr() * Alpha / (Alpha - 1).Sqr() / (Alpha - 2);
         public double StandardDeviation => Variance.Sqrt();
 
-        [NotNull]
         public override string ToString() => $"Pareto({Xm.ToStringInvariant()},{Alpha.ToStringInvariant()})";
     }
 }

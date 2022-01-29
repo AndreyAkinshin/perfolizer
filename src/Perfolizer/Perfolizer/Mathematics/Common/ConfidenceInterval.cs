@@ -26,7 +26,7 @@ namespace Perfolizer.Mathematics.Common
 
         public override string ToString() => ToString(DefaultFormat);
 
-        public string ToString(string format, IFormatProvider formatProvider = null, bool showLevel = true)
+        public string ToString(string format, IFormatProvider? formatProvider = null, bool showLevel = true)
         {
             formatProvider ??= DefaultCultureInfo.Instance;
 

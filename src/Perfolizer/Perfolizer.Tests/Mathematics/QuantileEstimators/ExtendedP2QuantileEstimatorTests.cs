@@ -27,7 +27,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 
         [Theory]
         [MemberData(nameof(P2TestDataKeys))]
-        public void ExtendedP2IsConsistentWithP2([NotNull] string testKey)
+        public void ExtendedP2IsConsistentWithP2(string testKey)
         {
             var testData = P2TestDataMap[testKey];
             double p = testData.Probability;
@@ -54,7 +54,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 
         [Theory]
         [MemberData(nameof(P2TestDataKeys))]
-        public void ExtendedP2QuantileEstimatorTest([NotNull] string testKey)
+        public void ExtendedP2QuantileEstimatorTest(string testKey)
         {
             var testData = P2TestDataMap[testKey];
             var probabilities = Enumerable

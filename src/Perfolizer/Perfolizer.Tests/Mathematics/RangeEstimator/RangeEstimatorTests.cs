@@ -115,7 +115,7 @@ namespace Perfolizer.Tests.Mathematics.RangeEstimator
 
         [Theory]
         [MemberData(nameof(TestDataKeys))]
-        public void ShiftAndRatioRangeEstimators([NotNull] string testDataKey)
+        public void ShiftAndRatioRangeEstimators(string testDataKey)
         {
             var testData = TestDataMap[testDataKey];
             var shift = ShiftFunction.Instance.GetRange(testData.A, testData.B);

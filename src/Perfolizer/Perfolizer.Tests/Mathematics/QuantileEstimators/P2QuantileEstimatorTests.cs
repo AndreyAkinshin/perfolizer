@@ -110,7 +110,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 
         [Theory]
         [MemberData(nameof(TestDataKeys))]
-        public void P2QuantileEstimatorTest([NotNull] string testKey)
+        public void P2QuantileEstimatorTest(string testKey)
         {
             var testData = TestDataMap[testKey];
             double p = testData.Probability;
@@ -168,7 +168,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 
         [Theory]
         [MemberData(nameof(TestStrategyDataKeys))]
-        public void P2QuantileEstimatorStrategyTest([NotNull] string testKey)
+        public void P2QuantileEstimatorStrategyTest(string testKey)
         {
             var testData = TestStrategyDataMap[testKey];
             var random = new Random(testData.Seed);

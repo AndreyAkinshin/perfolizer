@@ -41,7 +41,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             };
         }
 
-        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
+        public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => double.NaN;
         public double Median => Location;

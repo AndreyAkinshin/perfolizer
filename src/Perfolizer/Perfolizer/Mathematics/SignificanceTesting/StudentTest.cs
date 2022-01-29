@@ -13,7 +13,7 @@ namespace Perfolizer.Mathematics.SignificanceTesting
         /// Determines whether the sample mean is different from a known mean
         /// </summary>
         /// <remarks>Should be consistent with t.test(x, mu = mu, alternative = "greater") from R </remarks>
-        public OneSidedTestResult IsGreater(double[] sample, double value, Threshold threshold = null)
+        public OneSidedTestResult IsGreater(double[] sample, double value, Threshold? threshold = null)
         {
             var moments = Moments.Create(sample);
             double mean = moments.Mean;

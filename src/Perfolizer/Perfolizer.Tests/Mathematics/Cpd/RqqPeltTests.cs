@@ -22,7 +22,7 @@ namespace Perfolizer.Tests.Mathematics.Cpd
         }
 
         [AssertionMethod]
-        private void Check([NotNull] double[] data, int minDistance, [NotNull] int[] expectedChangePoints)
+        private void Check(double[] data, int minDistance, int[] expectedChangePoints)
         {
             var actualChangePoints = detector.GetChangePointIndexes(data, minDistance);
             output.WriteLine("EXPECTED : " + string.Join(", ", expectedChangePoints));
@@ -84,7 +84,7 @@ namespace Perfolizer.Tests.Mathematics.Cpd
         [InlineData(4, "1;5")]
         [InlineData(4, "1;5;30")]
         [Trait(TraitConstants.Category, TraitConstants.Slow)]
-        public void GaussianStdDevProgression(int error, [NotNull] string stdDevValuesString)
+        public void GaussianStdDevProgression(int error, string stdDevValuesString)
         {
             var random = new Random(42);
 

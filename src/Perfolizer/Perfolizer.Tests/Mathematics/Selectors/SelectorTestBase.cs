@@ -23,12 +23,11 @@ namespace Perfolizer.Tests.Mathematics.Selectors
             public abstract double Select(int k);
         }
 
-        [JetBrains.Annotations.NotNull]
-        protected abstract SelectorAdapter CreateEstimator([JetBrains.Annotations.NotNull] double[] values);
+        protected abstract SelectorAdapter CreateEstimator(double[] values);
 
         [AssertionMethod]
         [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
-        protected void Check([JetBrains.Annotations.NotNull] double[] data)
+        protected void Check(double[] data)
         {
             var expectedSortedData = data.ToArray();
             Array.Sort(expectedSortedData);
@@ -168,7 +167,7 @@ namespace Perfolizer.Tests.Mathematics.Selectors
         [InlineData("2,2,3,2")]
         [InlineData("2,3,2,2")]
         [InlineData("3,2,2,2")]
-        public void Ties([JetBrains.Annotations.NotNull] string data) =>
+        public void Ties(string data) =>
             Check(data.Split(',').Select(s => (double) int.Parse(s)).ToArray());
     }
 }

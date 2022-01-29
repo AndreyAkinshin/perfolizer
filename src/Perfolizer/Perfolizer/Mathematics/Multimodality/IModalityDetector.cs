@@ -5,7 +5,7 @@ namespace Perfolizer.Mathematics.Multimodality
 {
     public interface IModalityDetector
     {
-        [NotNull, Pure]
-        ModalityData DetectModes([NotNull] Sample sample);
+        [Pure]
+        ModalityData DetectModes(Sample sample);
     }
 }

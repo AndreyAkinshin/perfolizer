@@ -346,11 +346,11 @@ namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions
         };
 
         [UsedImplicitly]
-        public static TheoryData<string> TestDataKeys = TheoryDataHelper.Create(TestDataList.Select(it => it.Distribution.ToString()));
+        public static TheoryData<string> TestDataKeys = TheoryDataHelper.Create(TestDataList.Select(it => it.Distribution.ToString()!));
 
         [Theory]
         [MemberData(nameof(TestDataKeys))]
-        public void LaplaceDistributionTest([NotNull] string testKey)
+        public void LaplaceDistributionTest(string testKey)
         {
             Check(TestDataList.First(it => it.Distribution.ToString() == testKey));
         }

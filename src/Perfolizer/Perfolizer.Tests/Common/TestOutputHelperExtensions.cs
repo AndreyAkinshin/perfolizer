@@ -10,13 +10,13 @@ namespace Perfolizer.Tests.Common
         {
             get
             {
-                string perfolizerTraceMode = Environment.GetEnvironmentVariable("PERFOLIZER_TRACE_MODE");
+                string? perfolizerTraceMode = Environment.GetEnvironmentVariable("PERFOLIZER_TRACE_MODE");
                 return string.Equals(perfolizerTraceMode, "1", StringComparison.OrdinalIgnoreCase) ||
                        string.Equals(perfolizerTraceMode, "true", StringComparison.OrdinalIgnoreCase);
             }
         }
 
-        public static void WriteLine([NotNull] this ITestOutputHelper output) => output.WriteLine("");
+        public static void WriteLine(this ITestOutputHelper output) => output.WriteLine("");
 
         public static void TraceLine(this ITestOutputHelper output, string message)
         {

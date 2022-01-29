@@ -17,7 +17,7 @@ namespace Perfolizer.Mathematics.Randomization
             Random = new Random(seed);
         }
 
-        protected RandomGenerator([CanBeNull] Random random)
+        protected RandomGenerator(Random? random)
         {
             Random = random ?? new Random();
         }
@@ -33,7 +33,6 @@ namespace Perfolizer.Mathematics.Randomization
         /// </summary>
         /// <param name="n">The size of the returned array.</param>
         /// <returns>An array of random double-precision floating-point numbers from the given distribution.</returns>
-        [NotNull]
         public double[] Next(int n)
         {
             var numbers = new double[n];

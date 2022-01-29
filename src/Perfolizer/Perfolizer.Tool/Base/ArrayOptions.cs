@@ -8,9 +8,9 @@ namespace Perfolizer.Tool.Base
     {
         [Option("sep", Default = ";",
             HelpText = "Separator for data array elements for 'data' and 'file' commands")]
-        public string SourceSeparator { get; set; }
+        public string? SourceSeparator { get; set; }
 
-        protected double[] GetArrayFromDataOrFile(string data, string fileName, string arrayName)
+        protected double[] GetArrayFromDataOrFile(string? data, string? fileName, string arrayName)
         {
             string input;
             if (!string.IsNullOrEmpty(data))

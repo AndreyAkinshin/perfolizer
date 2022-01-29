@@ -32,7 +32,7 @@ namespace Perfolizer.Collections
             public bool MoveNext() => counter++ < size;
             public void Reset() => counter = 0;
             public T Current { get; }
-            object IEnumerator.Current => Current;
+            object? IEnumerator.Current => Current;
 
             public void Dispose()
             {

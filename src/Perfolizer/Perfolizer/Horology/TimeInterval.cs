@@ -12,7 +12,7 @@ namespace Perfolizer.Horology
 
         public TimeInterval(double nanoseconds) => Nanoseconds = nanoseconds;
 
-        public TimeInterval(double value, [NotNull] TimeUnit unit) : this(value * unit.NanosecondAmount) { }
+        public TimeInterval(double value, TimeUnit unit) : this(value * unit.NanosecondAmount) { }
 
         public static readonly TimeInterval Nanosecond = TimeUnit.Nanosecond.ToInterval();
         public static readonly TimeInterval Microsecond = TimeUnit.Microsecond.ToInterval();
@@ -55,21 +55,21 @@ namespace Perfolizer.Horology
         [Pure] public static bool operator ==(TimeInterval a, TimeInterval b) => a.Nanoseconds.Equals(b.Nanoseconds);
         [Pure] public static bool operator !=(TimeInterval a, TimeInterval b) => !a.Nanoseconds.Equals(b.Nanoseconds);
 
-        [Pure, NotNull]
+        [Pure]
         public string ToString(
-            [CanBeNull] string format,
-            [CanBeNull] IFormatProvider formatProvider = null,
-            [CanBeNull] UnitPresentation unitPresentation = null)
+            string? format,
+            IFormatProvider? formatProvider = null,
+            UnitPresentation? unitPresentation = null)
         {
             return ToString(null, format, formatProvider, unitPresentation);
         }
 
-        [Pure, NotNull]
+        [Pure]
         public string ToString(
-            [CanBeNull] TimeUnit timeUnit,
-            [CanBeNull] string format = null,
-            [CanBeNull] IFormatProvider formatProvider = null,
-            [CanBeNull] UnitPresentation unitPresentation = null)
+            TimeUnit? timeUnit,
+            string? format = null,
+            IFormatProvider? formatProvider = null,
+            UnitPresentation? unitPresentation = null)
         {
             timeUnit ??= TimeUnit.GetBestTimeUnit(Nanoseconds);
             format ??= DefaultFormat;

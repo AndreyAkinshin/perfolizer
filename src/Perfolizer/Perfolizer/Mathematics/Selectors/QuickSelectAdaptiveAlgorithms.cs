@@ -138,7 +138,7 @@ namespace Perfolizer.Mathematics.Selectors
         /// <summary>
         /// Puts k-th smallest element of a in a[k] and partitions a around it.
         /// </summary>
-        public static void QuickSelect([NotNull] Partition partition, Span<double> A, int k)
+        public static void QuickSelect(Partition partition, Span<double> A, int k)
         {
             while (true)
             {
@@ -449,7 +449,7 @@ namespace Perfolizer.Mathematics.Selectors
         }
 
         [PublicAPI]
-        public static void QuickSelectAdaptive([NotNull] double[] values, int k)
+        public static void QuickSelectAdaptive(double[] values, int k)
             => QuickSelectAdaptive(new Span<double>(values), k);
     }
 }

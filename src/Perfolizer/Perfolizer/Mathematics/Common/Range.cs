@@ -33,18 +33,15 @@ namespace Perfolizer.Mathematics.Common
 
         public bool ContainsInclusive(double value) => Left <= value && value <= Right;
 
-        [NotNull]
-        public string ToString([CanBeNull] CultureInfo cultureInfo, [CanBeNull] string format = "N2")
+        public string ToString(CultureInfo? cultureInfo, string? format = "N2")
         {
             cultureInfo ??= DefaultCultureInfo.Instance;
             format ??= DefaultFormat;
             return $"[{Left.ToString(format, cultureInfo)};{Right.ToString(format, cultureInfo)}]";
         }
 
-        [NotNull]
-        public string ToString([CanBeNull] string format) => ToString(null, format);
+        public string ToString(string? format) => ToString(null, format);
 
-        [NotNull]
         public override string ToString() => ToString(null, null);
     }
 }

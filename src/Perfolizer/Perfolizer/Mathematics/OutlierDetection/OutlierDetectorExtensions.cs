@@ -7,56 +7,49 @@ namespace Perfolizer.Mathematics.OutlierDetection
 {
     public static class OutlierDetectorExtensions
     {
-        public static bool IsOutlier([NotNull] this IOutlierDetector outlierDetector, double x)
+        public static bool IsOutlier(this IOutlierDetector outlierDetector, double x)
         {
             return outlierDetector.IsLowerOutlier(x) || outlierDetector.IsUpperOutlier(x);
         }
         
-        [NotNull]
-        public static IEnumerable<double> GetLowerOutliers([NotNull] this IOutlierDetector outlierDetector,
-            [NotNull] IEnumerable<double> values)
+        public static IEnumerable<double> GetLowerOutliers(this IOutlierDetector outlierDetector,
+            IEnumerable<double> values)
         {
             return values.Where(outlierDetector.IsLowerOutlier);
         }
 
-        [NotNull]
-        public static IEnumerable<double> GetUpperOutliers([NotNull] this IOutlierDetector outlierDetector,
-            [NotNull] IEnumerable<double> values)
+        public static IEnumerable<double> GetUpperOutliers(this IOutlierDetector outlierDetector,
+            IEnumerable<double> values)
         {
             return values.Where(outlierDetector.IsUpperOutlier);
         }
 
-        [NotNull]
-        public static IEnumerable<double> GetAllOutliers([NotNull] this IOutlierDetector outlierDetector,
-            [NotNull] IEnumerable<double> values)
+        public static IEnumerable<double> GetAllOutliers(this IOutlierDetector outlierDetector,
+            IEnumerable<double> values)
         {
             return values.Where(outlierDetector.IsOutlier);
         }
 
-        [NotNull]
-        public static IEnumerable<double> WithoutLowerOutliers([NotNull] this IOutlierDetector outlierDetector,
-            [NotNull] IEnumerable<double> values)
+        public static IEnumerable<double> WithoutLowerOutliers(this IOutlierDetector outlierDetector,
+            IEnumerable<double> values)
         {
             return values.Where(x => !outlierDetector.IsLowerOutlier(x));
         }
 
-        [NotNull]
-        public static IEnumerable<double> WithoutUpperOutliers([NotNull] this IOutlierDetector outlierDetector,
-            [NotNull] IEnumerable<double> values)
+        public static IEnumerable<double> WithoutUpperOutliers(this IOutlierDetector outlierDetector,
+            IEnumerable<double> values)
         {
             return values.Where(x => !outlierDetector.IsUpperOutlier(x));
         }
 
-        [NotNull]
-        public static IEnumerable<double> WithoutAllOutliers([NotNull] this IOutlierDetector outlierDetector,
-            [NotNull] IEnumerable<double> values)
+        public static IEnumerable<double> WithoutAllOutliers(this IOutlierDetector outlierDetector,
+            IEnumerable<double> values)
         {
             return values.Where(x => !outlierDetector.IsOutlier(x));
         }
 
-        [NotNull]
-        public static IEnumerable<double> ApplyOutlierMode([NotNull] this IOutlierDetector outlierDetector,
-            [NotNull] IEnumerable<double> values, OutlierMode mode)
+        public static IEnumerable<double> ApplyOutlierMode(this IOutlierDetector outlierDetector,
+            IEnumerable<double> values, OutlierMode mode)
         {
             switch (mode)
             {

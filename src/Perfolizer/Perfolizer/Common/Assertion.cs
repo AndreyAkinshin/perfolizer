@@ -8,14 +8,14 @@ namespace Perfolizer.Common
     internal static class Assertion
     {
         [AssertionMethod]
-        public static void NotNull([NotNull] string name, [CanBeNull] object value)
+        public static void NotNull(string name, object? value)
         {
             if (value == null)
                 throw new ArgumentNullException(name, $"{name} can't be null");
         }
 
         [AssertionMethod]
-        public static void NotNullOrEmpty<T>([NotNull] string name, [CanBeNull] IReadOnlyList<T> values)
+        public static void NotNullOrEmpty<T>(string name, IReadOnlyList<T>? values)
         {
             if (values == null)
                 throw new ArgumentNullException(name, $"{name} can't be null");
@@ -24,7 +24,7 @@ namespace Perfolizer.Common
         }
 
         [AssertionMethod]
-        public static void ItemNotNull<T>([NotNull] string name, IReadOnlyList<T> values)
+        public static void ItemNotNull<T>(string name, IReadOnlyList<T> values)
         {
             for (int i = 0; i < values.Count; i++)
                 if (values[i] == null)
@@ -140,7 +140,7 @@ namespace Perfolizer.Common
         }
 
         [AssertionMethod]
-        public static void Equal([NotNull] string name1, int value1, [NotNull] string name2, int value2)
+        public static void Equal(string name1, int value1, string name2, int value2)
         {
             if (value1 != value2)
             {
@@ -150,7 +150,7 @@ namespace Perfolizer.Common
         }
 
         [AssertionMethod]
-        public static void Equal([NotNull] string name, double value, double expectedValue, double eps = 1e-9)
+        public static void Equal(string name, double value, double expectedValue, double eps = 1e-9)
         {
             if (Math.Abs(value - expectedValue) > eps)
             {
@@ -160,7 +160,7 @@ namespace Perfolizer.Common
         }
 
         [AssertionMethod]
-        public static void NonWeighted([NotNull] string name, [NotNull] Sample sample)
+        public static void NonWeighted(string name, Sample sample)
         {
             NotNull(name, sample);
             if (sample.IsWeighted)

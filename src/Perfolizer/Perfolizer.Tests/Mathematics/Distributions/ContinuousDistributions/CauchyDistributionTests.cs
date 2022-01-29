@@ -210,11 +210,11 @@ namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions
         };
 
         [UsedImplicitly]
-        public static TheoryData<string> TestDataKeys = TheoryDataHelper.Create(TestDataList.Select(it => it.Distribution.ToString()));
+        public static TheoryData<string> TestDataKeys = TheoryDataHelper.Create(TestDataList.Select(it => it.Distribution.ToString()!));
 
         [Theory]
         [MemberData(nameof(TestDataKeys))]
-        public void CauchyDistributionTest([NotNull] string testKey)
+        public void CauchyDistributionTest(string testKey)
         {
             Check(TestDataList.First(it => it.Distribution.ToString() == testKey));
         }

@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Mathematics.Functions
@@ -7,7 +6,7 @@ namespace Perfolizer.Mathematics.Functions
     {
         public static readonly QuantileCompareFunction Instance = new RatioFunction();
 
-        public RatioFunction([CanBeNull] IQuantileEstimator quantileEstimator = null) : base(quantileEstimator)
+        public RatioFunction(IQuantileEstimator? quantileEstimator = null) : base(quantileEstimator)
         {
         }
 

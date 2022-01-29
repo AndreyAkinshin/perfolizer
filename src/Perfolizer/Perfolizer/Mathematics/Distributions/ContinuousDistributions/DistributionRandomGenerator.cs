@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 using Perfolizer.Mathematics.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
@@ -8,17 +7,17 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
     {
         private readonly IContinuousDistribution distribution;
 
-        public DistributionRandomGenerator([NotNull] IContinuousDistribution distribution)
+        public DistributionRandomGenerator(IContinuousDistribution distribution)
         {
             this.distribution = distribution ?? throw new ArgumentNullException(nameof(distribution));
         }
 
-        public DistributionRandomGenerator([NotNull] IContinuousDistribution distribution, int seed) : base(seed)
+        public DistributionRandomGenerator(IContinuousDistribution distribution, int seed) : base(seed)
         {
             this.distribution = distribution ?? throw new ArgumentNullException(nameof(distribution));
         }
 
-        public DistributionRandomGenerator([NotNull] IContinuousDistribution distribution, [CanBeNull] Random random = null) : base(random ?? new Random())
+        public DistributionRandomGenerator(IContinuousDistribution distribution, Random? random = null) : base(random ?? new Random())
         {
             this.distribution = distribution ?? throw new ArgumentNullException(nameof(distribution));
         }

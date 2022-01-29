@@ -116,11 +116,11 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         public abstract class HfTestData
         {
             public HyndmanFanType Type { get; }
-            [NotNull] public double[] Expected { get; }
-            [NotNull] public abstract double[] Source { get; }
-            [NotNull] public abstract Probability[] Probabilities { get; }
+            public double[] Expected { get; }
+            public abstract double[] Source { get; }
+            public abstract Probability[] Probabilities { get; }
 
-            protected HfTestData(HyndmanFanType type, [NotNull] double[] expected)
+            protected HfTestData(HyndmanFanType type, double[] expected)
             {
                 Type = type;
                 Expected = expected;
@@ -132,7 +132,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             public static readonly Probability[] DefaultProbabilities = Enumerable.Range(0, 101)
                 .Select(x => (Probability)(x / 100.0)).ToArray();
 
-            public HfTestDataCase1(HyndmanFanType type, [NotNull] double[] expected) : base(type, expected)
+            public HfTestDataCase1(HyndmanFanType type, double[] expected) : base(type, expected)
             {
             }
 
@@ -144,7 +144,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 
         [Theory]
         [MemberData(nameof(TestDataKeys))]
-        public void HyndmanFanQuantileEstimatorTest([NotNull] string testDataKey)
+        public void HyndmanFanQuantileEstimatorTest(string testDataKey)
         {
             var data = TestDataMap[testDataKey];
             var estimator = new HyndmanFanQuantileEstimator(data.Type);

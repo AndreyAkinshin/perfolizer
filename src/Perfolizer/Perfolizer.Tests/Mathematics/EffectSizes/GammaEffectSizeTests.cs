@@ -16,7 +16,7 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
 {
     public class GammaEffectSizeTests
     {
-        [NotNull] private readonly ITestOutputHelper output;
+        private readonly ITestOutputHelper output;
 
         public GammaEffectSizeTests(ITestOutputHelper output)
         {

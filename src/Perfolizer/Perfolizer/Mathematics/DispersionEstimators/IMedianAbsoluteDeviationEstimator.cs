@@ -6,10 +6,10 @@ namespace Perfolizer.Mathematics.DispersionEstimators
 {
     public interface IMedianAbsoluteDeviationEstimator
     {
-        [NotNull] IQuantileEstimator QuantileEstimator { get; }
+        IQuantileEstimator QuantileEstimator { get; }
         
-        double Calc([NotNull] Sample sample);
-        double CalcLower([NotNull] Sample sample);
-        double CalcUpper([NotNull] Sample sample);
+        double Calc(Sample sample);
+        double CalcLower(Sample sample);
+        double CalcUpper(Sample sample);
     }
 }

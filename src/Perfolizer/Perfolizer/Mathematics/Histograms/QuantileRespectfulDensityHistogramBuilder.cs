@@ -19,8 +19,7 @@ namespace Perfolizer.Mathematics.Histograms
 
         public DensityHistogram Build(Sample sample, int binCount) => Build(sample, binCount, null);
 
-        [NotNull]
-        public DensityHistogram Build([NotNull] Sample sample, int binCount, [CanBeNull] IQuantileEstimator quantileEstimator)
+        public DensityHistogram Build(Sample sample, int binCount, IQuantileEstimator? quantileEstimator)
         {
             Assertion.NotNull(nameof(sample), sample);
             Assertion.MoreThan(nameof(binCount), binCount, 1);
@@ -29,8 +28,8 @@ namespace Perfolizer.Mathematics.Histograms
             if (sample.IsWeighted && !quantileEstimator.SupportsWeightedSamples)
                 throw new WeightedSampleNotSupportedException();
 
-            Probability[] probabilities = Probability.ToProbabilities(
-                new ArithmeticProgressionSequence(0, 1.0 / binCount).GenerateArray(binCount + 1));
+            var probabilities =
+                Probability.ToProbabilities(new ArithmeticProgressionSequence(0, 1.0 / binCount).GenerateArray(binCount + 1))!;
             double[] quantiles = quantileEstimator.GetQuantiles(sample, probabilities);
 
             var bins = new List<DensityHistogramBin>(binCount);

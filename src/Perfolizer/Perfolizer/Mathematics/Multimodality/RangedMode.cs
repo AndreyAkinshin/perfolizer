@@ -11,14 +11,14 @@ namespace Perfolizer.Mathematics.Multimodality
         public double Left { get; }
         public double Right { get; }
 
-        [NotNull] public Sample Sample { get; }
+        public Sample Sample { get; }
 
-        [NotNull] public IReadOnlyList<double> Values => Sample.SortedValues;
+        public IReadOnlyList<double> Values => Sample.SortedValues;
 
         public double Min() => Sample.SortedValues.First();
         public double Max() => Sample.SortedValues.Last();
 
-        public RangedMode(double location, double left, double right, [NotNull] Sample sample)
+        public RangedMode(double location, double left, double right, Sample sample)
         {
             Location = location;
             Left = left;

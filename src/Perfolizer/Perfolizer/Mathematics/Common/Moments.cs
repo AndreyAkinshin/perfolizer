@@ -24,7 +24,7 @@ namespace Perfolizer.Mathematics.Common
             StandardDeviation = Math.Sqrt(Variance);
         }
 
-        public static Moments Create([NotNull] IReadOnlyList<double> values)
+        public static Moments Create(IReadOnlyList<double> values)
         {
             Assertion.NotNull(nameof(values), values);
             int n = values.Count;

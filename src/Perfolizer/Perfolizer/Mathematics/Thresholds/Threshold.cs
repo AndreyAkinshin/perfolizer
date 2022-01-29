@@ -27,12 +27,12 @@ namespace Perfolizer.Mathematics.Thresholds
         public abstract double GetValue(IReadOnlyList<double> values);
         public abstract bool IsZero();
 
-        public static bool TryParse(string input, out Threshold parsed)
+        public static bool TryParse(string input, out Threshold? parsed)
         {
             return TryParse(input, NumberStyles.Any, DefaultCultureInfo.Instance, out parsed);
         }
 
-        public static bool TryParse(string input, NumberStyles numberStyle, IFormatProvider formatProvider, out Threshold parsed)
+        public static bool TryParse(string input, NumberStyles numberStyle, IFormatProvider formatProvider, out Threshold? parsed)
         {
             if (string.IsNullOrWhiteSpace(input))
             {
@@ -40,9 +40,9 @@ namespace Perfolizer.Mathematics.Thresholds
                 return false;
             }
 
-            var trimmed = input.Trim().ToLowerInvariant();
-            var number = new string(trimmed.TakeWhile(c => char.IsDigit(c) || c == '.' || c == ',').ToArray());
-            var unit = new string(trimmed.SkipWhile(c => char.IsDigit(c) || c == '.' || c == ',' || char.IsWhiteSpace(c)).ToArray());
+            string trimmed = input.Trim().ToLowerInvariant();
+            string number = new string(trimmed.TakeWhile(c => char.IsDigit(c) || c == '.' || c == ',').ToArray());
+            string unit = new string(trimmed.SkipWhile(c => char.IsDigit(c) || c == '.' || c == ',' || char.IsWhiteSpace(c)).ToArray());
 
             if (!double.TryParse(number, numberStyle, formatProvider, out var parsedValue)
                 || !ThresholdUnitExtensions.ShortNameToUnit.TryGetValue(unit, out var parsedUnit))

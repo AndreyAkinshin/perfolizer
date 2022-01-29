@@ -42,7 +42,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 
         public double Quantile(Probability p) => Min + p * (Max - Min);
 
-        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
+        public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => (Min + Max) / 2;
         public double Median => (Min + Max) / 2;
@@ -50,7 +50,6 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
         public double StandardDeviation => Math.Sqrt(Variance);
         public double Skewness => 0;
 
-        [NotNull]
         public override string ToString() => $"Uniform({Min.ToStringInvariant()},{Max.ToStringInvariant()})";
     }
 }

@@ -19,6 +19,7 @@
         <SignAssembly>true</SignAssembly>
 
         <LangVersion>9.0</LangVersion>
+        <Nullable>enable</Nullable>
 
         <Major>0</Major>
         <Minor>3</Minor>

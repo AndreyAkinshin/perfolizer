@@ -37,7 +37,7 @@ namespace Perfolizer.Mathematics.Selectors
         private readonly NodeKind[] kinds;
         private readonly int n, nodeCount, usedValues;
 
-        public Rqq([NotNull] double[] data)
+        public Rqq(double[] data)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
@@ -213,7 +213,6 @@ namespace Perfolizer.Mathematics.Selectors
             }
         }
 
-        [NotNull]
         public string DumpTreeAscii(bool details = false)
         {
             using (var memoryStream = new MemoryStream())
@@ -224,7 +223,7 @@ namespace Perfolizer.Mathematics.Selectors
             }
         }
 
-        public void DumpTreeAscii([NotNull] StreamWriter writer, bool details = false)
+        public void DumpTreeAscii(StreamWriter writer, bool details = false)
         {
             var valuesStr = values.Select(v => v.ToString(CultureInfo.InvariantCulture)).ToArray(); // TODO: precision
 

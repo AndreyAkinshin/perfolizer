@@ -23,12 +23,12 @@ namespace Perfolizer.Mathematics.Randomization
             this.random = random;
         }
 
-        public void Shuffle<T>([NotNull] IList<T> data)
+        public void Shuffle<T>(IList<T> data)
         {
             Shuffle(data, 0, data.Count);
         }
 
-        public void Shuffle<T>([NotNull] IList<T> data, int offset, int count)
+        public void Shuffle<T>(IList<T> data, int offset, int count)
         {
             for (int i = 0; i < count; i++)
             {

@@ -12,31 +12,31 @@ namespace Perfolizer.Tests.Mathematics.Histograms
     public static class HistogramTestHelper
     {
         [AssertionMethod]
-        public static void DoHistogramTest([NotNull] ITestOutputHelper output, [NotNull] IHistogramBuilder builder,
-            [NotNull] double[] values, [NotNull] double[][] bins)
+        public static void DoHistogramTest(ITestOutputHelper output, IHistogramBuilder builder,
+            double[] values, double[][] bins)
         {
             var actualHistogram = builder.Build(values);
             Check(output, bins, actualHistogram);
         }
 
         [AssertionMethod]
-        public static void DoHistogramTest([NotNull] ITestOutputHelper output, [NotNull] IHistogramBuilder builder,
-            [NotNull] double[] values, double binSize, [NotNull] double[][] bins)
+        public static void DoHistogramTest(ITestOutputHelper output, IHistogramBuilder builder,
+            double[] values, double binSize, double[][] bins)
         {
             var actualHistogram = builder.Build(values, binSize);
             Check(output, bins, actualHistogram);
         }
 
         [AssertionMethod]
-        public static void DoHistogramTest([NotNull] ITestOutputHelper output, [NotNull] IHistogramBuilder builder,
-            [NotNull] double[] values, [NotNull] bool[] states)
+        public static void DoHistogramTest(ITestOutputHelper output, IHistogramBuilder builder,
+            double[] values, bool[] states)
         {
             var actualHistogram = builder.Build(values);
             Check(output, states, actualHistogram);
         }
 
         [AssertionMethod]
-        private static void Check([NotNull] ITestOutputHelper output, [NotNull] double[][] expectedBins, Histogram actualHistogram)
+        private static void Check(ITestOutputHelper output, double[][] expectedBins, Histogram actualHistogram)
         {
             var expectedHistogram = Histogram.BuildManual(0, expectedBins);
             output.Print("Expected", expectedHistogram);
@@ -48,7 +48,7 @@ namespace Perfolizer.Tests.Mathematics.Histograms
         }
 
         [AssertionMethod]
-        private static void Check([NotNull] ITestOutputHelper output, [NotNull] bool[] expectedStates, Histogram actualHistogram)
+        private static void Check(ITestOutputHelper output, bool[] expectedStates, Histogram actualHistogram)
         {
             output.Print("Actual", actualHistogram);
 
@@ -57,7 +57,7 @@ namespace Perfolizer.Tests.Mathematics.Histograms
                 Assert.Equal(expectedStates[i], actualHistogram.Bins[i].HasAny);
         }
 
-        public static void Print([NotNull] this ITestOutputHelper output, [NotNull] string title, [NotNull] Histogram histogram)
+        public static void Print(this ITestOutputHelper output, string title, Histogram histogram)
         {
             var values = histogram.GetAllValues().CopyToArray();
             double mValue = MValueCalculator.Calculate(values);

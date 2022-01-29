@@ -556,7 +556,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 
         [Theory]
         [MemberData(nameof(TestDataKeys))]
-        public void SampleQuantileEstimatorTest([NotNull] string testDataKey)
+        public void SampleQuantileEstimatorTest(string testDataKey)
         {
             Check(SimpleQuantileEstimator.Instance, TestDataMap[testDataKey]);
         }

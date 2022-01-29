@@ -13,7 +13,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         private int n;
         private readonly double[] previousWindowEstimations;
 
-        public MovingExtendedP2QuantileEstimator([NotNull] Probability[] probabilities, int windowSize)
+        public MovingExtendedP2QuantileEstimator(Probability[] probabilities, int windowSize)
         {
             Assertion.Positive(nameof(windowSize), windowSize);
             this.windowSize = windowSize;

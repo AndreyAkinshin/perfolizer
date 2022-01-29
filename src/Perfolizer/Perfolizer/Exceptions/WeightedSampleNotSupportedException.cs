@@ -12,7 +12,7 @@ namespace Perfolizer.Exceptions
         }
 
         [PublicAPI]
-        protected WeightedSampleNotSupportedException([NotNull] SerializationInfo info, StreamingContext context) : base(info, context)
+        protected WeightedSampleNotSupportedException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
 

@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.Common
@@ -22,7 +21,6 @@ namespace Perfolizer.Mathematics.Common
         public static implicit operator double(Probability probability) => probability.Value;
         public static implicit operator Probability(double value) => new Probability(value);
 
-        [NotNull]
         public override string ToString()
         {
             return Value.ToString(DefaultCultureInfo.Instance);
@@ -33,13 +31,12 @@ namespace Perfolizer.Mathematics.Common
             return Value.CompareTo(obj);
         }
 
-        [NotNull]
         public string ToString(IFormatProvider formatProvider)
         {
             return Value.ToString(formatProvider);
         }
 
-        public string ToString(string format, [CanBeNull] IFormatProvider formatProvider = null)
+        public string ToString(string format, IFormatProvider? formatProvider = null)
         {
             return Value.ToString(format, formatProvider ?? DefaultCultureInfo.Instance);
         }
@@ -63,9 +60,8 @@ namespace Perfolizer.Mathematics.Common
         {
             return Value.CompareTo(other.Value);
         }
-
-        [CanBeNull]
-        public static Probability[] ToProbabilities([CanBeNull] double[] values)
+        
+        public static Probability[]? ToProbabilities(double[]? values)
         {
             if (values == null)
                 return null;

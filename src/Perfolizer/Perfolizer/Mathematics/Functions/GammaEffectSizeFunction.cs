@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.DispersionEstimators;
@@ -11,16 +10,16 @@ namespace Perfolizer.Mathematics.Functions
 {
     public class GammaEffectSizeFunction : QuantileCompareFunction
     {
-        [NotNull] private static readonly IMedianAbsoluteDeviationEstimator DefaultMedianAbsoluteDeviationEstimator =
+        private static readonly IMedianAbsoluteDeviationEstimator DefaultMedianAbsoluteDeviationEstimator =
             new SimpleNormalizedMedianAbsoluteDeviationEstimator();
 
         public static readonly GammaEffectSizeFunction Instance = new GammaEffectSizeFunction();
 
         private const double Eps = 1e-9;
 
-        [NotNull] private readonly IMedianAbsoluteDeviationEstimator medianAbsoluteDeviationEstimator;
+        private readonly IMedianAbsoluteDeviationEstimator medianAbsoluteDeviationEstimator;
 
-        public GammaEffectSizeFunction([CanBeNull] IMedianAbsoluteDeviationEstimator medianAbsoluteDeviationEstimator = null) :
+        public GammaEffectSizeFunction(IMedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null) :
             base((medianAbsoluteDeviationEstimator ?? DefaultMedianAbsoluteDeviationEstimator).QuantileEstimator)
         {
             this.medianAbsoluteDeviationEstimator = medianAbsoluteDeviationEstimator ?? DefaultMedianAbsoluteDeviationEstimator;

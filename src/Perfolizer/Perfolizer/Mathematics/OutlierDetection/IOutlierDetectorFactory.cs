@@ -5,6 +5,6 @@ namespace Perfolizer.Mathematics.OutlierDetection
 {
     public interface IOutlierDetectorFactory
     {
-        IOutlierDetector Create([NotNull] IReadOnlyList<double> values);
+        IOutlierDetector Create(IReadOnlyList<double> values);
     }
 }

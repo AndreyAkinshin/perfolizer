@@ -9,14 +9,14 @@ namespace Perfolizer.Mathematics.Sequences
     public static class SequenceExtensions
     {
         [SuppressMessage("ReSharper", "IteratorNeverReturns")]
-        public static IEnumerable<double> GenerateEnumerable([NotNull] this ISequence sequence)
+        public static IEnumerable<double> GenerateEnumerable(this ISequence sequence)
         {
             int index = 0;
             while (true)
                 yield return sequence.GetValue(index++);
         }
 
-        public static double[] GenerateArray([NotNull] this ISequence sequence, int count, bool normalize = false)
+        public static double[] GenerateArray(this ISequence sequence, int count, bool normalize = false)
         {
             var values = sequence.GenerateEnumerable().Take(count).ToArray();
             if (normalize)
@@ -29,7 +29,7 @@ namespace Perfolizer.Mathematics.Sequences
             return values;
         }
         
-        public static double[] GenerateReverseArray([NotNull] this ISequence sequence, int count, bool normalize = false)
+        public static double[] GenerateReverseArray(this ISequence sequence, int count, bool normalize = false)
         {
             var values = sequence.GenerateArray(count, normalize);
             Array.Reverse(values);

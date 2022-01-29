@@ -12,9 +12,9 @@ namespace Perfolizer.Mathematics.Multimodality
         public IReadOnlyList<DiagnosticsBin> Bins { get; }
 
         public LowlandModalityDiagnosticsData(
-            [NotNull] IReadOnlyList<RangedMode> modes,
-            [NotNull] DensityHistogram densityHistogram,
-            [NotNull] IReadOnlyList<DiagnosticsBin> bins)
+            IReadOnlyList<RangedMode> modes,
+            DensityHistogram densityHistogram,
+            IReadOnlyList<DiagnosticsBin> bins)
             : base(modes, densityHistogram)
         {
             Bins = bins;
@@ -37,7 +37,7 @@ namespace Perfolizer.Mathematics.Multimodality
             }
         }
 
-        public void DumpAsCsv(StreamWriter writer, CultureInfo cultureInfo = null)
+        public void DumpAsCsv(StreamWriter writer, CultureInfo? cultureInfo = null)
         {
             cultureInfo ??= DefaultCultureInfo.Instance;
             writer.WriteLine("index,left,right,height,water,isMode,isPeak,isLowland");

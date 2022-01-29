@@ -10,7 +10,7 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 {
     public class TukeyOutlierDetectorTests : OutlierDetectorTests
     {
-        public TukeyOutlierDetectorTests([NotNull] ITestOutputHelper output) : base(output)
+        public TukeyOutlierDetectorTests(ITestOutputHelper output) : base(output)
         {
         }
 
@@ -49,7 +49,7 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 
         [Theory]
         [MemberData(nameof(SimpleQeTestDataKeys))]
-        public void TukeyOutlierDetectorSimpleQeTest([NotNull] string testDataKey) => Check(SimpleQeTestDataMap[testDataKey],
+        public void TukeyOutlierDetectorSimpleQeTest(string testDataKey) => Check(SimpleQeTestDataMap[testDataKey],
             values => TukeyOutlierDetector.Create(values, quantileEstimator: SimpleQuantileEstimator.Instance));
         
         /// <summary>
@@ -82,7 +82,7 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
 
         [Theory]
         [MemberData(nameof(HdQeTestDataKeys))]
-        public void TukeyOutlierDetectorHdQeTest([NotNull] string testDataKey) => Check(HdQeTestDataMap[testDataKey],
+        public void TukeyOutlierDetectorHdQeTest(string testDataKey) => Check(HdQeTestDataMap[testDataKey],
             values => TukeyOutlierDetector.Create(values, quantileEstimator: HarrellDavisQuantileEstimator.Instance));
     }
 }

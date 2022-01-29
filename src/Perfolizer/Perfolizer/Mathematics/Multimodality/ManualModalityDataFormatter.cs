@@ -9,10 +9,8 @@ namespace Perfolizer.Mathematics.Multimodality
 {
     public class ManualModalityDataFormatter : IModalityDataFormatter
     {
-        [NotNull]
         public static readonly IModalityDataFormatter Default = new ManualModalityDataFormatter();
 
-        [NotNull]
         public static readonly IModalityDataFormatter Compact = new ManualModalityDataFormatter
         {
             PresentCount = false,
@@ -21,7 +19,6 @@ namespace Perfolizer.Mathematics.Multimodality
             CompactMiddleModes = true
         };
 
-        [NotNull]
         public static readonly IModalityDataFormatter Full = new ManualModalityDataFormatter
         {
             PresentCount = true,
@@ -30,14 +27,14 @@ namespace Perfolizer.Mathematics.Multimodality
             CompactMiddleModes = false
         };
 
-        [CanBeNull] public IOutlierDetectorFactory OutlierDetectorFactory { get; set; }
+        public IOutlierDetectorFactory? OutlierDetectorFactory { get; set; }
         public bool PresentCount { get; set; } = true;
         public bool PresentModeLocations { get; set; } = true;
         public bool PresentOutliers { get; set; } = true;
         public bool CompactMiddleModes { get; set; } = true;
         public string GroupSeparator { get; set; } = " + ";
 
-        public string Format(ModalityData data, string numberFormat = null, IFormatProvider numberFormatProvider = null)
+        public string Format(ModalityData data, string? numberFormat = null, IFormatProvider? numberFormatProvider = null)
         {
             Assertion.NotNull(nameof(data), data);
 
@@ -166,8 +163,8 @@ namespace Perfolizer.Mathematics.Multimodality
 
             public bool Any() => Count > 0;
 
-            public void Present([NotNull] StringBuilder builder, char open, string multiSeparator, char close, bool presentCount,
-                [NotNull] string format, [NotNull] IFormatProvider formatProvider)
+            public void Present(StringBuilder builder, char open, string multiSeparator, char close, bool presentCount,
+                string format, IFormatProvider formatProvider)
             {
                 switch (Count)
                 {

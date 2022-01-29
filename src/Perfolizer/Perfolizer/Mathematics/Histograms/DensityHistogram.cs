@@ -8,19 +8,18 @@ namespace Perfolizer.Mathematics.Histograms
 {
     public class DensityHistogram
     {
-        [NotNull] public IReadOnlyList<DensityHistogramBin> Bins { get; }
+        public IReadOnlyList<DensityHistogramBin> Bins { get; }
 
         public double GlobalLower => Bins.First().Lower;
         public double GlobalUpper => Bins.Last().Upper;
 
-        public DensityHistogram([NotNull] IReadOnlyList<DensityHistogramBin> bins)
+        public DensityHistogram(IReadOnlyList<DensityHistogramBin> bins)
         {
             Assertion.NotNullOrEmpty(nameof(bins), bins);
             Bins = bins;
         }
 
-        [NotNull]
-        public string Present([NotNull] string format = "N2")
+        public string Present(string format = "N2")
         {
             var builder = new StringBuilder();
             foreach (var bin in Bins)
@@ -28,7 +27,7 @@ namespace Perfolizer.Mathematics.Histograms
                     bin.Lower.ToString(format),
                     bin.Upper.ToString(format),
                     bin.Height.ToString(format)));
-            return builder.TrimEnd().ToString();
+            return builder.TrimEnd()!.ToString();
         }
     }
 }

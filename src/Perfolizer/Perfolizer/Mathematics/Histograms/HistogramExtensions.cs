@@ -13,10 +13,10 @@ namespace Perfolizer.Mathematics.Histograms
         [PublicAPI, Pure]
         public static int GetBinCount(this Histogram histogram) => histogram.Bins.Length;
 
-        [PublicAPI, Pure, NotNull]
-        public static IEnumerable<double> GetAllValues([NotNull] this Histogram histogram) => histogram.Bins.SelectMany(bin => bin.Values);
+        [PublicAPI, Pure]
+        public static IEnumerable<double> GetAllValues(this Histogram histogram) => histogram.Bins.SelectMany(bin => bin.Values);
         
-        public static Func<double, string> CreateNanosecondFormatter(this Histogram histogram, CultureInfo cultureInfo = null, string format = "0.000")
+        public static Func<double, string> CreateNanosecondFormatter(this Histogram histogram, CultureInfo? cultureInfo = null, string format = "0.000")
         {
             var timeUnit = TimeUnit.GetBestTimeUnit(histogram.Bins.SelectMany(bin => bin.Values).ToArray());
             return value => TimeInterval.FromNanoseconds(value).ToString(timeUnit, format, cultureInfo);

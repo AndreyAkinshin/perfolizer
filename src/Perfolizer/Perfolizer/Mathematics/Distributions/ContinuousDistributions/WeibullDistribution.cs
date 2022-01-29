@@ -39,14 +39,13 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             };
         }
         
-        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
+        public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => Lambda * GammaFunction.Value(1 + 1 / K);
         public double Median => Lambda * Pow(Constants.Log2, 1 / K);
         public double Variance => Lambda.Sqr() * (GammaFunction.Value(1 + 2 / K) - GammaFunction.Value(1 + 1 / K).Sqr());
         public double StandardDeviation => Variance.Sqrt();
 
-        [NotNull]
         public override string ToString() => $"Weibull({Scale.ToStringInvariant()},{Shape.ToStringInvariant()})";
     }
 }

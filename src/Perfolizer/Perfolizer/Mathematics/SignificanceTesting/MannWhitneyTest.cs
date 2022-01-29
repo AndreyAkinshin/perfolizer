@@ -52,7 +52,7 @@ namespace Perfolizer.Mathematics.SignificanceTesting
         /// Checks that (x-y) > threshold
         /// </summary>
         /// <remarks>Should be consistent with wilcox.test(x, y, mu=threshold, alternative="greater") from R</remarks>
-        public MannWhitneyResult IsGreater(double[] x, double[] y, Threshold threshold = null)
+        public MannWhitneyResult? IsGreater(double[] x, double[] y, Threshold? threshold = null)
         {
             threshold = threshold ?? RelativeThreshold.Default;
             double thresholdValue = threshold.GetValue(x);

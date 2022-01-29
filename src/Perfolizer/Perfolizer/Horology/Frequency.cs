@@ -85,21 +85,21 @@ namespace Perfolizer.Horology
         public static bool TryParseGHz(string s, NumberStyles numberStyle, IFormatProvider formatProvider, out Frequency freq)
             => TryParse(s, FrequencyUnit.GHz, numberStyle, formatProvider, out freq);
 
-        [PublicAPI, Pure, NotNull]
+        [PublicAPI, Pure]
         public string ToString(
-            [CanBeNull] string format,
-            [CanBeNull] IFormatProvider formatProvider = null,
-            [CanBeNull] UnitPresentation unitPresentation = null)
+            string? format,
+            IFormatProvider? formatProvider = null,
+            UnitPresentation? unitPresentation = null)
         {
             return ToString(null, format, formatProvider, unitPresentation);
         }
 
-        [PublicAPI, Pure, NotNull]
+        [PublicAPI, Pure]
         public string ToString(
-            [CanBeNull] FrequencyUnit frequencyUnit,
-            [CanBeNull] string format = null,
-            [CanBeNull] IFormatProvider formatProvider = null,
-            [CanBeNull] UnitPresentation unitPresentation = null)
+            FrequencyUnit? frequencyUnit,
+            string? format = null,
+            IFormatProvider? formatProvider = null,
+            UnitPresentation? unitPresentation = null)
         {
             frequencyUnit ??= FrequencyUnit.GetBestFrequencyUnit(Hertz);
             format ??= DefaultFormat;
@@ -115,7 +115,7 @@ namespace Perfolizer.Horology
             return unitValue.ToString(format, formatProvider);
         }
 
-        [PublicAPI, Pure, NotNull] public override string ToString() => ToString(DefaultFormat);
+        [PublicAPI, Pure] public override string ToString() => ToString(DefaultFormat);
 
         public bool Equals(Frequency other) => Hertz.Equals(other.Hertz);
         public bool Equals(Frequency other, double hertzEpsilon) => Math.Abs(Hertz - other.Hertz) < hertzEpsilon;

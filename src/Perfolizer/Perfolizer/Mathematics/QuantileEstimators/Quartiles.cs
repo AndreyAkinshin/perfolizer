@@ -26,8 +26,8 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             Q4 = q4;
         }
 
-        public static Quartiles Create([NotNull] Sample sample,
-            [CanBeNull] IQuantileEstimator quantileEstimator = null)
+        public static Quartiles Create(Sample sample,
+            IQuantileEstimator? quantileEstimator = null)
         {
             Assertion.NotNull(nameof(sample), sample);
             quantileEstimator ??= SimpleQuantileEstimator.Instance;
@@ -44,8 +44,8 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         }
 
         public static Quartiles Create(
-            [NotNull] IReadOnlyList<double> values,
-            [CanBeNull] IQuantileEstimator quantileEstimator = null)
+            IReadOnlyList<double> values,
+            IQuantileEstimator? quantileEstimator = null)
         {
             Assertion.NotNull(nameof(values), values);
 

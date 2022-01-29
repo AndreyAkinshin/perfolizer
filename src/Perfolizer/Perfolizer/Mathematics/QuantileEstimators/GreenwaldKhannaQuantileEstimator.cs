@@ -114,12 +114,10 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             return false;
         }
 
-        [NotNull]
         public override string ToString() => $"GreenwaldKhannaQuantileEstimator(eps={Epsilon})";
 
         #region Helpers for unit tests
 
-        [NotNull]
         internal string DumpToString(string format = "N2")
         {
             if (tuples.Count == 0)

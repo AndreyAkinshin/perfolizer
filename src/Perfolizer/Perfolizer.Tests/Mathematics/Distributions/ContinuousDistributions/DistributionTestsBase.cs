@@ -101,7 +101,7 @@ namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions
         }
 
         [AssertionMethod]
-        protected void AssertEqual([NotNull] string name, double expected, double actual)
+        protected void AssertEqual(string name, double expected, double actual)
         {
             output.WriteLine($"{name}:");
             output.WriteLine($"  Expected = {expected}");

@@ -7,11 +7,10 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 {
     public static class QuantileEstimatorExtensions
     {
-        [NotNull]
         public static double[] GetQuantiles(
-            [NotNull] this IQuantileEstimator estimator,
-            [NotNull] Sample sample,
-            [NotNull] IReadOnlyList<Probability> probabilities)
+            this IQuantileEstimator estimator,
+            Sample sample,
+            IReadOnlyList<Probability> probabilities)
         {
             Assertion.NotNull(nameof(estimator), estimator);
             Assertion.NotNull(nameof(sample), sample);
@@ -25,25 +24,24 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         }
 
         public static double GetMedian(
-            [NotNull] this IQuantileEstimator estimator,
-            [NotNull] Sample sample)
+            this IQuantileEstimator estimator,
+            Sample sample)
         {
             return estimator.GetQuantile(sample, 0.5);
         }
 
         public static double GetQuantile(
-            [NotNull] this IQuantileEstimator estimator,
-            [NotNull] IReadOnlyList<double> values,
+            this IQuantileEstimator estimator,
+            IReadOnlyList<double> values,
             Probability probability)
         {
             return estimator.GetQuantile(new Sample(values), probability);
         }
 
-        [NotNull]
         public static double[] GetQuantiles(
-            [NotNull] this IQuantileEstimator estimator,
-            [NotNull] IReadOnlyList<double> values,
-            [NotNull] IReadOnlyList<Probability> probabilities)
+            this IQuantileEstimator estimator,
+            IReadOnlyList<double> values,
+            IReadOnlyList<Probability> probabilities)
         {
             return estimator.GetQuantiles(new Sample(values), probabilities);
         }

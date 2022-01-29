@@ -24,7 +24,7 @@ namespace Perfolizer.Tool
 
         [Option('p', "probs", Required = true,
             HelpText = "Probabilities that specify locations of requested quantiles")]
-        public string Probabilities { get; set; }
+        public string? Probabilities { get; set; }
         
         [Usage(ApplicationAlias = KnowStrings.ApplicationAlias)]
         public static IEnumerable<Example> Examples
@@ -49,7 +49,7 @@ namespace Perfolizer.Tool
             };
 
             var data = options.GetSourceArray();
-            var probabilities = Probability.ToProbabilities(options.ConvertStringToArray(options.Probabilities, "probabilities"));
+            var probabilities = Probability.ToProbabilities(options.ConvertStringToArray(options.Probabilities!, "probabilities"))!;
 
             var quantiles = estimator.GetQuantiles(data, probabilities);
             Console.WriteLine(string.Join(options.SourceSeparator, quantiles));

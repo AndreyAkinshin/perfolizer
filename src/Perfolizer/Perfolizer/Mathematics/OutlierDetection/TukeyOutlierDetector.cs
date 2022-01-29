@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 
@@ -31,15 +30,13 @@ namespace Perfolizer.Mathematics.OutlierDetection
             UpperFence = quartiles.Q3 + k * quartiles.InterquartileRange;
         }
 
-        [NotNull]
         public static TukeyOutlierDetector Create(Quartiles quartiles, double k = DefaultK)
         {
             return new TukeyOutlierDetector(quartiles, k);
         }
 
-        [NotNull]
-        public static TukeyOutlierDetector Create([NotNull] Sample sample, double k = DefaultK,
-            [CanBeNull] IQuantileEstimator quantileEstimator = null)
+        public static TukeyOutlierDetector Create(Sample sample, double k = DefaultK,
+            IQuantileEstimator? quantileEstimator = null)
         {
             Assertion.NotNull(nameof(sample), sample);
 
@@ -47,9 +44,8 @@ namespace Perfolizer.Mathematics.OutlierDetection
             return new TukeyOutlierDetector(Quartiles.Create(sample, quantileEstimator), k);
         }
 
-        [NotNull]
-        public static TukeyOutlierDetector Create([NotNull] IReadOnlyList<double> values, double k = DefaultK,
-            [CanBeNull] IQuantileEstimator quantileEstimator = null)
+        public static TukeyOutlierDetector Create(IReadOnlyList<double> values, double k = DefaultK,
+            IQuantileEstimator? quantileEstimator = null)
         {
             if (values == null)
                 throw new ArgumentNullException(nameof(values));

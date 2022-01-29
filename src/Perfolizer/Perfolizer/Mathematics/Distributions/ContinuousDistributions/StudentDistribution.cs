@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
@@ -43,7 +42,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             return p >= 0.5 ? x : -x;
         }
         
-        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
+        public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => df > 1 ? 0 : double.NaN;
 
@@ -54,7 +53,6 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 
         public double StandardDeviation => Variance.Sqrt();
 
-        [NotNull]
         public override string ToString() => $"Student({df.ToStringInvariant()})";
     }
 }

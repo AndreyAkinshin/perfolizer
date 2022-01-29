@@ -11,9 +11,9 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
     public class QuartilesTests
     {
         private void Check(
-            [JetBrains.Annotations.NotNull] IReadOnlyList<double> values,
-            [JetBrains.Annotations.NotNull] IReadOnlyList<double> expectedQuartiles,
-            [CanBeNull] IQuantileEstimator quantileEstimator)
+            IReadOnlyList<double> values,
+            IReadOnlyList<double> expectedQuartiles,
+            IQuantileEstimator? quantileEstimator)
         {
             var quartiles = Quartiles.Create(values, quantileEstimator);
             Assert.Equal(expectedQuartiles[0], quartiles.Q0);
@@ -32,7 +32,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute")]
         public void QuartileNullTest()
         {
-            Assert.Throws<ArgumentNullException>(() => Quartiles.Create((Sample)null));
+            Assert.Throws<ArgumentNullException>(() => Quartiles.Create((Sample)null!));
         }
 
         [Fact]

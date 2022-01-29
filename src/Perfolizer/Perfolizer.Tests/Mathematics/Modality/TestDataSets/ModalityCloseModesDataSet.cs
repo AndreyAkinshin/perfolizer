@@ -11,8 +11,7 @@ namespace Perfolizer.Tests.Mathematics.Modality.TestDataSets
 {
     public static class ModalityCloseModesDataSet
     {
-        [NotNull]
-        private static ModalityTestData GenerateSingle([NotNull] Random random, double delta, int batch, [NotNull] string namePostfix = "")
+        private static ModalityTestData GenerateSingle(Random random, double delta, int batch, string namePostfix = "")
         {
             string name = $"CloseModes(delta = {delta}, batch={batch}){namePostfix}";
 
@@ -23,7 +22,7 @@ namespace Perfolizer.Tests.Mathematics.Modality.TestDataSets
             return new ModalityTestData(name, values, 2);
         }
 
-        public static List<ModalityTestData> Generate([NotNull] Random random, [NotNull] string namePostfix = "")
+        public static List<ModalityTestData> Generate(Random random, string namePostfix = "")
         {
             var dataSet = new List<ModalityTestData>();
 

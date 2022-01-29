@@ -21,7 +21,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
         /// </summary>
         double Quantile(Probability p);
 
-        RandomGenerator Random(Random random = null);
+        RandomGenerator Random(Random? random = null);
 
         double Mean { get; }
         double Median { get; }

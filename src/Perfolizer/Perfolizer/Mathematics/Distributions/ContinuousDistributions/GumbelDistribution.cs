@@ -45,14 +45,13 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             };
         }
         
-        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
+        public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => M + S * Constants.EulerMascheroni;
         public double Median => M - S * Log(Log(2));
         public double Variance => PI * PI * S * S / 6;
         public double StandardDeviation => Variance.Sqrt();
 
-        [NotNull]
         public override string ToString() => $"Gumbel({Location.ToStringInvariant()},{Scale.ToStringInvariant()})";
     }
 }

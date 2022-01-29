@@ -24,7 +24,7 @@ namespace Perfolizer.Horology
 
         public Frequency ToFrequency(long value = 1) => new(value, this);
         
-        public static double Convert(double value, [NotNull] FrequencyUnit from, [CanBeNull] FrequencyUnit to) =>
+        public static double Convert(double value, FrequencyUnit from, FrequencyUnit? to) =>
             value * from.HertzAmount / (to ?? GetBestFrequencyUnit(value)).HertzAmount;
 
         /// <summary>

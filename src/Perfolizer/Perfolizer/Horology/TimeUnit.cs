@@ -46,7 +46,7 @@ namespace Perfolizer.Horology
             return All.Last();
         }
 
-        public static double Convert(double value, [NotNull] TimeUnit from, [CanBeNull] TimeUnit to) =>
+        public static double Convert(double value, TimeUnit from, TimeUnit? to) =>
             value * from.NanosecondAmount / (to ?? GetBestTimeUnit(value)).NanosecondAmount;
 
         public bool Equals(TimeUnit other)

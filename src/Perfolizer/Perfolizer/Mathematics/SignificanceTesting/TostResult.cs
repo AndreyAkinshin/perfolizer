@@ -5,13 +5,11 @@ namespace Perfolizer.Mathematics.SignificanceTesting
 {
     public class TostResult<T> : EquivalenceTestResult where T : OneSidedTestResult
     {
-        [CanBeNull]
-        public T SlowerTestResult { get; }
+        public T? SlowerTestResult { get; }
 
-        [CanBeNull]
-        public T FasterTestResult { get; }
+        public T? FasterTestResult { get; }
 
-        public TostResult(Threshold threshold, EquivalenceTestConclusion conclusion, [CanBeNull] T slowerTestResult, [CanBeNull] T fasterTestResult)
+        public TostResult(Threshold threshold, EquivalenceTestConclusion conclusion, T? slowerTestResult, T? fasterTestResult)
             : base(threshold, conclusion)
         {
             SlowerTestResult = slowerTestResult;

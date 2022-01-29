@@ -23,7 +23,7 @@ namespace Perfolizer.Tests.Mathematics.Selectors
             public Rqq Rqq { get; }
             private readonly int n;
 
-            public RqqSelectorAdapter([NotNull] double[] values)
+            public RqqSelectorAdapter(double[] values)
             {
                 Rqq = new Rqq(values);
                 n = values.Length;
@@ -42,7 +42,7 @@ namespace Perfolizer.Tests.Mathematics.Selectors
             DumpRqqTree(((RqqSelectorAdapter) selectorAdapter).Rqq);
         }
 
-        private void DumpRqqTree([NotNull] Rqq rqq)
+        private void DumpRqqTree(Rqq rqq)
         {
             using var memoryStream = new MemoryStream();
             using var sw = new StreamWriter(memoryStream);

@@ -13,9 +13,9 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
     public class MixtureDistribution : IContinuousDistribution
     {
         private readonly int n;
-        [NotNull] private readonly IReadOnlyList<IContinuousDistribution> distributions;
-        [NotNull] private readonly IReadOnlyList<double> weights;
-        [NotNull] private readonly InverseMonotonousFunction inverseCdf;
+        private readonly IReadOnlyList<IContinuousDistribution> distributions;
+        private readonly IReadOnlyList<double> weights;
+        private readonly InverseMonotonousFunction inverseCdf;
         private readonly Lazy<string> lazyToString;
 
         public double Mean { get; }
@@ -23,12 +23,12 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
         public double Variance { get; }
         public double StandardDeviation { get; }
 
-        public MixtureDistribution([NotNull, ItemNotNull] params IContinuousDistribution[] distributions) : this(distributions, null)
+        public MixtureDistribution(params IContinuousDistribution[] distributions) : this(distributions, null)
         {
         }
 
-        public MixtureDistribution([NotNull, ItemNotNull] IReadOnlyList<IContinuousDistribution> distributions,
-            [CanBeNull] IReadOnlyList<double> weights = null)
+        public MixtureDistribution(IReadOnlyList<IContinuousDistribution> distributions,
+            IReadOnlyList<double>? weights = null)
         {
             Assertion.NotNullOrEmpty(nameof(distributions), distributions);
             Assertion.ItemNotNull(nameof(distributions), distributions);
@@ -79,9 +79,8 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
             });
         }
 
-        [NotNull]
-        private static double[] GetDefaultWeights([CanBeNull] IReadOnlyList<IContinuousDistribution> distributions) =>
-            distributions?.Select(d => 1.0 / distributions.Count).ToArray() ?? Array.Empty<double>();
+        private static double[] GetDefaultWeights(IReadOnlyList<IContinuousDistribution>? distributions) =>
+            distributions?.Select(_ => 1.0 / distributions.Count).ToArray() ?? Array.Empty<double>();
 
         private double Aggregate(Func<IContinuousDistribution, double> func)
         {
@@ -97,7 +96,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 
         public double Quantile(Probability p) => inverseCdf.GetValue(p);
 
-        public RandomGenerator Random(Random random = null) => new MixtureRandomGenerator(this, random ?? new Random());
+        public RandomGenerator Random(Random? random = null) => new MixtureRandomGenerator(this, random ?? new Random());
 
         public override string ToString() => lazyToString.Value;
 

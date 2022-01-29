@@ -7,8 +7,7 @@ namespace Perfolizer.Common
 {
     internal static class StreamUtils
     {
-        [NotNull]
-        public static string StreamToString([NotNull] Action<StreamWriter> dump)
+        public static string StreamToString(Action<StreamWriter> dump)
         {
             using var memoryStream = new MemoryStream();
             using var streamWriter = new StreamWriter(memoryStream);

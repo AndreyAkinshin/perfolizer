@@ -11,13 +11,12 @@ namespace Perfolizer.Tool.Base
     {
         [Option('d', "data", Group = "source",
             HelpText = "Source data array")]
-        public string Data { get; set; }
+        public string? Data { get; set; }
 
         [Option('f', "file", Group = "source",
             HelpText = "File name with source data array")]
-        public string FileName { get; set; }
+        public string? FileName { get; set; }
 
-        [JetBrains.Annotations.NotNull]
         public double[] GetSourceArray() => GetArrayFromDataOrFile(Data, FileName, "source array");
     }
 }

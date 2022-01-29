@@ -11,12 +11,12 @@ namespace Perfolizer.Mathematics.Selectors
     /// </summary>
     public class QuickSelectAdaptive
     {
-        private double[] buffer;
+        private double[]? buffer;
 
         /// <summary>
         /// Returns the k-th smallest element in the given array.
         /// </summary>
-        public double Select([NotNull] double[] values, int k)
+        public double Select(double[] values, int k)
         {
             if (values == null)
                 throw new ArgumentNullException(nameof(values));
@@ -39,7 +39,7 @@ namespace Perfolizer.Mathematics.Selectors
         /// <summary>
         /// Returns the k-th smallest element in the given array.
         /// </summary>
-        public double Select([NotNull] double[] values, int k, int l, int r)
+        public double Select(double[] values, int k, int l, int r)
         {
             // TODO: more checks
             if (values == null)

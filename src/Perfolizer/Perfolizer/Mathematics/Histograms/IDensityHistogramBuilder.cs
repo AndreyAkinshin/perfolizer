@@ -5,7 +5,7 @@ namespace Perfolizer.Mathematics.Histograms
 {
     public interface IDensityHistogramBuilder
     {
-        [Pure, NotNull]
-        DensityHistogram Build([NotNull] Sample sample, int binCount);
+        [Pure]
+        DensityHistogram Build(Sample sample, int binCount);
     }
 }

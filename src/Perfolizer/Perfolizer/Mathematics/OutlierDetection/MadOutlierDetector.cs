@@ -18,8 +18,8 @@ namespace Perfolizer.Mathematics.OutlierDetection
         private static readonly IMedianAbsoluteDeviationEstimator DefaultMedianAbsoluteDeviationEstimator =
             SimpleNormalizedMedianAbsoluteDeviationEstimator.Instance;
 
-        private MadOutlierDetector([NotNull] Sample sample, double k,
-            [CanBeNull] IMedianAbsoluteDeviationEstimator medianAbsoluteDeviationEstimator = null)
+        private MadOutlierDetector(Sample sample, double k,
+            IMedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
         {
             Assertion.NotNull(nameof(sample), sample);
 
@@ -30,36 +30,32 @@ namespace Perfolizer.Mathematics.OutlierDetection
             UpperFence = median + k * mad;
         }
 
-        [NotNull]
-        public static MadOutlierDetector Create([NotNull] Sample sample, double k,
-            [CanBeNull] IMedianAbsoluteDeviationEstimator medianAbsoluteDeviationEstimator = null)
+        public static MadOutlierDetector Create(Sample sample, double k,
+            IMedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
         {
             Assertion.NotNull(nameof(sample), sample);
 
             return new MadOutlierDetector(sample, k, medianAbsoluteDeviationEstimator);
         }
 
-        [NotNull]
-        public static MadOutlierDetector Create([NotNull] IReadOnlyList<double> values, double k,
-            [CanBeNull] IMedianAbsoluteDeviationEstimator medianAbsoluteDeviationEstimator = null)
+        public static MadOutlierDetector Create(IReadOnlyList<double> values, double k,
+            IMedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
         {
             Assertion.NotNull(nameof(values), values);
 
             return new MadOutlierDetector(values.ToSample(), k, medianAbsoluteDeviationEstimator);
         }
 
-        [NotNull]
-        public static MadOutlierDetector Create([NotNull] Sample sample,
-            [CanBeNull] IMedianAbsoluteDeviationEstimator medianAbsoluteDeviationEstimator = null)
+        public static MadOutlierDetector Create(Sample sample,
+            IMedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
         {
             Assertion.NotNull(nameof(sample), sample);
 
             return new MadOutlierDetector(sample, DefaultK, medianAbsoluteDeviationEstimator);
         }
 
-        [NotNull]
-        public static MadOutlierDetector Create([NotNull] IReadOnlyList<double> values,
-            [CanBeNull] IMedianAbsoluteDeviationEstimator medianAbsoluteDeviationEstimator = null)
+        public static MadOutlierDetector Create(IReadOnlyList<double> values,
+            IMedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
         {
             Assertion.NotNull(nameof(values), values);
 

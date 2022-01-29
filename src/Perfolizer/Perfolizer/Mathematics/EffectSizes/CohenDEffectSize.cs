@@ -7,7 +7,7 @@ namespace Perfolizer.Mathematics.EffectSizes
 {
     public static class CohenDEffectSize
     {
-        public static double Calc([NotNull] Sample x, [NotNull] Sample y)
+        public static double Calc(Sample x, Sample y)
         {
             Assertion.NotNull(nameof(x), x);
             Assertion.NotNull(nameof(y), y);

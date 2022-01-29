@@ -7,8 +7,7 @@ namespace Perfolizer.Mathematics.Multimodality
 {
     public static class ModalityDetectorExtensions
     {
-        [NotNull]
-        public static ModalityData DetectModes([NotNull] this IModalityDetector modalityDetector, [NotNull] IReadOnlyList<double> values)
+        public static ModalityData DetectModes(this IModalityDetector modalityDetector, IReadOnlyList<double> values)
         {
             Assertion.NotNull(nameof(modalityDetector), modalityDetector);
             Assertion.NotNull(nameof(values), values);

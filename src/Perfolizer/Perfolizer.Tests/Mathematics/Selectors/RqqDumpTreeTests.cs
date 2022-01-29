@@ -19,7 +19,7 @@ namespace Perfolizer.Tests.Mathematics.Selectors
         }
 
         [AssertionMethod]
-        private void Check([NotNull] double[] data)
+        private void Check(double[] data)
         {
             var rqq = new Rqq(data);
             using var memoryStream = new MemoryStream();

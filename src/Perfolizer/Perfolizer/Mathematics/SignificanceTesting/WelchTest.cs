@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Thresholds;
@@ -14,8 +13,7 @@ namespace Perfolizer.Mathematics.SignificanceTesting
         /// Checks that (x-y) > threshold
         /// </summary>
         /// <remarks>Should be consistent with t.test(x, y, mu=threshold, alternative="greater") from R</remarks>
-        [NotNull]
-        public WelchResult IsGreater(double[] x, double[] y, Threshold threshold = null)
+        public WelchResult IsGreater(double[] x, double[] y, Threshold? threshold = null)
         {
             int n1 = x.Length, n2 = y.Length;
             if (n1 < 2)

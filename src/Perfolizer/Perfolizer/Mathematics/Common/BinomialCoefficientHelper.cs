@@ -8,7 +8,7 @@ namespace Perfolizer.Mathematics.Common
     {
         public const int MaxAcceptableN = 65;
 
-        private static long[,] pascalTriangle;
+        private static long[,]? pascalTriangle;
 
         public static long GetBinomialCoefficient(int n, int k)
         {

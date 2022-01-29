@@ -47,7 +47,7 @@ namespace Perfolizer.Tests.Mathematics.Cpd.TestDataSets
         public int MaxAcceptableMissingPointCount { get; }
 
         public CpdTestData(string name, IReadOnlyList<double> values, IReadOnlyList<ExpectedChangePoint> expectedChangePoints,
-            PenaltyValues penalties = null, int maxAcceptableMissingPointCount = 0)
+            PenaltyValues? penalties = null, int maxAcceptableMissingPointCount = 0)
         {
             Name = name;
             Values = values;

@@ -14,7 +14,7 @@ namespace Perfolizer.Tests.Mathematics.RangeEstimator
         [InlineData(1.2345, 2.2345, "ru-ru", null, "[1,23;2,23]")]
         [InlineData(1.2345, 2.2345, null, "N4", "[1.2345;2.2345]")]
         [InlineData(1.2345, 2.2345, "ru-ru", "N4", "[1,2345;2,2345]")]
-        public void RangeToString(double left, double right, [CanBeNull] string cultureName, [CanBeNull] string format, string expected)
+        public void RangeToString(double left, double right, string? cultureName, string? format, string expected)
         {
             var range = Range.Of(left, right);
             var cultureInfo = cultureName == null ? null : new CultureInfo(cultureName);

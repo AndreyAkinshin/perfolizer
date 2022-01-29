@@ -7,9 +7,8 @@ namespace Perfolizer.Tests.Mathematics.Modality.TestDataSets
 {
     public static class ModalityGumbelLocationProgressionDataSet
     {
-        [NotNull]
-        private static ModalityTestData GenerateSingle([NotNull] Random random, int count, int locationFactor, double scale, int batch,
-            [NotNull] string namePostfix = "", bool noisy = false)
+        private static ModalityTestData GenerateSingle(Random random, int count, int locationFactor, double scale, int batch,
+            string namePostfix = "", bool noisy = false)
         {
             string noisyMark = noisy ? "Noisy" : "";
             string name =
@@ -30,7 +29,7 @@ namespace Perfolizer.Tests.Mathematics.Modality.TestDataSets
             return new ModalityTestData(name, values, count);
         }
 
-        public static List<ModalityTestData> Generate([NotNull] Random random, [NotNull] string namePostfix = "", bool noisy = false)
+        public static List<ModalityTestData> Generate(Random random, string namePostfix = "", bool noisy = false)
         {
             var dataSet = new List<ModalityTestData>();
 

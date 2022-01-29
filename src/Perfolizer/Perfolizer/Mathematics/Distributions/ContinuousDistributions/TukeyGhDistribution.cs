@@ -41,14 +41,13 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
                 : Mu + Sigma * (Exp(G * z) - 1) * Exp(H * z * z / 2) / G;
         }
 
-        public RandomGenerator Random(Random random = null) => new DistributionRandomGenerator(this, random);
+        public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
 
         public double Mean => throw new NotImplementedException();
         public double Median => throw new NotImplementedException();
         public double Variance => throw new NotImplementedException();
         public double StandardDeviation => throw new NotImplementedException();
 
-        [NotNull]
         public override string ToString() =>
             $"TukeyGH({Mu.ToStringInvariant()},{Sigma.ToStringInvariant()},{G.ToStringInvariant()},{H.ToStringInvariant()})";
     }
