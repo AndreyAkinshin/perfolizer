@@ -28,8 +28,14 @@ namespace Perfolizer.Mathematics.Functions
             if (x < 1e-5)
                 throw new ArgumentOutOfRangeException(nameof(x), "x should be positive");
 
+            // For small x, the Stirling approximation has a noticeable error
+            // We resolve this problem using Gamma(x) = Gamma(x+1)/x
+            if (x < 1)
+                return StirlingApproximationLog(x + 3) - Log(x * (x + 1) * (x + 2));
+            if (x < 2)
+                return StirlingApproximationLog(x + 2) - Log(x * (x + 1));
             if (x < 3)
-                return Log(Value(x));
+                return StirlingApproximationLog(x + 1) - Log(x);
 
             return StirlingApproximationLog(x);
         }
