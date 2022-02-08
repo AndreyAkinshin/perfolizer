@@ -117,14 +117,44 @@ namespace Perfolizer.Mathematics.QuantileEstimators
                 return (1 - width, 1);
             if (width > 1 - eps)
                 return (0, 1);
+            if (Abs(a - b) < eps)
+                return (0.5 - width / 2, 0.5 + width / 2); 
 
             double mode = (a - 1) / (a + b - 2);
-            var beta = new BetaDistribution(a, b);
-            double l = BinarySearch(x => beta.Pdf(x) - beta.Pdf(x + width),
+            double l = BinarySearch(x => DenormalizedLogBetaPdf(a, b, x) - DenormalizedLogBetaPdf(a, b, x + width),
                 Max(0, mode - width),
                 Min(mode, 1 - width));
             double r = l + width;
             return (l, r);
+        }
+
+        private static double DenormalizedLogBetaPdf(double a, double b, double x)
+        {
+            if (x < 0 || x > 1)
+                return double.NegativeInfinity;
+
+            if (x < 1e-9)
+            {
+                if (a > 1)
+                    return double.NegativeInfinity;
+                if (Abs(a - 1) < 1e-9)
+                    return Log(b);
+                return double.PositiveInfinity;
+            }
+
+            if (x > 1 - 1e-9)
+            {
+                if (b > 1)
+                    return double.NegativeInfinity;
+                if (Abs(b - 1) < 1e-9)
+                    return Log(a);
+                return double.PositiveInfinity;
+            }
+
+            if (a < 1e-9 || b < 1e-9)
+                return double.NegativeInfinity;
+
+            return (a - 1) * Log(x) + (b - 1) * Log(1 - x);
         }
     }
 }
