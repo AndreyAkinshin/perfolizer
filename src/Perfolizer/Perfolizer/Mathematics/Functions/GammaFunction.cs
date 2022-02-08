@@ -55,10 +55,10 @@ namespace Perfolizer.Mathematics.Functions
             const double b10 = 5.0 / 66;
 
             return b2 / 2 / x +
-                   b4 / 12 / x.Pow(3) +
-                   b6 / 30 / x.Pow(5) +
-                   b8 / 56 / x.Pow(7) +
-                   b10 / 90 / x.Pow(9);
+                   b4 / 12 / (x * x * x) +
+                   b6 / 30 / (x * x * x * x * x) +
+                   b8 / 56 / (x * x * x * x * x * x * x) +
+                   b10 / 90 / (x * x * x * x * x * x * x * x * x);
         }
     }
 }
