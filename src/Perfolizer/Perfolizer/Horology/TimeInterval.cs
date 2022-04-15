@@ -14,6 +14,7 @@ namespace Perfolizer.Horology
 
         public TimeInterval(double value, TimeUnit unit) : this(value * unit.NanosecondAmount) { }
 
+        public static readonly TimeInterval Zero = new(0);
         public static readonly TimeInterval Nanosecond = TimeUnit.Nanosecond.ToInterval();
         public static readonly TimeInterval Microsecond = TimeUnit.Microsecond.ToInterval();
         public static readonly TimeInterval Millisecond = TimeUnit.Millisecond.ToInterval();
