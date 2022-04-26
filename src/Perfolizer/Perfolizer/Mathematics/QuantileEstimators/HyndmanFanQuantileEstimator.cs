@@ -89,6 +89,6 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         }
 
         public virtual bool SupportsWeightedSamples => HyndmanFanHelper.SupportsWeightedSamples(Type);
-        public string Alias => "HF" + (int)Type;
+        public virtual string Alias => "HF" + (int)Type;
     }
 }
