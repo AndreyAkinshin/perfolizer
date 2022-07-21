@@ -76,14 +76,39 @@ namespace Perfolizer.Mathematics.Selectors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Median5(Span<double> A, int a, int b, int c, int d, int e)
         {
-            // TODO: rewrite
-            double[] q = {A[a], A[b], A[c], A[d], A[e]};
-            Array.Sort(q);
-            A[a] = q[0];
-            A[b] = q[1];
-            A[c] = q[2];
-            A[d] = q[3];
-            A[e] = q[4];
+            Sort(A, a, b); // a <= b
+            Sort(A, c, d); // c <= d
+
+            // 1. Select minimum from (a, b, c, d) and swap it with e.
+            //    The selected value is one of the two smallest values from A (has index 0 or 1 in sorted(A))
+            if (A[a] < A[c]) // a <= b && a < c <= d
+            {
+                Swap(A, a, e); // a = e
+                Sort(A, a, b); // restore a <= b
+            }
+            else // c <= a <= b && c <= d
+            {
+                Swap(A, c, e); // c = e
+                Sort(A, c, d); // restore c <= d
+            }
+
+            // 2. Select two central elements from (a, b, c, d)
+            if (A[a] > A[c]) // c <= d && c < a <= b => median in (a, d). Else a <= b && a <= c <= d => median in (b, c)
+            {
+                Swap(A, b, a); // b = a
+                Swap(A, c, d); // c = d
+            }
+
+            // 3. select minimum from previous selected elements
+            if (A[b] < A[c])
+                Swap(A, c, b); // c = b
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void Sort(Span<double> A, int a, int b)
+        {
+            if (A[a] > A[b])
+                Swap(A, a, b);
         }
 
         [SuppressMessage("ReSharper", "RedundantIfElseBlock")]
