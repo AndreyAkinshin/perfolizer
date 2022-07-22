@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
+using Range = Perfolizer.Mathematics.Common.Range;
 
 namespace Perfolizer.Mathematics.Functions
 {
