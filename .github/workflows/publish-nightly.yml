@@ -13,11 +13,11 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.100
+        dotnet-version: 6.0.302
     - name: Pack Perfolizer
-      run: dotnet pack --configuration Release /p:PrereleaseLabel=-nightly.$GITHUB_RUN_NUMBER src/Perfolizer/Perfolizer/Perfolizer.csproj -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+      run: dotnet pack --configuration Release /p:PrereleaseLabel=-nightly.$GITHUB_RUN_NUMBER src/Perfolizer/Perfolizer/Perfolizer.csproj -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:ContinuousIntegrationBuild=true
     - name: Pack Perfolizer.Tool
-      run: dotnet pack --configuration Release /p:PrereleaseLabel=-nightly.$GITHUB_RUN_NUMBER src/Perfolizer/Perfolizer.Tool/Perfolizer.Tool.csproj -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+      run: dotnet pack --configuration Release /p:PrereleaseLabel=-nightly.$GITHUB_RUN_NUMBER src/Perfolizer/Perfolizer.Tool/Perfolizer.Tool.csproj -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:ContinuousIntegrationBuild=true
     - name: Publish nupkg
       env:
         MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
