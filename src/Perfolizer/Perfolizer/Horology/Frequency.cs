@@ -6,7 +6,7 @@ using Perfolizer.Common;
 namespace Perfolizer.Horology
 {
     [PublicAPI]
-    public struct Frequency : IEquatable<Frequency>, IComparable<Frequency>
+    public readonly struct Frequency : IEquatable<Frequency>, IComparable<Frequency>
     {
         private const string DefaultFormat = "";
 
