@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using JetBrains.Annotations;
 using Perfolizer.Common;
@@ -119,7 +120,7 @@ namespace Perfolizer.Horology
 
         public bool Equals(Frequency other) => Hertz.Equals(other.Hertz);
         public bool Equals(Frequency other, double hertzEpsilon) => Math.Abs(Hertz - other.Hertz) < hertzEpsilon;
-        public override bool Equals(object obj) => obj is Frequency other && Equals(other);
+        public override bool Equals([NotNullWhen(true)] object? obj) => obj is Frequency other && Equals(other);
         public override int GetHashCode() => Hertz.GetHashCode();
         public int CompareTo(Frequency other) => Hertz.CompareTo(other.Hertz);
 

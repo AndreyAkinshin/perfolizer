@@ -47,7 +47,7 @@ namespace Perfolizer.Mathematics.Common
             return Value.Equals(other.Value);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals([NotNullWhen(true)] object? obj)
         {
             return obj is Probability other && Equals(other);
         }

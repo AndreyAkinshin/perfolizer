@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 
 namespace Perfolizer.Horology
 {
-    public class TimeUnit : IEquatable<TimeUnit>
+    public class TimeUnit : IEquatable<TimeUnit?>
     {
         public string Name { get; }
 
@@ -49,7 +50,7 @@ namespace Perfolizer.Horology
         public static double Convert(double value, TimeUnit from, TimeUnit? to) =>
             value * from.NanosecondAmount / (to ?? GetBestTimeUnit(value)).NanosecondAmount;
 
-        public bool Equals(TimeUnit other)
+        public bool Equals([NotNullWhen(true)] TimeUnit? other)
         {
             if (ReferenceEquals(null, other))
                 return false;
@@ -58,7 +59,7 @@ namespace Perfolizer.Horology
             return Equals(Name, other.Name) && string.Equals(Description, other.Description) && NanosecondAmount == other.NanosecondAmount;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals([NotNullWhen(true)] object? obj)
         {
             if (ReferenceEquals(null, obj))
                 return false;
