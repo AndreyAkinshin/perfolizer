@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.Common
@@ -60,7 +61,8 @@ namespace Perfolizer.Mathematics.Common
         {
             return Value.CompareTo(other.Value);
         }
-        
+
+        [return: NotNullIfNotNull("values")]
         public static Probability[]? ToProbabilities(double[]? values)
         {
             if (values == null)

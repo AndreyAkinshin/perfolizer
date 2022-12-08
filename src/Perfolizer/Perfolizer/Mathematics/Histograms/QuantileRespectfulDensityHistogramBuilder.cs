@@ -29,7 +29,7 @@ namespace Perfolizer.Mathematics.Histograms
                 throw new WeightedSampleNotSupportedException();
 
             var probabilities =
-                Probability.ToProbabilities(new ArithmeticProgressionSequence(0, 1.0 / binCount).GenerateArray(binCount + 1))!;
+                Probability.ToProbabilities(new ArithmeticProgressionSequence(0, 1.0 / binCount).GenerateArray(binCount + 1));
             double[] quantiles = quantileEstimator.GetQuantiles(sample, probabilities);
 
             var bins = new List<DensityHistogramBin>(binCount);
