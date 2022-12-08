@@ -2,20 +2,21 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Perfolizer.Exceptions;
+using NotNullAttribute = System.Diagnostics.CodeAnalysis.NotNullAttribute;
 
 namespace Perfolizer.Common
 {
     internal static class Assertion
     {
         [AssertionMethod]
-        public static void NotNull(string name, object? value)
+        public static void NotNull(string name, [NotNull] object? value)
         {
             if (value == null)
                 throw new ArgumentNullException(name, $"{name} can't be null");
         }
 
         [AssertionMethod]
-        public static void NotNullOrEmpty<T>(string name, IReadOnlyList<T>? values)
+        public static void NotNullOrEmpty<T>(string name, [NotNull] IReadOnlyList<T>? values)
         {
             if (values == null)
                 throw new ArgumentNullException(name, $"{name} can't be null");
@@ -27,8 +28,8 @@ namespace Perfolizer.Common
         public static void ItemNotNull<T>(string name, IReadOnlyList<T> values)
         {
             for (int i = 0; i < values.Count; i++)
-                if (values[i] == null)
-                    throw new ArgumentNullException($"{name}[{i}] == null, but {name} should not contain null items");
+                if (values[i] is null)
+                    throw new ArgumentNullException($"{name}[{i}] is null, but {name} should not contain null items");
         }
 
         [AssertionMethod]
@@ -160,7 +161,7 @@ namespace Perfolizer.Common
         }
 
         [AssertionMethod]
-        public static void NonWeighted(string name, Sample sample)
+        public static void NonWeighted(string name, [NotNull] Sample? sample)
         {
             NotNull(name, sample);
             if (sample.IsWeighted)
