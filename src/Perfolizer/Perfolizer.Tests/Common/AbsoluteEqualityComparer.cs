@@ -7,6 +7,8 @@ namespace Perfolizer.Tests.Common
     {
         private readonly double eps;
 
+        public static readonly IEqualityComparer<double> E9 = new AbsoluteEqualityComparer(1e-9);
+
         public AbsoluteEqualityComparer(double eps)
         {
             this.eps = eps;
