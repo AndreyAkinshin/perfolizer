@@ -19,6 +19,8 @@ namespace Perfolizer.Mathematics.Common
             Value = value;
         }
 
+        public static Probability Of(double value) => new(value);
+
         public static implicit operator double(Probability probability) => probability.Value;
         public static implicit operator Probability(double value) => new Probability(value);
 
