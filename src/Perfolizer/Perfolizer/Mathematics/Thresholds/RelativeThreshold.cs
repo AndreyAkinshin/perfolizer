@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Perfolizer.Mathematics.Thresholds
 {
-    public class RelativeThreshold : Threshold, IEquatable<RelativeThreshold>
+    public class RelativeThreshold : Threshold, IEquatable<RelativeThreshold?>
     {
         public static readonly Threshold Zero = new RelativeThreshold(0);
         public static readonly Threshold Default = new RelativeThreshold(0.01);
@@ -19,9 +20,9 @@ namespace Perfolizer.Mathematics.Thresholds
 
         public override string ToString() => ratio * 100 + ThresholdUnit.Ratio.ToShortName();
 
-        public bool Equals(RelativeThreshold other) => other != null && ratio.Equals(other.ratio);
+        public bool Equals([NotNullWhen(true)] RelativeThreshold? other) => other != null && ratio.Equals(other.ratio);
 
-        public override bool Equals(object obj) => obj is RelativeThreshold other && Equals(other);
+        public override bool Equals([NotNullWhen(true)] object? obj) => obj is RelativeThreshold other && Equals(other);
 
         public override int GetHashCode() => ratio.GetHashCode();
     }

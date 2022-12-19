@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 
@@ -91,7 +92,7 @@ namespace Perfolizer.Horology
         public int CompareTo(TimeInterval other) => Nanoseconds.CompareTo(other.Nanoseconds);
         public bool Equals(TimeInterval other) => Nanoseconds.Equals(other.Nanoseconds);
         public bool Equals(TimeInterval other, double nanosecondEpsilon) => Math.Abs(other.Nanoseconds - Nanoseconds) < nanosecondEpsilon;
-        public override bool Equals(object obj) => obj is TimeInterval other && Equals(other);
+        public override bool Equals([NotNullWhen(true)] object? obj) => obj is TimeInterval other && Equals(other);
         public override int GetHashCode() => Nanoseconds.GetHashCode();
     }
 }

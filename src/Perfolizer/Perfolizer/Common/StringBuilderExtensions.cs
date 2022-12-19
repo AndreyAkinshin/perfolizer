@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
@@ -6,6 +7,7 @@ namespace Perfolizer.Common
 {
     internal static class StringBuilderExtensions
     {
+        [return: NotNullIfNotNull("builder")]
         public static StringBuilder? TrimEnd(this StringBuilder? builder, params char[] trimChars)
         {
             if (builder == null)

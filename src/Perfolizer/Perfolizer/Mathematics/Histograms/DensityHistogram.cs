@@ -27,7 +27,7 @@ namespace Perfolizer.Mathematics.Histograms
                     bin.Lower.ToString(format),
                     bin.Upper.ToString(format),
                     bin.Height.ToString(format)));
-            return builder.TrimEnd()!.ToString();
+            return builder.TrimEnd().ToString();
         }
     }
 }

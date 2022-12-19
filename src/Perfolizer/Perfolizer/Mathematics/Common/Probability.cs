@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.Common
@@ -46,7 +47,7 @@ namespace Perfolizer.Mathematics.Common
             return Value.Equals(other.Value);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals([NotNullWhen(true)] object? obj)
         {
             return obj is Probability other && Equals(other);
         }
@@ -60,7 +61,8 @@ namespace Perfolizer.Mathematics.Common
         {
             return Value.CompareTo(other.Value);
         }
-        
+
+        [return: NotNullIfNotNull("values")]
         public static Probability[]? ToProbabilities(double[]? values)
         {
             if (values == null)

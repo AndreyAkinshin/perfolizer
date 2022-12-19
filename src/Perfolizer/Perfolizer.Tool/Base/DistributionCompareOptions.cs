@@ -50,7 +50,7 @@ namespace Perfolizer.Tool.Base
             }
             else
             {
-                var probabilities = Probability.ToProbabilities(options.ConvertStringToArray(options.Probabilities, "probabilities"))!;
+                var probabilities = Probability.ToProbabilities(options.ConvertStringToArray(options.Probabilities, "probabilities"));
                 Console.WriteLine(string.Join(";", function.GetValues(x, y, probabilities)));
             }
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using Perfolizer.Common;
@@ -27,12 +28,12 @@ namespace Perfolizer.Mathematics.Thresholds
         public abstract double GetValue(IReadOnlyList<double> values);
         public abstract bool IsZero();
 
-        public static bool TryParse(string input, out Threshold? parsed)
+        public static bool TryParse([NotNullWhen(true)] string? input, [NotNullWhen(true)] out Threshold? parsed)
         {
             return TryParse(input, NumberStyles.Any, DefaultCultureInfo.Instance, out parsed);
         }
 
-        public static bool TryParse(string input, NumberStyles numberStyle, IFormatProvider formatProvider, out Threshold? parsed)
+        public static bool TryParse([NotNullWhen(true)] string? input, NumberStyles numberStyle, IFormatProvider formatProvider, [NotNullWhen(true)] out Threshold? parsed)
         {
             if (string.IsNullOrWhiteSpace(input))
             {
