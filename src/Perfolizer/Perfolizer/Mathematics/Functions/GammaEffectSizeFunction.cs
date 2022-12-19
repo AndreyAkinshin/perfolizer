@@ -2,24 +2,24 @@ using System;
 using System.Collections.Generic;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.DispersionEstimators;
 using Perfolizer.Mathematics.QuantileEstimators;
+using Perfolizer.Mathematics.ScaleEstimators;
 using Perfolizer.Mathematics.Sequences;
 
 namespace Perfolizer.Mathematics.Functions
 {
     public class GammaEffectSizeFunction : QuantileCompareFunction
     {
-        private static readonly IMedianAbsoluteDeviationEstimator DefaultMedianAbsoluteDeviationEstimator =
-            new SimpleNormalizedMedianAbsoluteDeviationEstimator();
+        private static readonly MedianAbsoluteDeviationEstimator DefaultMedianAbsoluteDeviationEstimator =
+            MedianAbsoluteDeviationEstimator.Simple;
 
         public static readonly GammaEffectSizeFunction Instance = new GammaEffectSizeFunction();
 
         private const double Eps = 1e-9;
 
-        private readonly IMedianAbsoluteDeviationEstimator medianAbsoluteDeviationEstimator;
+        private readonly MedianAbsoluteDeviationEstimator medianAbsoluteDeviationEstimator;
 
-        public GammaEffectSizeFunction(IMedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null) :
+        public GammaEffectSizeFunction(MedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null) :
             base((medianAbsoluteDeviationEstimator ?? DefaultMedianAbsoluteDeviationEstimator).QuantileEstimator)
         {
             this.medianAbsoluteDeviationEstimator = medianAbsoluteDeviationEstimator ?? DefaultMedianAbsoluteDeviationEstimator;
@@ -32,8 +32,8 @@ namespace Perfolizer.Mathematics.Functions
 
             try
             {
-                double aMad = medianAbsoluteDeviationEstimator.Calc(a);
-                double bMad = medianAbsoluteDeviationEstimator.Calc(b);
+                double aMad = medianAbsoluteDeviationEstimator.Mad(a);
+                double bMad = medianAbsoluteDeviationEstimator.Mad(b);
                 if (aMad < Eps && bMad < Eps)
                 {
                     double aMedian = QuantileEstimator.GetMedian(a);
@@ -66,8 +66,8 @@ namespace Perfolizer.Mathematics.Functions
             int k = probabilities.Count;
             try
             {
-                double aMad = medianAbsoluteDeviationEstimator.Calc(a);
-                double bMad = medianAbsoluteDeviationEstimator.Calc(b);
+                double aMad = medianAbsoluteDeviationEstimator.Mad(a);
+                double bMad = medianAbsoluteDeviationEstimator.Mad(b);
                 if (aMad < Eps && bMad < Eps)
                 {
                     double aMedian = QuantileEstimator.GetMedian(a);

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Perfolizer.Mathematics.DispersionEstimators;
 using Perfolizer.Mathematics.OutlierDetection;
 using Perfolizer.Mathematics.QuantileEstimators;
+using Perfolizer.Mathematics.ScaleEstimators;
 
 namespace Perfolizer.Demo
 {
@@ -13,8 +13,8 @@ namespace Perfolizer.Demo
         {
             var simple = SimpleQuantileEstimator.Instance;
             var hd = HarrellDavisQuantileEstimator.Instance;
-            var simpleMadEstimator = SimpleNormalizedMedianAbsoluteDeviationEstimator.Instance;
-            var hdMadEstimator = HarrellDavisNormalizedMedianAbsoluteDeviationEstimator.Instance;
+            var simpleMadEstimator = MedianAbsoluteDeviationEstimator.Simple;
+            var hdMadEstimator = MedianAbsoluteDeviationEstimator.HarrellDavis;
 
             var detectors = new[]
             {

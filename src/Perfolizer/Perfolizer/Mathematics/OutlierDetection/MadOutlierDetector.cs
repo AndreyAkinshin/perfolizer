@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Common;
-using Perfolizer.Mathematics.DispersionEstimators;
 using Perfolizer.Mathematics.QuantileEstimators;
+using Perfolizer.Mathematics.ScaleEstimators;
 
 namespace Perfolizer.Mathematics.OutlierDetection
 {
@@ -15,23 +14,23 @@ namespace Perfolizer.Mathematics.OutlierDetection
     {
         private const double DefaultK = 3;
 
-        private static readonly IMedianAbsoluteDeviationEstimator DefaultMedianAbsoluteDeviationEstimator =
-            SimpleNormalizedMedianAbsoluteDeviationEstimator.Instance;
+        private static readonly MedianAbsoluteDeviationEstimator DefaultMedianAbsoluteDeviationEstimator =
+            MedianAbsoluteDeviationEstimator.Simple;
 
         private MadOutlierDetector(Sample sample, double k,
-            IMedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
+            MedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
         {
             Assertion.NotNull(nameof(sample), sample);
 
             medianAbsoluteDeviationEstimator ??= DefaultMedianAbsoluteDeviationEstimator;
             double median = medianAbsoluteDeviationEstimator.QuantileEstimator.GetMedian(sample);
-            double mad = medianAbsoluteDeviationEstimator.Calc(sample);
+            double mad = medianAbsoluteDeviationEstimator.Mad(sample);
             LowerFence = median - k * mad;
             UpperFence = median + k * mad;
         }
 
         public static MadOutlierDetector Create(Sample sample, double k,
-            IMedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
+            MedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
         {
             Assertion.NotNull(nameof(sample), sample);
 
@@ -39,7 +38,7 @@ namespace Perfolizer.Mathematics.OutlierDetection
         }
 
         public static MadOutlierDetector Create(IReadOnlyList<double> values, double k,
-            IMedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
+            MedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
         {
             Assertion.NotNull(nameof(values), values);
 
@@ -47,7 +46,7 @@ namespace Perfolizer.Mathematics.OutlierDetection
         }
 
         public static MadOutlierDetector Create(Sample sample,
-            IMedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
+            MedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
         {
             Assertion.NotNull(nameof(sample), sample);
 
@@ -55,7 +54,7 @@ namespace Perfolizer.Mathematics.OutlierDetection
         }
 
         public static MadOutlierDetector Create(IReadOnlyList<double> values,
-            IMedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
+            MedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null)
         {
             Assertion.NotNull(nameof(values), values);
 

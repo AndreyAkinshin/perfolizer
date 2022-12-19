@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
-using Perfolizer.Mathematics.DispersionEstimators;
 using Perfolizer.Mathematics.OutlierDetection;
+using Perfolizer.Mathematics.ScaleEstimators;
 using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
@@ -56,7 +56,7 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
             var testData = SimpleQeTestDataMap[testDataKey];
 
             void Action() => Check(testData,
-                values => MadOutlierDetector.Create(values, SimpleNormalizedMedianAbsoluteDeviationEstimator.Instance));
+                values => MadOutlierDetector.Create(values, MedianAbsoluteDeviationEstimator.Simple));
 
             if (testData.Values.IsEmpty())
                 Assert.Throws<ArgumentOutOfRangeException>(Action);
@@ -99,7 +99,7 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
             var testData = HdQeTestDataMap[testDataKey];
 
             void Action() => Check(testData,
-                values => MadOutlierDetector.Create(values, HarrellDavisNormalizedMedianAbsoluteDeviationEstimator.Instance));
+                values => MadOutlierDetector.Create(values, MedianAbsoluteDeviationEstimator.HarrellDavis));
 
             if (testData.Values.IsEmpty())
                 Assert.Throws<ArgumentOutOfRangeException>(Action);
