@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 
 namespace Perfolizer.Horology
 {
-    public struct ClockSpan
+    public readonly struct ClockSpan
     {
         private readonly long startTimestamp, endTimestamp;
         private readonly Frequency frequency;

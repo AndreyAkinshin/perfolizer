@@ -1,6 +1,8 @@
-﻿namespace Perfolizer.Horology
+﻿using JetBrains.Annotations;
+
+namespace Perfolizer.Horology
 {
-    public struct StartedClock
+    public readonly struct StartedClock
     {
         private readonly IClock clock;
         private readonly long startTimestamp;
@@ -11,7 +13,7 @@
             this.startTimestamp = startTimestamp;
         }
 
-        public ClockSpan GetElapsed() => new ClockSpan(startTimestamp, clock.GetTimestamp(), clock.Frequency);
+        [Pure] public ClockSpan GetElapsed() => new ClockSpan(startTimestamp, clock.GetTimestamp(), clock.Frequency);
 
         public override string ToString() => $"StartedClock({clock.Title}, {startTimestamp} ticks)";
     }
