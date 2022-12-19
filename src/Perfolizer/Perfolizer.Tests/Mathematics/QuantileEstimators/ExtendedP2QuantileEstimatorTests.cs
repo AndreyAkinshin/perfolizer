@@ -41,8 +41,8 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 p2Estimator.Add(x);
                 ep2Estimator.Add(x);
 
-                double p2Estimation = p2Estimator.GetQuantile();
-                double ep2Estimation = ep2Estimator.GetQuantile(p);
+                double p2Estimation = p2Estimator.Quantile();
+                double ep2Estimation = ep2Estimator.Quantile(p);
                 output.TraceLine("Index : {0}", index);
                 output.TraceLine("P2    : {0}", p2Estimation.ToStringInvariant());
                 output.TraceLine("ExP2  : {0}", ep2Estimation.ToStringInvariant());
@@ -68,11 +68,11 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 
             foreach (var p in probabilities)
             {
-                double actual = estimator.GetQuantile(p);
-                double expected = SimpleQuantileEstimator.Instance.GetQuantile(sample, p);
+                double actual = estimator.Quantile(p);
+                double expected = SimpleQuantileEstimator.Instance.Quantile(sample, p);
                 double pDelta = 0.1 + Math.Abs(p - 0.5) * 0.05 + 0.5 / testData.N;
-                double expectedMin = SimpleQuantileEstimator.Instance.GetQuantile(sample, (p - pDelta).Clamp(0, 1));
-                double expectedMax = SimpleQuantileEstimator.Instance.GetQuantile(sample, (p + pDelta).Clamp(0, 1));
+                double expectedMin = SimpleQuantileEstimator.Instance.Quantile(sample, (p - pDelta).Clamp(0, 1));
+                double expectedMax = SimpleQuantileEstimator.Instance.Quantile(sample, (p + pDelta).Clamp(0, 1));
                 double mad = MedianAbsoluteDeviationEstimator.Simple.Mad(sample);
                 double error = Math.Abs(actual - expected);
                 double errorNorm = error / mad;

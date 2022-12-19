@@ -251,7 +251,7 @@ namespace Perfolizer.Tests.Mathematics.OutlierDetection
         {
             var (values, expectedOutliers) = testData;
             var outlierDetector = createOutlierDetector(values);
-            var actualOutliers = outlierDetector.GetAllOutliers(values).ToList();
+            var actualOutliers = outlierDetector.AllOutliers(values).ToList();
 
             void Dump(string name, IReadOnlyList<double> data) => Output.WriteLine("{0}: [{1}]",
                 name.PadRight(17), string.Join(", ", data.Select(v => v.ToString(TestCultureInfo.Instance))));

@@ -62,7 +62,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             return index >= 0 ? index : ~index;
         }
 
-        public double GetQuantile(Probability p)
+        public double Quantile(Probability p)
         {
             if (tuples.Count == 0)
                 throw new EmptySequenceException();

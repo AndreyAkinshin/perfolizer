@@ -13,7 +13,7 @@ namespace Perfolizer.Mathematics.Thresholds
             this.value = value;
         }
 
-        public override double GetValue(IReadOnlyList<double> values) => value;
+        public override double Value(IReadOnlyList<double> values) => value;
 
         public override bool IsZero() => Math.Abs(value) < 1e-9;
         public override string ToString() => value.ToString("0.##", DefaultCultureInfo.Instance);

@@ -104,8 +104,8 @@ namespace Perfolizer.Tests.Mathematics.Selectors
             var probabilities = Enumerable.Range(0, 10).Select(x => (Probability)(x * 1.0 / 9.0)).ToArray();
             foreach (var probability in probabilities)
             {
-                Assert.Equal(0, rqq.GetQuantile(0, 4, probability));
-                Assert.Equal(100, rqq.GetQuantile(5, 8, probability));
+                Assert.Equal(0, rqq.Quantile(0, 4, probability));
+                Assert.Equal(100, rqq.Quantile(5, 8, probability));
             }
         }
     }

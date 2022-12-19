@@ -2,6 +2,6 @@ namespace Perfolizer.Mathematics.Sequences
 {
     public interface ISequence
     {
-        double GetValue(int index);
+        double Value(int index);
     }
 }

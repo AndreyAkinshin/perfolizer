@@ -43,7 +43,7 @@ namespace Perfolizer.Tests.Mathematics.Functions
         {
             var inverseFunction = new InverseMonotonousFunction(function, min, max);
             double y = function(x);
-            double z = inverseFunction.GetValue(y);
+            double z = inverseFunction.Value(y);
             
             output.WriteLine($"x = {x}");
             output.WriteLine($"F(x) = {y}");

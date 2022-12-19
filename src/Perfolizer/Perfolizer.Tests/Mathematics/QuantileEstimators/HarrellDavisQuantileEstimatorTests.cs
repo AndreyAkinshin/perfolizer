@@ -284,8 +284,8 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 {
                     var sample = generator.Next(n).ToSample();
                     var confidenceInterval = estimator
-                        .GetQuantileConfidenceIntervalEstimator(sample, 0.5)
-                        .GetConfidenceInterval(confidenceLevel);
+                        .QuantileConfidenceIntervalEstimator(sample, 0.5)
+                        .ConfidenceInterval(confidenceLevel);
                     if (confidenceInterval.Contains(median))
                         successCount++;
                 }
@@ -313,9 +313,9 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             var probability = Probability.Half;
             var level = ConfidenceLevel.L90;
             
-            var ci1 = estimator.GetQuantileConfidenceIntervalEstimator(sample1, probability).GetConfidenceInterval(level);
-            var ci2 = estimator.GetQuantileConfidenceIntervalEstimator(sample2, probability).GetConfidenceInterval(level);
-            var ci3 = estimator.GetQuantileConfidenceIntervalEstimator(sample3, probability).GetConfidenceInterval(level);
+            var ci1 = estimator.QuantileConfidenceIntervalEstimator(sample1, probability).ConfidenceInterval(level);
+            var ci2 = estimator.QuantileConfidenceIntervalEstimator(sample2, probability).ConfidenceInterval(level);
+            var ci3 = estimator.QuantileConfidenceIntervalEstimator(sample3, probability).ConfidenceInterval(level);
 
             Output.WriteLine("CI1: " + ci1.ToString("N9"));
             Output.WriteLine("CI2: " + ci2.ToString("N9"));
@@ -331,8 +331,8 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         {
             var sample = new Sample(new[] {1.0, 2.0, 2.5, 4.0, 5.0}, new[] {0.1, 0.4, 0.3, 0.5, 0.244});
             var interval = HarrellDavisQuantileEstimator.Instance
-                .GetQuantileConfidenceIntervalEstimator(sample, 0.5)
-                .GetConfidenceInterval(ConfidenceLevel.L95);
+                .QuantileConfidenceIntervalEstimator(sample, 0.5)
+                .ConfidenceInterval(ConfidenceLevel.L95);
             var comparer = new AbsoluteEqualityComparer(1e-6);
             Assert.Equal(0.23619006531720732, interval.Lower, comparer);
             Assert.Equal(6.029669559847112, interval.Upper, comparer);
@@ -350,7 +350,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             for (int i = 2; i <= 40; i++)
                 samples.Add(new Sample(data, ExponentialDecaySequence.CreateFromHalfLife(i).GenerateArray(data.Length)));
             samples.Add(new Sample(data));
-            var medians = samples.Select(s => HarrellDavisQuantileEstimator.Instance.GetMedian(s)).ToList();
+            var medians = samples.Select(s => HarrellDavisQuantileEstimator.Instance.Median(s)).ToList();
             for (int i = 0; i < medians.Count; i++)
                 Output.WriteLine($"Median[{i}] =  {medians[i]:N9}");
             for (int i = 0; i < medians.Count - 1; i++)

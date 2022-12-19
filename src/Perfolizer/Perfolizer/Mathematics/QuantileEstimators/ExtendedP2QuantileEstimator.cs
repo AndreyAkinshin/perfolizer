@@ -142,7 +142,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             return Q[i] + d * (Q[i + d] - Q[i]) / (n[i + d] - n[i]);
         }
 
-        public double GetQuantile(Probability p)
+        public double Quantile(Probability p)
         {
             if (Count == 0)
                 throw new EmptySequenceException();

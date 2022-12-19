@@ -78,7 +78,7 @@ namespace Perfolizer.Tests.Mathematics.Common
         public void ZValueTest(double confidenceLevel, int n, double expected)
         {
             var approximation = new ConfidenceIntervalEstimator(n, 0, 1);
-            var confidenceInterval = approximation.GetConfidenceInterval(confidenceLevel);
+            var confidenceInterval = approximation.ConfidenceInterval(confidenceLevel);
             double actual = confidenceInterval.Upper;
             output.WriteLine(confidenceInterval.ToString());
             

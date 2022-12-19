@@ -25,7 +25,7 @@ namespace Perfolizer.Mathematics.Thresholds
             }
         }
 
-        public abstract double GetValue(IReadOnlyList<double> values);
+        public abstract double Value(IReadOnlyList<double> values);
         public abstract bool IsZero();
 
         public static bool TryParse([NotNullWhen(true)] string? input, [NotNullWhen(true)] out Threshold? parsed)

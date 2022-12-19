@@ -50,13 +50,13 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                         var probability = probabilities[i];
 
                         var hyEstimator = new HyndmanFanQuantileEstimator(type);
-                        double expectedValue = hyEstimator.GetQuantile(sample, probability);
+                        double expectedValue = hyEstimator.Quantile(sample, probability);
 
                         var phEstimator = new PartitioningHeapsMovingQuantileEstimator(probability, n, type);
                         shuffler.Shuffle(source);
                         foreach (double value in source)
                             phEstimator.Add(value);
-                        double actualValue = phEstimator.GetQuantile();
+                        double actualValue = phEstimator.Quantile();
 
                         if (!comparer.Equals(expectedValue, actualValue))
                             Output.WriteLine($"n = {n}, type = {type}, p = {probability}: E = {expectedValue}, A = {actualValue}");

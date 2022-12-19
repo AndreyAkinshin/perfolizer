@@ -111,11 +111,11 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
 
                 if (initStrategy == MovingQuantileEstimatorInitStrategy.OrderStatistics && k >= windowElements.Length)
                 {
-                    Assert.Throws<IndexOutOfRangeException>(() => estimator.GetQuantile());
+                    Assert.Throws<IndexOutOfRangeException>(() => estimator.Quantile());
                 }
                 else
                 {
-                    double actual = estimator.GetQuantile();
+                    double actual = estimator.Quantile();
                     Array.Sort(windowElements);
                     double expected = initStrategy switch
                     {

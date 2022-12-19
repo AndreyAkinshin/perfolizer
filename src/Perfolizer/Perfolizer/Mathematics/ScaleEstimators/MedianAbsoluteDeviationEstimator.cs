@@ -35,7 +35,7 @@ namespace Perfolizer.Mathematics.ScaleEstimators
         /// </summary>
         public static readonly MedianAbsoluteDeviationEstimator HarrellDavis = new HarrellDavisNormalizedEstimator();
 
-        protected abstract double GetScaleFactor(Sample sample);
+        protected abstract double ScaleFactor(Sample sample);
 
         public abstract IQuantileEstimator QuantileEstimator { get; }
 
@@ -47,12 +47,12 @@ namespace Perfolizer.Mathematics.ScaleEstimators
             if (sample.Count == 1)
                 return 0;
 
-            double scaleFactor = GetScaleFactor(sample);
-            double median = QuantileEstimator.GetMedian(sample);
+            double scaleFactor = ScaleFactor(sample);
+            double median = QuantileEstimator.Median(sample);
             double[] deviations = new double[sample.Count];
             for (int i = 0; i < sample.Count; i++)
                 deviations[i] = Math.Abs(sample.Values[i] - median);
-            return scaleFactor * QuantileEstimator.GetMedian(new Sample(deviations));
+            return scaleFactor * QuantileEstimator.Median(new Sample(deviations));
         }
 
         public double LowerMad(Sample sample)
@@ -61,13 +61,13 @@ namespace Perfolizer.Mathematics.ScaleEstimators
             if (sample.Count == 1)
                 return 0;
 
-            double scaleFactor = GetScaleFactor(sample);
-            double median = QuantileEstimator.GetMedian(sample);
+            double scaleFactor = ScaleFactor(sample);
+            double median = QuantileEstimator.Median(sample);
             var deviations = new List<double>(sample.Count);
             for (int i = 0; i < sample.Count; i++)
                 if (sample.Values[i] <= median)
                     deviations.Add(Math.Abs(sample.Values[i] - median));
-            return scaleFactor * QuantileEstimator.GetMedian(new Sample(deviations));
+            return scaleFactor * QuantileEstimator.Median(new Sample(deviations));
         }
 
         public double UpperMad(Sample sample)
@@ -76,18 +76,18 @@ namespace Perfolizer.Mathematics.ScaleEstimators
             if (sample.Count == 1)
                 return 0;
 
-            double scaleFactor = GetScaleFactor(sample);
-            double median = QuantileEstimator.GetMedian(sample);
+            double scaleFactor = ScaleFactor(sample);
+            double median = QuantileEstimator.Median(sample);
             var deviations = new List<double>(sample.Count);
             for (int i = 0; i < sample.Count; i++)
                 if (sample.Values[i] >= median)
                     deviations.Add(Math.Abs(sample.Values[i] - median));
-            return scaleFactor * QuantileEstimator.GetMedian(new Sample(deviations));
+            return scaleFactor * QuantileEstimator.Median(new Sample(deviations));
         }
 
         private class InvariantEstimator : MedianAbsoluteDeviationEstimator
         {
-            protected override double GetScaleFactor(Sample sample) => 1;
+            protected override double ScaleFactor(Sample sample) => 1;
             public override IQuantileEstimator QuantileEstimator => SimpleQuantileEstimator.Instance;
         }
 
@@ -116,15 +116,15 @@ namespace Perfolizer.Mathematics.ScaleEstimators
                 -0.007881, -0.0078492, -0.0077043, -0.0077614
             };
 
-            public static double GetScaleFactor(int n)
+            public static double ScaleFactor(int n)
             {
                 double bias = n < ParkBias.Length - 1 ? ParkBias[n] : -0.76213 / n - 0.86413 / n / n;
                 return 1 / (0.674489750196082 * (1 + bias));
             }
 
-            protected override double GetScaleFactor(Sample sample)
+            protected override double ScaleFactor(Sample sample)
             {
-                return GetScaleFactor(sample.Count);
+                return ScaleFactor(sample.Count);
             }
         }
 
@@ -156,7 +156,7 @@ namespace Perfolizer.Mathematics.ScaleEstimators
                 0.6705506553462088, 0.6705950233298209, 0.6706268391507145, 0.670683579816257
             };
 
-            private static double GetScaleFactor(int n)
+            private static double ScaleFactor(int n)
             {
                 double inverseFactor = n < InverseFactors.Length - 1
                     ? InverseFactors[n]
@@ -164,7 +164,7 @@ namespace Perfolizer.Mathematics.ScaleEstimators
                 return 1.0 / inverseFactor;
             }
 
-            protected override double GetScaleFactor(Sample sample) => GetScaleFactor(sample.Count);
+            protected override double ScaleFactor(Sample sample) => ScaleFactor(sample.Count);
         }
     }
 }

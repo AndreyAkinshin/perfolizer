@@ -16,15 +16,15 @@ namespace Perfolizer.Mathematics.Common
             StandardError = standardError;
         }
 
-        public ConfidenceInterval GetConfidenceInterval(ConfidenceLevel confidenceLevel)
+        public ConfidenceInterval ConfidenceInterval(ConfidenceLevel confidenceLevel)
         {
             if (DegreeOfFreedom <= 0)
                 return new ConfidenceInterval(Estimation, double.NaN, double.NaN, confidenceLevel);
-            double margin = StandardError * GetZLevel(confidenceLevel);
+            double margin = StandardError * ZLevel(confidenceLevel);
             return new ConfidenceInterval(Estimation, Estimation - margin, Estimation + margin, confidenceLevel);
         }
 
-        private double GetZLevel(ConfidenceLevel confidenceLevel)
+        private double ZLevel(ConfidenceLevel confidenceLevel)
         {
             double x = 1 - (1 - confidenceLevel) / 2;
             return new StudentDistribution(DegreeOfFreedom).Quantile(x);

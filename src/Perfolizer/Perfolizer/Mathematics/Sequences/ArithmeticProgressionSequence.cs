@@ -10,6 +10,6 @@ namespace Perfolizer.Mathematics.Sequences
             this.step = step;
         }
 
-        public double GetValue(int index) => start + index * step;
+        public double Value(int index) => start + index * step;
     }
 }

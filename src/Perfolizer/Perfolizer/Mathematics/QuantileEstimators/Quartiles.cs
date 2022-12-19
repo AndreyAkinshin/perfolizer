@@ -32,7 +32,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             Assertion.NotNull(nameof(sample), sample);
             quantileEstimator ??= SimpleQuantileEstimator.Instance;
 
-            double GetQuantile(double q) => quantileEstimator.GetQuantile(sample, q);
+            double GetQuantile(double q) => quantileEstimator.Quantile(sample, q);
 
             double q0 = GetQuantile(0.00);
             double q1 = GetQuantile(0.25);

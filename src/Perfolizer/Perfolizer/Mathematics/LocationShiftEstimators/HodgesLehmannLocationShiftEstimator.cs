@@ -20,7 +20,7 @@ namespace Perfolizer.Mathematics.LocationShiftEstimators
             for (int i = 0; i < a.Count; i++)
             for (int j = 0; j < b.Count; j++)
                 shifts[k++] = b.Values[j] - a.Values[i];
-            return SimpleQuantileEstimator.Instance.GetMedian(new Sample(shifts));
+            return SimpleQuantileEstimator.Instance.Median(new Sample(shifts));
         }
     }
 }

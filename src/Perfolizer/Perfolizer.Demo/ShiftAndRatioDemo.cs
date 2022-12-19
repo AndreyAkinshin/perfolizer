@@ -21,8 +21,8 @@ namespace Perfolizer.Demo
             );
 
             var probabilities = new Probability[] {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
-            var shift = ShiftFunction.Instance.GetValues(x, y, probabilities);
-            var ratio = RatioFunction.Instance.GetValues(x, y, probabilities);
+            var shift = ShiftFunction.Instance.Values(x, y, probabilities);
+            var ratio = RatioFunction.Instance.Values(x, y, probabilities);
 
             Console.WriteLine("Probability Shift Ratio");
             for (int i = 0; i < probabilities.Length; i++)
@@ -32,8 +32,8 @@ namespace Perfolizer.Demo
                     ratio[i].ToString("N1").PadLeft(5));
 
             Console.WriteLine();
-            Console.WriteLine("Shift Range: " + ShiftFunction.Instance.GetRange(x, y));
-            Console.WriteLine("Ratio Range: " + RatioFunction.Instance.GetRange(x, y));
+            Console.WriteLine("Shift Range: " + ShiftFunction.Instance.Range(x, y));
+            Console.WriteLine("Ratio Range: " + RatioFunction.Instance.Range(x, y));
         }
     }
 }

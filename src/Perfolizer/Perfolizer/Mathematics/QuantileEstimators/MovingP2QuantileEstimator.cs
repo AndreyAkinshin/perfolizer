@@ -24,21 +24,21 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             n++;
             if (n % windowSize == 0)
             {
-                previousWindowEstimation = estimator.GetQuantile();
+                previousWindowEstimation = estimator.Quantile();
                 estimator.Clear();
             }
             estimator.Add(value);
         }
 
-        public double GetQuantile()
+        public double Quantile()
         {
             if (n == 0)
                 throw new EmptySequenceException();
             if (n < windowSize)
-                return estimator.GetQuantile();
+                return estimator.Quantile();
             
             double estimation1 = previousWindowEstimation;
-            double estimation2 = estimator.GetQuantile();
+            double estimation2 = estimator.Quantile();
             double w2 = (n % windowSize + 1) * 1.0 / windowSize;
             double w1 = 1.0 - w2;
             return w1 * estimation1 + w2 * estimation2;

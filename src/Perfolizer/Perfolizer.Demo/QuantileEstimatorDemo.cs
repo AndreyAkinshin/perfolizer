@@ -65,7 +65,7 @@ namespace Perfolizer.Demo
             {
                 var sample = new Sample(randomGenerator.Next(10));
                 foreach (var estimator in estimators)
-                    medians[estimator].Add(estimator.GetMedian(sample));
+                    medians[estimator].Add(estimator.Median(sample));
             }
 
             // Next, we calculate the mean squared error (MSE) for each estimator
@@ -88,7 +88,7 @@ namespace Perfolizer.Demo
             var sampleWithOutlier = new Sample(new double[] { 1, 1, 1, 1, 1, 1, 1, 1, 1_000_000 });
             // Now we estimate the median using each estimator
             foreach (var estimator in estimators)
-                Console.WriteLine($"{estimator.Alias,-8}: Median = {estimator.GetMedian(sampleWithOutlier)}");
+                Console.WriteLine($"{estimator.Alias,-8}: Median = {estimator.Median(sampleWithOutlier)}");
             Console.WriteLine("As we can see, only HF7 and THD-SQRT are robust enough");
         }
     }

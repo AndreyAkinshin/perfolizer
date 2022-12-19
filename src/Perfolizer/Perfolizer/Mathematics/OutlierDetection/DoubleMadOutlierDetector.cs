@@ -26,7 +26,7 @@ namespace Perfolizer.Mathematics.OutlierDetection
             Assertion.NotNull(nameof(sample), sample);
 
             medianAbsoluteDeviationEstimator ??= DefaultMedianAbsoluteDeviationEstimator;
-            double median = medianAbsoluteDeviationEstimator.QuantileEstimator.GetMedian(sample);
+            double median = medianAbsoluteDeviationEstimator.QuantileEstimator.Median(sample);
             double lowerMad = medianAbsoluteDeviationEstimator.LowerMad(sample);
             double upperMad = medianAbsoluteDeviationEstimator.UpperMad(sample);
             LowerFence = median - k * lowerMad;

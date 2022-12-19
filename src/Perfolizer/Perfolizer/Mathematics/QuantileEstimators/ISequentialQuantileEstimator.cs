@@ -5,6 +5,6 @@ namespace Perfolizer.Mathematics.QuantileEstimators
     public interface ISequentialQuantileEstimator
     {
         void Add(double value);
-        double GetQuantile(Probability probability);
+        double Quantile(Probability probability);
     }
 }

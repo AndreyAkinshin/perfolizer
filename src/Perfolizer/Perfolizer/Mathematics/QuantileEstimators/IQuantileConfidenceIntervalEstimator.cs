@@ -5,6 +5,6 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 {
     public interface IQuantileConfidenceIntervalEstimator
     {
-        public ConfidenceIntervalEstimator GetQuantileConfidenceIntervalEstimator(Sample sample, Probability probability);
+        public ConfidenceIntervalEstimator QuantileConfidenceIntervalEstimator(Sample sample, Probability probability);
     }
 }

@@ -25,7 +25,7 @@ namespace Perfolizer.Mathematics.SignificanceTesting
             double v1 = xm.Variance, v2 = ym.Variance, m1 = xm.Mean, m2 = ym.Mean;
 
             threshold = threshold ?? RelativeThreshold.Default;
-            double thresholdValue = threshold.GetValue(x);
+            double thresholdValue = threshold.Value(x);
             double se = Math.Sqrt(v1 / n1 + v2 / n2);
             double t = ((m1 - m2) - thresholdValue) / se;
             double df = (v1 / n1 + v2 / n2).Sqr() /

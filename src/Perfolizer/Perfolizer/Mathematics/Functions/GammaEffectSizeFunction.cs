@@ -25,7 +25,7 @@ namespace Perfolizer.Mathematics.Functions
             this.medianAbsoluteDeviationEstimator = medianAbsoluteDeviationEstimator ?? DefaultMedianAbsoluteDeviationEstimator;
         }
 
-        public override double GetValue(Sample a, Sample b, Probability probability)
+        public override double Value(Sample a, Sample b, Probability probability)
         {
             Assertion.NotNull(nameof(a), a);
             Assertion.NotNull(nameof(b), b);
@@ -36,8 +36,8 @@ namespace Perfolizer.Mathematics.Functions
                 double bMad = medianAbsoluteDeviationEstimator.Mad(b);
                 if (aMad < Eps && bMad < Eps)
                 {
-                    double aMedian = QuantileEstimator.GetMedian(a);
-                    double bMedian = QuantileEstimator.GetMedian(b);
+                    double aMedian = QuantileEstimator.Median(a);
+                    double bMedian = QuantileEstimator.Median(b);
                     if (Math.Abs(aMedian - bMedian) < Eps)
                         return 0;
                     return aMedian < bMedian
@@ -45,8 +45,8 @@ namespace Perfolizer.Mathematics.Functions
                         : double.NegativeInfinity;
                 }
 
-                double aQuantile = QuantileEstimator.GetQuantile(a, probability);
-                double bQuantile = QuantileEstimator.GetQuantile(b, probability);
+                double aQuantile = QuantileEstimator.Quantile(a, probability);
+                double bQuantile = QuantileEstimator.Quantile(b, probability);
                 double pooledMad = PooledMad(a.Count, b.Count, aMad, bMad);
 
                 return (bQuantile - aQuantile) / pooledMad;
@@ -57,7 +57,7 @@ namespace Perfolizer.Mathematics.Functions
             }
         }
 
-        public override double[] GetValues(Sample a, Sample b, IReadOnlyList<Probability> probabilities)
+        public override double[] Values(Sample a, Sample b, IReadOnlyList<Probability> probabilities)
         {
             Assertion.NotNull(nameof(a), a);
             Assertion.NotNull(nameof(b), b);
@@ -70,8 +70,8 @@ namespace Perfolizer.Mathematics.Functions
                 double bMad = medianAbsoluteDeviationEstimator.Mad(b);
                 if (aMad < Eps && bMad < Eps)
                 {
-                    double aMedian = QuantileEstimator.GetMedian(a);
-                    double bMedian = QuantileEstimator.GetMedian(b);
+                    double aMedian = QuantileEstimator.Median(a);
+                    double bMedian = QuantileEstimator.Median(b);
                     if (Math.Abs(aMedian - bMedian) < Eps)
                         return ConstantSequence.Zero.GenerateArray(k);
                     return aMedian < bMedian
@@ -79,8 +79,8 @@ namespace Perfolizer.Mathematics.Functions
                         : ConstantSequence.NegativeInfinity.GenerateArray(k);
                 }
 
-                double[] aQuantile = QuantileEstimator.GetQuantiles(a, probabilities);
-                double[] bQuantile = QuantileEstimator.GetQuantiles(b, probabilities);
+                double[] aQuantile = QuantileEstimator.Quantiles(a, probabilities);
+                double[] bQuantile = QuantileEstimator.Quantiles(b, probabilities);
 
                 double pooledMad = PooledMad(a.Count, b.Count, aMad, bMad);
 

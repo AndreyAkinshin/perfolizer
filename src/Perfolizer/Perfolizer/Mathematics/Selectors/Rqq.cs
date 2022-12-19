@@ -156,7 +156,7 @@ namespace Perfolizer.Mathematics.Selectors
         /// <summary>
         /// Returns p-th quantile in the [l;r] range
         /// </summary>
-        public double GetQuantile(int l, int r, Probability p) => Select(l, r, (int) Math.Truncate((r - l) * p));
+        public double Quantile(int l, int r, Probability p) => Select(l, r, (int) Math.Truncate((r - l) * p));
 
         /// <summary>
         /// Returns k-th element in a sorted array based on the [l;r] range

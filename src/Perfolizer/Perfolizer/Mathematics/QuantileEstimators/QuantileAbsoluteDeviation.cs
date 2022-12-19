@@ -26,11 +26,11 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             Assertion.NotNull(nameof(sample), sample);
             quantileEstimator ??= SimpleQuantileEstimator.Instance;
 
-            double quantile = quantileEstimator.GetQuantile(sample, p);
+            double quantile = quantileEstimator.Quantile(sample, p);
             double[] deviations = new double[sample.Count];
             for (int i = 0; i < sample.Count; i++)
                 deviations[i] = Math.Abs(sample.Values[i] - quantile);
-            return consistencyConstant * quantileEstimator.GetQuantile(new Sample(deviations), q);
+            return consistencyConstant * quantileEstimator.Quantile(new Sample(deviations), q);
         }
     }
 }

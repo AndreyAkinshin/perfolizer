@@ -24,7 +24,7 @@ namespace Perfolizer.Tests.Mathematics.SequenceGenerators
         {
             var sequence = ExponentialDecaySequence.CreateFromHalfLife(halfLife);
             
-            double actualValue1 = sequence.GetValue(index);
+            double actualValue1 = sequence.Value(index);
             Assert.Equal(expectedValue, actualValue1, equalityComparer);
             
             double actualValue2 = sequence.GenerateEnumerable().Skip(index).First();

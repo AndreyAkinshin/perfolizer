@@ -44,14 +44,14 @@ namespace Perfolizer.Tool.Base
             if (string.IsNullOrEmpty(options.Probabilities))
             {
                 if (options.Margin.HasValue)
-                    Console.WriteLine(function.GetRange(x, y, options.Margin.Value).ToString());
+                    Console.WriteLine(function.Range(x, y, options.Margin.Value).ToString());
                 else
-                    Console.WriteLine(function.GetRange(x, y).ToString());
+                    Console.WriteLine(function.Range(x, y).ToString());
             }
             else
             {
                 var probabilities = Probability.ToProbabilities(options.ConvertStringToArray(options.Probabilities, "probabilities"));
-                Console.WriteLine(string.Join(";", function.GetValues(x, y, probabilities)));
+                Console.WriteLine(string.Join(";", function.Values(x, y, probabilities)));
             }
         }
     }

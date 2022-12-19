@@ -12,7 +12,7 @@ namespace Perfolizer.Mathematics.Sequences
             this.decayConstant = decayConstant;
         }
 
-        public double GetValue(int index) => initialValue * Math.Exp(-decayConstant * index);
+        public double Value(int index) => initialValue * Math.Exp(-decayConstant * index);
 
         public static ISequence CreateFromHalfLife(int halfLife) => new ExponentialDecaySequence(1, Math.Log(2) / halfLife);
     }

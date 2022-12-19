@@ -12,19 +12,19 @@ namespace Perfolizer.Mathematics.OutlierDetection
             return outlierDetector.IsLowerOutlier(x) || outlierDetector.IsUpperOutlier(x);
         }
         
-        public static IEnumerable<double> GetLowerOutliers(this IOutlierDetector outlierDetector,
+        public static IEnumerable<double> LowerOutliers(this IOutlierDetector outlierDetector,
             IEnumerable<double> values)
         {
             return values.Where(outlierDetector.IsLowerOutlier);
         }
 
-        public static IEnumerable<double> GetUpperOutliers(this IOutlierDetector outlierDetector,
+        public static IEnumerable<double> UpperOutliers(this IOutlierDetector outlierDetector,
             IEnumerable<double> values)
         {
             return values.Where(outlierDetector.IsUpperOutlier);
         }
 
-        public static IEnumerable<double> GetAllOutliers(this IOutlierDetector outlierDetector,
+        public static IEnumerable<double> AllOutliers(this IOutlierDetector outlierDetector,
             IEnumerable<double> values)
         {
             return values.Where(outlierDetector.IsOutlier);

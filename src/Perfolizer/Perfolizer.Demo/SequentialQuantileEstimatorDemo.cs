@@ -57,7 +57,7 @@ namespace Perfolizer.Demo
                 foreach (var estimator in estimators)
                 {
                     string title = estimator.GetType().Name.Replace("QuantileEstimator", "");
-                    Console.WriteLine($"{title,-24}: {estimator.GetQuantile()}");
+                    Console.WriteLine($"{title,-24}: {estimator.Quantile()}");
                 }
             }
 

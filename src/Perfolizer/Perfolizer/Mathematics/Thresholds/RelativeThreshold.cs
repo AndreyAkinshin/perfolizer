@@ -14,7 +14,7 @@ namespace Perfolizer.Mathematics.Thresholds
 
         public RelativeThreshold(double ratio) => this.ratio = ratio;
 
-        public override double GetValue(IReadOnlyList<double> values) => values.Average() * ratio;
+        public override double Value(IReadOnlyList<double> values) => values.Average() * ratio;
 
         public override bool IsZero() => Math.Abs(ratio) < 1e-9;
 

@@ -50,7 +50,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                     double left = sample.SortedValues[leftIndex];
                     int rightIndex = Math.Min((int)Math.Ceiling(rank + margin), n - 1);
                     double right = sample.SortedValues[rightIndex];
-                    double estimation = gk.GetQuantile(probability);
+                    double estimation = gk.Quantile(probability);
                     bool requirementIsSatisfied = left <= estimation && estimation <= right;
                     if (!requirementIsSatisfied)
                     {

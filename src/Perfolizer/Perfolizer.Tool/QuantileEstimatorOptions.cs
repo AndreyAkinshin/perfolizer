@@ -51,7 +51,7 @@ namespace Perfolizer.Tool
             var data = options.GetSourceArray();
             var probabilities = Probability.ToProbabilities(options.ConvertStringToArray(options.Probabilities!, "probabilities"));
 
-            var quantiles = estimator.GetQuantiles(data, probabilities);
+            var quantiles = estimator.Quantiles(data, probabilities);
             Console.WriteLine(string.Join(options.SourceSeparator, quantiles));
         }
     }

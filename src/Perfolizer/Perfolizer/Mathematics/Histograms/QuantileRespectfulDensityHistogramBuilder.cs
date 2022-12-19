@@ -30,7 +30,7 @@ namespace Perfolizer.Mathematics.Histograms
 
             var probabilities =
                 Probability.ToProbabilities(new ArithmeticProgressionSequence(0, 1.0 / binCount).GenerateArray(binCount + 1));
-            double[] quantiles = quantileEstimator.GetQuantiles(sample, probabilities);
+            double[] quantiles = quantileEstimator.Quantiles(sample, probabilities);
 
             var bins = new List<DensityHistogramBin>(binCount);
             for (int i = 0; i < binCount; i++)

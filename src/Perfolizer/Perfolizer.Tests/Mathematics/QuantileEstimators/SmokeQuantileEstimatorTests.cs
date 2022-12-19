@@ -111,7 +111,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             for (int iteration = 0; iteration < totalIterations; iteration++)
             {
                 var sample = new Sample(randomGenerator.Next(sampleSize));
-                double estimation = estimator.GetQuantile(sample, p);
+                double estimation = estimator.Quantile(sample, p);
                 output.WriteLine($"Estimation#{iteration} = {estimation.ToStringInvariant()}");
 
                 if (expectedRange.ContainsInclusive(estimation))

@@ -16,7 +16,7 @@ namespace Perfolizer.Mathematics.Histograms
         public Histogram Build(IReadOnlyList<double> values)
         {
             var moments = Moments.Create(values);
-            double binSize = GetOptimalBinSize(values.Count, moments.StandardDeviation);
+            double binSize = OptimalBinSize(values.Count, moments.StandardDeviation);
             if (Math.Abs(binSize) < 1e-9)
                 binSize = 1;
             return Build(values, binSize);
@@ -33,8 +33,8 @@ namespace Perfolizer.Mathematics.Histograms
 
             var sortedValues = values.CopyToArrayAndSort();
 
-            int firstBin = GetBinIndex(sortedValues.First(), binSize);
-            int lastBin = GetBinIndex(sortedValues.Last(), binSize);
+            int firstBin = BinIndex(sortedValues.First(), binSize);
+            int lastBin = BinIndex(sortedValues.Last(), binSize);
             int binCount = lastBin - firstBin + 1;
 
             var bins = new HistogramBin[binCount];
@@ -54,10 +54,10 @@ namespace Perfolizer.Mathematics.Histograms
             return new Histogram(binSize, bins);
         }
 
-        private static int GetBinIndex(double value, double binSize) => (int) Math.Floor(value / binSize);
+        private static int BinIndex(double value, double binSize) => (int) Math.Floor(value / binSize);
 
         [PublicAPI, Pure]
-        public static double GetOptimalBinSize(int n, double standardDeviation)
+        public static double OptimalBinSize(int n, double standardDeviation)
         {
             return HistogramBinSizeCalculator.CalcScott2(n, standardDeviation);
         }

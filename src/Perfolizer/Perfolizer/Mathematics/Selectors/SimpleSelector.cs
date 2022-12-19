@@ -22,6 +22,6 @@ namespace Perfolizer.Mathematics.Selectors
             return local[k];
         }
 
-        public double GetMedian(int l, int r) => Select(l, r, (r - l) / 2);
+        public double Median(int l, int r) => Select(l, r, (r - l) / 2);
     }
 }

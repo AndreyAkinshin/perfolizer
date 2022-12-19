@@ -41,7 +41,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             values[n++ % windowSize] = value;
         }
 
-        public double GetQuantile()
+        public double Quantile()
         {
             if (n >= windowSize)
                 return GetOrderStatistics(k);

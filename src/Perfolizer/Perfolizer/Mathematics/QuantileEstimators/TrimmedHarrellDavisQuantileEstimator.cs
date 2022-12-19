@@ -23,7 +23,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             Alias = string.IsNullOrEmpty(alias) ? "THD" : "THD-" + alias;
         }
 
-        public double GetQuantile(Sample sample, Probability probability)
+        public double Quantile(Sample sample, Probability probability)
         {
             Assertion.NotNull(nameof(sample), sample);
 

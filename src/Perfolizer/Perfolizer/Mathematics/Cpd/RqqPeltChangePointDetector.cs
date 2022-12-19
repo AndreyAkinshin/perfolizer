@@ -110,8 +110,8 @@ namespace Perfolizer.Mathematics.Cpd
 
                 for (int i = 0; i < QuantileCount; i++)
                 {
-                    quantileLeft[i] = rqq.GetQuantile(tau0, tau1 - 1, Probabilities[i]);
-                    quantileRight[i] = rqq.GetQuantile(tau1, tau2 - 1, Probabilities[i]);
+                    quantileLeft[i] = rqq.Quantile(tau0, tau1 - 1, Probabilities[i]);
+                    quantileRight[i] = rqq.Quantile(tau1, tau2 - 1, Probabilities[i]);
                 }
 
                 return CalcDistance(quantileLeft, quantileRight);

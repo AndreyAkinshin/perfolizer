@@ -59,7 +59,7 @@ namespace Perfolizer.Tests.Mathematics.Histograms
 
         public static void Print(this ITestOutputHelper output, string title, Histogram histogram)
         {
-            var values = histogram.GetAllValues().CopyToArray();
+            var values = histogram.AllValues().CopyToArray();
             double mValue = MValueCalculator.Calculate(values);
             var cultureInfo = TestCultureInfo.Instance;
             var binSizeInterval = TimeInterval.FromNanoseconds(histogram.BinSize);

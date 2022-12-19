@@ -128,7 +128,7 @@ namespace Perfolizer.Simulations
             foreach (double p in new[] {0.5, 0.90, 0.99})
             {
                 string metric = $"P{p * 100}".PadRight(4);
-                double estimate = HarrellDavisQuantileEstimator.Instance.GetQuantile(penalties, p);
+                double estimate = HarrellDavisQuantileEstimator.Instance.Quantile(penalties, p);
                 PrintLine($"  {metric} = {estimate:0.##}");
             }
 

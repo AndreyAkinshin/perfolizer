@@ -40,7 +40,7 @@ namespace Perfolizer.Mathematics.ScaleEstimators
             P = p;
         }
 
-        protected abstract double GetScaleFactor(int n);
+        protected abstract double ScaleFactor(int n);
         public abstract IQuantileEstimator QuantileEstimator { get; }
 
         double IScaleEstimator.Scale(Sample sample) => Qad(sample);
@@ -51,12 +51,12 @@ namespace Perfolizer.Mathematics.ScaleEstimators
             if (sample.Count == 1)
                 return 0;
 
-            double scaleFactor = GetScaleFactor(sample.Count);
-            double median = QuantileEstimator.GetMedian(sample);
+            double scaleFactor = ScaleFactor(sample.Count);
+            double median = QuantileEstimator.Median(sample);
             double[] deviations = new double[sample.Count];
             for (int i = 0; i < sample.Count; i++)
                 deviations[i] = Math.Abs(sample.Values[i] - median);
-            return scaleFactor * QuantileEstimator.GetQuantile(new Sample(deviations), P);
+            return scaleFactor * QuantileEstimator.Quantile(new Sample(deviations), P);
         }
 
         private class InvariantEstimator : QuantileAbsoluteDeviationEstimator
@@ -65,7 +65,7 @@ namespace Perfolizer.Mathematics.ScaleEstimators
             {
             }
 
-            protected override double GetScaleFactor(int n) => 1;
+            protected override double ScaleFactor(int n) => 1;
 
             public override IQuantileEstimator QuantileEstimator => SimpleQuantileEstimator.Instance;
         }
@@ -91,7 +91,7 @@ namespace Perfolizer.Mathematics.ScaleEstimators
                 1.0084, 1.0084, 1.0082, 1.0082, 1.0081, 1.0081, 1.0079, 1.0079, 1.0078, 1.0077
             };
 
-            protected override double GetScaleFactor(int n) => n <= 100 ? Constants[n] : 1 + 0.762 / n + 0.967 / n / n;
+            protected override double ScaleFactor(int n) => n <= 100 ? Constants[n] : 1 + 0.762 / n + 0.967 / n / n;
 
             public override IQuantileEstimator QuantileEstimator => SimpleQuantileEstimator.Instance;
         }
@@ -117,7 +117,7 @@ namespace Perfolizer.Mathematics.ScaleEstimators
                 0.6825, 0.6825, 0.6823, 0.6823, 0.6823, 0.6822, 0.6820, 0.6820, 0.6819, 0.6819
             };
 
-            protected override double GetScaleFactor(int n) => n <= 100 ? Constants[n] : 0.6747309 * (1 + 1.047 / n + 1.193 / n / n);
+            protected override double ScaleFactor(int n) => n <= 100 ? Constants[n] : 0.6747309 * (1 + 1.047 / n + 1.193 / n / n);
 
             public override IQuantileEstimator QuantileEstimator => SimpleQuantileEstimator.Instance;
         }

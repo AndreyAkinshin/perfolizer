@@ -44,13 +44,13 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         protected void Check(IQuantileEstimator estimator, TestData testData)
         {
             if (testData.Weights == null)
-                CheckSimple(testData, estimator.GetQuantiles(testData.Source, testData.Probabilities), "Non-Weighted");
+                CheckSimple(testData, estimator.Quantiles(testData.Source, testData.Probabilities), "Non-Weighted");
 
             if (estimator.SupportsWeightedSamples)
             {
                 double[] weights = testData.Weights ?? Enumerable.Range(0, testData.Source.Length).Select(_ => 1.0).ToArray();
                 var sample = new Sample(testData.Source, weights);
-                CheckSimple(testData, estimator.GetQuantiles(sample, testData.Probabilities), "Weighted");
+                CheckSimple(testData, estimator.Quantiles(sample, testData.Probabilities), "Weighted");
             }
         }
         

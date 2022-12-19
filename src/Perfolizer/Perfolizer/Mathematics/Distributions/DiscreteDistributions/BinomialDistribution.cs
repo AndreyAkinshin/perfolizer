@@ -24,7 +24,7 @@ namespace Perfolizer.Mathematics.Distributions.DiscreteDistributions
                 return 0;
 
             return Math.Exp(
-                BinomialCoefficientHelper.GetLogBinomialCoefficient(N, k) +
+                BinomialCoefficientHelper.LogBinomialCoefficient(N, k) +
                 k * Math.Log(P) +
                 (N - k) * Math.Log(1 - P)
             );

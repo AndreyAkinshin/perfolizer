@@ -12,7 +12,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         /// <param name="sample">A sample</param>
         /// <param name="probability">Value in range [0;1] that describes the requested quantile</param>
         /// <returns>Quantile estimation for the given sample</returns>
-        double GetQuantile(Sample sample, Probability probability);
+        double Quantile(Sample sample, Probability probability);
         
         bool SupportsWeightedSamples { get; }
         

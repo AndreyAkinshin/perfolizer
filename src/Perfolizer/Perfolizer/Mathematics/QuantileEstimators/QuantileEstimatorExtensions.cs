@@ -7,7 +7,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 {
     public static class QuantileEstimatorExtensions
     {
-        public static double[] GetQuantiles(
+        public static double[] Quantiles(
             this IQuantileEstimator estimator,
             Sample sample,
             IReadOnlyList<Probability> probabilities)
@@ -18,32 +18,32 @@ namespace Perfolizer.Mathematics.QuantileEstimators
 
             double[] results = new double[probabilities.Count];
             for (int i = 0; i < probabilities.Count; i++)
-                results[i] = estimator.GetQuantile(sample, probabilities[i]);
+                results[i] = estimator.Quantile(sample, probabilities[i]);
 
             return results;
         }
 
-        public static double GetMedian(
+        public static double Median(
             this IQuantileEstimator estimator,
             Sample sample)
         {
-            return estimator.GetQuantile(sample, 0.5);
+            return estimator.Quantile(sample, 0.5);
         }
 
-        public static double GetQuantile(
+        public static double Quantile(
             this IQuantileEstimator estimator,
             IReadOnlyList<double> values,
             Probability probability)
         {
-            return estimator.GetQuantile(new Sample(values), probability);
+            return estimator.Quantile(new Sample(values), probability);
         }
 
-        public static double[] GetQuantiles(
+        public static double[] Quantiles(
             this IQuantileEstimator estimator,
             IReadOnlyList<double> values,
             IReadOnlyList<Probability> probabilities)
         {
-            return estimator.GetQuantiles(new Sample(values), probabilities);
+            return estimator.Quantiles(new Sample(values), probabilities);
         }
     }
 }

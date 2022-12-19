@@ -43,8 +43,8 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                 mp2Estimator.Add(data[i]);
                 phEstimator.Add(data[i]);
 
-                double mp2Estimation = mp2Estimator.GetQuantile();
-                double trueValue = phEstimator.GetQuantile();
+                double mp2Estimation = mp2Estimator.Quantile();
+                double trueValue = phEstimator.Quantile();
 
                 if (Math.Abs(mp2Estimation - trueValue) / trueValue < relativeThreshold)
                     successCounter++;

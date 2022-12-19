@@ -119,11 +119,11 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             foreach (double x in sample.Values)
                 estimator.Add(x);
             
-            double actual = estimator.GetQuantile();
-            double expected = SimpleQuantileEstimator.Instance.GetQuantile(sample, p);
+            double actual = estimator.Quantile();
+            double expected = SimpleQuantileEstimator.Instance.Quantile(sample, p);
             double pDelta = 0.1 + Math.Abs(p - 0.5) * 0.15 + 1.5 / testData.N;
-            double expectedMin = SimpleQuantileEstimator.Instance.GetQuantile(sample, (p - pDelta).Clamp(0, 1));
-            double expectedMax = SimpleQuantileEstimator.Instance.GetQuantile(sample, (p + pDelta).Clamp(0, 1));
+            double expectedMin = SimpleQuantileEstimator.Instance.Quantile(sample, (p - pDelta).Clamp(0, 1));
+            double expectedMax = SimpleQuantileEstimator.Instance.Quantile(sample, (p + pDelta).Clamp(0, 1));
             double mad = MedianAbsoluteDeviationEstimator.Simple.Mad(sample);
             double error = Math.Abs(actual - expected);
             double errorNorm = error / mad;
@@ -157,7 +157,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             foreach (double x in values)
                 estimator.Add(x);
 
-            double actual = estimator.GetQuantile();
+            double actual = estimator.Quantile();
             const double expected = 4.44;
 
             Assert.Equal(expected, actual, new AbsoluteEqualityComparer(1e-2));
@@ -190,9 +190,9 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
                     p2AdaptiveEstimator.Add(x);
                 }
 
-                double simpleEstimation = SimpleQuantileEstimator.Instance.GetQuantile(values, probability);
-                double p2ClassicEstimation = p2ClassicEstimator.GetQuantile();
-                double p2AdaptiveEstimation = p2AdaptiveEstimator.GetQuantile();
+                double simpleEstimation = SimpleQuantileEstimator.Instance.Quantile(values, probability);
+                double p2ClassicEstimation = p2ClassicEstimator.Quantile();
+                double p2AdaptiveEstimation = p2AdaptiveEstimator.Quantile();
                 if (Math.Abs(p2ClassicEstimation - simpleEstimation) < Math.Abs(p2AdaptiveEstimation - simpleEstimation))
                     classicIsWinner++;
             }

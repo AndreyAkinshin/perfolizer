@@ -28,7 +28,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         /// </summary>
         private double GetH(double n, Probability p) => HyndmanFanHelper.GetH(Type, n, p);
 
-        public virtual double GetQuantile(Sample sample, Probability probability)
+        public virtual double Quantile(Sample sample, Probability probability)
         {
             if (!SupportsWeightedSamples)
                 Assertion.NonWeighted(nameof(sample), sample);

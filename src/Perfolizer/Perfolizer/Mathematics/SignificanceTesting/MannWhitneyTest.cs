@@ -30,7 +30,7 @@ namespace Perfolizer.Mathematics.SignificanceTesting
                     w[i, j, k] = w[i - 1, j, k - j] + w[i, j - 1, k];
             }
 
-            long denominator = BinomialCoefficientHelper.GetBinomialCoefficient(n + m, m);
+            long denominator = BinomialCoefficientHelper.BinomialCoefficient(n + m, m);
             long p = 0;
             if (q <= n * m / 2)
             {
@@ -55,7 +55,7 @@ namespace Perfolizer.Mathematics.SignificanceTesting
         public MannWhitneyResult? IsGreater(double[] x, double[] y, Threshold? threshold = null)
         {
             threshold = threshold ?? RelativeThreshold.Default;
-            double thresholdValue = threshold.GetValue(x);
+            double thresholdValue = threshold.Value(x);
 
             int n = x.Length, m = y.Length;
             if (Math.Min(n, m) < 3 || Math.Max(n, m) < 5)

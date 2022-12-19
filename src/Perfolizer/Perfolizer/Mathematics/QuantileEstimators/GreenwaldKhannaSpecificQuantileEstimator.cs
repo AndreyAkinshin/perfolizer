@@ -18,9 +18,9 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             estimator.Add(value);
         }
 
-        public double GetQuantile()
+        public double Quantile()
         {
-            return estimator.GetQuantile(probability);
+            return estimator.Quantile(probability);
         }
     }
 }

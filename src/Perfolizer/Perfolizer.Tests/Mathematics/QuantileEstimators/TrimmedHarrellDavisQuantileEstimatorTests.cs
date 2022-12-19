@@ -31,7 +31,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         {
             var sample = new Sample(new double[] { -3, -2, -1, 0, 1, 2, 3 });
             var probabilities = new Probability[] { 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 };
-            double[] actualQuantiles = TrimmedHarrellDavisQuantileEstimator.SqrtInstance.GetQuantiles(sample, probabilities);
+            double[] actualQuantiles = TrimmedHarrellDavisQuantileEstimator.SqrtInstance.Quantiles(sample, probabilities);
             double[] expectedQuantiles =
             {
                 -3, -2.72276083590394, -2.30045481668633, -1.66479731161074, -0.877210708467137, 2.22044604925031e-16, 0.877210708467138,
@@ -45,7 +45,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         {
             var sample = new Sample(new ArithmeticProgressionSequence(0, 1).GenerateArray(100));
             var probabilities = new Probability[] { 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 };
-            double[] actualQuantiles = TrimmedHarrellDavisQuantileEstimator.SqrtInstance.GetQuantiles(sample, probabilities);
+            double[] actualQuantiles = TrimmedHarrellDavisQuantileEstimator.SqrtInstance.Quantiles(sample, probabilities);
             double[] expectedQuantiles =
             {
                 0, 9.23049888501009, 19.1571295075902, 29.235253395819, 39.3599642036428, 49.5, 59.6400357963572, 69.764746604181,
@@ -59,7 +59,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
         {
             var sample = new Sample(new ArithmeticProgressionSequence(0, 1).GenerateArray(1_000_000));
             var probabilities = new Probability[] { 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 };
-            double[] actualQuantiles = TrimmedHarrellDavisQuantileEstimator.SqrtInstance.GetQuantiles(sample, probabilities);
+            double[] actualQuantiles = TrimmedHarrellDavisQuantileEstimator.SqrtInstance.Quantiles(sample, probabilities);
             double[] expectedQuantiles =
             {
                 0, 99999.2066949439, 199999.152626934, 299999.235056257, 399999.360305779, 499999.5, 599999.639694222, 699999.764943743,

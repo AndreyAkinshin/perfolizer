@@ -13,7 +13,7 @@ namespace Perfolizer.Mathematics.Sequences
         {
             int index = 0;
             while (true)
-                yield return sequence.GetValue(index++);
+                yield return sequence.Value(index++);
         }
 
         public static double[] GenerateArray(this ISequence sequence, int count, bool normalize = false)

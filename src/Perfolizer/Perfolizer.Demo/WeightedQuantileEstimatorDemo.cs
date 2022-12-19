@@ -20,7 +20,7 @@ namespace Perfolizer.Demo
             {
                 double[] weights = ExponentialDecaySequence.CreateFromHalfLife(halfLife).GenerateReverseArray(count);
                 var sample = new Sample(values.Take(count).ToList(), weights);
-                return HarrellDavisQuantileEstimator.Instance.GetQuantile(sample, 0.5);
+                return HarrellDavisQuantileEstimator.Instance.Quantile(sample, 0.5);
             }
 
             Console.WriteLine("Size       WeightedMedian");

@@ -45,7 +45,7 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
             {
                 var x = new Sample(new NormalDistribution(0, 1).Random(random).Next(200));
                 var y = new Sample(new NormalDistribution(delta, 1).Random(random).Next(200));
-                var gamma = gammaEffectSizeFunction.GetRange(x, y, 0.5);
+                var gamma = gammaEffectSizeFunction.Range(x, y, 0.5);
                 double d = CohenDEffectSize.Calc(x, y);
                 diffs[i] = Math.Abs(d - gamma.Middle);
             }
@@ -94,7 +94,7 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
             for (int i = 0; i < probabilities.Length; i++)
             {
                 var p = probabilities[i];
-                double gamma = gammaEffectSizeFunction.GetValue(x, y, p);
+                double gamma = gammaEffectSizeFunction.Value(x, y, p);
                 output.WriteLine($"{p}: {gamma:0.0000}");
                 Assert.True(minExpected[i] < gamma && gamma < maxExpected[i]);
             }
@@ -137,7 +137,7 @@ namespace Perfolizer.Tests.Mathematics.EffectSizes
             var x = testData.X.ToSample();
             var y = testData.Y.ToSample();
             double expected = testData.ExpectedGammaEffectSize;
-            double actual = GammaEffectSizeFunction.Instance.GetValue(x, y, testData.Probability);
+            double actual = GammaEffectSizeFunction.Instance.Value(x, y, testData.Probability);
             Assert.Equal(expected, actual);
         }
     }

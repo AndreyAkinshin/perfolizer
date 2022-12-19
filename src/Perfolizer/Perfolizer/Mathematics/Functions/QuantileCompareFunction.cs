@@ -18,23 +18,23 @@ namespace Perfolizer.Mathematics.Functions
             QuantileEstimator = quantileEstimator ?? HarrellDavisQuantileEstimator.Instance;
         }
 
-        public virtual double GetValue(Sample a, Sample b, Probability probability)
+        public virtual double Value(Sample a, Sample b, Probability probability)
         {
             Assertion.NotNull(nameof(a), a);
             Assertion.NotNull(nameof(b), b);
 
-            double quantileA = QuantileEstimator.GetQuantile(a, probability);
-            double quantileB = QuantileEstimator.GetQuantile(b, probability);
+            double quantileA = QuantileEstimator.Quantile(a, probability);
+            double quantileB = QuantileEstimator.Quantile(b, probability);
             return CalculateValue(quantileA, quantileB);
         }
 
-        public virtual double[] GetValues(Sample a, Sample b, IReadOnlyList<Probability> probabilities)
+        public virtual double[] Values(Sample a, Sample b, IReadOnlyList<Probability> probabilities)
         {
             Assertion.NotNull(nameof(a), a);
             Assertion.NotNull(nameof(b), b);
 
-            double[] quantilesA = QuantileEstimator.GetQuantiles(a, probabilities);
-            double[] quantilesB = QuantileEstimator.GetQuantiles(b, probabilities);
+            double[] quantilesA = QuantileEstimator.Quantiles(a, probabilities);
+            double[] quantilesB = QuantileEstimator.Quantiles(b, probabilities);
             double[] values = new double[probabilities.Count];
             for (int i = 0; i < values.Length; i++)
                 values[i] = CalculateValue(quantilesA[i], quantilesB[i]);
@@ -43,7 +43,7 @@ namespace Perfolizer.Mathematics.Functions
 
         protected abstract double CalculateValue(double quantileA, double quantileB);
         
-        public Range GetRange(Sample a, Sample b, Probability margin, int? quantizationCount = null)
+        public Range Range(Sample a, Sample b, Probability margin, int? quantizationCount = null)
         {
             Assertion.NotNull(nameof(a), a);
             Assertion.NotNull(nameof(b), b);
@@ -61,18 +61,18 @@ namespace Perfolizer.Mathematics.Functions
                 for (int i = 0; i < count; i++)
                     probabilities[i] = left + (right - left) / (count - 1) * i;
                 
-            double[] quantileValues = GetValues(a, b, probabilities);
-            return Range.Of(quantileValues.Min(), quantileValues.Max());
+            double[] quantileValues = Values(a, b, probabilities);
+            return Common.Range.Of(quantileValues.Min(), quantileValues.Max());
         }
 
-        public Range GetRange(Sample a, Sample b)
+        public Range Range(Sample a, Sample b)
         {
             Assertion.NotNull(nameof(a), a);
             Assertion.NotNull(nameof(b), b);
             
             int n = Math.Min(a.Count, b.Count);
             double margin = Math.Min(0.5, 1 - 0.001.Pow(1.0 / n));
-            return GetRange(a, b, margin);
+            return Range(a, b, margin);
         }
     }
 }

@@ -218,7 +218,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             }
         }
 
-        public double GetQuantile()
+        public double Quantile()
         {
             if (totalElementCount == 0)
                 throw new EmptySequenceException();

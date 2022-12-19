@@ -94,7 +94,7 @@ namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions
 
         public double Cdf(double x) => Aggregate(d => d.Cdf(x));
 
-        public double Quantile(Probability p) => inverseCdf.GetValue(p);
+        public double Quantile(Probability p) => inverseCdf.Value(p);
 
         public RandomGenerator Random(Random? random = null) => new MixtureRandomGenerator(this, random ?? new Random());
 

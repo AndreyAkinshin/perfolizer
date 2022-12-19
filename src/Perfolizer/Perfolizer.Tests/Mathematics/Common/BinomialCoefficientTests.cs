@@ -25,7 +25,7 @@ namespace Perfolizer.Tests.Mathematics.Common
         [InlineData(65, 32, 3609714217008132870)]
         public void BinomialCoefficientTest(int n, int k, long expected)
         {
-            long actual = BinomialCoefficientHelper.GetBinomialCoefficient(n, k);
+            long actual = BinomialCoefficientHelper.BinomialCoefficient(n, k);
             Assert.Equal(expected, actual);
         }
     }

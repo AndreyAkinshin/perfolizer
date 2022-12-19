@@ -18,7 +18,7 @@ namespace Perfolizer.Mathematics.Functions
             isIncreasing = referenceFunction(max) > referenceFunction(min);
         }
 
-        public double GetValue(double x, double eps = 1e-9)
+        public double Value(double x, double eps = 1e-9)
         {
             double lower = min;
             double upper = max;

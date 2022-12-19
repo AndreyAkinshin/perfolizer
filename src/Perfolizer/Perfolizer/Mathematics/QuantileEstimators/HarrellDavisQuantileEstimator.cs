@@ -21,7 +21,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         public bool SupportsWeightedSamples => true;
         public string Alias => "HD";
 
-        public double GetQuantile(Sample sample, Probability probability)
+        public double Quantile(Sample sample, Probability probability)
         {
             return GetMoments(sample, probability, false).C1;
         }
@@ -30,7 +30,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators
         /// Estimates confidence intervals using the Maritz-Jarrett method
         /// </summary>
         /// <returns></returns>
-        public ConfidenceIntervalEstimator GetQuantileConfidenceIntervalEstimator(Sample sample, Probability probability)
+        public ConfidenceIntervalEstimator QuantileConfidenceIntervalEstimator(Sample sample, Probability probability)
         {
             (double c1, double c2) = GetMoments(sample, probability, true);
             double estimation = c1;

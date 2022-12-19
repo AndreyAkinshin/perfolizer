@@ -32,7 +32,7 @@ namespace Perfolizer.Simulations
                     writer.Write(referenceDistribution.Key.PadRight(5));
                     foreach (int sampleSize in sampleSizes)
                     {
-                        double rate = GetCoveragePercentage(referenceDistribution.Distribution, probability, confidenceLevel, random,
+                        double rate = CoveragePercentage(referenceDistribution.Distribution, probability, confidenceLevel, random,
                             sampleSize, 10_000);
                         string rateMessage = rate.ToString("N3") + " ";
                         if (rate > confidenceLevel.Value)
@@ -49,7 +49,7 @@ namespace Perfolizer.Simulations
             }
         }
 
-        private double GetCoveragePercentage(IContinuousDistribution distribution, Probability probability, ConfidenceLevel confidenceLevel,
+        private double CoveragePercentage(IContinuousDistribution distribution, Probability probability, ConfidenceLevel confidenceLevel,
             Random random, int sampleSize, int repetitions)
         {
             var generator = distribution.Random(random);
@@ -60,8 +60,8 @@ namespace Perfolizer.Simulations
             {
                 var sample = new Sample(generator.Next(sampleSize));
                 var estimatedCi = estimator
-                    .GetQuantileConfidenceIntervalEstimator(sample, probability)
-                    .GetConfidenceInterval(confidenceLevel);
+                    .QuantileConfidenceIntervalEstimator(sample, probability)
+                    .ConfidenceInterval(confidenceLevel);
                 if (estimatedCi.Contains(trueValue))
                     success++;
             }

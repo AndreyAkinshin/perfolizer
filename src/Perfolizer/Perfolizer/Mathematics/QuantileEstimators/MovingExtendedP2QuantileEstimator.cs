@@ -33,12 +33,12 @@ namespace Perfolizer.Mathematics.QuantileEstimators
             estimator.Add(value);
         }
 
-        public double GetQuantile(Probability p)
+        public double Quantile(Probability p)
         {
             if (n == 0)
                 throw new EmptySequenceException();
             if (n < windowSize)
-                return estimator.GetQuantile(p);
+                return estimator.Quantile(p);
 
             for (int i = 0; i < estimator.Probabilities.Length; i++)
                 // ReSharper disable once CompareOfFloatsByEqualityOperator

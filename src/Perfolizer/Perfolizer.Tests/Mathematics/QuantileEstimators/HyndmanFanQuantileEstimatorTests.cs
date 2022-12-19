@@ -166,7 +166,7 @@ namespace Perfolizer.Tests.Mathematics.QuantileEstimators
             foreach (var type in types)
             {
                 var estimator = new HyndmanFanQuantileEstimator(type);
-                double[] expected = estimator.GetQuantiles(sample, probabilities);
+                double[] expected = estimator.Quantiles(sample, probabilities);
                 Check(estimator, new TestData(sample.Values.ToArray(), probabilities, expected));
             }
         }

@@ -14,6 +14,6 @@ namespace Perfolizer.Mathematics.Sequences
             this.value = value;
         }
 
-        public double GetValue(int index) => value;
+        public double Value(int index) => value;
     }
 }

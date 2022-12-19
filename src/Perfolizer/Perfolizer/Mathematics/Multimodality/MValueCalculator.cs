@@ -27,7 +27,7 @@ namespace Perfolizer.Mathematics.Multimodality
 
                 double mValue = 0;
 
-                double binSize = AdaptiveHistogramBuilder.GetOptimalBinSize(n, moments.StandardDeviation);
+                double binSize = AdaptiveHistogramBuilder.OptimalBinSize(n, moments.StandardDeviation);
                 if (Abs(binSize) < 1e-9)
                     binSize = 1;
                 while (true)

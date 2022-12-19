@@ -10,7 +10,7 @@ namespace Perfolizer.Mathematics.Common
 
         private static long[,]? pascalTriangle;
 
-        public static long GetBinomialCoefficient(int n, int k)
+        public static long BinomialCoefficient(int n, int k)
         {
             const int maxN = MaxAcceptableN;
             if (n < 0 || n > maxN)
@@ -38,7 +38,7 @@ namespace Perfolizer.Mathematics.Common
         /// <summary>
         /// Log(C(n, k))
         /// </summary>
-        public static double GetLogBinomialCoefficient(int n, int k)
+        public static double LogBinomialCoefficient(int n, int k)
         {
             Assertion.Positive(nameof(n), n);
             Assertion.InRangeInclusive(nameof(k), k, 0, n);
