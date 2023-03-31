@@ -9,11 +9,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.302
+        dotnet-version: 7.0.202
     - name: Pack Perfolizer
       run: dotnet pack --configuration Release /p:PrereleaseLabel=-nightly.$GITHUB_RUN_NUMBER src/Perfolizer/Perfolizer/Perfolizer.csproj -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:ContinuousIntegrationBuild=true
     - name: Publish nupkg
