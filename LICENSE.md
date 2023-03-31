@@ -1,6 +1,6 @@
 ### The MIT License
 
-Copyright (c) 2020 Andrey Akinshin  
+Copyright (c) 2020–2023 Andrey Akinshin  
 Copyright (c) 2013–2020 .NET Foundation and contributors
 
 Permission is hereby granted, free of charge, to any person obtaining
