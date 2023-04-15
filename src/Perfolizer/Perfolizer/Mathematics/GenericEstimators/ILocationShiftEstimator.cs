@@ -1,6 +1,6 @@
 using Perfolizer.Common;
 
-namespace Perfolizer.Mathematics.LocationShiftEstimators
+namespace Perfolizer.Mathematics.GenericEstimators
 {
     public interface ILocationShiftEstimator
     {
