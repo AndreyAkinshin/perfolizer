@@ -18,7 +18,8 @@
         <AssemblyOriginatorKeyFile>..\perfolizerKey.snk</AssemblyOriginatorKeyFile>
         <SignAssembly>true</SignAssembly>
 
-        <LangVersion>9.0</LangVersion>
+        <LangVersion>11.0</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
         <Major>0</Major>

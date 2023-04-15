@@ -1,8 +1,7 @@
 using System.Globalization;
-using JetBrains.Annotations;
-using Perfolizer.Mathematics.Common;
 using Perfolizer.Tests.Common;
 using Xunit;
+using Range = Perfolizer.Mathematics.Common.Range;
 
 namespace Perfolizer.Tests.Mathematics.RangeEstimator
 {

@@ -1,14 +1,12 @@
-using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Common;
-using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Tests.Common;
 using Xunit;
 using Xunit.Abstractions;
+using Range = Perfolizer.Mathematics.Common.Range;
 
 namespace Perfolizer.Tests.Mathematics.RangeEstimator
 {
