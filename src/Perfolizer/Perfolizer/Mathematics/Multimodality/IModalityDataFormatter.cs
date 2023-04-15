@@ -1,9 +1,8 @@
 using System;
 
-namespace Perfolizer.Mathematics.Multimodality
+namespace Perfolizer.Mathematics.Multimodality;
+
+public interface IModalityDataFormatter
 {
-    public interface IModalityDataFormatter
-    {
-        string Format(ModalityData data, string? numberFormat = null, IFormatProvider? numberFormatProvider = null);
-    }
+    string Format(ModalityData data, string? numberFormat = null, IFormatProvider? numberFormatProvider = null);
 }

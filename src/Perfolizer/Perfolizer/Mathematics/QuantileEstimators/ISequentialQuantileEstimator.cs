@@ -1,10 +1,9 @@
 using Perfolizer.Mathematics.Common;
 
-namespace Perfolizer.Mathematics.QuantileEstimators
+namespace Perfolizer.Mathematics.QuantileEstimators;
+
+public interface ISequentialQuantileEstimator
 {
-    public interface ISequentialQuantileEstimator
-    {
-        void Add(double value);
-        double Quantile(Probability probability);
-    }
+    void Add(double value);
+    double Quantile(Probability probability);
 }

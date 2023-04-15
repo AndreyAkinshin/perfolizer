@@ -1,11 +1,10 @@
-namespace Perfolizer.Mathematics.SignificanceTesting
+namespace Perfolizer.Mathematics.SignificanceTesting;
+
+public enum EquivalenceTestConclusion
 {
-    public enum EquivalenceTestConclusion
-    {
-        Base,
-        Same,
-        Faster,
-        Slower,
-        Unknown
-    }
+    Base,
+    Same,
+    Faster,
+    Slower,
+    Unknown
 }

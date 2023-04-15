@@ -1,8 +1,7 @@
-namespace Perfolizer.Mathematics.SignificanceTesting
+namespace Perfolizer.Mathematics.SignificanceTesting;
+
+public enum StatisticalTestKind
 {
-    public enum StatisticalTestKind
-    {
-        MannWhitney = 0, // it's the default value ON PURPOSE!
-        Welch
-    }
+    MannWhitney = 0, // it's the default value ON PURPOSE!
+    Welch
 }

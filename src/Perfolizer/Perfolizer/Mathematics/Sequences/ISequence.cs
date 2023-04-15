@@ -1,7 +1,6 @@
-namespace Perfolizer.Mathematics.Sequences
+namespace Perfolizer.Mathematics.Sequences;
+
+public interface ISequence
 {
-    public interface ISequence
-    {
-        double Value(int index);
-    }
+    double Value(int index);
 }

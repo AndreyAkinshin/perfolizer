@@ -1,11 +1,10 @@
 using JetBrains.Annotations;
 using Perfolizer.Common;
 
-namespace Perfolizer.Mathematics.Multimodality
+namespace Perfolizer.Mathematics.Multimodality;
+
+public interface IModalityDetector
 {
-    public interface IModalityDetector
-    {
-        [Pure]
-        ModalityData DetectModes(Sample sample);
-    }
+    [Pure]
+    ModalityData DetectModes(Sample sample);
 }

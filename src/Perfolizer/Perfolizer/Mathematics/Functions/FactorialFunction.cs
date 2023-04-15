@@ -1,33 +1,32 @@
 using System;
 using Perfolizer.Common;
 
-namespace Perfolizer.Mathematics.Functions
+namespace Perfolizer.Mathematics.Functions;
+
+public static class FactorialFunction
 {
-    public static class FactorialFunction
+    public static double Value(int n)
     {
-        public static double Value(int n)
+        Assertion.NonNegative(nameof(n), n);
+
+        if (n <= 20)
         {
-            Assertion.NonNegative(nameof(n), n);
-
-            if (n <= 20)
-            {
-                long value = 1;
-                for (long i = 1; i <= n; i++)
-                    value *= i;
-                return value;
-            }
-
-            return GammaFunction.Value(n + 1);
+            long value = 1;
+            for (long i = 1; i <= n; i++)
+                value *= i;
+            return value;
         }
 
-        public static double LogValue(int n)
-        {
-            Assertion.NonNegative(nameof(n), n);
+        return GammaFunction.Value(n + 1);
+    }
 
-            if (n <= 20)
-                return Math.Log(Value(n));
+    public static double LogValue(int n)
+    {
+        Assertion.NonNegative(nameof(n), n);
 
-            return GammaFunction.LogValue(n + 1);
-        }
+        if (n <= 20)
+            return Math.Log(Value(n));
+
+        return GammaFunction.LogValue(n + 1);
     }
 }

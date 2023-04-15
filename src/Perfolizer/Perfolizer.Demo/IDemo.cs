@@ -1,7 +1,6 @@
-namespace Perfolizer.Demo
+namespace Perfolizer.Demo;
+
+public interface IDemo
 {
-    public interface IDemo
-    {
-        void Run();
-    }
+    void Run();
 }

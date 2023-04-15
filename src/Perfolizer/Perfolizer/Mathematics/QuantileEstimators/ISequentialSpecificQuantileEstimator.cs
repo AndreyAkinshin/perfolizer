@@ -1,8 +1,7 @@
-namespace Perfolizer.Mathematics.QuantileEstimators
+namespace Perfolizer.Mathematics.QuantileEstimators;
+
+public interface ISequentialSpecificQuantileEstimator
 {
-    public interface ISequentialSpecificQuantileEstimator
-    {
-        void Add(double value);
-        double Quantile();
-    }
+    void Add(double value);
+    double Quantile();
 }

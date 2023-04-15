@@ -1,17 +1,16 @@
-﻿namespace Perfolizer.Mathematics.Histograms
+﻿namespace Perfolizer.Mathematics.Histograms;
+
+public enum BinSizeRule
 {
-    public enum BinSizeRule
-    {
-        FreedmanDiaconis,
+    FreedmanDiaconis,
 
-        Scott,
+    Scott,
 
-        Scott2,
+    Scott2,
 
-        SquareRoot,
+    SquareRoot,
 
-        Sturges,
+    Sturges,
 
-        Rice
-    }
+    Rice
 }

@@ -6,104 +6,103 @@ using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.ScaleEstimators;
 using Perfolizer.Mathematics.Sequences;
 
-namespace Perfolizer.Mathematics.Functions
+namespace Perfolizer.Mathematics.Functions;
+
+public class GammaEffectSizeFunction : QuantileCompareFunction
 {
-    public class GammaEffectSizeFunction : QuantileCompareFunction
+    private static readonly MedianAbsoluteDeviationEstimator DefaultMedianAbsoluteDeviationEstimator =
+        MedianAbsoluteDeviationEstimator.Simple;
+
+    public static readonly GammaEffectSizeFunction Instance = new GammaEffectSizeFunction();
+
+    private const double Eps = 1e-9;
+
+    private readonly MedianAbsoluteDeviationEstimator medianAbsoluteDeviationEstimator;
+
+    public GammaEffectSizeFunction(MedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null) :
+        base((medianAbsoluteDeviationEstimator ?? DefaultMedianAbsoluteDeviationEstimator).QuantileEstimator)
     {
-        private static readonly MedianAbsoluteDeviationEstimator DefaultMedianAbsoluteDeviationEstimator =
-            MedianAbsoluteDeviationEstimator.Simple;
+        this.medianAbsoluteDeviationEstimator = medianAbsoluteDeviationEstimator ?? DefaultMedianAbsoluteDeviationEstimator;
+    }
 
-        public static readonly GammaEffectSizeFunction Instance = new GammaEffectSizeFunction();
+    public override double Value(Sample a, Sample b, Probability probability)
+    {
+        Assertion.NotNull(nameof(a), a);
+        Assertion.NotNull(nameof(b), b);
 
-        private const double Eps = 1e-9;
-
-        private readonly MedianAbsoluteDeviationEstimator medianAbsoluteDeviationEstimator;
-
-        public GammaEffectSizeFunction(MedianAbsoluteDeviationEstimator? medianAbsoluteDeviationEstimator = null) :
-            base((medianAbsoluteDeviationEstimator ?? DefaultMedianAbsoluteDeviationEstimator).QuantileEstimator)
+        try
         {
-            this.medianAbsoluteDeviationEstimator = medianAbsoluteDeviationEstimator ?? DefaultMedianAbsoluteDeviationEstimator;
-        }
-
-        public override double Value(Sample a, Sample b, Probability probability)
-        {
-            Assertion.NotNull(nameof(a), a);
-            Assertion.NotNull(nameof(b), b);
-
-            try
+            double aMad = medianAbsoluteDeviationEstimator.Mad(a);
+            double bMad = medianAbsoluteDeviationEstimator.Mad(b);
+            if (aMad < Eps && bMad < Eps)
             {
-                double aMad = medianAbsoluteDeviationEstimator.Mad(a);
-                double bMad = medianAbsoluteDeviationEstimator.Mad(b);
-                if (aMad < Eps && bMad < Eps)
-                {
-                    double aMedian = QuantileEstimator.Median(a);
-                    double bMedian = QuantileEstimator.Median(b);
-                    if (Math.Abs(aMedian - bMedian) < Eps)
-                        return 0;
-                    return aMedian < bMedian
-                        ? double.PositiveInfinity
-                        : double.NegativeInfinity;
-                }
-
-                double aQuantile = QuantileEstimator.Quantile(a, probability);
-                double bQuantile = QuantileEstimator.Quantile(b, probability);
-                double pooledMad = PooledMad(a.Count, b.Count, aMad, bMad);
-
-                return (bQuantile - aQuantile) / pooledMad;
+                double aMedian = QuantileEstimator.Median(a);
+                double bMedian = QuantileEstimator.Median(b);
+                if (Math.Abs(aMedian - bMedian) < Eps)
+                    return 0;
+                return aMedian < bMedian
+                    ? double.PositiveInfinity
+                    : double.NegativeInfinity;
             }
-            catch (Exception)
-            {
-                return double.NaN;
-            }
+
+            double aQuantile = QuantileEstimator.Quantile(a, probability);
+            double bQuantile = QuantileEstimator.Quantile(b, probability);
+            double pooledMad = PooledMad(a.Count, b.Count, aMad, bMad);
+
+            return (bQuantile - aQuantile) / pooledMad;
         }
-
-        public override double[] Values(Sample a, Sample b, IReadOnlyList<Probability> probabilities)
+        catch (Exception)
         {
-            Assertion.NotNull(nameof(a), a);
-            Assertion.NotNull(nameof(b), b);
-            Assertion.NotNullOrEmpty(nameof(probabilities), probabilities);
-
-            int k = probabilities.Count;
-            try
-            {
-                double aMad = medianAbsoluteDeviationEstimator.Mad(a);
-                double bMad = medianAbsoluteDeviationEstimator.Mad(b);
-                if (aMad < Eps && bMad < Eps)
-                {
-                    double aMedian = QuantileEstimator.Median(a);
-                    double bMedian = QuantileEstimator.Median(b);
-                    if (Math.Abs(aMedian - bMedian) < Eps)
-                        return ConstantSequence.Zero.GenerateArray(k);
-                    return aMedian < bMedian
-                        ? ConstantSequence.PositiveInfinity.GenerateArray(k)
-                        : ConstantSequence.NegativeInfinity.GenerateArray(k);
-                }
-
-                double[] aQuantile = QuantileEstimator.Quantiles(a, probabilities);
-                double[] bQuantile = QuantileEstimator.Quantiles(b, probabilities);
-
-                double pooledMad = PooledMad(a.Count, b.Count, aMad, bMad);
-
-                double[] values = new double[k];
-                for (int i = 0; i < k; i++)
-                    values[i] = (bQuantile[i] - aQuantile[i]) / pooledMad;
-
-                return values;
-            }
-            catch (Exception)
-            {
-                return ConstantSequence.NaN.GenerateArray(k);
-            }
+            return double.NaN;
         }
+    }
 
-        public static double PooledMad(int n1, int n2, double mad1, double mad2)
+    public override double[] Values(Sample a, Sample b, IReadOnlyList<Probability> probabilities)
+    {
+        Assertion.NotNull(nameof(a), a);
+        Assertion.NotNull(nameof(b), b);
+        Assertion.NotNullOrEmpty(nameof(probabilities), probabilities);
+
+        int k = probabilities.Count;
+        try
         {
-            return Math.Sqrt(((n1 - 1) * mad1.Sqr() + (n2 - 1) * mad2.Sqr()) / (n1 + n2 - 2));
-        }
+            double aMad = medianAbsoluteDeviationEstimator.Mad(a);
+            double bMad = medianAbsoluteDeviationEstimator.Mad(b);
+            if (aMad < Eps && bMad < Eps)
+            {
+                double aMedian = QuantileEstimator.Median(a);
+                double bMedian = QuantileEstimator.Median(b);
+                if (Math.Abs(aMedian - bMedian) < Eps)
+                    return ConstantSequence.Zero.GenerateArray(k);
+                return aMedian < bMedian
+                    ? ConstantSequence.PositiveInfinity.GenerateArray(k)
+                    : ConstantSequence.NegativeInfinity.GenerateArray(k);
+            }
 
-        protected override double CalculateValue(double quantileA, double quantileB)
-        {
-            throw new NotSupportedException();
+            double[] aQuantile = QuantileEstimator.Quantiles(a, probabilities);
+            double[] bQuantile = QuantileEstimator.Quantiles(b, probabilities);
+
+            double pooledMad = PooledMad(a.Count, b.Count, aMad, bMad);
+
+            double[] values = new double[k];
+            for (int i = 0; i < k; i++)
+                values[i] = (bQuantile[i] - aQuantile[i]) / pooledMad;
+
+            return values;
         }
+        catch (Exception)
+        {
+            return ConstantSequence.NaN.GenerateArray(k);
+        }
+    }
+
+    public static double PooledMad(int n1, int n2, double mad1, double mad2)
+    {
+        return Math.Sqrt(((n1 - 1) * mad1.Sqr() + (n2 - 1) * mad2.Sqr()) / (n1 + n2 - 2));
+    }
+
+    protected override double CalculateValue(double quantileA, double quantileB)
+    {
+        throw new NotSupportedException();
     }
 }

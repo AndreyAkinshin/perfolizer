@@ -1,8 +1,7 @@
-namespace Perfolizer.Mathematics.OutlierDetection
+namespace Perfolizer.Mathematics.OutlierDetection;
+
+public interface IOutlierDetector
 {
-    public interface IOutlierDetector
-    {
-        bool IsLowerOutlier(double x);
-        bool IsUpperOutlier(double x);
-    }
+    bool IsLowerOutlier(double x);
+    bool IsUpperOutlier(double x);
 }

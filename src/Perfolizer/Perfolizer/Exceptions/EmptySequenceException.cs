@@ -1,11 +1,10 @@
 using System;
 
-namespace Perfolizer.Exceptions
+namespace Perfolizer.Exceptions;
+
+public class EmptySequenceException : InvalidOperationException
 {
-    public class EmptySequenceException : InvalidOperationException
+    public EmptySequenceException() : base("Sequence contains no elements")
     {
-        public EmptySequenceException() : base("Sequence contains no elements")
-        {
-        }
     }
 }

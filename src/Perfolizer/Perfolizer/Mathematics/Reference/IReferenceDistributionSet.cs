@@ -1,9 +1,8 @@
-namespace Perfolizer.Mathematics.Reference
+namespace Perfolizer.Mathematics.Reference;
+
+public interface IReferenceDistributionSet
 {
-    public interface IReferenceDistributionSet
-    {
-        public string Key { get; }
-        public string Description { get; }
-        public ReferenceDistribution[] Distributions { get; }
-    }
+    public string Key { get; }
+    public string Description { get; }
+    public ReferenceDistribution[] Distributions { get; }
 }

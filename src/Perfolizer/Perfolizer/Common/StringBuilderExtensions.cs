@@ -3,26 +3,25 @@ using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
 
-namespace Perfolizer.Common
+namespace Perfolizer.Common;
+
+internal static class StringBuilderExtensions
 {
-    internal static class StringBuilderExtensions
+    [return: NotNullIfNotNull("builder")]
+    public static StringBuilder? TrimEnd(this StringBuilder? builder, params char[] trimChars)
     {
-        [return: NotNullIfNotNull("builder")]
-        public static StringBuilder? TrimEnd(this StringBuilder? builder, params char[] trimChars)
-        {
-            if (builder == null)
-                return null;
+        if (builder == null)
+            return null;
 
-            int length = builder.Length;
-            if (trimChars.Any())
-                while (length > 0 && trimChars.Contains(builder[length - 1]))
-                    length--;
-            else
-                while (length > 0 && char.IsWhiteSpace(builder[length - 1]))
-                    length--;
+        int length = builder.Length;
+        if (trimChars.Any())
+            while (length > 0 && trimChars.Contains(builder[length - 1]))
+                length--;
+        else
+            while (length > 0 && char.IsWhiteSpace(builder[length - 1]))
+                length--;
 
-            builder.Length = length;
-            return builder;
-        }
+        builder.Length = length;
+        return builder;
     }
 }

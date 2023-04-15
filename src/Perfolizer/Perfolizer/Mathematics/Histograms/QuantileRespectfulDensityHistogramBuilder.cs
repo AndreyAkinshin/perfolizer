@@ -6,44 +6,43 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Sequences;
 
-namespace Perfolizer.Mathematics.Histograms
+namespace Perfolizer.Mathematics.Histograms;
+
+/// <summary>
+/// Empirical probability density histogram.
+///
+/// See: https://aakinshin.net/posts/qrde-hd/
+/// </summary>
+public class QuantileRespectfulDensityHistogramBuilder : IDensityHistogramBuilder
 {
-    /// <summary>
-    /// Empirical probability density histogram.
-    ///
-    /// See: https://aakinshin.net/posts/qrde-hd/
-    /// </summary>
-    public class QuantileRespectfulDensityHistogramBuilder : IDensityHistogramBuilder
+    public static readonly QuantileRespectfulDensityHistogramBuilder Instance = new QuantileRespectfulDensityHistogramBuilder();
+
+    public DensityHistogram Build(Sample sample, int binCount) => Build(sample, binCount, null);
+
+    public DensityHistogram Build(Sample sample, int binCount, IQuantileEstimator? quantileEstimator)
     {
-        public static readonly QuantileRespectfulDensityHistogramBuilder Instance = new QuantileRespectfulDensityHistogramBuilder();
+        Assertion.NotNull(nameof(sample), sample);
+        Assertion.MoreThan(nameof(binCount), binCount, 1);
 
-        public DensityHistogram Build(Sample sample, int binCount) => Build(sample, binCount, null);
+        quantileEstimator ??= HarrellDavisQuantileEstimator.Instance;
+        if (sample.IsWeighted && !quantileEstimator.SupportsWeightedSamples)
+            throw new WeightedSampleNotSupportedException();
 
-        public DensityHistogram Build(Sample sample, int binCount, IQuantileEstimator? quantileEstimator)
+        var probabilities =
+            Probability.ToProbabilities(new ArithmeticProgressionSequence(0, 1.0 / binCount).GenerateArray(binCount + 1));
+        double[] quantiles = quantileEstimator.Quantiles(sample, probabilities);
+
+        var bins = new List<DensityHistogramBin>(binCount);
+        for (int i = 0; i < binCount; i++)
         {
-            Assertion.NotNull(nameof(sample), sample);
-            Assertion.MoreThan(nameof(binCount), binCount, 1);
-
-            quantileEstimator ??= HarrellDavisQuantileEstimator.Instance;
-            if (sample.IsWeighted && !quantileEstimator.SupportsWeightedSamples)
-                throw new WeightedSampleNotSupportedException();
-
-            var probabilities =
-                Probability.ToProbabilities(new ArithmeticProgressionSequence(0, 1.0 / binCount).GenerateArray(binCount + 1));
-            double[] quantiles = quantileEstimator.Quantiles(sample, probabilities);
-
-            var bins = new List<DensityHistogramBin>(binCount);
-            for (int i = 0; i < binCount; i++)
+            double width = quantiles[i + 1] - quantiles[i];
+            if (width > 1e-9)
             {
-                double width = quantiles[i + 1] - quantiles[i];
-                if (width > 1e-9)
-                {
-                    double value = 1.0 / binCount / width;
-                    bins.Add(new DensityHistogramBin(quantiles[i], quantiles[i + 1], value));
-                }
+                double value = 1.0 / binCount / width;
+                bins.Add(new DensityHistogramBin(quantiles[i], quantiles[i + 1], value));
             }
-
-            return new DensityHistogram(bins);
         }
+
+        return new DensityHistogram(bins);
     }
 }

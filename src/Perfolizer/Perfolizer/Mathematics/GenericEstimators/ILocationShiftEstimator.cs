@@ -1,9 +1,8 @@
 using Perfolizer.Common;
 
-namespace Perfolizer.Mathematics.GenericEstimators
+namespace Perfolizer.Mathematics.GenericEstimators;
+
+public interface ILocationShiftEstimator
 {
-    public interface ILocationShiftEstimator
-    {
-        double LocationShift(Sample a, Sample b);
-    }
+    double LocationShift(Sample a, Sample b);
 }

@@ -2,50 +2,49 @@ using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace Perfolizer.Horology
+namespace Perfolizer.Horology;
+
+internal class WindowsClock : IClock
 {
-    internal class WindowsClock : IClock
+    private static readonly bool GlobalIsAvailable;
+    private static readonly long GlobalFrequency;
+
+    static WindowsClock() => GlobalIsAvailable = Initialize(out GlobalFrequency);
+
+    [DllImport("kernel32.dll")]
+    private static extern bool QueryPerformanceCounter(out long value);
+
+    [DllImport("kernel32.dll")]
+    private static extern bool QueryPerformanceFrequency(out long value);
+
+    [HandleProcessCorruptedStateExceptions] // #276
+    [SecurityCritical]
+    private static bool Initialize(out long qpf)
     {
-        private static readonly bool GlobalIsAvailable;
-        private static readonly long GlobalFrequency;
-
-        static WindowsClock() => GlobalIsAvailable = Initialize(out GlobalFrequency);
-
-        [DllImport("kernel32.dll")]
-        private static extern bool QueryPerformanceCounter(out long value);
-
-        [DllImport("kernel32.dll")]
-        private static extern bool QueryPerformanceFrequency(out long value);
-
-        [HandleProcessCorruptedStateExceptions] // #276
-        [SecurityCritical]
-        private static bool Initialize(out long qpf)
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                qpf = default;
-                return false;
-            }
-
-            try
-            {
-                return QueryPerformanceFrequency(out qpf) && QueryPerformanceCounter(out _);
-            }
-            catch
-            {
-                qpf = default;
-                return false;
-            }
+            qpf = default;
+            return false;
         }
 
-        public string Title => "Windows";
-        public bool IsAvailable => GlobalIsAvailable;
-        public Frequency Frequency => new Frequency(GlobalFrequency);
-
-        public long GetTimestamp()
+        try
         {
-            QueryPerformanceCounter(out long value);
-            return value;
+            return QueryPerformanceFrequency(out qpf) && QueryPerformanceCounter(out _);
         }
+        catch
+        {
+            qpf = default;
+            return false;
+        }
+    }
+
+    public string Title => "Windows";
+    public bool IsAvailable => GlobalIsAvailable;
+    public Frequency Frequency => new Frequency(GlobalFrequency);
+
+    public long GetTimestamp()
+    {
+        QueryPerformanceCounter(out long value);
+        return value;
     }
 }

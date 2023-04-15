@@ -1,42 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Perfolizer.Collections
-{
-    internal class IdenticalReadOnlyList<T> : IReadOnlyList<T>
-    {
-        public int Count { get; }
-        public T Value { get; }
+namespace Perfolizer.Collections;
 
-        public IdenticalReadOnlyList(int count, T value)
+internal class IdenticalReadOnlyList<T> : IReadOnlyList<T>
+{
+    public int Count { get; }
+    public T Value { get; }
+
+    public IdenticalReadOnlyList(int count, T value)
+    {
+        Count = count;
+        Value = value;
+    }
+
+    public IEnumerator<T> GetEnumerator() => new IdenticalEnumerator(Count, Value);
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public T this[int index] => Value;
+
+    private class IdenticalEnumerator : IEnumerator<T>
+    {
+        private readonly int size;
+        private int counter;
+
+        public IdenticalEnumerator(int size, T value)
         {
-            Count = count;
-            Value = value;
+            this.size = size;
+            Current = value;
         }
 
-        public IEnumerator<T> GetEnumerator() => new IdenticalEnumerator(Count, Value);
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        public T this[int index] => Value;
+        public bool MoveNext() => counter++ < size;
+        public void Reset() => counter = 0;
+        public T Current { get; }
+        object? IEnumerator.Current => Current;
 
-        private class IdenticalEnumerator : IEnumerator<T>
+        public void Dispose()
         {
-            private readonly int size;
-            private int counter;
-
-            public IdenticalEnumerator(int size, T value)
-            {
-                this.size = size;
-                Current = value;
-            }
-
-            public bool MoveNext() => counter++ < size;
-            public void Reset() => counter = 0;
-            public T Current { get; }
-            object? IEnumerator.Current => Current;
-
-            public void Dispose()
-            {
-            }
         }
     }
 }

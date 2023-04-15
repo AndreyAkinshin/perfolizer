@@ -6,256 +6,255 @@ using Perfolizer.Common;
 using Perfolizer.Exceptions;
 using Perfolizer.Mathematics.Common;
 
-namespace Perfolizer.Mathematics.QuantileEstimators
+namespace Perfolizer.Mathematics.QuantileEstimators;
+
+/// <summary>
+/// A moving selector based on a partitioning heaps.
+/// Memory: O(windowSize).
+/// Add complexity: O(log(windowSize)).
+/// GetValue complexity: O(1).
+/// 
+/// <remarks>
+/// Based on the following paper:
+/// Hardle, W., and William Steiger. "Algorithm AS 296: Optimal median smoothing." Journal of the Royal Statistical Society.
+/// Series C (Applied Statistics) 44, no. 2 (1995): 258-264.
+/// </remarks>
+/// </summary>
+public class PartitioningHeapsMovingQuantileEstimator : ISequentialSpecificQuantileEstimator
 {
-    /// <summary>
-    /// A moving selector based on a partitioning heaps.
-    /// Memory: O(windowSize).
-    /// Add complexity: O(log(windowSize)).
-    /// GetValue complexity: O(1).
-    /// 
-    /// <remarks>
-    /// Based on the following paper:
-    /// Hardle, W., and William Steiger. "Algorithm AS 296: Optimal median smoothing." Journal of the Royal Statistical Society.
-    /// Series C (Applied Statistics) 44, no. 2 (1995): 258-264.
-    /// </remarks>
-    /// </summary>
-    public class PartitioningHeapsMovingQuantileEstimator : ISequentialSpecificQuantileEstimator
+    private readonly int windowSize, k;
+    private readonly Probability probability;
+    private readonly double[] h;
+    private readonly int[] heapToElementIndex;
+    private readonly int[] elementToHeapIndex;
+    private readonly int rootHeapIndex, lowerHeapMaxSize;
+    private readonly MovingQuantileEstimatorInitStrategy initStrategy;
+    private readonly HyndmanFanType? hyndmanFanType;
+    private int upperHeapSize, lowerHeapSize, totalElementCount;
+
+    public PartitioningHeapsMovingQuantileEstimator(int k, int windowSize,
+        MovingQuantileEstimatorInitStrategy initStrategy = MovingQuantileEstimatorInitStrategy.QuantileApproximation)
     {
-        private readonly int windowSize, k;
-        private readonly Probability probability;
-        private readonly double[] h;
-        private readonly int[] heapToElementIndex;
-        private readonly int[] elementToHeapIndex;
-        private readonly int rootHeapIndex, lowerHeapMaxSize;
-        private readonly MovingQuantileEstimatorInitStrategy initStrategy;
-        private readonly HyndmanFanType? hyndmanFanType;
-        private int upperHeapSize, lowerHeapSize, totalElementCount;
+        Assertion.Positive(nameof(windowSize), windowSize);
+        Assertion.InRangeInclusive(nameof(k), k, 0, windowSize - 1);
 
-        public PartitioningHeapsMovingQuantileEstimator(int k, int windowSize,
-            MovingQuantileEstimatorInitStrategy initStrategy = MovingQuantileEstimatorInitStrategy.QuantileApproximation)
+        this.k = k;
+        this.windowSize = windowSize;
+        probability = Probability.NaN;
+        h = new double[windowSize];
+        heapToElementIndex = new int[windowSize];
+        elementToHeapIndex = new int[windowSize];
+
+        lowerHeapMaxSize = k;
+        this.initStrategy = initStrategy;
+        rootHeapIndex = k;
+    }
+
+    public PartitioningHeapsMovingQuantileEstimator(Probability p, int windowSize) 
+        : this((int) Math.Round((windowSize - 1) * p), windowSize)
+    {
+        probability = p;
+    }
+
+    public PartitioningHeapsMovingQuantileEstimator(Probability p, int windowSize, HyndmanFanType hyndmanFanType)
+        : this(((int) HyndmanFanHelper.GetH(hyndmanFanType, windowSize, p) - 1).Clamp(0, windowSize - 1), windowSize)
+    {
+        this.hyndmanFanType = hyndmanFanType;
+        probability = p;
+    }
+
+    private void Swap(int heapIndex1, int heapIndex2)
+    {
+        int elementIndex1 = heapToElementIndex[heapIndex1];
+        int elementIndex2 = heapToElementIndex[heapIndex2];
+        double value1 = h[heapIndex1];
+        double value2 = h[heapIndex2];
+
+        h[heapIndex1] = value2;
+        h[heapIndex2] = value1;
+        heapToElementIndex[heapIndex1] = elementIndex2;
+        heapToElementIndex[heapIndex2] = elementIndex1;
+        elementToHeapIndex[elementIndex1] = heapIndex2;
+        elementToHeapIndex[elementIndex2] = heapIndex1;
+    }
+
+    [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
+    [SuppressMessage("ReSharper", "ConvertIfStatementToSwitchStatement")]
+    [SuppressMessage("ReSharper", "RedundantIfElseBlock")]
+    private void Sift(int heapIndex)
+    {
+        int SwapWithChildren(int heapCurrentIndex, int heapChildIndex1, int heapChildIndex2, bool isUpperHeap)
         {
-            Assertion.Positive(nameof(windowSize), windowSize);
-            Assertion.InRangeInclusive(nameof(k), k, 0, windowSize - 1);
+            bool hasChild1 = rootHeapIndex - lowerHeapSize <= heapChildIndex1 && heapChildIndex1 <= rootHeapIndex + upperHeapSize;
+            bool hasChild2 = rootHeapIndex - lowerHeapSize <= heapChildIndex2 && heapChildIndex2 <= rootHeapIndex + upperHeapSize;
 
-            this.k = k;
-            this.windowSize = windowSize;
-            probability = Probability.NaN;
-            h = new double[windowSize];
-            heapToElementIndex = new int[windowSize];
-            elementToHeapIndex = new int[windowSize];
+            if (!hasChild1 && !hasChild2)
+                return heapCurrentIndex;
 
-            lowerHeapMaxSize = k;
-            this.initStrategy = initStrategy;
-            rootHeapIndex = k;
-        }
-
-        public PartitioningHeapsMovingQuantileEstimator(Probability p, int windowSize) 
-            : this((int) Math.Round((windowSize - 1) * p), windowSize)
-        {
-            probability = p;
-        }
-
-        public PartitioningHeapsMovingQuantileEstimator(Probability p, int windowSize, HyndmanFanType hyndmanFanType)
-            : this(((int) HyndmanFanHelper.GetH(hyndmanFanType, windowSize, p) - 1).Clamp(0, windowSize - 1), windowSize)
-        {
-            this.hyndmanFanType = hyndmanFanType;
-            probability = p;
-        }
-
-        private void Swap(int heapIndex1, int heapIndex2)
-        {
-            int elementIndex1 = heapToElementIndex[heapIndex1];
-            int elementIndex2 = heapToElementIndex[heapIndex2];
-            double value1 = h[heapIndex1];
-            double value2 = h[heapIndex2];
-
-            h[heapIndex1] = value2;
-            h[heapIndex2] = value1;
-            heapToElementIndex[heapIndex1] = elementIndex2;
-            heapToElementIndex[heapIndex2] = elementIndex1;
-            elementToHeapIndex[elementIndex1] = heapIndex2;
-            elementToHeapIndex[elementIndex2] = heapIndex1;
-        }
-
-        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
-        [SuppressMessage("ReSharper", "ConvertIfStatementToSwitchStatement")]
-        [SuppressMessage("ReSharper", "RedundantIfElseBlock")]
-        private void Sift(int heapIndex)
-        {
-            int SwapWithChildren(int heapCurrentIndex, int heapChildIndex1, int heapChildIndex2, bool isUpperHeap)
+            if (hasChild1 && !hasChild2)
             {
-                bool hasChild1 = rootHeapIndex - lowerHeapSize <= heapChildIndex1 && heapChildIndex1 <= rootHeapIndex + upperHeapSize;
-                bool hasChild2 = rootHeapIndex - lowerHeapSize <= heapChildIndex2 && heapChildIndex2 <= rootHeapIndex + upperHeapSize;
-
-                if (!hasChild1 && !hasChild2)
-                    return heapCurrentIndex;
-
-                if (hasChild1 && !hasChild2)
+                if (h[heapIndex] < h[heapChildIndex1] && !isUpperHeap || h[heapIndex] > h[heapChildIndex1] && isUpperHeap)
                 {
-                    if (h[heapIndex] < h[heapChildIndex1] && !isUpperHeap || h[heapIndex] > h[heapChildIndex1] && isUpperHeap)
-                    {
-                        Swap(heapIndex, heapChildIndex1);
-                        return heapChildIndex1;
-                    }
-                    return heapCurrentIndex;
+                    Swap(heapIndex, heapChildIndex1);
+                    return heapChildIndex1;
                 }
-
-                if (hasChild1 && hasChild2)
-                {
-                    if ((h[heapIndex] < h[heapChildIndex1] || h[heapIndex] < h[heapChildIndex2]) && !isUpperHeap ||
-                        (h[heapIndex] > h[heapChildIndex1] || h[heapIndex] > h[heapChildIndex2]) && isUpperHeap)
-                    {
-                        int heapChildIndex0 =
-                            h[heapChildIndex1] > h[heapChildIndex2] && !isUpperHeap ||
-                            h[heapChildIndex1] < h[heapChildIndex2] && isUpperHeap
-                                ? heapChildIndex1
-                                : heapChildIndex2;
-                        Swap(heapIndex, heapChildIndex0);
-                        return heapChildIndex0;
-                    }
-                    return heapCurrentIndex;
-                }
-
-                throw new InvalidOperationException();
+                return heapCurrentIndex;
             }
 
-            while (true)
+            if (hasChild1 && hasChild2)
             {
-                if (heapIndex != rootHeapIndex)
+                if ((h[heapIndex] < h[heapChildIndex1] || h[heapIndex] < h[heapChildIndex2]) && !isUpperHeap ||
+                    (h[heapIndex] > h[heapChildIndex1] || h[heapIndex] > h[heapChildIndex2]) && isUpperHeap)
                 {
-                    bool isUpHeap = heapIndex > rootHeapIndex;
-                    int heapParentIndex = rootHeapIndex + (heapIndex - rootHeapIndex) / 2;
-                    if (h[heapParentIndex] < h[heapIndex] && !isUpHeap || h[heapParentIndex] > h[heapIndex] && isUpHeap)
-                    {
-                        Swap(heapIndex, heapParentIndex);
-                        heapIndex = heapParentIndex;
-                        continue;
-                    }
-                    else
-                    {
-                        int heapChildIndex1 = rootHeapIndex + (heapIndex - rootHeapIndex) * 2;
-                        int heapChildIndex2 = rootHeapIndex + (heapIndex - rootHeapIndex) * 2 + Math.Sign(heapIndex - rootHeapIndex);
-                        int newHeapIndex = SwapWithChildren(heapIndex, heapChildIndex1, heapChildIndex2, isUpHeap);
-                        if (newHeapIndex != heapIndex)
-                        {
-                            heapIndex = newHeapIndex;
-                            continue;
-                        }
-                    }
+                    int heapChildIndex0 =
+                        h[heapChildIndex1] > h[heapChildIndex2] && !isUpperHeap ||
+                        h[heapChildIndex1] < h[heapChildIndex2] && isUpperHeap
+                            ? heapChildIndex1
+                            : heapChildIndex2;
+                    Swap(heapIndex, heapChildIndex0);
+                    return heapChildIndex0;
                 }
-                else // heapIndex == rootHeapIndex
-                {
-                    if (lowerHeapSize > 0)
-                    {
-                        int newHeapIndex = SwapWithChildren(heapIndex, heapIndex - 1, -1, false);
-                        if (newHeapIndex != heapIndex)
-                        {
-                            heapIndex = newHeapIndex;
-                            continue;
-                        }
-                    }
-
-                    if (upperHeapSize > 0)
-                    {
-                        int newHeapIndex = SwapWithChildren(heapIndex, heapIndex + 1, -1, true);
-                        if (newHeapIndex != heapIndex)
-                        {
-                            heapIndex = newHeapIndex;
-                            continue;
-                        }
-                    }
-                }
-
-                break;
+                return heapCurrentIndex;
             }
+
+            throw new InvalidOperationException();
         }
 
-        public void Add(double value)
+        while (true)
         {
-            int elementIndex = totalElementCount % windowSize;
-
-            int Insert(int heapIndex)
+            if (heapIndex != rootHeapIndex)
             {
-                h[heapIndex] = value;
-                heapToElementIndex[heapIndex] = elementIndex;
-                elementToHeapIndex[elementIndex] = heapIndex;
-                return heapIndex;
-            }
-
-            if (totalElementCount++ < windowSize) // Heap is not full
-            {
-                if (totalElementCount == 1) // First element
+                bool isUpHeap = heapIndex > rootHeapIndex;
+                int heapParentIndex = rootHeapIndex + (heapIndex - rootHeapIndex) / 2;
+                if (h[heapParentIndex] < h[heapIndex] && !isUpHeap || h[heapParentIndex] > h[heapIndex] && isUpHeap)
                 {
-                    Insert(rootHeapIndex);
+                    Swap(heapIndex, heapParentIndex);
+                    heapIndex = heapParentIndex;
+                    continue;
                 }
                 else
                 {
-                    bool quantileApproximationCondition =
-                        initStrategy == MovingQuantileEstimatorInitStrategy.QuantileApproximation &&
-                        lowerHeapSize < k * totalElementCount / windowSize ||
-                        initStrategy == MovingQuantileEstimatorInitStrategy.OrderStatistics;
-                    if (lowerHeapSize < lowerHeapMaxSize && quantileApproximationCondition)
+                    int heapChildIndex1 = rootHeapIndex + (heapIndex - rootHeapIndex) * 2;
+                    int heapChildIndex2 = rootHeapIndex + (heapIndex - rootHeapIndex) * 2 + Math.Sign(heapIndex - rootHeapIndex);
+                    int newHeapIndex = SwapWithChildren(heapIndex, heapChildIndex1, heapChildIndex2, isUpHeap);
+                    if (newHeapIndex != heapIndex)
                     {
-                        lowerHeapSize++;
-                        int heapIndex = Insert(rootHeapIndex - lowerHeapSize);
-                        Sift(heapIndex);
-                    }
-                    else
-                    {
-                        upperHeapSize++;
-                        int heapIndex = Insert(rootHeapIndex + upperHeapSize);
-                        Sift(heapIndex);
+                        heapIndex = newHeapIndex;
+                        continue;
                     }
                 }
+            }
+            else // heapIndex == rootHeapIndex
+            {
+                if (lowerHeapSize > 0)
+                {
+                    int newHeapIndex = SwapWithChildren(heapIndex, heapIndex - 1, -1, false);
+                    if (newHeapIndex != heapIndex)
+                    {
+                        heapIndex = newHeapIndex;
+                        continue;
+                    }
+                }
+
+                if (upperHeapSize > 0)
+                {
+                    int newHeapIndex = SwapWithChildren(heapIndex, heapIndex + 1, -1, true);
+                    if (newHeapIndex != heapIndex)
+                    {
+                        heapIndex = newHeapIndex;
+                        continue;
+                    }
+                }
+            }
+
+            break;
+        }
+    }
+
+    public void Add(double value)
+    {
+        int elementIndex = totalElementCount % windowSize;
+
+        int Insert(int heapIndex)
+        {
+            h[heapIndex] = value;
+            heapToElementIndex[heapIndex] = elementIndex;
+            elementToHeapIndex[elementIndex] = heapIndex;
+            return heapIndex;
+        }
+
+        if (totalElementCount++ < windowSize) // Heap is not full
+        {
+            if (totalElementCount == 1) // First element
+            {
+                Insert(rootHeapIndex);
             }
             else
             {
-                // Replace old element
-                int heapIndex = elementToHeapIndex[elementIndex];
-                Insert(heapIndex);
-                Sift(heapIndex);
-            }
-        }
-
-        public double Quantile()
-        {
-            if (totalElementCount == 0)
-                throw new EmptySequenceException();
-            if (hyndmanFanType != null && !double.IsNaN(probability))
-            {
-                if (totalElementCount < windowSize)
-                    throw new InvalidOperationException($"Sequence should contain at least {windowSize} elements");
-                
-                double GetValue(int index)
+                bool quantileApproximationCondition =
+                    initStrategy == MovingQuantileEstimatorInitStrategy.QuantileApproximation &&
+                    lowerHeapSize < k * totalElementCount / windowSize ||
+                    initStrategy == MovingQuantileEstimatorInitStrategy.OrderStatistics;
+                if (lowerHeapSize < lowerHeapMaxSize && quantileApproximationCondition)
                 {
-                    index = (index - 1).Clamp(0, windowSize - 1); // Adapt one-based formula to the zero-based list
-                    if (k - 1 <= index && index <= k + 1)
-                        return h[rootHeapIndex + index - k];
-                    throw new InvalidOperationException();
+                    lowerHeapSize++;
+                    int heapIndex = Insert(rootHeapIndex - lowerHeapSize);
+                    Sift(heapIndex);
                 }
-
-                return HyndmanFanHelper.Evaluate(hyndmanFanType.Value, windowSize, probability, GetValue);
-            }
-            
-            if (initStrategy == MovingQuantileEstimatorInitStrategy.OrderStatistics && k >= totalElementCount)
-                throw new IndexOutOfRangeException($"Not enough values (n = {totalElementCount}, k = {k})");
-            return h[rootHeapIndex];
-        }
-
-        internal string Dump()
-        {
-            var builder = new StringBuilder();
-            for (int i = 0; i < windowSize; i++)
-            {
-                if (i != 0)
-                    builder.Append(", ");
-                if (rootHeapIndex - lowerHeapSize <= i && i <= rootHeapIndex + upperHeapSize)
-                    builder.Append(h[i].ToString(DefaultCultureInfo.Instance));
                 else
-                    builder.Append("*");
+                {
+                    upperHeapSize++;
+                    int heapIndex = Insert(rootHeapIndex + upperHeapSize);
+                    Sift(heapIndex);
+                }
             }
-            return builder.ToString();
         }
+        else
+        {
+            // Replace old element
+            int heapIndex = elementToHeapIndex[elementIndex];
+            Insert(heapIndex);
+            Sift(heapIndex);
+        }
+    }
+
+    public double Quantile()
+    {
+        if (totalElementCount == 0)
+            throw new EmptySequenceException();
+        if (hyndmanFanType != null && !double.IsNaN(probability))
+        {
+            if (totalElementCount < windowSize)
+                throw new InvalidOperationException($"Sequence should contain at least {windowSize} elements");
+                
+            double GetValue(int index)
+            {
+                index = (index - 1).Clamp(0, windowSize - 1); // Adapt one-based formula to the zero-based list
+                if (k - 1 <= index && index <= k + 1)
+                    return h[rootHeapIndex + index - k];
+                throw new InvalidOperationException();
+            }
+
+            return HyndmanFanHelper.Evaluate(hyndmanFanType.Value, windowSize, probability, GetValue);
+        }
+            
+        if (initStrategy == MovingQuantileEstimatorInitStrategy.OrderStatistics && k >= totalElementCount)
+            throw new IndexOutOfRangeException($"Not enough values (n = {totalElementCount}, k = {k})");
+        return h[rootHeapIndex];
+    }
+
+    internal string Dump()
+    {
+        var builder = new StringBuilder();
+        for (int i = 0; i < windowSize; i++)
+        {
+            if (i != 0)
+                builder.Append(", ");
+            if (rootHeapIndex - lowerHeapSize <= i && i <= rootHeapIndex + upperHeapSize)
+                builder.Append(h[i].ToString(DefaultCultureInfo.Instance));
+            else
+                builder.Append("*");
+        }
+        return builder.ToString();
     }
 }
