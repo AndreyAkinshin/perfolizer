@@ -4,5 +4,5 @@ namespace Perfolizer.Mathematics.GenericEstimators;
 
 public interface IMedianEstimator
 {
-    double Median(Sample sample);
+    double Median(Sample x);
 }

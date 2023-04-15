@@ -13,23 +13,28 @@ public class HodgesLehmannEstimator : ILocationShiftEstimator, IMedianEstimator
 {
     public static readonly HodgesLehmannEstimator Instance = new();
 
-    public double LocationShift(Sample a, Sample b)
+    public double LocationShift(Sample x, Sample y)
     {
-        double[] diffs = new double[a.Count * b.Count];
+        Assertion.NonWeighted(nameof(x), x);
+        Assertion.NonWeighted(nameof(y), y);
+        
+        double[] diffs = new double[x.Count * y.Count];
         int k = 0;
-        for (int i = 0; i < a.Count; i++)
-        for (int j = 0; j < b.Count; j++)
-            diffs[k++] = a.Values[j] - b.Values[i];
+        for (int i = 0; i < x.Count; i++)
+        for (int j = 0; j < y.Count; j++)
+            diffs[k++] = x.Values[j] - y.Values[i];
         return SimpleQuantileEstimator.Instance.Median(new Sample(diffs));
     }
 
-    public double Median(Sample sample)
+    public double Median(Sample x)
     {
-        int n = sample.Count;
+        Assertion.NonWeighted(nameof(x), x);
+        
+        int n = x.Count;
         double[] diffs = new double[n * (n + 1) / 2];
         for (int i = 0, k = 0; i < n; i++)
         for (int j = i; j < n; j++)
-            diffs[k++] = (sample.Values[i] + sample.Values[j]) / 2;
+            diffs[k++] = (x.Values[i] + x.Values[j]) / 2;
         return SimpleQuantileEstimator.Instance.Median(new Sample(diffs));
     }
 }
