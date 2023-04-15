@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Perfolizer.Collections;
 using Perfolizer.Common;
 using Perfolizer.Exceptions;

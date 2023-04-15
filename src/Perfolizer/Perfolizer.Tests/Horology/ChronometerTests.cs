@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using Perfolizer.Horology;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Horology;
 

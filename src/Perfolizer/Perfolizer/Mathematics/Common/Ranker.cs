@@ -1,5 +1,3 @@
-using System;
-
 namespace Perfolizer.Mathematics.Common;
 
 public class Ranker

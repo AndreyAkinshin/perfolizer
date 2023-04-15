@@ -1,4 +1,3 @@
-using System;
 using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.Randomization;

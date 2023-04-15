@@ -1,7 +1,5 @@
-using System;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Randomization;
-using static System.Math;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 

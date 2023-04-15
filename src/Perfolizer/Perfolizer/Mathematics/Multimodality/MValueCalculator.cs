@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Histograms;
 using Perfolizer.Mathematics.OutlierDetection;
 using Perfolizer.Mathematics.QuantileEstimators;
-using static System.Math;
 
 namespace Perfolizer.Mathematics.Multimodality;
 

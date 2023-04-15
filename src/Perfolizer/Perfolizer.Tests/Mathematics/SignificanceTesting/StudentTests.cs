@@ -1,7 +1,5 @@
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.SignificanceTesting;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
 

@@ -1,11 +1,7 @@
-using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Tests.Common;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.Selectors;
 

@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using Perfolizer.Mathematics.Thresholds;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;

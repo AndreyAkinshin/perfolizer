@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.QuantileEstimators;
 

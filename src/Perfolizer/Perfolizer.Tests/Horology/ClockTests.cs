@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using System.Threading;
-using Perfolizer.Horology;
-using Xunit;
-using Xunit.Abstractions;
+﻿using Perfolizer.Horology;
 
 namespace Perfolizer.Tests.Horology;
 

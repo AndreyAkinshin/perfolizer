@@ -1,10 +1,6 @@
-using System;
-using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Randomization;
-using static System.Math;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 

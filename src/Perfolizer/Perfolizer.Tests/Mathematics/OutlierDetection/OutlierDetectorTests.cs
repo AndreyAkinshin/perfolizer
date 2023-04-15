@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
 using Perfolizer.Mathematics.OutlierDetection;
 using Perfolizer.Tests.Common;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.OutlierDetection;
 

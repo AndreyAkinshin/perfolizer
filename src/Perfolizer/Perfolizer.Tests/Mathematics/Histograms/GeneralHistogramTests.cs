@@ -1,6 +1,4 @@
-﻿using System;
-using Perfolizer.Mathematics.Histograms;
-using Xunit;
+﻿using Perfolizer.Mathematics.Histograms;
 
 namespace Perfolizer.Tests.Mathematics.Histograms;
 

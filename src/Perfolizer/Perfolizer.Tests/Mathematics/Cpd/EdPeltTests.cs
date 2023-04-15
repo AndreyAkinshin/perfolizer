@@ -1,8 +1,6 @@
-using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Cpd;
 using Perfolizer.Tests.Common;
-using Xunit;
 
 namespace Perfolizer.Tests.Mathematics.Cpd;
 

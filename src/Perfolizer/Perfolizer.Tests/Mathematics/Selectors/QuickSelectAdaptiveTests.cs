@@ -1,6 +1,5 @@
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Selectors;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.Selectors;
 

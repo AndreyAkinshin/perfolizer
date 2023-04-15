@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
-using Xunit;
 
 namespace Perfolizer.Tests.Mathematics.QuantileEstimators;
 

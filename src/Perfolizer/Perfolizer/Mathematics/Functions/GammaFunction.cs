@@ -1,6 +1,4 @@
-using System;
 using Perfolizer.Mathematics.Common;
-using static System.Math;
 
 namespace Perfolizer.Mathematics.Functions;
 

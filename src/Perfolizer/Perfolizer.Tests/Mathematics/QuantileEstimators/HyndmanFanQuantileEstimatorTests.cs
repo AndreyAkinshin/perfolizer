@@ -1,13 +1,9 @@
-using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Common;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.QuantileEstimators;
 

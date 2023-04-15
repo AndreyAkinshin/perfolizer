@@ -1,6 +1,5 @@
 using System.Globalization;
 using Perfolizer.Tests.Common;
-using Xunit;
 using Range = Perfolizer.Mathematics.Common.Range;
 
 namespace Perfolizer.Tests.Mathematics.RangeEstimator;

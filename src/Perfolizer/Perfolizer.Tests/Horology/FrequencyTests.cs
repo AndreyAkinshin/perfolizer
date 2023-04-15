@@ -1,9 +1,6 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using JetBrains.Annotations;
 using Perfolizer.Horology;
-using Xunit;
 
 namespace Perfolizer.Tests.Horology;
 

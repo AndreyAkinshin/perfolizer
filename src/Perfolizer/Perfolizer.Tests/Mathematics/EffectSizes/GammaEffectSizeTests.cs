@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Common;
@@ -9,8 +6,6 @@ using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.EffectSizes;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Tests.Common;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.EffectSizes;
 

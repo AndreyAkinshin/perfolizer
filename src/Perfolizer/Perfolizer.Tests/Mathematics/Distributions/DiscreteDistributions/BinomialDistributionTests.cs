@@ -1,11 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.DiscreteDistributions;
 using Perfolizer.Tests.Common;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.Distributions.DiscreteDistributions;
 

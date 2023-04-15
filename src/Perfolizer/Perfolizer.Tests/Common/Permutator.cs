@@ -1,5 +1,3 @@
-using System;
-
 namespace Perfolizer.Tests.Common;
 
 public static class Permutator

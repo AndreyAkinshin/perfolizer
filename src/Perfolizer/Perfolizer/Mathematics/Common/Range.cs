@@ -1,5 +1,4 @@
 using System.Globalization;
-using JetBrains.Annotations;
 using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.Common;

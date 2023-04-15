@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Perfolizer.Mathematics.Cpd;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 

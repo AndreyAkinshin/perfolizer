@@ -1,6 +1,5 @@
 ﻿using Perfolizer.Mathematics.Thresholds;
 using System.Globalization;
-using Xunit;
 
 namespace Perfolizer.Tests.Mathematics.Thresholds;
 

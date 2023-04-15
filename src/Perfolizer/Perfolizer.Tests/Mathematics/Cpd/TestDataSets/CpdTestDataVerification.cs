@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 
 namespace Perfolizer.Tests.Mathematics.Cpd.TestDataSets;

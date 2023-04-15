@@ -1,5 +1,3 @@
-using System;
-
 namespace Perfolizer.Horology;
 
 internal class DateTimeClock : IClock

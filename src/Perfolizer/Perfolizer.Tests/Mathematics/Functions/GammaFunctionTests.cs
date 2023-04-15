@@ -1,9 +1,5 @@
-using System;
-using System.Linq;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Tests.Common;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.Functions;
 

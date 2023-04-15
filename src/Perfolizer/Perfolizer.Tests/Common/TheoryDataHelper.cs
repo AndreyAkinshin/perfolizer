@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using Xunit;
-
 namespace Perfolizer.Tests.Common;
 
 public static class TheoryDataHelper

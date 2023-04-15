@@ -1,6 +1,5 @@
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
-using static System.Math;
 
 namespace Perfolizer.Mathematics.Functions;
 

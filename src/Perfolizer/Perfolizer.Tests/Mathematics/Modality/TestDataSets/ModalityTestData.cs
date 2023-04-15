@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using JetBrains.Annotations;
-
 namespace Perfolizer.Tests.Mathematics.Modality.TestDataSets;
 
 public class ModalityTestData

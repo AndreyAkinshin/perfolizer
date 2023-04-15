@@ -1,11 +1,7 @@
-using System;
-using System.Linq;
 using System.Text;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Common;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.QuantileEstimators;
 

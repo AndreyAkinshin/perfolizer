@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Perfolizer.Tests.Common;
 
 public class AbsoluteEqualityComparer : IEqualityComparer<double>

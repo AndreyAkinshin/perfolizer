@@ -1,9 +1,6 @@
-using System;
-using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
-using static System.Math;
 
 namespace Perfolizer.Mathematics.QuantileEstimators;
 

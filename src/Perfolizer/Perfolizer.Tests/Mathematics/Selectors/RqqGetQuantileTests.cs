@@ -1,14 +1,7 @@
-using System;
-using System.IO;
-using System.Linq;
 using System.Text;
-using JetBrains.Annotations;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
-using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Mathematics.Selectors;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.Selectors;
 

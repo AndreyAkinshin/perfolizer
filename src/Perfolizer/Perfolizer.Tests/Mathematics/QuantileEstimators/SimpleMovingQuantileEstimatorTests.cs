@@ -1,7 +1,6 @@
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.QuantileEstimators;
 

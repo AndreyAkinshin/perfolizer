@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using JetBrains.Annotations;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
 namespace Perfolizer.Tests.Mathematics.Modality.TestDataSets;

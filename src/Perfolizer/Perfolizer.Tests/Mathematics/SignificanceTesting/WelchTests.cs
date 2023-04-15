@@ -1,8 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Perfolizer.Mathematics.SignificanceTesting;
 using Perfolizer.Mathematics.Thresholds;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
 

@@ -1,6 +1,5 @@
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Tests.Common;
-using Xunit;
 
 namespace Perfolizer.Tests.Mathematics.Functions;
 

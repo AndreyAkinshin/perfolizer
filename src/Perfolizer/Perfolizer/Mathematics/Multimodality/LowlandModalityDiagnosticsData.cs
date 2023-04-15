@@ -1,7 +1,4 @@
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Histograms;
 

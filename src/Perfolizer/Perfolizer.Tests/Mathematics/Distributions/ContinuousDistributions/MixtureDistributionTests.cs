@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Tests.Common;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions;
 

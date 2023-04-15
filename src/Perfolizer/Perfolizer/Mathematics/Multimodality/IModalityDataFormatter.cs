@@ -1,5 +1,3 @@
-using System;
-
 namespace Perfolizer.Mathematics.Multimodality;
 
 public interface IModalityDataFormatter

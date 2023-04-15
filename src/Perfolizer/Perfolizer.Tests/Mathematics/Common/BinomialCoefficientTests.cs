@@ -1,5 +1,4 @@
 using Perfolizer.Mathematics.Common;
-using Xunit;
 
 namespace Perfolizer.Tests.Mathematics.Common;
 

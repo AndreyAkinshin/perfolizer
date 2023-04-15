@@ -1,8 +1,6 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using Perfolizer.Mathematics.Selectors;
 using Perfolizer.Tests.Common;
-using Xunit;
 
 namespace Perfolizer.Tests.Mathematics.Selectors;
 

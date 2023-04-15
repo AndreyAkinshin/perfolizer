@@ -1,4 +1,3 @@
-using System;
 using Perfolizer.Mathematics.Selectors;
 
 namespace Perfolizer.Demo;

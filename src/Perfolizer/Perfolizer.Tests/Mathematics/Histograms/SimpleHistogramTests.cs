@@ -1,6 +1,4 @@
 ﻿using Perfolizer.Mathematics.Histograms;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.Histograms;
 

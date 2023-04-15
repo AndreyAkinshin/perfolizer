@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Thresholds;

@@ -1,7 +1,5 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using Perfolizer.Horology;
-using Xunit;
 
 namespace Perfolizer.Tests.Horology;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Perfolizer.Mathematics.Common;
+﻿using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Thresholds;
 

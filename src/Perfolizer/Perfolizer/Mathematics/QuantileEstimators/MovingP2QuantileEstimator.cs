@@ -1,4 +1,3 @@
-using System;
 using Perfolizer.Common;
 using Perfolizer.Exceptions;
 using Perfolizer.Mathematics.Common;

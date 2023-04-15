@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Perfolizer.Collections;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.QuantileEstimators;

@@ -1,5 +1,3 @@
-using System;
-
 namespace Perfolizer.Exceptions;
 
 public class EmptySequenceException : InvalidOperationException

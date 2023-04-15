@@ -1,5 +1,3 @@
-using System;
-
 namespace Perfolizer.Common;
 
 internal static class RandomExtensions

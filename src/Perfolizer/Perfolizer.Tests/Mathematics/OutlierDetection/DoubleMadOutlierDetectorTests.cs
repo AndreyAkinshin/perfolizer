@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Mathematics.OutlierDetection;
 using Perfolizer.Mathematics.ScaleEstimators;
 using Perfolizer.Tests.Common;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.OutlierDetection;
 

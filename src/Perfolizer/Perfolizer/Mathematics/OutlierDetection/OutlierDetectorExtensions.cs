@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
-
 namespace Perfolizer.Mathematics.OutlierDetection;
 
 public static class OutlierDetectorExtensions

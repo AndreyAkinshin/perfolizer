@@ -1,10 +1,8 @@
-using System.Collections.Generic;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Sequences;
 using Perfolizer.Tests.Common;
-using Xunit;
 
 namespace Perfolizer.Tests.Mathematics.QuantileEstimators;
 

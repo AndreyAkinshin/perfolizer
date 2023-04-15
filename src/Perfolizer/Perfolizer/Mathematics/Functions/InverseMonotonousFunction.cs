@@ -1,6 +1,3 @@
-using System;
-using static System.Math;
-
 namespace Perfolizer.Mathematics.Functions;
 
 public class InverseMonotonousFunction

@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Perfolizer.Tests.Mathematics.Cpd.TestDataSets;
 
 public static class CpdReferenceDataSet

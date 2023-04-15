@@ -1,6 +1,4 @@
-using System;
 using JetBrains.Annotations;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Common;
 

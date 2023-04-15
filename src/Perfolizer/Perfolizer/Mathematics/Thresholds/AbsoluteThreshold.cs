@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.Thresholds;

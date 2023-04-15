@@ -1,5 +1,4 @@
 using Perfolizer.Horology;
-using Xunit;
 
 namespace Perfolizer.Tests.Horology;
 

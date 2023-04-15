@@ -1,7 +1,4 @@
-﻿using System;
-using Perfolizer.Mathematics.Histograms;
-using Xunit;
-using Xunit.Abstractions;
+﻿using Perfolizer.Mathematics.Histograms;
 
 namespace Perfolizer.Tests.Mathematics.Histograms;
 

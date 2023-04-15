@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using JetBrains.Annotations;
-
-namespace Perfolizer.Horology;
+﻿namespace Perfolizer.Horology;
 
 public class FrequencyUnit
 {

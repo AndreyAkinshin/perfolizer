@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
 using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.Multimodality;

@@ -1,4 +1,3 @@
-using System.Linq;
 using Perfolizer.Mathematics.Thresholds;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;

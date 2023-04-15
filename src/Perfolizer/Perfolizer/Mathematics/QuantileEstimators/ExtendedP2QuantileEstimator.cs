@@ -1,5 +1,3 @@
-using System;
-using JetBrains.Annotations;
 using Perfolizer.Exceptions;
 using Perfolizer.Mathematics.Common;
 

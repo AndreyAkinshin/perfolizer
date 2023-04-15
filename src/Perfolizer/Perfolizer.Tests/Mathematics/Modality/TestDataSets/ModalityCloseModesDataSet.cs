@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.IO;
-using System.Linq;
-using System.Text;
-using JetBrains.Annotations;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
 namespace Perfolizer.Tests.Mathematics.Modality.TestDataSets;

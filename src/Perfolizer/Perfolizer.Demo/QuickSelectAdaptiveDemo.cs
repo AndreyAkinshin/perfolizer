@@ -1,4 +1,3 @@
-using System;
 using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Mathematics.Selectors;
 

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.QuantileEstimators;

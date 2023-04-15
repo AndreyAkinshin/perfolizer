@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Perfolizer.Simulations;
+﻿namespace Perfolizer.Simulations;
 
 static class Program
 {

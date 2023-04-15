@@ -1,5 +1,3 @@
-using System;
-
 namespace Perfolizer.Mathematics.Sequences;
 
 public class ExponentialDecaySequence : ISequence

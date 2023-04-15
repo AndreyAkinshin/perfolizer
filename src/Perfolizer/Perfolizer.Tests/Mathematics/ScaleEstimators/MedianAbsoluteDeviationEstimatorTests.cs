@@ -1,7 +1,4 @@
-using System.Collections.Generic;
 using Perfolizer.Mathematics.ScaleEstimators;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace Perfolizer.Tests.Mathematics.ScaleEstimators;
 

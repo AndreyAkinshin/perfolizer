@@ -1,5 +1,3 @@
-using System;
-
 namespace Perfolizer.Mathematics.Histograms;
 
 public static class HistogramBinSizeCalculator

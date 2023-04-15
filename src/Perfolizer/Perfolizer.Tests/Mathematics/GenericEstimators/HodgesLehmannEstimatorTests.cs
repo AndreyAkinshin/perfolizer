@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using Perfolizer.Collections;
 using Perfolizer.Mathematics.GenericEstimators;
 using Perfolizer.Tests.Common;
-using Xunit;
 
 namespace Perfolizer.Tests.Mathematics.GenericEstimators;
 
