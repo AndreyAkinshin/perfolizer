@@ -1,0 +1,29 @@
+name: publish-release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+env:
+  DOTNET_VERSION: 7.0.202
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Pack Perfolizer
+      run: ./build.sh --target Pack --Version ${{ github.ref }}
+    - name: Publish nupkg
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push artifacts/*.nupkg --source https://api.nuget.org/v3/index.json --api-key $NUGET_API_KEY --timeout 600
+    - name: Publish snupkg
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push artifacts/*.snupkg --source https://api.nuget.org/v3/index.json --api-key $NUGET_API_KEY --timeout 600

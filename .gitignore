@@ -56,3 +56,6 @@ src/BenchmarkDotNet/Disassemblers/*
 # Cake
 tools/**
 .dotnet
+
+# Misc
+artifacts

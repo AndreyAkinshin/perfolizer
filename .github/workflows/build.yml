@@ -4,19 +4,34 @@ on:
   pull_request:
   push:
 
+env:
+  DOTNET_VERSION: 7.0.202
+
 jobs:
-  build:
+  build-nix:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        operating-system: [ubuntu-latest, windows-latest, macOS-latest]
+        operating-system: [ubuntu-latest, macOS-latest]
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.202
+        dotnet-version: ${{ env.DOTNET_VERSION }}
     - name: Build
-      run: dotnet build --configuration Release src/Perfolizer/Perfolizer.sln
+      run: ./build.sh --target Build
     - name: Test
-      run: dotnet test --configuration Release src/Perfolizer/Perfolizer.Tests/Perfolizer.Tests.csproj
+      run: ./build.sh --target Tests
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Build
+      run: .\build.ps1 --target Build
+    - name: Test
+      run: .\build.ps1 --target Tests
