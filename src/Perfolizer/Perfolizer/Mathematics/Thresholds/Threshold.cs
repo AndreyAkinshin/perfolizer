@@ -31,7 +31,7 @@ public abstract class Threshold
 
     public static bool TryParse([NotNullWhen(true)] string? input, NumberStyles numberStyle, IFormatProvider formatProvider, [NotNullWhen(true)] out Threshold? parsed)
     {
-        if (string.IsNullOrWhiteSpace(input))
+        if (string.IsNullOrWhiteSpace(input) || input == null) 
         {
             parsed = default;
             return false;
