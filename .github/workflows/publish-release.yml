@@ -22,8 +22,4 @@ jobs:
     - name: Publish nupkg
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push artifacts/*.nupkg --source https://api.nuget.org/v3/index.json --api-key $NUGET_API_KEY --timeout 600
-    - name: Publish snupkg
-      env:
-        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push artifacts/*.snupkg --source https://api.nuget.org/v3/index.json --api-key $NUGET_API_KEY --timeout 600
+      run: dotnet nuget push artifacts/*.*nupkg --source https://api.nuget.org/v3/index.json --api-key $NUGET_API_KEY --timeout 600
