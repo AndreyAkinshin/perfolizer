@@ -102,6 +102,7 @@ public class PackTask : FrostingTask<BuildContext>
             OutputDirectory = context.ArtifactsDirectory.FullPath,
             IncludeSource = true,
             IncludeSymbols = true,
+            SymbolPackageFormat = "snupkg" 
         };
         var version = context.Argument("Version", "");
         if (!string.IsNullOrEmpty(version))
