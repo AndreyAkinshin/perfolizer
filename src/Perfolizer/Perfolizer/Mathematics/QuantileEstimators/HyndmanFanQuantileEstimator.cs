@@ -12,6 +12,16 @@ namespace Perfolizer.Mathematics.QuantileEstimators;
 /// </summary>
 public class HyndmanFanQuantileEstimator : IQuantileEstimator
 {
+    public static readonly HyndmanFanQuantileEstimator Type1 = new(HyndmanFanType.Type1);
+    public static readonly HyndmanFanQuantileEstimator Type2 = new(HyndmanFanType.Type2);
+    public static readonly HyndmanFanQuantileEstimator Type3 = new(HyndmanFanType.Type3);
+    public static readonly HyndmanFanQuantileEstimator Type4 = new(HyndmanFanType.Type4);
+    public static readonly HyndmanFanQuantileEstimator Type5 = new(HyndmanFanType.Type5);
+    public static readonly HyndmanFanQuantileEstimator Type6 = new(HyndmanFanType.Type6);
+    public static readonly HyndmanFanQuantileEstimator Type7 = new(HyndmanFanType.Type7);
+    public static readonly HyndmanFanQuantileEstimator Type8 = new(HyndmanFanType.Type8);
+    public static readonly HyndmanFanQuantileEstimator Type9 = new(HyndmanFanType.Type9);
+    
     public HyndmanFanType Type { get; }
 
     public HyndmanFanQuantileEstimator(HyndmanFanType type)
