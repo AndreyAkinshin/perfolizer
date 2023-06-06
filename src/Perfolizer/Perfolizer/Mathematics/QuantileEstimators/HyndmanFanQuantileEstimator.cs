@@ -62,7 +62,7 @@ public class HyndmanFanQuantileEstimator : IQuantileEstimator
         double current = 0;
         for (int i = 0; i < n; i++)
         {
-            double next = current + sample.Weights[i] / totalWeight;
+            double next = current + sample.SortedWeights[i] / totalWeight;
             result += sample.SortedValues[i] * (Cdf(next) - Cdf(current));
             current = next;
         }

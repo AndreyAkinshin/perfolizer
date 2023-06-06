@@ -132,7 +132,7 @@ public class HyndmanFanQuantileEstimatorTests : QuantileEstimatorTests
         {
         }
 
-        public override double[] Source => new double[] {0, 25, 50, 75, 100};
+        public override double[] Source => new double[] { 0, 25, 50, 75, 100 };
         public override Probability[] Probabilities => DefaultProbabilities;
     }
 
@@ -146,7 +146,7 @@ public class HyndmanFanQuantileEstimatorTests : QuantileEstimatorTests
         var estimator = new HyndmanFanQuantileEstimator(data.Type);
         Check(estimator, new TestData(data.Source, data.Probabilities, data.Expected));
     }
-        
+
     [Theory]
     [InlineData(0, 1)]
     [InlineData(1, 2)]
@@ -165,5 +165,15 @@ public class HyndmanFanQuantileEstimatorTests : QuantileEstimatorTests
             double[] expected = estimator.Quantiles(sample, probabilities);
             Check(estimator, new TestData(sample.Values.ToArray(), probabilities, expected));
         }
+    }
+
+    [Fact]
+    public void HyndmanFanQuantileEstimatorWeightedTest2()
+    {
+        Check(SimpleQuantileEstimator.Instance, new TestData(
+            new double[] { 1, 1.5, 2, 2.5, 3, 2, 2.5, 3, 3.5, 3, 3.5, 4, 4, 4.5, 5 },
+            new[] { Probability.Half },
+            new double[] { 2 },
+            new double[] { 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0 }));
     }
 }
