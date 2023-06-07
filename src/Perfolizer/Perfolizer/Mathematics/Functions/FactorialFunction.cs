@@ -24,7 +24,14 @@ public static class FactorialFunction
         Assertion.NonNegative(nameof(n), n);
 
         if (n <= 20)
-            return Math.Log(Value(n));
+            return Log(Value(n));
+
+        return GammaFunction.LogValue(n + 1);
+    }
+
+    public static double LogValue(double n)
+    {
+        Assertion.NonNegative(nameof(n), n);
 
         return GammaFunction.LogValue(n + 1);
     }
