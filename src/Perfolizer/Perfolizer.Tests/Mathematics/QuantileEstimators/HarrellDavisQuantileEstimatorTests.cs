@@ -240,6 +240,13 @@ public class HarrellDavisQuantileEstimatorTests : QuantileEstimatorTests
                 new Probability[] {0.5},
                 new[] {2.990671779712344},
                 new[] {1.0, 0.01, 0.0, 0.0, 1.0})
+        },
+        {
+            "WeightedCase7", new TestData(
+                new[] {1.0, 2.0, 3.0, 4.0, 5.0},
+                new Probability[] {0.1},
+                new[] {1.6509670175492432},
+                new[] {1, 2, 3, 4, 5.0})
         }
     };
 
