@@ -33,6 +33,13 @@ public static class FactorialFunction
     {
         Assertion.NonNegative(nameof(n), n);
 
+        if (n <= 20)
+        {
+            int nRound = (int)Round(n);
+            if (Abs(nRound - n) < 1e-9)
+                return Log(Value(nRound));
+        }
+
         return GammaFunction.LogValue(n + 1);
     }
 }
