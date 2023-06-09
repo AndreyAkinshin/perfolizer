@@ -37,11 +37,19 @@ public static class BinomialCoefficientHelper
     /// <summary>
     /// Log(C(n, k))
     /// </summary>
-    public static double LogBinomialCoefficient(int n, int k)
+    public static double LogBinomialCoefficient(double n, double k)
     {
         Assertion.Positive(nameof(n), n);
         Assertion.InRangeInclusive(nameof(k), k, 0, n);
             
         return FactorialFunction.LogValue(n) - FactorialFunction.LogValue(k) - FactorialFunction.LogValue(n - k);
+    }
+    
+    public static double BinomialCoefficient(double n, double k)
+    {
+        Assertion.Positive(nameof(n), n);
+        Assertion.InRangeInclusive(nameof(k), k, 0, n);
+
+        return Exp(LogBinomialCoefficient(n, k));
     }
 }
