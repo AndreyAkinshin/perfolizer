@@ -2,15 +2,15 @@ namespace Perfolizer.Mathematics.Common;
 
 public class Ranker
 {
-    public static Ranker Instance = new();
+    public static readonly Ranker Instance = new();
 
     private Ranker()
     {
     }
 
-    public double[] GetRanks(double[] x, double eps = 1e-9)
+    public double[] GetRanks(IReadOnlyList<double> x, double eps = 1e-9)
     {
-        int n = x.Length;
+        int n = x.Count;
         int[] index = new int[n];
         for (int i = 0; i < n; i++)
             index[i] = i;

@@ -1,17 +1,22 @@
+using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Mathematics.Thresholds;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
-public class MannWhitneyResult : OneSidedTestResult
+public class MannWhitneyResult : SignificanceTwoSampleResult
 {
     public double Ux { get; }
     public double Uy { get; }
 
-    public MannWhitneyResult(double ux, double uy, double pValue, Threshold threshold) : base(pValue, threshold)
+    public MannWhitneyResult(Sample x, Sample y, Threshold threshold, AlternativeHypothesis alternativeHypothesis, Probability pValue,
+        double ux, double uy)
+        : base(x, y, threshold, alternativeHypothesis, pValue)
     {
         Ux = ux;
         Uy = uy;
     }
 
-    public override string ToString() => $"{nameof(Ux)}: {Ux}, {nameof(Uy)}: {Uy}, {nameof(PValue)}: {PValue}";
+    public override string ToString() => $"{nameof(Ux)}: {Ux}, {nameof(Uy)}: {Uy}, {base.ToString()}";
 }

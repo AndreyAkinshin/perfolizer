@@ -1,36 +1,38 @@
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
+using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Mathematics.Thresholds;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
-public class BrunnerMunzelTest : IOneSidedTest<BrunnerMunzelTestResult>
+public class BrunnerMunzelTest : ISignificanceTwoSampleTest<BrunnerMunzelResult>
 {
+    private const double Eps = 1e-9;
     public static readonly BrunnerMunzelTest Instance = new();
 
     private BrunnerMunzelTest()
     {
     }
 
-    public BrunnerMunzelTestResult? IsGreater(double[] x, double[] y, Threshold? threshold = null)
+    public BrunnerMunzelResult Run(Sample x, Sample y, AlternativeHypothesis alternativeHypothesis = AlternativeHypothesis.Greater,
+        Threshold? threshold = null)
     {
-        if (x.Length <= 1 || y.Length <= 1)
-            return null;
+        Assertion.NotNullOrEmpty(nameof(x), x);
+        Assertion.NotNullOrEmpty(nameof(y), y);
+        threshold ??= AbsoluteThreshold.Zero;
 
-        threshold ??= RelativeThreshold.Default;
-        double thresholdValue = threshold.Value(x);
+        int n = x.Count;
+        int m = y.Count;
 
-        int n = x.Length;
-        int m = y.Length;
-
-        var xy = new double[n + m];
+        double[] xy = new double[n + m];
         for (int i = 0; i < n; i++)
-            xy[i] = x[i];
+            xy[i] = x.Values[i];
         for (int i = 0; i < m; i++)
-            xy[n + i] = y[i] + thresholdValue;
+            xy[n + i] = threshold.Apply(y.Values[i]);
 
-        double[] rx = Ranker.Instance.GetRanks(x);
-        double[] ry = Ranker.Instance.GetRanks(y);
+        double[] rx = Ranker.Instance.GetRanks(x.Values);
+        double[] ry = Ranker.Instance.GetRanks(y.Values);
         double[] rxy = Ranker.Instance.GetRanks(xy);
 
         double rxMean = 0, ryMean = 0;
@@ -49,20 +51,35 @@ public class BrunnerMunzelTest : IOneSidedTest<BrunnerMunzelTestResult>
         sx2 /= n - 1;
         sy2 /= m - 1;
 
-        double sigmaX2 = sx2 / m / m, sigmaY2 = sy2 / n / n;
+        double sigmaX2 = sx2 / m / m;
+        double sigmaY2 = sy2 / n / n;
         double sigma2 = (n + m) * (sigmaX2 / n + sigmaY2 / m);
-        if (Math.Abs(sigma2) < 1e-9)
+        if (Abs(sigma2) < Eps)
         {
-            return rxMean < ryMean
-                ? new BrunnerMunzelTestResult(double.PositiveInfinity, double.NaN, 1, threshold)
-                : new BrunnerMunzelTestResult(double.NegativeInfinity, double.NaN, 0, threshold);
+            double diff = rxMean - ryMean;
+            if (Abs(diff) < Eps)
+                return Result(0.5, 0, double.NaN);
+            double w = diff > 0 ? double.PositiveInfinity : double.NegativeInfinity;
+
+            return alternativeHypothesis switch
+            {
+                AlternativeHypothesis.TwoSides => Result(0, w, double.NaN),
+                AlternativeHypothesis.Less => Result(rxMean > ryMean ? 1 : 0, w, double.NaN),
+                AlternativeHypothesis.Greater => Result(rxMean < ryMean ? 1 : 0, w, double.NaN),
+                _ => throw new ArgumentOutOfRangeException(nameof(alternativeHypothesis), alternativeHypothesis, null)
+            };
+        }
+        else
+        {
+            double w = (rxMean - ryMean) / Sqrt(sigma2 * (n + m));
+            double df = (sx2 / m + sy2 / n).Sqr() / ((sx2 / m).Sqr() / (n - 1) + (sy2 / n).Sqr() / (m - 1));
+            double cdf = new StudentDistribution(df).Cdf(w);
+            double pValue = SignificanceTestHelper.CdfToPValue(cdf, alternativeHypothesis);
+
+            return Result(pValue, w, df);
         }
 
-        double w = (ryMean - rxMean) / Math.Sqrt(sigma2 * (n + m));
-
-        double df = (sx2 / m + sy2 / n).Sqr() / ((sx2 / m).Sqr() / (n - 1) + (sy2 / n).Sqr() / (m - 1));
-        double pValue = new StudentDistribution(df).Cdf(w);
- 
-        return new BrunnerMunzelTestResult(w, df, pValue, threshold);
+        BrunnerMunzelResult Result(double pValueResult, double wResult, double dfResult) =>
+            new(x, y, threshold, alternativeHypothesis, pValueResult, wResult, dfResult);
     }
 }

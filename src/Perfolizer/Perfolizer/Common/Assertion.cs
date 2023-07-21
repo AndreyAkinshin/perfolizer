@@ -21,6 +21,15 @@ internal static class Assertion
         if (values.Count == 0)
             throw new ArgumentOutOfRangeException(name, $"{name} can't be empty");
     }
+    
+    [AssertionMethod]
+    public static void NotNullOrEmpty(string name, Sample? sample)
+    {
+        if (sample == null)
+            throw new ArgumentNullException(name, $"{name} can't be null");
+        if (sample.Count == 0)
+            throw new ArgumentOutOfRangeException(name, $"{name} can't be empty");
+    }
 
     [AssertionMethod]
     public static void ItemNotNull<T>(string name, IReadOnlyList<T> values)
@@ -135,6 +144,16 @@ internal static class Assertion
         {
             string message = Format("{0}={1}, but it should be more than {2}", name, value, threshold);
             throw new ArgumentOutOfRangeException(name, value, message);
+        }
+    }
+    
+    [AssertionMethod]
+    public static void SizeLargerThan(string name, Sample sample, int threshold)
+    {
+        if (sample.Count <= threshold)
+        {
+            string message = Format("{0}.Count={1}, but it should be more than {2}", name, sample.Count, threshold);
+            throw new ArgumentOutOfRangeException(name, sample.Count, message);
         }
     }
 

@@ -1,5 +1,8 @@
 using JetBrains.Annotations;
+using Perfolizer.Collections;
 using Perfolizer.Mathematics.SignificanceTesting;
+using Perfolizer.Mathematics.SignificanceTesting.Base;
+using Perfolizer.Tests.Common;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
 
@@ -19,9 +22,9 @@ public class StudentTests
             11.304870, 12.286645, 8.611139, 9.721211, 9.866679, 10.635950, 9.715747, 7.343545, 7.559533, 11.320113,
             9.693361, 8.218692, 9.828083, 11.214675, 11.895193, 9.569531, 9.742731, 8.236837, 10.460097, 9.360005
         };
-        Check(x, 9, 0);
-        Check(x, 10, 0.3834);
-        Check(x, 11, 0.9998);
+        CheckGreater(x, 9, 0);
+        CheckGreater(x, 10, 0.3834);
+        CheckGreater(x, 11, 0.9998);
     }
 
     [Fact]
@@ -80,20 +83,63 @@ public class StudentTests
             97.8867998850709, 100.27369527243, 99.3124031587566, 100.446041052962, 99.1876152762094, 102.212055480335,
             99.8762940284226, 99.5226644939699, 99.8337385085134, 100.862563383626, 100.097340485203, 98.3743832607887
         };
-        Check(x, 99, 0);
-        Check(x, 100, 0.6487);
-        Check(x, 101, 1);
+        CheckGreater(x, 99, 0);
+        CheckGreater(x, 100, 0.6487);
+        CheckGreater(x, 101, 1);
+    }
+
+    [Fact]
+    public void DifferentHypothesisTest01()
+    {
+        double[] x =
+        {
+            0.215316161646013, 0.183747835508391, 1.08604925494274, 0.028712984405315, 1.04225410029393, 0.0882655319405911,
+            -1.40843189023372, 0.055221362792148, -0.0713054097993633, 0.360867185953497
+        };
+        double y = 0;
+        Check(x, y, 0.242151753427187, AlternativeHypothesis.Greater);
+        Check(x, y, 0.757848246572813, AlternativeHypothesis.Less);
+        Check(x, y, 0.484303506854374, AlternativeHypothesis.TwoSides);
+    }
+
+    [Fact]
+    public void DifferentHypothesisTest02()
+    {
+        double[] x =
+        {
+            0.215316161646013, 0.183747835508391, 1.08604925494274, 0.028712984405315, 1.04225410029393, 0.0882655319405911,
+            -1.40843189023372, 0.055221362792148, -0.0713054097993633, 0.360867185953497
+        };
+        double y = 0.5;
+        Check(x, y, 0.925468656050258, AlternativeHypothesis.Greater);
+        Check(x, y, 0.0745313439497419, AlternativeHypothesis.Less);
+        Check(x, y, 0.149062687899484, AlternativeHypothesis.TwoSides);
+    }
+    
+    [Fact]
+    public void DifferentHypothesisTest03()
+    {
+        double[] x =
+        {
+            0.215316161646013, 0.183747835508391, 1.08604925494274, 0.028712984405315, 1.04225410029393, 0.0882655319405911,
+            -1.40843189023372, 0.055221362792148, -0.0713054097993633, 0.360867185953497
+        };
+        double y = -0.5;
+        Check(x, y, 0.00704730689810359, AlternativeHypothesis.Greater);
+        Check(x, y, 0.992952693101896, AlternativeHypothesis.Less);
+        Check(x, y, 0.0140946137962072, AlternativeHypothesis.TwoSides);
     }
 
     [AssertionMethod]
-    private void Check(double[] x, double y, double pvalue)
+    private void CheckGreater(double[] x, double y, double pValue) => Check(x, y, pValue, AlternativeHypothesis.Greater);
+
+    [AssertionMethod]
+    private void Check(double[] x, double y, double pValue, AlternativeHypothesis alternativeHypothesis)
     {
-        var student = StudentTest.Instance.IsGreater(x, y);
-        output.WriteLine("PValue         = " + student.PValue);
-        output.WriteLine("H0             = " + student.H0);
-        output.WriteLine("H1             = " + student.H1);
-        output.WriteLine("H0 is rejected = " + student.NullHypothesisIsRejected);
-        output.WriteLine("------------");
-        Assert.Equal(pvalue, student.PValue, 4);
+        var student = StudentTest.Instance.Run(x.ToSample(), y, alternativeHypothesis);
+        output.WriteLine("Alternative = " + student.AlternativeHypothesis);
+        output.WriteLine("PValue      = " + student.PValue);
+        output.WriteLine();
+        Assert.Equal(pValue, student.PValue, 4);
     }
 }

@@ -1,18 +1,20 @@
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
+using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Mathematics.Thresholds;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
-public class MannWhitneyTest : IOneSidedTest<MannWhitneyResult>
+public class MannWhitneyTest : ISignificanceTwoSampleTest<MannWhitneyResult>
 {
-    public static readonly MannWhitneyTest Instance = new MannWhitneyTest();
+    public static readonly MannWhitneyTest Instance = new();
 
     private static double PValueForSmallN(int n, int m, double u)
     {
-        int q = (int) Math.Floor(u + 1e-9);
-        int nm = Math.Max(n, m);
-        var w = new long[nm + 1, nm + 1, q + 1];
+        int q = (int)Floor(u + 1e-9);
+        int nm = Max(n, m);
+        long[,,] w = new long[nm + 1, nm + 1, q + 1];
         for (int i = 0; i <= nm; i++)
         for (int j = 0; j <= nm; j++)
         for (int k = 0; k <= q; k++)
@@ -47,25 +49,50 @@ public class MannWhitneyTest : IOneSidedTest<MannWhitneyResult>
         return p * 1.0 / denominator;
     }
 
-    /// <summary>
-    /// Checks that (x-y) > threshold
-    /// </summary>
-    /// <remarks>Should be consistent with wilcox.test(x, y, mu=threshold, alternative="greater") from R</remarks>
-    public MannWhitneyResult? IsGreater(double[] x, double[] y, Threshold? threshold = null)
+    public MannWhitneyResult Run(Sample x, Sample y,
+        AlternativeHypothesis alternativeHypothesis = AlternativeHypothesis.Greater,
+        Threshold? threshold = null)
     {
-        threshold = threshold ?? RelativeThreshold.Default;
-        double thresholdValue = threshold.Value(x);
+        // TODO: support weighted case
+        Assertion.NonWeighted(nameof(x), x);
+        Assertion.NonWeighted(nameof(y), y);
 
-        int n = x.Length, m = y.Length;
-        if (Math.Min(n, m) < 3 || Math.Max(n, m) < 5)
-            return null; // Test can't be applied
+        threshold ??= AbsoluteThreshold.Zero;
 
-        var xy = new double[n + m];
+        int n = x.Count, m = y.Count;
+        if (Min(n, m) < 3 || Max(n, m) < 5) // TODO: adjust requirements
+            throw new NotSupportedException("Samples are two small");
+
+        switch (alternativeHypothesis)
+        {
+            case AlternativeHypothesis.TwoSides:
+            {
+                var result1 = RunGreater(x, threshold.Apply(y), threshold);
+                var result2 = RunGreater(threshold.Apply(y),x, threshold);
+                double pValue = Min(Min(result1.PValue, result2.PValue) * 2, 1);
+                return new MannWhitneyResult(x, y, threshold, alternativeHypothesis, pValue, result1.Ux, result1.Uy);
+            }
+            case AlternativeHypothesis.Less:
+            {
+                var result = RunGreater(threshold.Apply(y), x, threshold);
+                return new MannWhitneyResult(x, y, threshold, alternativeHypothesis, result.PValue, result.Uy, result.Ux);
+            }
+            case AlternativeHypothesis.Greater:
+                return RunGreater(x, threshold.Apply(y), threshold);
+            default:
+                throw new ArgumentOutOfRangeException(nameof(alternativeHypothesis), alternativeHypothesis, null);
+        }
+    }
+
+    private static MannWhitneyResult RunGreater(Sample x, Sample y, Threshold threshold)
+    {
+        int n = x.Count, m = y.Count;
+        double[] xy = new double[n + m];
         for (int i = 0; i < n; i++)
-            xy[i] = x[i];
+            xy[i] = x.Values[i];
         for (int i = 0; i < m; i++)
-            xy[n + i] = y[i] + thresholdValue;
-        var index = new int[n + m];
+            xy[n + i] = y.Values[i];
+        int[] index = new int[n + m];
         for (int i = 0; i < n + m; i++)
             index[i] = i;
         Array.Sort(index, (i, j) => xy[i].CompareTo(xy[j]));
@@ -74,7 +101,7 @@ public class MannWhitneyTest : IOneSidedTest<MannWhitneyResult>
         for (int i = 0; i < n + m;)
         {
             int j = i;
-            while (j + 1 < n + m && Math.Abs(xy[index[j + 1]] - xy[index[i]]) < 1e-9)
+            while (j + 1 < n + m && Abs(xy[index[j + 1]] - xy[index[i]]) < 1e-9)
                 j++;
             double rank = (i + j + 2) / 2.0;
             for (int k = i; k <= j; k++)
@@ -89,18 +116,19 @@ public class MannWhitneyTest : IOneSidedTest<MannWhitneyResult>
         ux -= n * (n + 1) / 2.0;
         double uy = n * m - ux;
 
+        double pValue;
         if (n + m <= BinomialCoefficientHelper.MaxAcceptableN)
         {
-            double pValue = 1 - PValueForSmallN(n, m, ux - 1);
-            return new MannWhitneyResult(ux, uy, pValue, threshold);
+            pValue = 1 - PValueForSmallN(n, m, ux - 1);
         }
         else
         {
             double mu = n * m / 2.0;
-            double su = Math.Sqrt(n * m * (n + m + 1) / 12.0);
+            double su = Sqrt(n * m * (n + m + 1) / 12.0);
             double z = (ux - mu) / su;
-            double pValue = 1 - NormalDistribution.Gauss(z);
-            return new MannWhitneyResult(ux, uy, pValue, threshold);
+            pValue = 1 - NormalDistribution.Gauss(z);
         }
+
+        return new MannWhitneyResult(x, y, threshold, AlternativeHypothesis.Greater, pValue, ux, uy);
     }
 }

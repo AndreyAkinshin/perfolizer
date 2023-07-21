@@ -93,4 +93,36 @@ public class Sample
                 return false;
         return true;
     }
+    
+    public static Sample operator *(Sample sample, double value)
+    {
+        double[] values = new double[sample.Count];
+        for (int i = 0; i < sample.Count; i++) 
+            values[i] = sample.Values[i] * value;
+        return new Sample(values, sample.Weights);
+    }
+
+    public static Sample operator /(Sample sample, double value)
+    {
+        double[] values = new double[sample.Count];
+        for (int i = 0; i < sample.Count; i++) 
+            values[i] = sample.Values[i] / value;
+        return new Sample(values, sample.Weights);
+    }
+
+    public static Sample operator +(Sample sample, double value)
+    {
+        double[] values = new double[sample.Count];
+        for (int i = 0; i < sample.Count; i++) 
+            values[i] = sample.Values[i] + value;
+        return new Sample(values, sample.Weights);
+    }
+    
+    public static Sample operator -(Sample sample, double value)
+    {
+        double[] values = new double[sample.Count];
+        for (int i = 0; i < sample.Count; i++) 
+            values[i] = sample.Values[i] - value;
+        return new Sample(values, sample.Weights);
+    }
 }

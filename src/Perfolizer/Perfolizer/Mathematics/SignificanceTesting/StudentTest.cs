@@ -1,31 +1,27 @@
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
-using Perfolizer.Mathematics.Thresholds;
+using Perfolizer.Mathematics.SignificanceTesting.Base;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
-public class StudentTest
+public class StudentTest : ISignificanceOneSampleTest<StudentTOneSampleResult>
 {
-    public static readonly StudentTest Instance = new StudentTest();
+    public static readonly StudentTest Instance = new();
 
-    /// <summary>
-    /// Determines whether the sample mean is different from a known mean
-    /// </summary>
-    /// <remarks>Should be consistent with t.test(x, mu = mu, alternative = "greater") from R </remarks>
-    public OneSidedTestResult IsGreater(double[] sample, double value, Threshold? threshold = null)
+    public StudentTOneSampleResult Run(Sample x, double y, AlternativeHypothesis alternativeHypothesis)
     {
-        var moments = Moments.Create(sample);
+        Assertion.NonWeighted(nameof(x), x);
+
+        var moments = Moments.Create(x);
         double mean = moments.Mean;
         double stdDev = moments.StandardDeviation;
-        double n = sample.Length;
+        double n = x.Count;
         double df = n - 1;
+        double t = (mean - y) / (stdDev / Sqrt(n));
+        double cdf = new StudentDistribution(df).Cdf(t);
+        double pValue = SignificanceTestHelper.CdfToPValue(cdf, alternativeHypothesis);
 
-        threshold = threshold ?? RelativeThreshold.Default;
-
-        double t = (mean - value) /
-                   (stdDev / Math.Sqrt(n));
-        double pValue = 1 - new StudentDistribution(df).Cdf(t);
-
-        return new OneSidedTestResult(pValue, threshold);
+        return new StudentTOneSampleResult(x, y, alternativeHypothesis, pValue, t, df);
     }
 }
