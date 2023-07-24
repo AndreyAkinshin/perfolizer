@@ -8,9 +8,16 @@ namespace Perfolizer.Mathematics.SignificanceTesting;
 
 public class MannWhitneyTest : ISignificanceTwoSampleTest<MannWhitneyResult>
 {
+    public enum Strategy
+    {
+        Auto,
+        Exact,
+        NormalApproximation
+    }
+
     public static readonly MannWhitneyTest Instance = new();
 
-    private static double PValueForSmallN(int n, int m, double u)
+    private static double ExactCdfSmallN(int n, int m, double u)
     {
         int q = (int)Floor(u + 1e-9);
         int nm = Max(n, m);
@@ -49,42 +56,15 @@ public class MannWhitneyTest : ISignificanceTwoSampleTest<MannWhitneyResult>
         return p * 1.0 / denominator;
     }
 
-    public MannWhitneyResult Run(Sample x, Sample y,
-        AlternativeHypothesis alternativeHypothesis = AlternativeHypothesis.Greater,
-        Threshold? threshold = null)
+    private static double CdfNormalApproximation(double n, double m, double ux)
     {
-        // TODO: support weighted case
-        Assertion.NonWeighted(nameof(x), x);
-        Assertion.NonWeighted(nameof(y), y);
-
-        threshold ??= AbsoluteThreshold.Zero;
-
-        int n = x.Count, m = y.Count;
-        if (Min(n, m) < 3 || Max(n, m) < 5) // TODO: adjust requirements
-            throw new NotSupportedException("Samples are two small");
-
-        switch (alternativeHypothesis)
-        {
-            case AlternativeHypothesis.TwoSides:
-            {
-                var result1 = RunGreater(x, threshold.Apply(y), threshold);
-                var result2 = RunGreater(threshold.Apply(y),x, threshold);
-                double pValue = Min(Min(result1.PValue, result2.PValue) * 2, 1);
-                return new MannWhitneyResult(x, y, threshold, alternativeHypothesis, pValue, result1.Ux, result1.Uy);
-            }
-            case AlternativeHypothesis.Less:
-            {
-                var result = RunGreater(threshold.Apply(y), x, threshold);
-                return new MannWhitneyResult(x, y, threshold, alternativeHypothesis, result.PValue, result.Uy, result.Ux);
-            }
-            case AlternativeHypothesis.Greater:
-                return RunGreater(x, threshold.Apply(y), threshold);
-            default:
-                throw new ArgumentOutOfRangeException(nameof(alternativeHypothesis), alternativeHypothesis, null);
-        }
+        double mu = n * m / 2.0;
+        double su = Sqrt(n * m * (n + m + 1) / 12.0);
+        double z = (ux - mu) / su;
+        return NormalDistribution.Gauss(z);
     }
 
-    private static MannWhitneyResult RunGreater(Sample x, Sample y, Threshold threshold)
+    private static MannWhitneyResult RunGreater(Sample x, Sample y, Threshold threshold, Strategy strategy)
     {
         int n = x.Count, m = y.Count;
         double[] xy = new double[n + m];
@@ -116,19 +96,59 @@ public class MannWhitneyTest : ISignificanceTwoSampleTest<MannWhitneyResult>
         ux -= n * (n + 1) / 2.0;
         double uy = n * m - ux;
 
-        double pValue;
-        if (n + m <= BinomialCoefficientHelper.MaxAcceptableN)
-        {
-            pValue = 1 - PValueForSmallN(n, m, ux - 1);
-        }
-        else
-        {
-            double mu = n * m / 2.0;
-            double su = Sqrt(n * m * (n + m + 1) / 12.0);
-            double z = (ux - mu) / su;
-            pValue = 1 - NormalDistribution.Gauss(z);
-        }
 
+        if (strategy == Strategy.Auto)
+            strategy = n + m <= BinomialCoefficientHelper.MaxAcceptableN ? Strategy.Exact : Strategy.NormalApproximation; // TODO: improve
+        
+        double cdf = strategy switch
+        {
+            Strategy.Exact => ExactCdfSmallN(n, m, ux - 1), // TODO: support big N
+            Strategy.NormalApproximation => CdfNormalApproximation(n, m, ux),
+            _ => throw new ArgumentOutOfRangeException(nameof(strategy), strategy, null)
+        };
+        double pValue = 1 - cdf;
+        
         return new MannWhitneyResult(x, y, threshold, AlternativeHypothesis.Greater, pValue, ux, uy);
+    }
+
+    public MannWhitneyResult Run(Sample x, Sample y,
+        AlternativeHypothesis alternativeHypothesis = AlternativeHypothesis.Greater,
+        Threshold? threshold = null) =>
+        Run(x, y, alternativeHypothesis, threshold, Strategy.Auto);
+
+    public MannWhitneyResult Run(Sample x, Sample y,
+        AlternativeHypothesis alternativeHypothesis = AlternativeHypothesis.Greater,
+        Threshold? threshold = null,
+        Strategy strategy = Strategy.Auto)
+    {
+        // TODO: support weighted case
+        Assertion.NonWeighted(nameof(x), x);
+        Assertion.NonWeighted(nameof(y), y);
+
+        threshold ??= AbsoluteThreshold.Zero;
+
+        int n = x.Count, m = y.Count;
+        if (Min(n, m) < 3 || Max(n, m) < 5) // TODO: adjust requirements
+            throw new NotSupportedException("Samples are two small");
+
+        switch (alternativeHypothesis)
+        {
+            case AlternativeHypothesis.TwoSides:
+            {
+                var result1 = RunGreater(x, threshold.Apply(y), threshold, strategy);
+                var result2 = RunGreater(threshold.Apply(y), x, threshold, strategy);
+                double pValue = Min(Min(result1.PValue, result2.PValue) * 2, 1);
+                return new MannWhitneyResult(x, y, threshold, alternativeHypothesis, pValue, result1.Ux, result1.Uy);
+            }
+            case AlternativeHypothesis.Less:
+            {
+                var result = RunGreater(threshold.Apply(y), x, threshold, strategy);
+                return new MannWhitneyResult(x, y, threshold, alternativeHypothesis, result.PValue, result.Uy, result.Ux);
+            }
+            case AlternativeHypothesis.Greater:
+                return RunGreater(x, threshold.Apply(y), threshold, strategy);
+            default:
+                throw new ArgumentOutOfRangeException(nameof(alternativeHypothesis), alternativeHypothesis, null);
+        }
     }
 }
