@@ -86,6 +86,14 @@ public class Sample
         });
     }
 
+    public Sample(IEnumerable<int> values) : this(values.Select(x => (double)x).ToList())
+    {
+    }
+    
+    public Sample(IEnumerable<long> values) : this(values.Select(x => (double)x).ToList())
+    {
+    }
+
     private static bool IsSorted(IReadOnlyList<double> list)
     {
         for (int i = 0; i < list.Count - 1; i++)
