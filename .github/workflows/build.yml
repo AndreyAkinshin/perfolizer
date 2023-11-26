@@ -5,7 +5,7 @@ on:
   push:
 
 env:
-  DOTNET_VERSION: 7.0.304
+  DOTNET_VERSION: 8.0.100
 
 jobs:
   build-nix:
