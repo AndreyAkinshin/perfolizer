@@ -98,13 +98,13 @@ public class HodgesLehmannEstimatorTests
 
     private static void CheckShift(double[] x, double[] y, double expected)
     {
-        double actual = HodgesLehmannEstimator.Instance.LocationShift(x.ToSample(), y.ToSample());
+        double actual = HodgesLehmannEstimator.Instance.Shift(x.ToSample(), y.ToSample());
         Assert.Equal(expected, actual, EqualityComparer);
     }
 
     private static void CheckShift(double[] x, double[] y, double[] xw, double[] yw, double expected)
     {
-        double actual = HodgesLehmannEstimator.Instance.LocationShift(new Sample(x, xw), new Sample(y, yw));
+        double actual = HodgesLehmannEstimator.Instance.Shift(new Sample(x, xw), new Sample(y, yw));
         Assert.Equal(expected, actual, EqualityComparer);
     }
 

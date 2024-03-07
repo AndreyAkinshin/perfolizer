@@ -3,6 +3,7 @@ using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Mathematics.Common;
 
+// The weighted version is based on https://aakinshin.net/posts/whl/
 public static class PairwiseEstimatorHelper
 {
     public static double Estimate(

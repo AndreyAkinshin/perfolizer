@@ -12,7 +12,8 @@ namespace Perfolizer.Mathematics.GenericEstimators;
 ///
 /// The weighted version is based on https://aakinshin.net/posts/whl/
 /// </summary>
-public class HodgesLehmannEstimator(IQuantileEstimator quantileEstimator) : ILocationShiftEstimator, IMedianEstimator
+public class HodgesLehmannEstimator(IQuantileEstimator quantileEstimator)
+    : IShiftEstimator, IMedianEstimator, IRatioEstimator
 {
     public static readonly HodgesLehmannEstimator Instance = new(SimpleQuantileEstimator.Instance);
 
@@ -22,7 +23,7 @@ public class HodgesLehmannEstimator(IQuantileEstimator quantileEstimator) : ILoc
     public double Median(Sample x) =>
         PairwiseEstimatorHelper.Estimate(x, (xi, xj) => (xi + xj) / 2, quantileEstimator, Probability.Median, true);
 
-    public double LocationShift(Sample x, Sample y) => Estimate(x, y, (xi, yj) => xi - yj);
+    public double Shift(Sample x, Sample y) => Estimate(x, y, (xi, yj) => xi - yj);
 
     public double Ratio(Sample x, Sample y) => Estimate(x, y, (xi, yj) => xi / yj);
 
