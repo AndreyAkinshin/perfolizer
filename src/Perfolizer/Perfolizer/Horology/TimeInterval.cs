@@ -7,7 +7,7 @@ namespace Perfolizer.Horology;
 public readonly struct TimeInterval : IEquatable<TimeInterval>, IComparable<TimeInterval>
 {
     private const string DefaultFormat = "N4";
-        
+
     public double Nanoseconds { get; }
 
     public TimeInterval(double nanoseconds) => Nanoseconds = nanoseconds;
@@ -56,6 +56,14 @@ public readonly struct TimeInterval : IEquatable<TimeInterval>, IComparable<Time
     [Pure] public static bool operator ==(TimeInterval a, TimeInterval b) => a.Nanoseconds.Equals(b.Nanoseconds);
     [Pure] public static bool operator !=(TimeInterval a, TimeInterval b) => !a.Nanoseconds.Equals(b.Nanoseconds);
 
+    [Pure, PublicAPI]
+    public string ToString(
+        IFormatProvider? formatProvider,
+        UnitPresentation? unitPresentation = null)
+    {
+        return ToString(null, null, formatProvider, unitPresentation);
+    }
+
     [Pure]
     public string ToString(
         string? format,
@@ -85,7 +93,7 @@ public readonly struct TimeInterval : IEquatable<TimeInterval>, IComparable<Time
 
         return unitValue.ToString(format, formatProvider);
     }
-        
+
     [Pure] public override string ToString() => ToString(DefaultFormat);
 
     public int CompareTo(TimeInterval other) => Nanoseconds.CompareTo(other.Nanoseconds);

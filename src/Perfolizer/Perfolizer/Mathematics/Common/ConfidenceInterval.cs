@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using JetBrains.Annotations;
 using Perfolizer.Common;
 
 namespace Perfolizer.Mathematics.Common;
@@ -13,6 +14,12 @@ public readonly struct ConfidenceInterval : IEquatable<ConfidenceInterval>
     public double Upper { get; }
     public ConfidenceLevel ConfidenceLevel { get; }
 
+    /// <summary>
+    /// Margin of error (half of the confidence interval width)
+    /// </summary>
+    [PublicAPI]
+    public double Margin => (Upper - Lower) / 2;
+
     public ConfidenceInterval(double estimation, double lower, double upper, ConfidenceLevel confidenceLevel)
     {
         Estimation = estimation;
@@ -24,6 +31,9 @@ public readonly struct ConfidenceInterval : IEquatable<ConfidenceInterval>
     public bool Contains(double value, double eps = 1e-9) => Lower - eps < value && value < Upper + eps;
 
     public override string ToString() => ToString(DefaultFormat);
+
+    [PublicAPI]
+    public string ToString(IFormatProvider formatProvider) => ToString(DefaultFormat, formatProvider);
 
     public string ToString(string format, IFormatProvider? formatProvider = null, bool showLevel = true)
     {
