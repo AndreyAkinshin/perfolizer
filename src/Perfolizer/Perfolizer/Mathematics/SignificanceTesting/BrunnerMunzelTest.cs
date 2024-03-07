@@ -6,7 +6,7 @@ using Perfolizer.Mathematics.Thresholds;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
-public class BrunnerMunzelTest : ISignificanceTwoSampleTest<BrunnerMunzelResult>
+public class BrunnerMunzelTest : SignificanceTwoSampleTestBase<BrunnerMunzelResult>
 {
     private const double Eps = 1e-9;
     public static readonly BrunnerMunzelTest Instance = new();
@@ -15,21 +15,24 @@ public class BrunnerMunzelTest : ISignificanceTwoSampleTest<BrunnerMunzelResult>
     {
     }
 
-    public BrunnerMunzelResult Perform(Sample x, Sample y, AlternativeHypothesis alternative = AlternativeHypothesis.Greater,
-        Threshold? threshold = null)
+    public override BrunnerMunzelResult Perform(
+        Sample x,
+        Sample y,
+        AlternativeHypothesis alternative,
+        Threshold threshold)
     {
         Assertion.NotNullOrEmpty(nameof(x), x);
         Assertion.NotNullOrEmpty(nameof(y), y);
-        threshold ??= AbsoluteThreshold.Zero;
 
         int n = x.Count;
         int m = y.Count;
 
+        var y2 = threshold.Apply(y);
         double[] xy = new double[n + m];
         for (int i = 0; i < n; i++)
             xy[i] = x.Values[i];
         for (int i = 0; i < m; i++)
-            xy[n + i] = threshold.Apply(y.Values[i]);
+            xy[n + i] = y2.Values[i];
 
         double[] rx = Ranker.Instance.GetRanks(x.Values);
         double[] ry = Ranker.Instance.GetRanks(y.Values);

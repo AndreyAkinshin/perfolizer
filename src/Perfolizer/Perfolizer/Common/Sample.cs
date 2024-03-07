@@ -49,7 +49,8 @@ public class Sample
         Assertion.NotNullOrEmpty(nameof(values), values);
         Assertion.NotNullOrEmpty(nameof(weights), weights);
         if (values.Count != weights.Count)
-            throw new ArgumentException($"{nameof(weights)} should have the same number of elements as {nameof(values)}",
+            throw new ArgumentException(
+                $"{nameof(weights)} should have the same number of elements as {nameof(values)}",
                 nameof(weights));
 
         double totalWeight = 0, maxWeight = double.MinValue, minWeight = double.MaxValue;
@@ -61,11 +62,13 @@ public class Sample
             maxWeight = Math.Max(maxWeight, weight);
             minWeight = Math.Min(minWeight, weight);
         }
-            
+
         if (minWeight < 0)
-            throw new ArgumentOutOfRangeException(nameof(weights), $"All weights in {nameof(weights)} should be non-negative");
+            throw new ArgumentOutOfRangeException(nameof(weights),
+                $"All weights in {nameof(weights)} should be non-negative");
         if (totalWeight < 1e-9)
-            throw new ArgumentException(nameof(weights), $"The sum of all elements from {nameof(weights)} should be positive");
+            throw new ArgumentException(nameof(weights),
+                $"The sum of all elements from {nameof(weights)} should be positive");
 
         Values = values;
         Weights = weights;
@@ -89,7 +92,7 @@ public class Sample
     public Sample(IEnumerable<int> values) : this(values.Select(x => (double)x).ToList())
     {
     }
-    
+
     public Sample(IEnumerable<long> values) : this(values.Select(x => (double)x).ToList())
     {
     }
@@ -101,36 +104,41 @@ public class Sample
                 return false;
         return true;
     }
-    
+
     public static Sample operator *(Sample sample, double value)
     {
         double[] values = new double[sample.Count];
-        for (int i = 0; i < sample.Count; i++) 
+        for (int i = 0; i < sample.Count; i++)
             values[i] = sample.Values[i] * value;
-        return new Sample(values, sample.Weights);
+        return sample.IsWeighted ? new Sample(values, sample.Weights) : new Sample(values);
     }
 
     public static Sample operator /(Sample sample, double value)
     {
         double[] values = new double[sample.Count];
-        for (int i = 0; i < sample.Count; i++) 
+        for (int i = 0; i < sample.Count; i++)
             values[i] = sample.Values[i] / value;
-        return new Sample(values, sample.Weights);
+        return sample.IsWeighted ? new Sample(values, sample.Weights) : new Sample(values);
     }
 
     public static Sample operator +(Sample sample, double value)
     {
         double[] values = new double[sample.Count];
-        for (int i = 0; i < sample.Count; i++) 
+        for (int i = 0; i < sample.Count; i++)
             values[i] = sample.Values[i] + value;
-        return new Sample(values, sample.Weights);
+        return sample.IsWeighted ? new Sample(values, sample.Weights) : new Sample(values);
     }
-    
+
     public static Sample operator -(Sample sample, double value)
     {
         double[] values = new double[sample.Count];
-        for (int i = 0; i < sample.Count; i++) 
+        for (int i = 0; i < sample.Count; i++)
             values[i] = sample.Values[i] - value;
-        return new Sample(values, sample.Weights);
+        return sample.IsWeighted ? new Sample(values, sample.Weights) : new Sample(values);
     }
+
+    public static Sample operator *(Sample sample, int value) => sample * (double)value;
+    public static Sample operator /(Sample sample, int value) => sample / (double)value;
+    public static Sample operator +(Sample sample, int value) => sample + (double)value;
+    public static Sample operator -(Sample sample, int value) => sample - (double)value;
 }

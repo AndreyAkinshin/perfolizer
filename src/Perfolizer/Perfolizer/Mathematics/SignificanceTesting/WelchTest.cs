@@ -6,16 +6,18 @@ using Perfolizer.Mathematics.Thresholds;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
-public class WelchTest : ISignificanceTwoSampleTest<WelchTResult>
+public class WelchTest : SignificanceTwoSampleTestBase<WelchTResult>
 {
     public static readonly WelchTest Instance = new();
 
-    public WelchTResult Perform(Sample x, Sample y, AlternativeHypothesis alternative = AlternativeHypothesis.Greater,
-        Threshold? threshold = null)
+    public override WelchTResult Perform(
+        Sample x,
+        Sample y,
+        AlternativeHypothesis alternative,
+        Threshold threshold)
     {
         Assertion.SizeLargerThan(nameof(x), x, 1);
         Assertion.SizeLargerThan(nameof(y), y, 1);
-        threshold ??= AbsoluteThreshold.Zero;
         y = threshold.Apply(y);
 
         int n1 = x.Count, n2 = y.Count;

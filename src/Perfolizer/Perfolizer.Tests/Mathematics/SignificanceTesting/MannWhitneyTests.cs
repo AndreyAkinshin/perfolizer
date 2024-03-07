@@ -1,5 +1,9 @@
 using JetBrains.Annotations;
 using Perfolizer.Collections;
+using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
+using Perfolizer.Mathematics.SignificanceTesting;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
 using Perfolizer.Mathematics.Thresholds;
@@ -365,6 +369,50 @@ public class MannWhitneyTests(ITestOutputHelper output)
         Check(x, y, threshold, 7, 0.999837623676633, AlternativeHypothesis.Greater);
         Check(x, y, threshold, 7, 0.000243564485050553, AlternativeHypothesis.Less);
         Check(x, y, threshold, 7, 0.000487128970101106, AlternativeHypothesis.TwoSides);
+    }
+
+    [Fact]
+    public void MannWhitneyEquivalenceTest01()
+    {
+        var random = NormalDistribution.Standard.Random(new Random(1729));
+        var x = random.Next(50).ToSample();
+        var y = random.Next(50).ToSample();
+        CheckEquivalence(x, y, AbsoluteThreshold.Of(2));
+    }
+
+    [Fact]
+    public void MannWhitneyEquivalenceTest02()
+    {
+        var random = NormalDistribution.Standard.Random(new Random(1729));
+        var x = random.Next(50).ToSample();
+        var y = random.Next(50).ToSample() + 4;
+        CheckEquivalence(x, y, AbsoluteThreshold.Of(2), false);
+    }
+
+    [Fact]
+    public void MannWhitneyEquivalenceTest03()
+    {
+        var random = UniformDistribution.Standard.Random(new Random(1729));
+        var x = random.Next(50).ToSample();
+        var y = random.Next(50).ToSample() + 1;
+        CheckEquivalence(x, y, AbsoluteThreshold.Of(0), false);
+    }
+
+    [Fact]
+    public void MannWhitneyEquivalenceTest04()
+    {
+        var random = UniformDistribution.Standard.Random(new Random(1729));
+        var x = random.Next(50).ToSample();
+        var y = random.Next(50).ToSample();
+        CheckEquivalence(x, y, AbsoluteThreshold.Of(0.3));
+    }
+
+    [AssertionMethod]
+    private void CheckEquivalence(Sample x, Sample y, Threshold t, bool expected = true)
+    {
+        var test = new TostEquivalenceTest(MannWhitneyTest.Instance);
+        bool actual = test.AreEquivalent(x, y, t, SignificanceLevel.P1E5);
+        Assert.Equal(expected, actual);
     }
 
     [AssertionMethod]

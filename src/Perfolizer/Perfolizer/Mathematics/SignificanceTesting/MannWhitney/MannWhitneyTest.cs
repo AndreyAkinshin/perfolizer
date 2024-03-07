@@ -6,7 +6,7 @@ using Perfolizer.Mathematics.Thresholds;
 
 namespace Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
 
-public class MannWhitneyTest : ISignificanceTwoSampleTest<MannWhitneyResult>
+public class MannWhitneyTest : SignificanceTwoSampleTestBase<MannWhitneyResult>
 {
     public static readonly MannWhitneyTest Instance = new();
 
@@ -74,7 +74,11 @@ public class MannWhitneyTest : ISignificanceTwoSampleTest<MannWhitneyResult>
         return new MannWhitneyResult(x, y, threshold, AlternativeHypothesis.Greater, pValue, ux, uy);
     }
 
-    public MannWhitneyResult Perform(Sample x, Sample y, AlternativeHypothesis alternative, Threshold threshold)
+    public override MannWhitneyResult Perform(
+        Sample x,
+        Sample y,
+        AlternativeHypothesis alternative,
+        Threshold threshold)
     {
         return PerformStrategy(x, y, alternative, threshold);
     }
