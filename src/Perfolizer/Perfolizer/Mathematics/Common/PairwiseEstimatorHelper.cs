@@ -5,19 +5,26 @@ namespace Perfolizer.Mathematics.Common;
 
 public static class PairwiseEstimatorHelper
 {
-    public static double Estimate(Sample x, Func<double, double, double> func, IQuantileEstimator estimator, Probability p)
+    public static double Estimate(
+        Sample x,
+        Func<double, double, double> func,
+        IQuantileEstimator estimator,
+        Probability p,
+        bool includeDiagonal)
     {
         if (!estimator.SupportsWeightedSamples)
             Assertion.NonWeighted(nameof(x), x);
 
         int n = x.Count;
+        int skip = includeDiagonal ? 0 : 1;
+        int size = n * (n + 1) / 2 - n * skip;
         if (x.IsWeighted)
         {
-            double[] values = new double[n * (n + 1) / 2];
-            double[] weights = new double[n * (n + 1) / 2];
+            double[] values = new double[size];
+            double[] weights = new double[size];
             int k = 0;
             for (int i = 0; i < n; i++)
-            for (int j = i; j < n; j++)
+            for (int j = i + skip; j < n; j++)
             {
                 values[k] = func(x.Values[i], x.Values[j]);
                 weights[k++] = x.Weights[i] * x.Weights[j];
@@ -26,16 +33,21 @@ public static class PairwiseEstimatorHelper
         }
         else
         {
-            double[] values = new double[n * (n + 1) / 2];
+            double[] values = new double[size];
             int k = 0;
             for (int i = 0; i < n; i++)
-            for (int j = i; j < n; j++)
+            for (int j = i + skip; j < n; j++)
                 values[k++] = func(x.Values[i], x.Values[j]);
             return estimator.Quantile(new Sample(values), p);
         }
     }
 
-    public static double Estimate(Sample x, Sample y, Func<double, double, double> func, IQuantileEstimator estimator, Probability p)
+    public static double Estimate(
+        Sample x,
+        Sample y,
+        Func<double, double, double> func,
+        IQuantileEstimator estimator,
+        Probability p)
     {
         if (!estimator.SupportsWeightedSamples)
         {

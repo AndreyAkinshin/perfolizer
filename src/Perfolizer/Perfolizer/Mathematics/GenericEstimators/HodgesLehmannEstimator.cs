@@ -20,7 +20,7 @@ public class HodgesLehmannEstimator(IQuantileEstimator quantileEstimator) : ILoc
     /// Pseudo-median: the median of the Walsh (pairwise) averages
     /// </summary>
     public double Median(Sample x) =>
-        PairwiseEstimatorHelper.Estimate(x, (xi, xj) => (xi + xj) / 2, quantileEstimator, Probability.Median);
+        PairwiseEstimatorHelper.Estimate(x, (xi, xj) => (xi + xj) / 2, quantileEstimator, Probability.Median, true);
 
     public double LocationShift(Sample x, Sample y) => Estimate(x, y, (xi, yj) => xi - yj);
 
