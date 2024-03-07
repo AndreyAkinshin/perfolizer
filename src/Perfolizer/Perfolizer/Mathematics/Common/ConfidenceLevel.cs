@@ -7,6 +7,7 @@ public readonly struct ConfidenceLevel
 {
     public readonly double Value;
 
+    [PublicAPI]
     public ConfidenceLevel(double value)
     {
         Assertion.InRangeExclusive(nameof(value), value, 0, 1);
@@ -14,9 +15,22 @@ public readonly struct ConfidenceLevel
     }
 
     public static implicit operator double(ConfidenceLevel level) => level.Value;
-    public static implicit operator ConfidenceLevel(double value) => new ConfidenceLevel(value);
+    public static implicit operator ConfidenceLevel(double value) => new(value);
 
     public override string ToString() => $"{Value * 100}%";
+
+    [PublicAPI]
+    public string ToString(string format, IFormatProvider? formatProvider = null)
+    {
+        formatProvider ??= DefaultCultureInfo.Instance;
+
+        if (format == "P")
+        {
+            string percentFormat = format.Length > 1 ? "F" + format.Substring(1) : "0.####";
+            return (Value * 100).ToString(percentFormat, formatProvider) + "%";
+        }
+        return Value.ToString(format, formatProvider);
+    }
 
     /// <summary>
     /// 50% confidence level
@@ -82,7 +96,7 @@ public readonly struct ConfidenceLevel
     /// 99.9% confidence level
     /// </summary>
     [PublicAPI] public static readonly ConfidenceLevel L999 = 0.999;
-        
+
     /// <summary>
     /// 99.99% confidence level
     /// </summary>
