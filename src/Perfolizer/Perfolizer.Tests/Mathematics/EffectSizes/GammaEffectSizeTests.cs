@@ -41,7 +41,7 @@ public class GammaEffectSizeTests
             var x = new Sample(new NormalDistribution(0, 1).Random(random).Next(200));
             var y = new Sample(new NormalDistribution(delta, 1).Random(random).Next(200));
             var gamma = gammaEffectSizeFunction.Range(x, y, 0.5);
-            double d = CohenDEffectSize.Calc(x, y);
+            double d = CohenDEffectSize.Instance.EffectSize(x, y);
             diffs[i] = Math.Abs(d - gamma.Middle);
         }
 

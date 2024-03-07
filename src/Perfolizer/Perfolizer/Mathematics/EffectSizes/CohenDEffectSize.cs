@@ -3,9 +3,11 @@ using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.EffectSizes;
 
-public static class CohenDEffectSize
+public class CohenDEffectSize : IEffectSizeEstimator
 {
-    public static double Calc(Sample x, Sample y)
+    public static readonly CohenDEffectSize Instance = new();
+
+    public double EffectSize(Sample x, Sample y)
     {
         Assertion.NotNull(nameof(x), x);
         Assertion.NotNull(nameof(y), y);
@@ -18,7 +20,7 @@ public static class CohenDEffectSize
         int ny = y.Count;
         var mx = Moments.Create(x);
         var my = Moments.Create(y);
-        double s = Math.Sqrt(((nx - 1) * mx.Variance + (ny - 1) * my.Variance) / (nx + ny - 2));
+        double s = Sqrt(((nx - 1) * mx.Variance + (ny - 1) * my.Variance) / (nx + ny - 2));
         return (my.Mean - mx.Mean) / s;
     }
 }
