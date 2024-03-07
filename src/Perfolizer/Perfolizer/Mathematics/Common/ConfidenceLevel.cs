@@ -17,7 +17,7 @@ public readonly struct ConfidenceLevel
     public static implicit operator double(ConfidenceLevel level) => level.Value;
     public static implicit operator ConfidenceLevel(double value) => new(value);
 
-    public override string ToString() => $"{Value * 100}%";
+    public override string ToString() => ToString("P");
 
     [PublicAPI]
     public string ToString(string format, IFormatProvider? formatProvider = null)
