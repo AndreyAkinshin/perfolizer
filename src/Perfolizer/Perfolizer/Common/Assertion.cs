@@ -1,27 +1,26 @@
 using JetBrains.Annotations;
 using Perfolizer.Exceptions;
-using NotNullAttribute = System.Diagnostics.CodeAnalysis.NotNullAttribute;
 
 namespace Perfolizer.Common;
 
 internal static class Assertion
 {
     [AssertionMethod]
-    public static void NotNull(string name, [NotNull] object? value)
+    public static void NotNull(string name, object? value)
     {
         if (value == null)
             throw new ArgumentNullException(name, $"{name} can't be null");
     }
 
     [AssertionMethod]
-    public static void NotNullOrEmpty<T>(string name, [NotNull] IReadOnlyList<T>? values)
+    public static void NotNullOrEmpty<T>(string name, IReadOnlyList<T>? values)
     {
         if (values == null)
             throw new ArgumentNullException(name, $"{name} can't be null");
         if (values.Count == 0)
             throw new ArgumentOutOfRangeException(name, $"{name} can't be empty");
     }
-    
+
     [AssertionMethod]
     public static void NotNullOrEmpty(string name, Sample? sample)
     {
@@ -102,7 +101,7 @@ internal static class Assertion
             throw new ArgumentOutOfRangeException(name, value, message);
         }
     }
-        
+
     [AssertionMethod]
     public static void Positive(string name, IReadOnlyList<double> values)
     {
@@ -112,7 +111,7 @@ internal static class Assertion
             if (value <= 0)
             {
                 string message = Format("{0}[{1}]={2}, but it should be positive", name, i, value);
-                throw new ArgumentOutOfRangeException(name, value, message);                    
+                throw new ArgumentOutOfRangeException(name, value, message);
             }
         }
     }
@@ -146,7 +145,7 @@ internal static class Assertion
             throw new ArgumentOutOfRangeException(name, value, message);
         }
     }
-    
+
     [AssertionMethod]
     public static void SizeLargerThan(string name, Sample sample, int threshold)
     {
@@ -178,13 +177,14 @@ internal static class Assertion
     }
 
     [AssertionMethod]
-    public static void NonWeighted(string name, [NotNull] Sample? sample)
+    public static void NonWeighted(string name, Sample? sample)
     {
         NotNull(name, sample);
-        if (sample.IsWeighted)
+        if (sample is { IsWeighted: true })
             throw new WeightedSampleNotSupportedException(name);
     }
 
     [StringFormatMethod("format")]
-    private static string Format(string format, params object[] args) => string.Format(DefaultCultureInfo.Instance, format, args);
+    private static string Format(string format, params object[] args) =>
+        string.Format(DefaultCultureInfo.Instance, format, args);
 }

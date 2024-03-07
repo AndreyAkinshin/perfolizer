@@ -410,7 +410,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
     [AssertionMethod]
     private void CheckEquivalence(Sample x, Sample y, Threshold t, bool expected = true)
     {
-        var test = new TostEquivalenceTest(MannWhitneyTest.Instance);
+        var test = new TostEquivalenceTest<MannWhitneyResult>(MannWhitneyTest.Instance);
         bool actual = test.AreEquivalent(x, y, t, SignificanceLevel.P1E5);
         Assert.Equal(expected, actual);
     }
