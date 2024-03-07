@@ -15,7 +15,7 @@ public class BrunnerMunzelTest : ISignificanceTwoSampleTest<BrunnerMunzelResult>
     {
     }
 
-    public BrunnerMunzelResult Run(Sample x, Sample y, AlternativeHypothesis alternativeHypothesis = AlternativeHypothesis.Greater,
+    public BrunnerMunzelResult Perform(Sample x, Sample y, AlternativeHypothesis alternative = AlternativeHypothesis.Greater,
         Threshold? threshold = null)
     {
         Assertion.NotNullOrEmpty(nameof(x), x);
@@ -61,12 +61,12 @@ public class BrunnerMunzelTest : ISignificanceTwoSampleTest<BrunnerMunzelResult>
                 return Result(0.5, 0, double.NaN);
             double w = diff > 0 ? double.PositiveInfinity : double.NegativeInfinity;
 
-            return alternativeHypothesis switch
+            return alternative switch
             {
                 AlternativeHypothesis.TwoSides => Result(0, w, double.NaN),
                 AlternativeHypothesis.Less => Result(rxMean > ryMean ? 1 : 0, w, double.NaN),
                 AlternativeHypothesis.Greater => Result(rxMean < ryMean ? 1 : 0, w, double.NaN),
-                _ => throw new ArgumentOutOfRangeException(nameof(alternativeHypothesis), alternativeHypothesis, null)
+                _ => throw new ArgumentOutOfRangeException(nameof(alternative), alternative, null)
             };
         }
         else
@@ -74,12 +74,12 @@ public class BrunnerMunzelTest : ISignificanceTwoSampleTest<BrunnerMunzelResult>
             double w = (rxMean - ryMean) / Sqrt(sigma2 * (n + m));
             double df = (sx2 / m + sy2 / n).Sqr() / ((sx2 / m).Sqr() / (n - 1) + (sy2 / n).Sqr() / (m - 1));
             double cdf = new StudentDistribution(df).Cdf(w);
-            double pValue = SignificanceTestHelper.CdfToPValue(cdf, alternativeHypothesis);
+            double pValue = SignificanceTestHelper.CdfToPValue(cdf, alternative);
 
             return Result(pValue, w, df);
         }
 
         BrunnerMunzelResult Result(double pValueResult, double wResult, double dfResult) =>
-            new(x, y, threshold, alternativeHypothesis, pValueResult, wResult, dfResult);
+            new(x, y, threshold, alternative, pValueResult, wResult, dfResult);
     }
 }

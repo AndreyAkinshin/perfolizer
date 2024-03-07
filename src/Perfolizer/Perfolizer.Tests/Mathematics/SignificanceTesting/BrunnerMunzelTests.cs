@@ -88,7 +88,7 @@ public class BrunnerMunzelTests
     private void CheckGreater(double[] x, double[] y, double w, double df, double pValue)
     {
         var threshold = AbsoluteThreshold.Zero;
-        var result = BrunnerMunzelTest.Instance.Run(x.ToSample(), y.ToSample(), AlternativeHypothesis.Greater, threshold);
+        var result = BrunnerMunzelTest.Instance.Perform(x.ToSample(), y.ToSample(), AlternativeHypothesis.Greater, threshold);
         if (result == null)
             throw new NullReferenceException($"{nameof(BrunnerMunzelTest)} returned null");
         output.WriteLine("W       = " + result.W + " (Expected: " + w + ")");

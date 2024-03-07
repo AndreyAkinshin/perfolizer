@@ -10,7 +10,7 @@ public class WelchTest : ISignificanceTwoSampleTest<WelchTResult>
 {
     public static readonly WelchTest Instance = new();
 
-    public WelchTResult Run(Sample x, Sample y, AlternativeHypothesis alternativeHypothesis = AlternativeHypothesis.Greater,
+    public WelchTResult Perform(Sample x, Sample y, AlternativeHypothesis alternative = AlternativeHypothesis.Greater,
         Threshold? threshold = null)
     {
         Assertion.SizeLargerThan(nameof(x), x, 1);
@@ -28,8 +28,8 @@ public class WelchTest : ISignificanceTwoSampleTest<WelchTResult>
         double df = (v1 / n1 + v2 / n2).Sqr() /
                     ((v1 / n1).Sqr() / (n1 - 1) + (v2 / n2).Sqr() / (n2 - 1));
         double cdf = new StudentDistribution(df).Cdf(t);
-        double pValue = SignificanceTestHelper.CdfToPValue(cdf, alternativeHypothesis);
+        double pValue = SignificanceTestHelper.CdfToPValue(cdf, alternative);
 
-        return new WelchTResult(x, y, threshold, alternativeHypothesis, pValue, t, df);
+        return new WelchTResult(x, y, threshold, alternative, pValue, t, df);
     }
 }

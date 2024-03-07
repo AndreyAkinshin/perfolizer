@@ -11,6 +11,6 @@ public abstract class Threshold
         double[] values = new double[sample.Count];
         for (int i = 0; i < sample.Count; i++)
             values[i] = Apply(sample.Values[i]);
-        return new Sample(values, sample.Weights);
+        return sample.IsWeighted ? new Sample(values, sample.Weights) : new Sample(values);
     }
 }

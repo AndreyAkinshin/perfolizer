@@ -3,7 +3,7 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Mathematics.Thresholds;
 
-namespace Perfolizer.Mathematics.SignificanceTesting;
+namespace Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
 
 public class MannWhitneyResult : SignificanceTwoSampleResult
 {

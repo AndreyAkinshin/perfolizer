@@ -10,7 +10,7 @@ namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
 public class WelchTests
 {
     private static readonly AbsoluteEqualityComparer EqualityComparer = new(1e-5);
-    
+
     private readonly ITestOutputHelper output;
 
     public WelchTests(ITestOutputHelper output) => this.output = output;
@@ -244,7 +244,7 @@ public class WelchTests
     private void Check(double[] x, double[] y, Threshold threshold, double t, double df, double pValue,
         AlternativeHypothesis alternativeHypothesis)
     {
-        var welch = WelchTest.Instance.Run(x.ToSample(), y.ToSample(), alternativeHypothesis, threshold);
+        var welch = WelchTest.Instance.Perform(x.ToSample(), y.ToSample(), alternativeHypothesis, threshold);
         output.WriteLine("Alternative = " + alternativeHypothesis);
         output.WriteLine("T           = " + welch.T);
         output.WriteLine("Df          = " + welch.Df);
