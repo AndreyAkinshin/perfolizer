@@ -1,4 +1,5 @@
 using Perfolizer.Common;
+using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 
 namespace Perfolizer.Mathematics.GenericEstimators;
@@ -15,73 +16,16 @@ public class HodgesLehmannEstimator(IQuantileEstimator quantileEstimator) : ILoc
 {
     public static readonly HodgesLehmannEstimator Instance = new(SimpleQuantileEstimator.Instance);
 
+    /// <summary>
+    /// Pseudo-median: the median of the Walsh (pairwise) averages
+    /// </summary>
+    public double Median(Sample x) =>
+        PairwiseEstimatorHelper.Estimate(x, (xi, xj) => (xi + xj) / 2, quantileEstimator, Probability.Median);
+
     public double LocationShift(Sample x, Sample y) => Estimate(x, y, (xi, yj) => xi - yj);
 
     public double Ratio(Sample x, Sample y) => Estimate(x, y, (xi, yj) => xi / yj);
 
-    private double Estimate(Sample x, Sample y, Func<double, double, double> func)
-    {
-        if (!quantileEstimator.SupportsWeightedSamples)
-        {
-            Assertion.NonWeighted(nameof(x), x);
-            Assertion.NonWeighted(nameof(y), y);
-        }
-
-        int n = x.Count, m = y.Count;
-        if (x.IsWeighted || y.IsWeighted)
-        {
-            double[] diffs = new double[n * m];
-            double[] diffsWeights = new double[n * m];
-            int k = 0;
-            for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++)
-            {
-                diffs[k] = func(x.Values[j], y.Values[i]);
-                diffsWeights[k++] = x.Weights[j] * y.Weights[i];
-            }
-            return quantileEstimator.Median(new Sample(diffs, diffsWeights));
-        }
-        else
-        {
-            double[] diffs = new double[n * m];
-            int k = 0;
-            for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++)
-                diffs[k++] = func(x.Values[j], y.Values[i]);
-            return quantileEstimator.Median(new Sample(diffs));
-        }
-    }
-
-    /// <summary>
-    /// Pseudo-median: the median of the Walsh (pairwise) averages
-    /// </summary>
-    public double Median(Sample x)
-    {
-        if (!quantileEstimator.SupportsWeightedSamples)
-            Assertion.NonWeighted(nameof(x), x);
-
-        int n = x.Count;
-        if (x.IsWeighted)
-        {
-            double[] diffs = new double[n * (n + 1) / 2];
-            double[] diffsWeights = new double[n * (n + 1) / 2];
-            int k = 0;
-            for (int i = 0; i < n; i++)
-            for (int j = i; j < n; j++)
-            {
-                diffs[k] = (x.Values[i] + x.Values[j]) / 2;
-                diffsWeights[k++] = x.Weights[i] * x.Weights[j];
-            }
-            return quantileEstimator.Median(new Sample(diffs, diffsWeights));
-        }
-        else
-        {
-            double[] diffs = new double[n * (n + 1) / 2];
-            int k = 0;
-            for (int i = 0; i < n; i++)
-            for (int j = i; j < n; j++)
-                diffs[k++] = (x.Values[i] + x.Values[j]) / 2;
-            return quantileEstimator.Median(new Sample(diffs));
-        }
-    }
+    private double Estimate(Sample x, Sample y, Func<double, double, double> func) =>
+        PairwiseEstimatorHelper.Estimate(x, y, func, quantileEstimator, Probability.Median);
 }
