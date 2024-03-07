@@ -20,7 +20,7 @@ public class HodgesLehmannEstimatorTests
             -9.50535499218701
         );
     }
-    
+
     [Fact]
     public void HodgesLehmannWeightedLocationShiftTest01()
     {
@@ -78,6 +78,24 @@ public class HodgesLehmannEstimatorTests
         Assert.Throws<WeightedSampleNotSupportedException>(() => estimator.Median(x));
     }
 
+    [Fact]
+    public void HodgesLehmannRatioTest01()
+    {
+        CheckRatio(Array(6, 6, 6, 6), Array(2, 2, 2, 2), 3.0);
+    }
+
+    [Fact]
+    public void HodgesLehmannRatioTest02()
+    {
+        CheckRatio(Array(2, 4, 6, 8), Array(1, 2, 3, 4), 2.0);
+    }
+
+    [Fact]
+    public void HodgesLehmannRatioTest03()
+    {
+        CheckRatio(Array(1, 5, 10), Array(3, 5, 7), 1.0);
+    }
+
     private static void CheckShift(double[] x, double[] y, double expected)
     {
         double actual = HodgesLehmannEstimator.Instance.LocationShift(x.ToSample(), y.ToSample());
@@ -99,6 +117,12 @@ public class HodgesLehmannEstimatorTests
     private static void CheckMedian(double[] x, double[] w, double expected)
     {
         double actual = HodgesLehmannEstimator.Instance.Median(new Sample(x, w));
+        Assert.Equal(expected, actual, EqualityComparer);
+    }
+
+    private static void CheckRatio(double[] x, double[] y, double expected)
+    {
+        double actual = HodgesLehmannEstimator.Instance.Ratio(x.ToSample(), y.ToSample());
         Assert.Equal(expected, actual, EqualityComparer);
     }
 

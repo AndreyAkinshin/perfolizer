@@ -11,18 +11,15 @@ namespace Perfolizer.Mathematics.GenericEstimators;
 ///
 /// The weighted version is based on https://aakinshin.net/posts/whl/
 /// </summary>
-public class HodgesLehmannEstimator : ILocationShiftEstimator, IMedianEstimator
+public class HodgesLehmannEstimator(IQuantileEstimator quantileEstimator) : ILocationShiftEstimator, IMedianEstimator
 {
     public static readonly HodgesLehmannEstimator Instance = new(SimpleQuantileEstimator.Instance);
 
-    private readonly IQuantileEstimator quantileEstimator;
+    public double LocationShift(Sample x, Sample y) => Estimate(x, y, (xi, yj) => xi - yj);
 
-    public HodgesLehmannEstimator(IQuantileEstimator quantileEstimator)
-    {
-        this.quantileEstimator = quantileEstimator;
-    }
+    public double Ratio(Sample x, Sample y) => Estimate(x, y, (xi, yj) => xi / yj);
 
-    public double LocationShift(Sample x, Sample y)
+    private double Estimate(Sample x, Sample y, Func<double, double, double> func)
     {
         if (!quantileEstimator.SupportsWeightedSamples)
         {
@@ -39,7 +36,7 @@ public class HodgesLehmannEstimator : ILocationShiftEstimator, IMedianEstimator
             for (int i = 0; i < n; i++)
             for (int j = 0; j < m; j++)
             {
-                diffs[k] = x.Values[j] - y.Values[i];
+                diffs[k] = func(x.Values[j], y.Values[i]);
                 diffsWeights[k++] = x.Weights[j] * y.Weights[i];
             }
             return quantileEstimator.Median(new Sample(diffs, diffsWeights));
@@ -50,11 +47,14 @@ public class HodgesLehmannEstimator : ILocationShiftEstimator, IMedianEstimator
             int k = 0;
             for (int i = 0; i < n; i++)
             for (int j = 0; j < m; j++)
-                diffs[k++] = x.Values[j] - y.Values[i];
+                diffs[k++] = func(x.Values[j], y.Values[i]);
             return quantileEstimator.Median(new Sample(diffs));
         }
     }
 
+    /// <summary>
+    /// Pseudo-median: the median of the Walsh (pairwise) averages
+    /// </summary>
     public double Median(Sample x)
     {
         if (!quantileEstimator.SupportsWeightedSamples)
