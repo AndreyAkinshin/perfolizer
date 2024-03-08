@@ -17,7 +17,7 @@ public class DiffEffectSize(IShiftEstimator shiftEstimator, IScaleEstimator scal
         double shift = shiftEstimator.Shift(x, y);
         double s1 = scaleEstimator.Scale(x);
         double s2 = scaleEstimator.Scale(y);
-        double s = GammaEffectSizeFunction.Pooled(x.Count, y.Count, s1, s2);
+        double s = GammaEffectSizeFunction.Pooled(x.Size, y.Size, s1, s2);
         return shift / s;
     }
 }

@@ -45,7 +45,7 @@ public class GammaEffectSizeFunction : QuantileCompareFunction
 
             double aQuantile = QuantileEstimator.Quantile(a, probability);
             double bQuantile = QuantileEstimator.Quantile(b, probability);
-            double pooledMad = Pooled(a.Count, b.Count, aMad, bMad);
+            double pooledMad = Pooled(a.Size, b.Size, aMad, bMad);
 
             return (bQuantile - aQuantile) / pooledMad;
         }
@@ -80,7 +80,7 @@ public class GammaEffectSizeFunction : QuantileCompareFunction
             double[] aQuantile = QuantileEstimator.Quantiles(a, probabilities);
             double[] bQuantile = QuantileEstimator.Quantiles(b, probabilities);
 
-            double pooledMad = Pooled(a.Count, b.Count, aMad, bMad);
+            double pooledMad = Pooled(a.Size, b.Size, aMad, bMad);
 
             double[] values = new double[k];
             for (int i = 0; i < k; i++)

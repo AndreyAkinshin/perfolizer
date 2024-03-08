@@ -31,7 +31,7 @@ public class HarrellDavisQuantileEstimator : IQuantileEstimator, IQuantileConfid
         (double c1, double c2) = GetMoments(sample, probability, true);
         double estimation = c1;
         double standardError = Math.Sqrt(c2 - c1.Sqr());
-        double weightedCount = sample.WeightedCount;
+        double weightedCount = sample.WeightedSize;
         return new ConfidenceIntervalEstimator(weightedCount, estimation, standardError);
     }
 
@@ -57,7 +57,7 @@ public class HarrellDavisQuantileEstimator : IQuantileEstimator, IQuantileConfid
     {
         Assertion.NotNull(nameof(sample), sample);
 
-        double n = sample.WeightedCount;
+        double n = sample.WeightedSize;
         double a = (n + 1) * probability, b = (n + 1) * (1 - probability);
         var distribution = new BetaDistribution(a, b);
 
@@ -65,12 +65,12 @@ public class HarrellDavisQuantileEstimator : IQuantileEstimator, IQuantileConfid
         double c2 = calcSecondMoment ? 0 : double.NaN;
         double betaCdfRight = 0;
         double currentProbability = 0;
-        for (int j = 0; j < sample.Count; j++)
+        for (int j = 0; j < sample.Size; j++)
         {
             double betaCdfLeft = betaCdfRight;
             currentProbability += sample.IsWeighted
                 ? sample.SortedWeights[j] / sample.TotalWeight
-                : 1.0 / sample.Count;
+                : 1.0 / sample.Size;
 
             double cdfValue = distribution.Cdf(currentProbability);
             betaCdfRight = cdfValue;

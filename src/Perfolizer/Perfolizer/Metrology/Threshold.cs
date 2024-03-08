@@ -1,4 +1,5 @@
 using System.Text;
+using JetBrains.Annotations;
 using Perfolizer.Collections;
 
 namespace Perfolizer.Metrology;
@@ -19,8 +20,8 @@ public class Threshold(params IApplicableMeasurementUnit[] thresholdValues) : IF
             .WhereNotNull()
             .ToArray();
 
-        double[] values = new double[sample.Count];
-        for (int i = 0; i < sample.Count; i++)
+        double[] values = new double[sample.Size];
+        for (int i = 0; i < sample.Size; i++)
         {
             values[i] = double.MinValue;
             foreach (var appliedSample in appliedSamples)
@@ -32,7 +33,6 @@ public class Threshold(params IApplicableMeasurementUnit[] thresholdValues) : IF
             ? new Sample(values, sample.Weights, sample.MeasurementUnit)
             : new Sample(values, sample.MeasurementUnit);
     }
-
 
     public string ToString(
         string? format,
@@ -72,5 +72,13 @@ public class Threshold(params IApplicableMeasurementUnit[] thresholdValues) : IF
         }
         threshold = new Threshold(thresholdValues);
         return true;
+    }
+
+    [PublicAPI]
+    public static Threshold Parse(string s)
+    {
+        if (!TryParse(s, out var threshold))
+            throw new FormatException($"The string '{s}' is not a valid threshold");
+        return threshold;
     }
 }

@@ -26,7 +26,7 @@ internal static class Assertion
     {
         if (sample == null)
             throw new ArgumentNullException(name, $"{name} can't be null");
-        if (sample.Count == 0)
+        if (sample.Size == 0)
             throw new ArgumentOutOfRangeException(name, $"{name} can't be empty");
     }
 
@@ -149,10 +149,10 @@ internal static class Assertion
     [AssertionMethod]
     public static void SizeLargerThan(string name, Sample sample, int threshold)
     {
-        if (sample.Count <= threshold)
+        if (sample.Size <= threshold)
         {
-            string message = Format("{0}.Count={1}, but it should be more than {2}", name, sample.Count, threshold);
-            throw new ArgumentOutOfRangeException(name, sample.Count, message);
+            string message = Format("{0}.Count={1}, but it should be more than {2}", name, sample.Size, threshold);
+            throw new ArgumentOutOfRangeException(name, sample.Size, message);
         }
     }
 

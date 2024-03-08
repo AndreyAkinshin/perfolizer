@@ -2,14 +2,12 @@ using JetBrains.Annotations;
 
 namespace Perfolizer.Metrology;
 
-public readonly struct PercentValue(double actualValue) : IApplicableMeasurementUnit
+public readonly struct PercentValue(double percentage) : IApplicableMeasurementUnit
 {
     private const string DefaultFormat = "0.###";
 
-    /// <summary>
-    /// For 100%, it returns 1.0
-    /// </summary>
-    [PublicAPI] public double ActualValue { get; } = actualValue;
+    [PublicAPI] public double Percentage { get; } = percentage;
+    [PublicAPI] public static PercentValue Of(double percentage) => new(percentage);
 
     public override string ToString() => ToString(null);
 
@@ -19,14 +17,13 @@ public readonly struct PercentValue(double actualValue) : IApplicableMeasurement
         UnitPresentation? unitPresentation = null)
     {
         format ??= DefaultFormat;
-        double nominalValue = ActualValue * 100.0;
-        var measurementValue = new MeasurementValue(nominalValue, PercentUnit.Instance);
+        var measurementValue = new MeasurementValue(Percentage, PercentUnit.Instance);
         return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
 
     public Sample Apply(Sample sample)
     {
-        double factor = 1.0 + ActualValue;
+        double factor = 1.0 + Percentage / 100.0;
         return MeasurementValueHelper.Apply(sample, x => x * factor);
     }
 }

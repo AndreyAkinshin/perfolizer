@@ -55,6 +55,6 @@ public class ShamosEstimator : IScaleEstimator
     {
         double raw = PairwiseEstimatorHelper
             .Estimate(x, (xi, xj) => Abs(xi - xj), SimpleQuantileEstimator.Instance, Probability.Median, false);
-        return raw * Factor(x.Count);
+        return raw * Factor(x.Size);
     }
 }

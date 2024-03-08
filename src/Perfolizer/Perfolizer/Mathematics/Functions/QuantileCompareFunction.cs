@@ -66,7 +66,7 @@ public abstract class QuantileCompareFunction
         Assertion.NotNull(nameof(a), a);
         Assertion.NotNull(nameof(b), b);
             
-        int n = Math.Min(a.Count, b.Count);
+        int n = Math.Min(a.Size, b.Size);
         double margin = Math.Min(0.5, 1 - 0.001.Pow(1.0 / n));
         return Range(a, b, margin);
     }

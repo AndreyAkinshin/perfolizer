@@ -16,7 +16,7 @@ public class StudentTest : ISignificanceOneSampleTest<StudentTOneSampleResult>
         var moments = Moments.Create(x);
         double mean = moments.Mean;
         double stdDev = moments.StandardDeviation;
-        double n = x.Count;
+        double n = x.Size;
         double df = n - 1;
         double t = (mean - y) / (stdDev / Sqrt(n));
         double cdf = new StudentDistribution(df).Cdf(t);

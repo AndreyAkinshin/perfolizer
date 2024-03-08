@@ -42,13 +42,13 @@ public abstract class MedianAbsoluteDeviationEstimator : IScaleEstimator
     public double Mad(Sample sample)
     {
         Assertion.NotNull(nameof(sample), sample);
-        if (sample.Count == 1)
+        if (sample.Size == 1)
             return 0;
 
         double scaleFactor = ScaleFactor(sample);
         double median = QuantileEstimator.Median(sample);
-        double[] deviations = new double[sample.Count];
-        for (int i = 0; i < sample.Count; i++)
+        double[] deviations = new double[sample.Size];
+        for (int i = 0; i < sample.Size; i++)
             deviations[i] = Math.Abs(sample.Values[i] - median);
         return scaleFactor * QuantileEstimator.Median(new Sample(deviations));
     }
@@ -56,13 +56,13 @@ public abstract class MedianAbsoluteDeviationEstimator : IScaleEstimator
     public double LowerMad(Sample sample)
     {
         Assertion.NotNull(nameof(sample), sample);
-        if (sample.Count == 1)
+        if (sample.Size == 1)
             return 0;
 
         double scaleFactor = ScaleFactor(sample);
         double median = QuantileEstimator.Median(sample);
-        var deviations = new List<double>(sample.Count);
-        for (int i = 0; i < sample.Count; i++)
+        var deviations = new List<double>(sample.Size);
+        for (int i = 0; i < sample.Size; i++)
             if (sample.Values[i] <= median)
                 deviations.Add(Math.Abs(sample.Values[i] - median));
         return scaleFactor * QuantileEstimator.Median(new Sample(deviations));
@@ -71,13 +71,13 @@ public abstract class MedianAbsoluteDeviationEstimator : IScaleEstimator
     public double UpperMad(Sample sample)
     {
         Assertion.NotNull(nameof(sample), sample);
-        if (sample.Count == 1)
+        if (sample.Size == 1)
             return 0;
 
         double scaleFactor = ScaleFactor(sample);
         double median = QuantileEstimator.Median(sample);
-        var deviations = new List<double>(sample.Count);
-        for (int i = 0; i < sample.Count; i++)
+        var deviations = new List<double>(sample.Size);
+        for (int i = 0; i < sample.Size; i++)
             if (sample.Values[i] >= median)
                 deviations.Add(Math.Abs(sample.Values[i] - median));
         return scaleFactor * QuantileEstimator.Median(new Sample(deviations));
@@ -122,7 +122,7 @@ public abstract class MedianAbsoluteDeviationEstimator : IScaleEstimator
 
         protected override double ScaleFactor(Sample sample)
         {
-            return ScaleFactor(sample.Count);
+            return ScaleFactor(sample.Size);
         }
     }
 
@@ -162,6 +162,6 @@ public abstract class MedianAbsoluteDeviationEstimator : IScaleEstimator
             return 1.0 / inverseFactor;
         }
 
-        protected override double ScaleFactor(Sample sample) => ScaleFactor(sample.Count);
+        protected override double ScaleFactor(Sample sample) => ScaleFactor(sample.Size);
     }
 }

@@ -24,7 +24,7 @@ public class TrimmedHarrellDavisQuantileEstimator : IQuantileEstimator
     {
         Assertion.NotNull(nameof(sample), sample);
 
-        double n = sample.WeightedCount;
+        double n = sample.WeightedSize;
         double a = (n + 1) * probability, b = (n + 1) * (1 - probability);
         var distribution = new BetaDistribution(a, b);
         var d = getIntervalWidth(n);
@@ -46,7 +46,7 @@ public class TrimmedHarrellDavisQuantileEstimator : IQuantileEstimator
         double currentProbability = 0;
         if (sample.IsWeighted)
         {
-            for (int j = 0; j < sample.Count; j++)
+            for (int j = 0; j < sample.Size; j++)
             {
                 double betaCdfLeft = betaCdfRight;
                 currentProbability += sample.SortedWeights[j] / sample.TotalWeight;
@@ -59,12 +59,12 @@ public class TrimmedHarrellDavisQuantileEstimator : IQuantileEstimator
         }
         else
         {
-            int jL = (int)Floor(hdi.L * sample.Count);
-            int jR = (int)Ceiling(hdi.R * sample.Count) - 1;
+            int jL = (int)Floor(hdi.L * sample.Size);
+            int jR = (int)Ceiling(hdi.R * sample.Size) - 1;
             for (int j = jL; j <= jR; j++)
             {
                 double betaCdfLeft = betaCdfRight;
-                currentProbability = (j + 1.0) / sample.Count;
+                currentProbability = (j + 1.0) / sample.Size;
 
                 double cdfValue = Cdf(currentProbability);
                 betaCdfRight = cdfValue;

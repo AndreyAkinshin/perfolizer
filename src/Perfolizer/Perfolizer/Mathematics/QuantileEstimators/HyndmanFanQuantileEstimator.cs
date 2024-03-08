@@ -52,7 +52,7 @@ public class HyndmanFanQuantileEstimator : IQuantileEstimator
     {
         Assertion.NotNull(nameof(sample), sample);
 
-        int n = sample.Count;
+        int n = sample.Size;
         double p = probability;
         double h = GetH(n, p).Clamp(1, n);
         double left = (h - 1) / n;
@@ -89,12 +89,12 @@ public class HyndmanFanQuantileEstimator : IQuantileEstimator
             index -= 1; // Adapt one-based formula to the zero-based list
             if (index <= 0)
                 return sortedValues[0];
-            if (index >= sample.Count)
-                return sortedValues[sample.Count - 1];
+            if (index >= sample.Size)
+                return sortedValues[sample.Size - 1];
             return sortedValues[index];
         }
 
-        return HyndmanFanHelper.Evaluate(Type, sample.Count, probability, GetValue);
+        return HyndmanFanHelper.Evaluate(Type, sample.Size, probability, GetValue);
     }
 
     public virtual bool SupportsWeightedSamples => HyndmanFanHelper.SupportsWeightedSamples(Type);

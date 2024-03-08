@@ -47,13 +47,13 @@ public abstract class QuantileAbsoluteDeviationEstimator : IScaleEstimator
     public double Qad(Sample sample)
     {
         Assertion.NotNull(nameof(sample), sample);
-        if (sample.Count == 1)
+        if (sample.Size == 1)
             return 0;
 
-        double scaleFactor = ScaleFactor(sample.Count);
+        double scaleFactor = ScaleFactor(sample.Size);
         double median = QuantileEstimator.Median(sample);
-        double[] deviations = new double[sample.Count];
-        for (int i = 0; i < sample.Count; i++)
+        double[] deviations = new double[sample.Size];
+        for (int i = 0; i < sample.Size; i++)
             deviations[i] = Math.Abs(sample.Values[i] - median);
         return scaleFactor * QuantileEstimator.Quantile(new Sample(deviations), P);
     }

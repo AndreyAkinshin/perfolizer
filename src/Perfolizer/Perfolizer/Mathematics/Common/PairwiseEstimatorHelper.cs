@@ -16,7 +16,7 @@ public static class PairwiseEstimatorHelper
         if (!estimator.SupportsWeightedSamples)
             Assertion.NonWeighted(nameof(x), x);
 
-        int n = x.Count;
+        int n = x.Size;
         int skip = includeDiagonal ? 0 : 1;
         int size = n * (n + 1) / 2 - n * skip;
         if (x.IsWeighted)
@@ -56,7 +56,7 @@ public static class PairwiseEstimatorHelper
             Assertion.NonWeighted(nameof(y), y);
         }
 
-        int n = x.Count, m = y.Count;
+        int n = x.Size, m = y.Size;
         if (x.IsWeighted || y.IsWeighted)
         {
             double[] values = new double[n * m];

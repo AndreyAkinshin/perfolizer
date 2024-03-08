@@ -36,7 +36,7 @@ public class MannWhitneyTest : SignificanceTwoSampleTestBase<MannWhitneyResult>
         Assertion.NotNullOrEmpty(nameof(x), x);
         Assertion.NotNullOrEmpty(nameof(y), y);
 
-        int n = x.Count, m = y.Count;
+        int n = x.Size, m = y.Size;
         double[] xy = new double[n + m];
         for (int i = 0; i < n; i++)
             xy[i] = x.Values[i];

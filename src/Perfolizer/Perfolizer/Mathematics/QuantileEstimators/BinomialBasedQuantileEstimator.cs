@@ -10,7 +10,7 @@ public abstract class BinomialBasedQuantileEstimator : IQuantileEstimator
     {
         Assertion.NonWeighted(nameof(sample), sample);
 
-        int n = sample.Count;
+        int n = sample.Size;
         if (n <= 2)
             return SimpleQuantileEstimator.Instance.Quantile(sample, probability);
 

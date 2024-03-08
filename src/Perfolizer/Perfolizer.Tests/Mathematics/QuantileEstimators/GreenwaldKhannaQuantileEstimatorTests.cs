@@ -39,7 +39,7 @@ public class GreenwaldKhannaQuantileEstimatorTests
                 
             foreach (var probability in probabilities)
             {
-                int n = sample.Count;
+                int n = sample.Size;
                 double rank = (n - 1) * probability;
                 var margin = Math.Ceiling(n * eps);
                 int leftIndex = Math.Max((int)Math.Floor(rank - margin), 0);

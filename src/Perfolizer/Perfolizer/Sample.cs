@@ -24,12 +24,12 @@ public class Sample : IFormattableUnit
     /// <summary>
     /// Sample size
     /// </summary>
-    public int Count => Values.Count;
+    public int Size => Values.Count;
 
     /// <summary>
     /// Kish's Effective Sample Size
     /// </summary>
-    public double WeightedCount { get; }
+    public double WeightedSize { get; }
 
     public Sample(IReadOnlyList<double> values, MeasurementUnit? measurementUnit = null)
     {
@@ -40,7 +40,7 @@ public class Sample : IFormattableUnit
         double weight = 1.0 / values.Count;
         Weights = new IdenticalReadOnlyList<double>(values.Count, weight);
         TotalWeight = 1.0;
-        WeightedCount = values.Count;
+        WeightedSize = values.Count;
         IsWeighted = false;
 
         lazySortedData = new Lazy<(IReadOnlyList<double> SortedValues, IReadOnlyList<double> SortedWeights)>(() =>
@@ -81,7 +81,7 @@ public class Sample : IFormattableUnit
         Weights = weights;
         MeasurementUnit = measurementUnit ?? NumberUnit.Instance;
         TotalWeight = totalWeight;
-        WeightedCount = totalWeight.Sqr() / totalWeightSquared;
+        WeightedSize = totalWeight.Sqr() / totalWeightSquared;
         IsWeighted = true;
 
         lazySortedData = new Lazy<(IReadOnlyList<double> SortedValues, IReadOnlyList<double> SortedWeights)>(() =>
@@ -117,32 +117,32 @@ public class Sample : IFormattableUnit
 
     public static Sample operator *(Sample sample, double value)
     {
-        double[] values = new double[sample.Count];
-        for (int i = 0; i < sample.Count; i++)
+        double[] values = new double[sample.Size];
+        for (int i = 0; i < sample.Size; i++)
             values[i] = sample.Values[i] * value;
         return sample.IsWeighted ? new Sample(values, sample.Weights) : new Sample(values);
     }
 
     public static Sample operator /(Sample sample, double value)
     {
-        double[] values = new double[sample.Count];
-        for (int i = 0; i < sample.Count; i++)
+        double[] values = new double[sample.Size];
+        for (int i = 0; i < sample.Size; i++)
             values[i] = sample.Values[i] / value;
         return sample.IsWeighted ? new Sample(values, sample.Weights) : new Sample(values);
     }
 
     public static Sample operator +(Sample sample, double value)
     {
-        double[] values = new double[sample.Count];
-        for (int i = 0; i < sample.Count; i++)
+        double[] values = new double[sample.Size];
+        for (int i = 0; i < sample.Size; i++)
             values[i] = sample.Values[i] + value;
         return sample.IsWeighted ? new Sample(values, sample.Weights) : new Sample(values);
     }
 
     public static Sample operator -(Sample sample, double value)
     {
-        double[] values = new double[sample.Count];
-        for (int i = 0; i < sample.Count; i++)
+        double[] values = new double[sample.Size];
+        for (int i = 0; i < sample.Size; i++)
             values[i] = sample.Values[i] - value;
         return sample.IsWeighted ? new Sample(values, sample.Weights) : new Sample(values);
     }

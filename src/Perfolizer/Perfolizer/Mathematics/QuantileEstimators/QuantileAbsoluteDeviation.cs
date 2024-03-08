@@ -25,8 +25,8 @@ public static class QuantileAbsoluteDeviation
         quantileEstimator ??= SimpleQuantileEstimator.Instance;
 
         double quantile = quantileEstimator.Quantile(sample, p);
-        double[] deviations = new double[sample.Count];
-        for (int i = 0; i < sample.Count; i++)
+        double[] deviations = new double[sample.Size];
+        for (int i = 0; i < sample.Size; i++)
             deviations[i] = Math.Abs(sample.Values[i] - quantile);
         return consistencyConstant * quantileEstimator.Quantile(new Sample(deviations), q);
     }

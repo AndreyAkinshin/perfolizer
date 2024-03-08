@@ -11,13 +11,13 @@ public class CohenDEffectSize : IEffectSizeEstimator
     {
         Assertion.NotNull(nameof(x), x);
         Assertion.NotNull(nameof(y), y);
-        if (x.Count < 2)
+        if (x.Size < 2)
             throw new ArgumentOutOfRangeException(nameof(x), $"{nameof(x)} should contain at least 2 elements");
-        if (y.Count < 2)
+        if (y.Size < 2)
             throw new ArgumentOutOfRangeException(nameof(y), $"{nameof(y)} should contain at least 2 elements");
 
-        int nx = x.Count;
-        int ny = y.Count;
+        int nx = x.Size;
+        int ny = y.Size;
         var mx = Moments.Create(x);
         var my = Moments.Create(y);
         double s = Sqrt(((nx - 1) * mx.Variance + (ny - 1) * my.Variance) / (nx + ny - 2));

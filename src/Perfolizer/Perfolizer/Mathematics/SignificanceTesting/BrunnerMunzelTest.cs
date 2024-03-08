@@ -24,8 +24,8 @@ public class BrunnerMunzelTest : SignificanceTwoSampleTestBase<BrunnerMunzelResu
         Assertion.NotNullOrEmpty(nameof(x), x);
         Assertion.NotNullOrEmpty(nameof(y), y);
 
-        int n = x.Count;
-        int m = y.Count;
+        int n = x.Size;
+        int m = y.Size;
 
         var y2 = threshold.ApplyMax(y);
         double[] xy = new double[n + m];

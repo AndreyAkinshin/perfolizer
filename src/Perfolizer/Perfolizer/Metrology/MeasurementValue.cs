@@ -29,7 +29,7 @@ public class MeasurementValue(double nominalValue, MeasurementUnit unit) : IForm
         Unit is NumberUnit ? new NumberValue(NominalValue) : null;
 
     public PercentValue? AsPercentValue() =>
-        Unit is PercentUnit ? new PercentValue(NominalValue / 100.0) : null;
+        Unit is PercentUnit ? new PercentValue(NominalValue) : null;
 
     public EffectSizeValue? AsEffectSizeValue() =>
         Unit is EffectSizeUnit ? new EffectSizeValue(NominalValue) : null;
