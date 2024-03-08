@@ -1,4 +1,3 @@
-using Perfolizer.Common;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.GenericEstimators;
 using Perfolizer.Mathematics.ScaleEstimators;

@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 
 namespace Perfolizer.Metrology;
 
-public readonly struct RatioValue(double value) : IApplicableMeasurementUnit
+public readonly struct RatioValue(double value) : IRelativeMeasurementValue
 {
     private const string DefaultFormat = "G";
     [PublicAPI] public double Value { get; } = value;
@@ -19,9 +19,6 @@ public readonly struct RatioValue(double value) : IApplicableMeasurementUnit
         return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
 
-    public Sample Apply(Sample sample)
-    {
-        double factor = Value;
-        return MeasurementValueHelper.Apply(sample, x => x * factor);
-    }
+    public MeasurementUnit Unit => RatioUnit.Instance;
+    public double GetRatio() => Value;
 }

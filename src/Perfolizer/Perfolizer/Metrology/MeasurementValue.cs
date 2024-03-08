@@ -7,7 +7,7 @@ using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Metrology;
 
-public class MeasurementValue(double nominalValue, MeasurementUnit unit) : IFormattableUnit
+public class MeasurementValue(double nominalValue, MeasurementUnit unit) : IWithUnits
 {
     public static readonly MeasurementValue Zero = new(0, NumberUnit.Instance);
 
@@ -37,7 +37,7 @@ public class MeasurementValue(double nominalValue, MeasurementUnit unit) : IForm
     public RatioValue? AsRatioValue() =>
         Unit is RatioUnit ? new RatioValue(NominalValue) : null;
 
-    public IApplicableMeasurementUnit? AsApplicableMeasurementUnit()
+    public ISpecificMeasurementValue? AsApplicableMeasurementUnit()
     {
         return
             AsTimeInterval() ??
@@ -45,7 +45,7 @@ public class MeasurementValue(double nominalValue, MeasurementUnit unit) : IForm
             AsFrequency() ??
             AsNumberValue() ??
             AsPercentValue() ??
-            (IApplicableMeasurementUnit?)AsEffectSizeValue() ??
+            (ISpecificMeasurementValue?)AsEffectSizeValue() ??
             AsRatioValue();
     }
 

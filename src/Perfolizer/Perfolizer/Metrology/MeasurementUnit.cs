@@ -26,6 +26,7 @@ public abstract class MeasurementUnit(string abbreviation, string fullName, long
     public long BaseUnits { get; } = baseUnits;
 
     public string AbbreviationAscii => Abbreviation.ConvertToAscii();
+    public virtual string GetFlavor() => GetType().Name.Replace("Unit", "");
 
     public override string ToString() => Abbreviation;
 

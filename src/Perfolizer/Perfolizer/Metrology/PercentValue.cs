@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 
 namespace Perfolizer.Metrology;
 
-public readonly struct PercentValue(double percentage) : IApplicableMeasurementUnit
+public readonly struct PercentValue(double percentage) : IRelativeMeasurementValue
 {
     private const string DefaultFormat = "0.###";
 
@@ -21,9 +21,6 @@ public readonly struct PercentValue(double percentage) : IApplicableMeasurementU
         return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
 
-    public Sample Apply(Sample sample)
-    {
-        double factor = 1.0 + Percentage / 100.0;
-        return MeasurementValueHelper.Apply(sample, x => x * factor);
-    }
+    public MeasurementUnit Unit => PercentUnit.Instance;
+    public double GetRatio() => 1.0 + Percentage / 100.0;
 }

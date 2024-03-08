@@ -10,7 +10,7 @@ public class FrequencyUnit(string abbreviation, string fullName, long baseUnits)
     public static readonly FrequencyUnit KHz = new("KHz", "Kilohertz", 1000);
     public static readonly FrequencyUnit MHz = new("MHz", "Megahertz", 1000.PowInt(2));
     public static readonly FrequencyUnit GHz = new("GHz", "Gigahertz", 1000.PowInt(3));
-    public static readonly FrequencyUnit[] All = { Hz, KHz, MHz, GHz };
+    public static readonly FrequencyUnit[] All = [Hz, KHz, MHz, GHz];
 
     public Frequency ToFrequency(long value = 1) => new(value, this);
 

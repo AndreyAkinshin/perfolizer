@@ -7,7 +7,7 @@ namespace Perfolizer.Metrology;
 /// <summary>
 /// https://aakinshin.net/posts/trinal-thresholds/
 /// </summary>
-public class Threshold(params IApplicableMeasurementUnit[] thresholdValues) : IFormattableUnit, IEquatable<Threshold>
+public class Threshold(params ISpecificMeasurementValue[] thresholdValues) : IWithUnits, IEquatable<Threshold>
 {
     public static readonly Threshold Zero = new();
 
@@ -32,11 +32,25 @@ public class Threshold(params IApplicableMeasurementUnit[] thresholdValues) : IF
                 values[i] = sample.Values[i];
         }
         return sample.IsWeighted
-            ? new Sample(values, sample.Weights, sample.MeasurementUnit)
-            : new Sample(values, sample.MeasurementUnit);
+            ? new Sample(values, sample.Weights, sample.Unit)
+            : new Sample(values, sample.Unit);
     }
 
+    public IEnumerable<double> GetShifts(Sample sample) => thresholdValues
+        .OfType<IAbsoluteMeasurementValue>()
+        .Select(value => value.GetShift(sample));
+
+    public IEnumerable<double> GetRatios() => thresholdValues
+        .OfType<IRelativeMeasurementValue>()
+        .Select(value => value.GetRatio());
+
+    public double GetMaxShift(Sample sample, double defaultShift = 0) =>
+        GetShifts(sample).DefaultIfEmpty(defaultShift).Max();
+
+    public double GetMaxRatio(double defaultRatio = 1.0) => GetRatios().DefaultIfEmpty(defaultRatio).Max();
+
     public override string ToString() => presentation;
+    public MeasurementUnit Unit => throw new NotSupportedException("Threshold does not have a measurement unit");
 
     public string ToString(
         string? format,
@@ -47,7 +61,7 @@ public class Threshold(params IApplicableMeasurementUnit[] thresholdValues) : IF
     }
 
     private static string Format(
-        IReadOnlyList<IApplicableMeasurementUnit> thresholdValues,
+        IReadOnlyList<ISpecificMeasurementValue> thresholdValues,
         string? format = null,
         IFormatProvider? formatProvider = null,
         UnitPresentation? unitPresentation = null)
@@ -65,7 +79,7 @@ public class Threshold(params IApplicableMeasurementUnit[] thresholdValues) : IF
     public static bool TryParse(string s, out Threshold threshold)
     {
         string[] parts = s.Split(Separator);
-        var thresholdValues = new IApplicableMeasurementUnit[parts.Length];
+        var thresholdValues = new ISpecificMeasurementValue[parts.Length];
         for (int i = 0; i < parts.Length; i++)
         {
             if (!MeasurementValue.TryParse(parts[i], out var measurementValue))

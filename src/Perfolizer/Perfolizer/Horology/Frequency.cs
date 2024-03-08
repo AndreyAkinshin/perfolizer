@@ -2,13 +2,14 @@
 using System.Globalization;
 using JetBrains.Annotations;
 using Perfolizer.Common;
+using Perfolizer.Exceptions;
 using Perfolizer.Metrology;
 
 namespace Perfolizer.Horology;
 
 [PublicAPI]
 public readonly struct Frequency(double hertz)
-    : IEquatable<Frequency>, IComparable<Frequency>, IApplicableMeasurementUnit
+    : IEquatable<Frequency>, IComparable<Frequency>, IAbsoluteMeasurementValue
 {
     private const string DefaultFormat = "G";
 
@@ -100,13 +101,13 @@ public readonly struct Frequency(double hertz)
         IFormatProvider formatProvider, out Frequency freq)
         => TryParse(s, FrequencyUnit.GHz, numberStyle, formatProvider, out freq);
 
-    public Sample? Apply(Sample sample)
+    public MeasurementUnit Unit => FrequencyUnit.Hz;
+
+    public double GetShift(Sample sample)
     {
-        var sampleUnit = sample.MeasurementUnit;
-        if (sampleUnit is not FrequencyUnit frequencyUnit)
-            return null;
-        double shift = FrequencyUnit.Convert(Hertz, FrequencyUnit.Hz, frequencyUnit);
-        return MeasurementValueHelper.Apply(sample, x => x + shift);
+        if (sample.Unit is not FrequencyUnit frequencyUnit)
+            throw new InvalidMeasurementUnitExceptions(Unit, sample.Unit);
+        return FrequencyUnit.Convert(Hertz, FrequencyUnit.Hz, frequencyUnit);
     }
 
     public override string ToString() => ToString(DefaultFormat);

@@ -3,7 +3,7 @@ using Perfolizer.Mathematics.ScaleEstimators;
 
 namespace Perfolizer.Metrology;
 
-public readonly struct EffectSizeValue(double value) : IApplicableMeasurementUnit
+public readonly struct EffectSizeValue(double value) : IAbsoluteMeasurementValue
 {
     private const string DefaultFormat = "G";
     [PublicAPI] public double Value { get; } = value;
@@ -20,10 +20,7 @@ public readonly struct EffectSizeValue(double value) : IApplicableMeasurementUni
         return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
 
-    public Sample Apply(Sample sample)
-    {
-        double scale = ShamosEstimator.Instance.Scale(sample);
-        double shift = scale * Value;
-        return MeasurementValueHelper.Apply(sample, x => x + shift);
-    }
+    public MeasurementUnit Unit => EffectSizeUnit.Instance;
+
+    public double GetShift(Sample sample) => ShamosEstimator.Instance.Scale(sample) * Value;
 }

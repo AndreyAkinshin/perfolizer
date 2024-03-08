@@ -4,6 +4,7 @@ namespace Perfolizer.Mathematics.Common;
 
 internal static class MathExtensions
 {
+    public static double Abs(this double x) => Math.Abs(x);
     public static double Sqr(this double x) => x * x;
     public static double Sqrt(this double x) => Math.Sqrt(x);
     public static double Pow(this int x, double k) => Math.Pow(x, k);

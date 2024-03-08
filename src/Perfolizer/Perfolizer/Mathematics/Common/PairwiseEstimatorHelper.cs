@@ -76,7 +76,7 @@ public static class PairwiseEstimatorHelper
             int k = 0;
             for (int i = 0; i < n; i++)
             for (int j = 0; j < m; j++)
-                values[k++] = func(x.Values[j], y.Values[i]);
+                values[k++] = func(x.Values[i], y.Values[j]);
             return estimator.Quantile(new Sample(values), p);
         }
     }

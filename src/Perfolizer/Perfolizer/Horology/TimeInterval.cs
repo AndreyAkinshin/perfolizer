@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
-using Perfolizer.Common;
+using Perfolizer.Exceptions;
 using Perfolizer.Metrology;
 
 namespace Perfolizer.Horology;
 
 public readonly struct TimeInterval(double nanoseconds)
-    : IEquatable<TimeInterval>, IComparable<TimeInterval>, IApplicableMeasurementUnit
+    : IEquatable<TimeInterval>, IComparable<TimeInterval>, IAbsoluteMeasurementValue
 {
     private const string DefaultFormat = "0.####";
 
@@ -90,12 +90,12 @@ public readonly struct TimeInterval(double nanoseconds)
     public override bool Equals([NotNullWhen(true)] object? obj) => obj is TimeInterval other && Equals(other);
     public override int GetHashCode() => Nanoseconds.GetHashCode();
 
-    public Sample? Apply(Sample sample)
+    public MeasurementUnit Unit => TimeUnit.Nanosecond;
+
+    public double GetShift(Sample sample)
     {
-        var sampleUnit = sample.MeasurementUnit;
-        if (sampleUnit is not TimeUnit timeUnit)
-            return null;
-        double shift = TimeUnit.Convert(Nanoseconds, TimeUnit.Nanosecond, timeUnit);
-        return MeasurementValueHelper.Apply(sample, x => x + shift);
+        if (sample.Unit is not TimeUnit timeUnit)
+            throw new InvalidMeasurementUnitExceptions(Unit, sample.Unit);
+        return TimeUnit.Convert(Nanoseconds, TimeUnit.Nanosecond, timeUnit);
     }
 }

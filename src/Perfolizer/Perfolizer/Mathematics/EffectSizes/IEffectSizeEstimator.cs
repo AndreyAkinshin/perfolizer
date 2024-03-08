@@ -1,5 +1,3 @@
-using Perfolizer.Common;
-
 namespace Perfolizer.Mathematics.EffectSizes;
 
 public interface IEffectSizeEstimator

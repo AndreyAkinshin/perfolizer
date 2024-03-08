@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 
 namespace Perfolizer.Metrology;
 
-public readonly struct NumberValue(double value) : IApplicableMeasurementUnit
+public readonly struct NumberValue(double value) : IAbsoluteMeasurementValue
 {
     private const string DefaultFormat = "G";
     [PublicAPI] public double Value { get; } = value;
@@ -21,11 +21,6 @@ public readonly struct NumberValue(double value) : IApplicableMeasurementUnit
         return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
 
-    public Sample? Apply(Sample sample)
-    {
-        if (sample.MeasurementUnit is not NumberUnit)
-            return null;
-        double shift = Value;
-        return MeasurementValueHelper.Apply(sample, x => x + shift);
-    }
+    public MeasurementUnit Unit => NumberUnit.Instance;
+    public double GetShift(Sample sample) => Value;
 }

@@ -1,10 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
+using Perfolizer.Exceptions;
 
 namespace Perfolizer.Metrology;
 
 [SuppressMessage("ReSharper", "InconsistentNaming")] // We want to use "KB", "MB", "GB", "TB"
-public readonly struct SizeValue(long bytes) : IApplicableMeasurementUnit
+public readonly struct SizeValue(long bytes) : IAbsoluteMeasurementValue
 {
     private const string DefaultFormat = "0.##";
 
@@ -55,12 +56,12 @@ public readonly struct SizeValue(long bytes) : IApplicableMeasurementUnit
         return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
 
-    public Sample? Apply(Sample sample)
+    public MeasurementUnit Unit => SizeUnit.B;
+
+    public double GetShift(Sample sample)
     {
-        var sampleUnit = sample.MeasurementUnit;
-        if (sampleUnit is not SizeUnit sizeUnit)
-            return null;
-        double shift = SizeUnit.Convert(Bytes, SizeUnit.B, sizeUnit);
-        return MeasurementValueHelper.Apply(sample, x => x + shift);
+        if (sample.Unit is not SizeUnit sizeUnit)
+            throw new InvalidMeasurementUnitExceptions(Unit, sample.Unit);
+        return SizeUnit.Convert(Bytes, SizeUnit.B, sizeUnit);
     }
 }
