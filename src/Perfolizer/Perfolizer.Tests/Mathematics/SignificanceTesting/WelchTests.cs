@@ -2,7 +2,7 @@
 using Perfolizer.Collections;
 using Perfolizer.Mathematics.SignificanceTesting;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
-using Perfolizer.Mathematics.Thresholds;
+using Perfolizer.Metrology;
 using Perfolizer.Tests.Common;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
@@ -163,7 +163,7 @@ public class WelchTests
             0.188399785254256, -0.556189264665308, 0.0867961527603394, -0.641029410393987, 0.363449731766391, -0.677465788588321,
             0.532818404290161, -0.326790597853394, 0.520969706406657, -0.313712240924816
         };
-        Threshold threshold = AbsoluteThreshold.Zero;
+        var threshold = Threshold.Zero;
         Check(x, y, threshold, 0.910307702712415, 16.0615815537805, 0.188059714877432, AlternativeHypothesis.Greater);
         Check(x, y, threshold, 0.910307702712415, 16.0615815537805, 0.811940285122568, AlternativeHypothesis.Less);
         Check(x, y, threshold, 0.910307702712415, 16.0615815537805, 0.376119429754864, AlternativeHypothesis.TwoSides);
@@ -182,7 +182,7 @@ public class WelchTests
             0.188399785254256, -0.556189264665308, 0.0867961527603394, -0.641029410393987, 0.363449731766391, -0.677465788588321,
             0.532818404290161, -0.326790597853394, 0.520969706406657, -0.313712240924816
         };
-        Threshold threshold = AbsoluteThreshold.Zero;
+        Threshold threshold = Threshold.Zero;
         Check(x, y, threshold, 38.7853398664932, 16.0615815537807, 5.41254411223451e-06, AlternativeHypothesis.Greater);
         Check(x, y, threshold, 38.7853398664932, 16.0615815537807, 1.0, AlternativeHypothesis.Less);
         Check(x, y, threshold, 38.7853398664932, 16.0615815537807, 2.65593963970949e-17, AlternativeHypothesis.TwoSides);
@@ -201,7 +201,7 @@ public class WelchTests
             1.30486965422349, 2.28664539270111, -1.38886070111234, -0.278788766817371, -0.133321336393658, 0.635950398070074,
             -0.284252921416072, -2.65645542090478, -2.44046692857552, 1.32011334573019
         };
-        Threshold threshold = new AbsoluteThreshold(1);
+        var threshold = NumberValue.Of(1).ToThreshold();
         Check(x, y, threshold, 1.22675420225192, 13.4206177243036, 0.120501113310745, AlternativeHypothesis.Greater);
         Check(x, y, threshold, 1.22675420225192, 13.4206177243036, 0.879498886689255, AlternativeHypothesis.Less);
         Check(x, y, threshold, 1.22675420225192, 13.4206177243036, 0.24100222662149, AlternativeHypothesis.TwoSides);
@@ -222,7 +222,7 @@ public class WelchTests
             1.12493091814311, -0.0449336090152309, -0.0161902630989461, 0.943836210685299,
             0.821221195098089, 0.593901321217509
         };
-        Threshold threshold = new AbsoluteThreshold(1);
+        var threshold = NumberValue.Of(1).ToThreshold();
         Check(x, y, threshold, -5.05515688054855, 16.4689565277514, 0.999946312991144, AlternativeHypothesis.Greater);
         Check(x, y, threshold, -5.05515688054855, 16.4689565277514, 5.36870088562763e-05, AlternativeHypothesis.Less);
         Check(x, y, threshold, -5.05515688054855, 16.4689565277514, 0.000107374017712553, AlternativeHypothesis.TwoSides);
@@ -231,7 +231,7 @@ public class WelchTests
     [AssertionMethod]
     private void CheckGreater(double[] x, double[] y, double threshold, double t, double df, double pValue)
     {
-        Check(x, y, new AbsoluteThreshold(threshold), t, df, pValue, AlternativeHypothesis.Greater);
+        Check(x, y, NumberValue.Of(threshold).ToThreshold(), t, df, pValue, AlternativeHypothesis.Greater);
     }
 
     [AssertionMethod]

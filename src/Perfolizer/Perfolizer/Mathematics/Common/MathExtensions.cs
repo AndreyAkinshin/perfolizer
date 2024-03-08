@@ -13,9 +13,9 @@ internal static class MathExtensions
     public static int RoundToInt(this double x) => (int)Round(x);
     public static long RoundToLong(this double x) => (long)Round(x);
 
-    public static long Pow(this int x, int k) => Pow((long)x, k);
+    public static long PowInt(this int x, int k) => PowLong(x, k);
 
-    public static long Pow(this long x, int k)
+    public static long PowLong(this long x, int k)
     {
         Assertion.NonNegative(nameof(k), k);
         long result = 1L;

@@ -2,7 +2,7 @@ using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
-using Perfolizer.Mathematics.Thresholds;
+using Perfolizer.Metrology;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
@@ -27,7 +27,7 @@ public class BrunnerMunzelTest : SignificanceTwoSampleTestBase<BrunnerMunzelResu
         int n = x.Count;
         int m = y.Count;
 
-        var y2 = threshold.Apply(y);
+        var y2 = threshold.ApplyMax(y);
         double[] xy = new double[n + m];
         for (int i = 0; i < n; i++)
             xy[i] = x.Values[i];

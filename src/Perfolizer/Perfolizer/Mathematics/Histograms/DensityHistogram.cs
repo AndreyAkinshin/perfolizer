@@ -1,5 +1,6 @@
 using System.Text;
 using Perfolizer.Common;
+using Perfolizer.Extensions;
 
 namespace Perfolizer.Mathematics.Histograms;
 

@@ -1,8 +1,8 @@
 using System.Text;
 
-namespace Perfolizer.Common;
+namespace Perfolizer.Helpers;
 
-internal static class StreamUtils
+internal static class StreamHelper
 {
     public static string StreamToString(Action<StreamWriter> dump)
     {

@@ -1,7 +1,7 @@
 using System.Text;
-using Perfolizer.Exceptions;
+using Perfolizer.Extensions;
 
-namespace Perfolizer.Common;
+namespace Perfolizer.Helpers;
 
 internal static class UnicodeHelper
 {

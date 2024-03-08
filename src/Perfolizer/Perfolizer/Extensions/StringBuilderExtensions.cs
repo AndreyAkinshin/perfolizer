@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace Perfolizer.Common;
+namespace Perfolizer.Extensions;
 
 internal static class StringBuilderExtensions
 {

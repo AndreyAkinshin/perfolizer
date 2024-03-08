@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
-using Perfolizer.Mathematics.Thresholds;
+using Perfolizer.Metrology;
 
 namespace Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
 
@@ -95,19 +95,19 @@ public class MannWhitneyTest : SignificanceTwoSampleTestBase<MannWhitneyResult>
         {
             case AlternativeHypothesis.TwoSides:
             {
-                var result1 = PerformGreater(x, threshold.Apply(y), threshold, mannWhitneyStrategy);
-                var result2 = PerformGreater(threshold.Apply(y), x, threshold, mannWhitneyStrategy);
+                var result1 = PerformGreater(x, threshold.ApplyMax(y), threshold, mannWhitneyStrategy);
+                var result2 = PerformGreater(threshold.ApplyMax(y), x, threshold, mannWhitneyStrategy);
                 double pValue = Min(Min(result1.PValue, result2.PValue) * 2, 1);
                 return new MannWhitneyResult(x, y, threshold, alternative, pValue, result1.Ux, result1.Uy);
             }
             case AlternativeHypothesis.Less:
             {
-                var result = PerformGreater(threshold.Apply(y), x, threshold, mannWhitneyStrategy);
+                var result = PerformGreater(threshold.ApplyMax(y), x, threshold, mannWhitneyStrategy);
                 return new MannWhitneyResult(x, y, threshold, alternative, result.PValue, result.Uy, result.Ux);
             }
             case AlternativeHypothesis.Greater:
             {
-                return PerformGreater(x, threshold.Apply(y), threshold, mannWhitneyStrategy);
+                return PerformGreater(x, threshold.ApplyMax(y), threshold, mannWhitneyStrategy);
             }
             default:
             {

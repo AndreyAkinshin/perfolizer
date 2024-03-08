@@ -2,7 +2,7 @@
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
-using Perfolizer.Mathematics.Thresholds;
+using Perfolizer.Metrology;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
@@ -18,7 +18,7 @@ public class WelchTest : SignificanceTwoSampleTestBase<WelchTResult>
     {
         Assertion.SizeLargerThan(nameof(x), x, 1);
         Assertion.SizeLargerThan(nameof(y), y, 1);
-        y = threshold.Apply(y);
+        y = threshold.ApplyMax(y);
 
         int n1 = x.Count, n2 = y.Count;
 

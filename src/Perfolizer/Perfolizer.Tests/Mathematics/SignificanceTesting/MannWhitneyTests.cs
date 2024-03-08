@@ -6,7 +6,7 @@ using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.SignificanceTesting;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
-using Perfolizer.Mathematics.Thresholds;
+using Perfolizer.Metrology;
 using Perfolizer.Tests.Common;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
@@ -31,7 +31,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
             82.352823982586, 126.135642815364, 109.069571619921, 91.5330798762612, 94.2532257217699, 70.568270818608,
             92.5436886596998, 117.210691979832, 119.721076854462, 113.813867732564
         };
-        CheckIsGreater(x, y, new AbsoluteThreshold(t), u, pValue);
+        CheckIsGreater(x, y, NumberValue.Of(t).ToThreshold(), u, pValue);
     }
 
     [Theory]
@@ -56,7 +56,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
             99.220787317467, 105.141703581153, 95.2136664971929, 127.87168139858, 97.5524729768301, 117.961786925524,
             142.32225043168, 85.9508305239065
         };
-        CheckIsGreater(x, y, new AbsoluteThreshold(t), u, pValue);
+        CheckIsGreater(x, y, NumberValue.Of(t).ToThreshold(), u, pValue);
     }
 
     [Theory]
@@ -84,7 +84,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
             134.162738650882, 138.128111355384, 163.306156590866, 133.37466051387, 141.733740469802, 153.328995694082,
             154.841803368071, 120.244223151518
         };
-        CheckIsGreater(x, y, new AbsoluteThreshold(t), u, pValue);
+        CheckIsGreater(x, y, NumberValue.Of(t).ToThreshold(), u, pValue);
     }
 
     [Theory]
@@ -113,7 +113,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
             126.197302954924, 81.2530975187152, 124.059305772757, 117.114945385568, 109.651754612905, 103.601482510961,
             128.404461213919, 123.245412480788, 121.186685876309
         };
-        CheckIsGreater(x, y, new AbsoluteThreshold(t), u, pValue);
+        CheckIsGreater(x, y, NumberValue.Of(t).ToThreshold(), u, pValue);
     }
 
     [Theory]
@@ -135,7 +135,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
             11.7581632356995, 10.2732951729234, 9.63171895558071, 11.4328180258887, 10.1886068238133, 12.4441012617213,
             10.5685537973867
         };
-        CheckIsGreater(x, y, new AbsoluteThreshold(t), u, pValue);
+        CheckIsGreater(x, y, NumberValue.Of(t).ToThreshold(), u, pValue);
     }
 
     [Theory]
@@ -162,7 +162,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
             11.0897606465996, 11.2765507472915, 11.6792888160553, 11.0898328865791, 8.00690991684706, 11.2848829535307,
             10.632765357259, 11.1852305648656
         };
-        CheckIsGreater(x, y, new AbsoluteThreshold(t), u, pValue);
+        CheckIsGreater(x, y, NumberValue.Of(t).ToThreshold(), u, pValue);
     }
 
     [Theory]
@@ -194,7 +194,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
             11.4554501232412, 11.7048373372288, 12.0351035219699, 10.3910736245928, 11.504955123298, 9.28299132092666,
             10.2155409916205, 10.1490924058235, 8.58579235005337, 11.0361226068923
         };
-        CheckIsGreater(x, y, new AbsoluteThreshold(t), u, pValue);
+        CheckIsGreater(x, y, NumberValue.Of(t).ToThreshold(), u, pValue);
     }
 
     [Theory]
@@ -271,7 +271,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
             355.5348, 347.4069, 348.8350, 348.2581, 347.2280, 347.5418, 348.6233, 348.1083, 347.7203, 348.0728,
             347.4089, 347.5658, 347.6575, 347.2848, 347.4562, 347.3834, 349.0502, 350.6191, 347.4489, 348.6910
         };
-        CheckIsGreater(x, y, new AbsoluteThreshold(t), u, pValue);
+        CheckIsGreater(x, y, NumberValue.Of(t).ToThreshold(), u, pValue);
     }
 
     [Theory]
@@ -292,7 +292,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
             87.8502615296841, 87.7515925955772
         };
 
-        CheckIsGreater(x, y, new RelativeThreshold(t), u, pValue);
+        CheckIsGreater(x, y, NumberValue.Of(t).ToThreshold(), u, pValue);
     }
 
     [Fact]
@@ -308,7 +308,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
             0.188399785254256, -0.556189264665308, 0.0867961527603394, -0.641029410393987, 0.363449731766391,
             -0.677465788588321, 0.532818404290161, -0.326790597853394, 0.520969706406657, -0.313712240924816
         };
-        Threshold threshold = AbsoluteThreshold.Zero;
+        var threshold = Threshold.Zero;
         Check(x, y, threshold, 61, 0.217936088679123, AlternativeHypothesis.Greater);
         Check(x, y, threshold, 61, 0.803475935828877, AlternativeHypothesis.Less);
         Check(x, y, threshold, 61, 0.435872177358246, AlternativeHypothesis.TwoSides);
@@ -327,7 +327,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
             0.188399785254256, -0.556189264665308, 0.0867961527603394, -0.641029410393987, 0.363449731766391,
             -0.677465788588321, 0.532818404290161, -0.326790597853394, 0.520969706406657, -0.313712240924816
         };
-        Threshold threshold = AbsoluteThreshold.Zero;
+        var threshold = Threshold.Zero;
         Check(x, y, threshold, 100, 5.41254411223451e-06, AlternativeHypothesis.Greater);
         Check(x, y, threshold, 100, 1.0, AlternativeHypothesis.Less);
         Check(x, y, threshold, 100, 1.0825088224469e-05, AlternativeHypothesis.TwoSides);
@@ -346,7 +346,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
             1.30486965422349, 2.28664539270111, -1.38886070111234, -0.278788766817371, -0.133321336393658,
             0.635950398070074, -0.284252921416072, -2.65645542090478, -2.44046692857552, 1.32011334573019
         };
-        Threshold threshold = new AbsoluteThreshold(1);
+        var threshold = NumberValue.Of(1).ToThreshold();
         Check(x, y, threshold, 66, 0.123725345861569, AlternativeHypothesis.Greater);
         Check(x, y, threshold, 66, 0.891218688432311, AlternativeHypothesis.Less);
         Check(x, y, threshold, 66, 0.247450691723138, AlternativeHypothesis.TwoSides);
@@ -365,7 +365,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
             1.51178116845085, 0.389843236411431, -0.621240580541804, -2.2146998871775, 1.12493091814311,
             -0.0449336090152309, -0.0161902630989461, 0.943836210685299, 0.821221195098089, 0.593901321217509
         };
-        Threshold threshold = new AbsoluteThreshold(1);
+        var threshold = NumberValue.Of(1).ToThreshold();
         Check(x, y, threshold, 7, 0.999837623676633, AlternativeHypothesis.Greater);
         Check(x, y, threshold, 7, 0.000243564485050553, AlternativeHypothesis.Less);
         Check(x, y, threshold, 7, 0.000487128970101106, AlternativeHypothesis.TwoSides);
@@ -377,7 +377,8 @@ public class MannWhitneyTests(ITestOutputHelper output)
         var random = NormalDistribution.Standard.Random(new Random(1729));
         var x = random.Next(50).ToSample();
         var y = random.Next(50).ToSample();
-        CheckEquivalence(x, y, AbsoluteThreshold.Of(2));
+        var threshold = NumberValue.Of(2).ToThreshold();
+        CheckEquivalence(x, y, threshold);
     }
 
     [Fact]
@@ -386,7 +387,8 @@ public class MannWhitneyTests(ITestOutputHelper output)
         var random = NormalDistribution.Standard.Random(new Random(1729));
         var x = random.Next(50).ToSample();
         var y = random.Next(50).ToSample() + 4;
-        CheckEquivalence(x, y, AbsoluteThreshold.Of(2), false);
+        var threshold = NumberValue.Of(2).ToThreshold();
+        CheckEquivalence(x, y, threshold, false);
     }
 
     [Fact]
@@ -395,7 +397,8 @@ public class MannWhitneyTests(ITestOutputHelper output)
         var random = UniformDistribution.Standard.Random(new Random(1729));
         var x = random.Next(50).ToSample();
         var y = random.Next(50).ToSample() + 1;
-        CheckEquivalence(x, y, AbsoluteThreshold.Of(0), false);
+        var threshold = NumberValue.Of(0).ToThreshold();
+        CheckEquivalence(x, y, threshold, false);
     }
 
     [Fact]
@@ -404,7 +407,8 @@ public class MannWhitneyTests(ITestOutputHelper output)
         var random = UniformDistribution.Standard.Random(new Random(1729));
         var x = random.Next(50).ToSample();
         var y = random.Next(50).ToSample();
-        CheckEquivalence(x, y, AbsoluteThreshold.Of(0.3));
+        var threshold = NumberValue.Of(0.3).ToThreshold();
+        CheckEquivalence(x, y, threshold);
     }
 
     [AssertionMethod]

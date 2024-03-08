@@ -1,4 +1,4 @@
-namespace Perfolizer.Common;
+namespace Perfolizer.Extensions;
 
 internal static class RandomExtensions
 {

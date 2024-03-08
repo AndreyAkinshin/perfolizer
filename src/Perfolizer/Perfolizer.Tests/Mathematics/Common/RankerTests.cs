@@ -1,26 +1,20 @@
 using JetBrains.Annotations;
 using Perfolizer.Common;
+using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Tests.Common;
 
 namespace Perfolizer.Tests.Mathematics.Common;
 
-public class RankerTests
+public class RankerTests(ITestOutputHelper output)
 {
-    private readonly ITestOutputHelper output;
-
-    public RankerTests(ITestOutputHelper output)
-    {
-        this.output = output;
-    }
-
     [AssertionMethod]
     private void Check(double[] x, double[] expectedRanks)
     {
         double[] actualRanks = Ranker.Instance.GetRanks(x);
 
-        string Present(double[] values) => "[" + string.Join(", ", values.Select(value => value.ToStringInvariant())) + "]";
+        string Present(double[] values) => new Sample(values).ToString();
 
         output.WriteLine("Input         : " + Present(x));
         output.WriteLine("ExpectedRanks : " + Present(expectedRanks));
@@ -57,5 +51,6 @@ public class RankerTests
     public void RankTestTies02() => Check(new double[] { 1, 1, 2, 2, 3, 1 }, new[] { 2, 2, 4.5, 4.5, 6, 2 });
 
     [Fact]
-    public void RankTestTies03() => Check(new double[] { 1, 1, 2, 2, 2, 2, 2, 3, 1 }, new double[] { 2, 2, 6, 6, 6, 6, 6, 9, 2 });
+    public void RankTestTies03() =>
+        Check(new double[] { 1, 1, 2, 2, 2, 2, 2, 3, 1 }, new double[] { 2, 2, 6, 6, 6, 6, 6, 9, 2 });
 }

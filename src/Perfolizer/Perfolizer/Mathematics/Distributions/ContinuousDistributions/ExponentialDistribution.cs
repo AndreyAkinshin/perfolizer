@@ -1,4 +1,5 @@
 using Perfolizer.Common;
+using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Randomization;
 

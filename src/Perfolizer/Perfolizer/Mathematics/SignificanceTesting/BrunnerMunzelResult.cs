@@ -1,7 +1,7 @@
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
-using Perfolizer.Mathematics.Thresholds;
+using Perfolizer.Metrology;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 

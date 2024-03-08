@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Common;
+using Perfolizer.Helpers;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Histograms;
 using Perfolizer.Mathematics.Multimodality;
@@ -37,7 +38,7 @@ public class ModalityDetectorTests
             diagnostics: true) as LowlandModalityDiagnosticsData;
         if (modalityData == null)
             throw new Exception($"Can't get {nameof(LowlandModalityDiagnosticsData)} from DetectModes");
-            
+
         int actualModality = modalityData.Modality;
 
         output.WriteLine("ActualModality   : " + actualModality);
@@ -46,8 +47,8 @@ public class ModalityDetectorTests
         output.WriteLine("Modes:");
         output.WriteLine(Present(modalityData));
         output.WriteLine("-----");
-            
-        output.WriteLine(StreamUtils.StreamToString(stream => modalityData.DumpAsCsv(stream)));
+
+        output.WriteLine(StreamHelper.StreamToString(stream => modalityData.DumpAsCsv(stream)));
 
         Assert.Equal(expectedModality, actualModality);
     }

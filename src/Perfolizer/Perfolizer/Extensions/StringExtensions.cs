@@ -1,4 +1,4 @@
-namespace Perfolizer.Exceptions;
+namespace Perfolizer.Extensions;
 
 internal static class StringExtensions
 {

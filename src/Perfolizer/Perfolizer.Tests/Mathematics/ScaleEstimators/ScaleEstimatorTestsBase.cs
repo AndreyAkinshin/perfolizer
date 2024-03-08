@@ -1,4 +1,5 @@
 using Perfolizer.Common;
+using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.ScaleEstimators;
 using Perfolizer.Tests.Common;

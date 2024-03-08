@@ -98,4 +98,7 @@ internal static class CollectionExtensions
     }
 
     public static bool IsEmpty<T>(this IEnumerable<T> values) => !values.Any();
+
+    public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> values) =>
+        values.Where(value => value != null).Cast<T>();
 }

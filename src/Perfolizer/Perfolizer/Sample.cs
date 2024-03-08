@@ -1,14 +1,20 @@
+using System.Text;
 using Perfolizer.Collections;
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
+using Perfolizer.Metrology;
 
-namespace Perfolizer.Common;
+namespace Perfolizer;
 
-public class Sample
+public class Sample : IFormattableUnit
 {
+    private const string DefaultFormat = "G";
+
     public IReadOnlyList<double> Values { get; }
     public IReadOnlyList<double> Weights { get; }
     public double TotalWeight { get; }
     public bool IsWeighted { get; }
+    public MeasurementUnit MeasurementUnit { get; }
 
     private readonly Lazy<(IReadOnlyList<double> SortedValues, IReadOnlyList<double> SortedWeights)> lazySortedData;
 
@@ -25,11 +31,12 @@ public class Sample
     /// </summary>
     public double WeightedCount { get; }
 
-    public Sample(IReadOnlyList<double> values)
+    public Sample(IReadOnlyList<double> values, MeasurementUnit? measurementUnit = null)
     {
         Assertion.NotNullOrEmpty(nameof(values), values);
 
         Values = values;
+        MeasurementUnit = measurementUnit ?? NumberUnit.Instance;
         double weight = 1.0 / values.Count;
         Weights = new IdenticalReadOnlyList<double>(values.Count, weight);
         TotalWeight = 1.0;
@@ -44,7 +51,7 @@ public class Sample
         });
     }
 
-    public Sample(IReadOnlyList<double> values, IReadOnlyList<double> weights)
+    public Sample(IReadOnlyList<double> values, IReadOnlyList<double> weights, MeasurementUnit? measurementUnit = null)
     {
         Assertion.NotNullOrEmpty(nameof(values), values);
         Assertion.NotNullOrEmpty(nameof(weights), weights);
@@ -59,8 +66,8 @@ public class Sample
         {
             totalWeight += weight;
             totalWeightSquared += weight.Sqr();
-            maxWeight = Math.Max(maxWeight, weight);
-            minWeight = Math.Min(minWeight, weight);
+            maxWeight = Max(maxWeight, weight);
+            minWeight = Min(minWeight, weight);
         }
 
         if (minWeight < 0)
@@ -72,6 +79,7 @@ public class Sample
 
         Values = values;
         Weights = weights;
+        MeasurementUnit = measurementUnit ?? NumberUnit.Instance;
         TotalWeight = totalWeight;
         WeightedCount = totalWeight.Sqr() / totalWeightSquared;
         IsWeighted = true;
@@ -89,11 +97,13 @@ public class Sample
         });
     }
 
-    public Sample(IEnumerable<int> values) : this(values.Select(x => (double)x).ToList())
+    public Sample(IEnumerable<int> values, MeasurementUnit? measurementUnit = null)
+        : this(values.Select(x => (double)x).ToList(), measurementUnit)
     {
     }
 
-    public Sample(IEnumerable<long> values) : this(values.Select(x => (double)x).ToList())
+    public Sample(IEnumerable<long> values, MeasurementUnit? measurementUnit = null)
+        : this(values.Select(x => (double)x).ToList(), measurementUnit)
     {
     }
 
@@ -141,4 +151,25 @@ public class Sample
     public static Sample operator /(Sample sample, int value) => sample / (double)value;
     public static Sample operator +(Sample sample, int value) => sample + (double)value;
     public static Sample operator -(Sample sample, int value) => sample - (double)value;
+
+    public override string ToString() => ToString(null);
+
+    public string ToString(
+        string? format,
+        IFormatProvider? formatProvider = null,
+        UnitPresentation? unitPresentation = null)
+    {
+        format ??= DefaultFormat;
+        var builder = new StringBuilder();
+        builder.Append('[');
+        for (int i = 0; i < Values.Count; i++)
+        {
+            if (i != 0)
+                builder.Append(", ");
+            builder.Append(Values[i].ToString(format, formatProvider));
+        }
+        builder.Append(']');
+        builder.Append(MeasurementUnit.ToString(unitPresentation));
+        return builder.ToString();
+    }
 }

@@ -169,7 +169,7 @@ internal static class Assertion
     [AssertionMethod]
     public static void Equal(string name, double value, double expectedValue, double eps = 1e-9)
     {
-        if (Math.Abs(value - expectedValue) > eps)
+        if (Abs(value - expectedValue) > eps)
         {
             string message = Format("{0}={1}, but it should be equal to {2}", name, value, expectedValue);
             throw new ArgumentOutOfRangeException(name, value, message);

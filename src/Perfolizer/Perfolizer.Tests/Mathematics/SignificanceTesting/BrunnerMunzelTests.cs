@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Mathematics.SignificanceTesting;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
-using Perfolizer.Mathematics.Thresholds;
+using Perfolizer.Metrology;
 using Perfolizer.Tests.Common;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
@@ -87,7 +87,7 @@ public class BrunnerMunzelTests
     [AssertionMethod]
     private void CheckGreater(double[] x, double[] y, double w, double df, double pValue)
     {
-        var threshold = AbsoluteThreshold.Zero;
+        var threshold = Threshold.Zero;
         var result = BrunnerMunzelTest.Instance.Perform(x.ToSample(), y.ToSample(), AlternativeHypothesis.Greater, threshold);
         if (result == null)
             throw new NullReferenceException($"{nameof(BrunnerMunzelTest)} returned null");

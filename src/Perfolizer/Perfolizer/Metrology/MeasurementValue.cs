@@ -1,13 +1,13 @@
 using System.Globalization;
 using JetBrains.Annotations;
 using Perfolizer.Common;
-using Perfolizer.Exceptions;
+using Perfolizer.Extensions;
 using Perfolizer.Horology;
 using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Metrology;
 
-public class MeasurementValue(double nominalValue, MeasurementUnit unit)
+public class MeasurementValue(double nominalValue, MeasurementUnit unit) : IFormattableUnit
 {
     public static readonly MeasurementValue Zero = new(0, NumberUnit.Instance);
 
@@ -25,8 +25,8 @@ public class MeasurementValue(double nominalValue, MeasurementUnit unit)
     public NumberValue? AsNumberValue() =>
         Unit is NumberUnit ? new NumberValue(NominalValue) : null;
 
-    public Percentage? AsPercentage() =>
-        Unit is PercentageUnit ? new Percentage(NominalValue / 100.0) : null;
+    public PercentValue? AsPercentValue() =>
+        Unit is PercentUnit ? new PercentValue(NominalValue / 100.0) : null;
 
     public EffectSizeValue? AsEffectSizeValue() =>
         Unit is EffectSizeUnit ? new EffectSizeValue(NominalValue) : null;
@@ -34,32 +34,32 @@ public class MeasurementValue(double nominalValue, MeasurementUnit unit)
     public RatioValue? AsRatioValue() =>
         Unit is RatioUnit ? new RatioValue(NominalValue) : null;
 
-    public override string ToString() =>
-        AsTimeInterval()?.ToString() ??
-        AsSizeValue()?.ToString() ??
-        AsNumberValue()?.ToString() ??
-        AsPercentage()?.ToString() ??
-        AsEffectSizeValue()?.ToString() ??
-        AsRatioValue()?.ToString() ??
-        ToString(DefaultFormat);
+    public IApplicableMeasurementUnit? AsApplicableMeasurementUnit()
+    {
+        return
+            AsTimeInterval() ??
+            AsSizeValue() ??
+            AsNumberValue() ??
+            AsPercentValue() ??
+            (IApplicableMeasurementUnit?)AsEffectSizeValue() ??
+            AsRatioValue();
+    }
+
+
+    public override string ToString() => AsApplicableMeasurementUnit()?.ToString() ?? ToString(DefaultFormat);
 
     [Pure]
     public string ToString(
-        string format,
+        string? format,
         IFormatProvider? formatProvider = null,
         UnitPresentation? unitPresentation = null)
     {
+        format ??= DefaultFormat;
         formatProvider ??= DefaultCultureInfo.Instance;
         unitPresentation ??= UnitPresentation.Default;
 
-        string unitValue = NominalValue.ToString(format, formatProvider);
-        if (!unitPresentation.IsVisible)
-            return unitValue;
-
-        string abbreviation = unitPresentation.ForceAscii ? Unit.AbbreviationAscii : Unit.Abbreviation;
-        string unitName = abbreviation.PadLeft(unitPresentation.MinUnitWidth);
-        string gap = unitPresentation.Gap ? " " : "";
-        return $"{unitValue}{gap}{unitName}";
+        string nominalValue = NominalValue.ToString(format, formatProvider);
+        return $"{nominalValue}{Unit.ToString(unitPresentation)}";
     }
 
     public static bool TryParse(string s, out MeasurementValue value)

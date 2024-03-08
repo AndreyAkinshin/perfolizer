@@ -1,5 +1,6 @@
 using Perfolizer.Collections;
 using Perfolizer.Common;
+using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Histograms;
 
 namespace Perfolizer.Mathematics.Multimodality;

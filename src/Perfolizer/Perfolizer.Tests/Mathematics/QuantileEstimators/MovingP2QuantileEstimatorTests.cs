@@ -1,5 +1,6 @@
 using System.Text;
 using Perfolizer.Common;
+using Perfolizer.Extensions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Common;
 

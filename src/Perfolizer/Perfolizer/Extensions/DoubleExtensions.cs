@@ -1,6 +1,7 @@
+using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 
-namespace Perfolizer.Common;
+namespace Perfolizer.Extensions;
 
 internal static class DoubleExtensions
 {

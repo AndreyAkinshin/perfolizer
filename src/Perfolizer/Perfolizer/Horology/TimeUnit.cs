@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Perfolizer.Common;
+using Perfolizer.Helpers;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Metrology;
 
@@ -12,8 +13,8 @@ public class TimeUnit(string abbreviation, string fullName, long baseUnits)
 
     [PublicAPI] public static readonly TimeUnit Nanosecond = new("ns", "Nanosecond", 1);
     [PublicAPI] public static readonly TimeUnit Microsecond = new($"{UnicodeHelper.Mu}s", "Microsecond", 1000);
-    [PublicAPI] public static readonly TimeUnit Millisecond = new("ms", "Millisecond", 1000.Pow(2));
-    [PublicAPI] public static readonly TimeUnit Second = new("s", "Second", 1000.Pow(3));
+    [PublicAPI] public static readonly TimeUnit Millisecond = new("ms", "Millisecond", 1000.PowInt(2));
+    [PublicAPI] public static readonly TimeUnit Second = new("s", "Second", 1000.PowInt(3));
     [PublicAPI] public static readonly TimeUnit Minute = new("m", "Minute", Second.BaseUnits * 60);
     [PublicAPI] public static readonly TimeUnit Hour = new("h", "Hour", Minute.BaseUnits * 60);
     [PublicAPI] public static readonly TimeUnit Day = new("d", "Day", Hour.BaseUnits * 24);

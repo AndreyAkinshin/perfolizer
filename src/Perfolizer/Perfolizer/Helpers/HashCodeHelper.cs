@@ -1,10 +1,10 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Perfolizer.Common;
+namespace Perfolizer.Helpers;
 
 // Mimics System.HashCode, which is missing in NetStandard2.0.
-internal struct HashCode
+internal struct HashCodeHelper
 {
     private int hashCode;
 
