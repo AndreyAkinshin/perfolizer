@@ -24,7 +24,7 @@ public class ConfidenceIntervalEstimator
         return new ConfidenceInterval(Estimation, Estimation - margin, Estimation + margin, confidenceLevel);
     }
 
-    private double ZLevel(ConfidenceLevel confidenceLevel)
+    public double ZLevel(ConfidenceLevel confidenceLevel)
     {
         double x = 1 - (1 - confidenceLevel) / 2;
         return new StudentDistribution(DegreeOfFreedom).Quantile(x);

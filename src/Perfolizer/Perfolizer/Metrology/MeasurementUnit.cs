@@ -1,3 +1,4 @@
+using Perfolizer.Extensions;
 using Perfolizer.Helpers;
 using Perfolizer.Horology;
 
@@ -40,6 +41,24 @@ public abstract class MeasurementUnit(string abbreviation, string fullName, long
         return $"{gap}{unitName}";
     }
 
+    public static bool TryParse(string s, out MeasurementUnit unit)
+    {
+        foreach (var measurementUnit in GetAll())
+        {
+            if (measurementUnit.Abbreviation.EquationsIgnoreCase(s) ||
+                measurementUnit.AbbreviationAscii.EquationsIgnoreCase(s) ||
+                measurementUnit.FullName.EquationsIgnoreCase(s))
+            {
+                unit = measurementUnit;
+                return true;
+            }
+        }
+        unit = NumberUnit.Instance;
+        return false;
+    }
+
+    public static MeasurementUnit Parse(string s) =>
+        TryParse(s, out var unit) ? unit : throw new FormatException($"Unknown unit: {s}");
 
     public bool Equals(MeasurementUnit other) =>
         Abbreviation == other.Abbreviation &&

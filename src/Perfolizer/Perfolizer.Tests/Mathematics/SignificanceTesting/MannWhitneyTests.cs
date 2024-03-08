@@ -372,6 +372,29 @@ public class MannWhitneyTests(ITestOutputHelper output)
     }
 
     [Fact]
+    public void MannWhitneySimpleTest01()
+    {
+        double[] x = [200.3279, 200.3178, 200.4046, 200.3279, 200.3178, 200.4046, 200.3279, 200.3178, 200.4046, 200.3279, 200.3178, 200.4046];
+        double[] y = [195, 196, 195, 196, 195, 196, 195, 196, 195, 196, 195, 196, 195, 196, 195, 196, 195, 196, 195, 196];
+        var resultGreater = MannWhitneyTest.Instance.Perform(x.ToSample(), y.ToSample(), AlternativeHypothesis.Greater, Threshold.Zero);
+        var resultLesser = MannWhitneyTest.Instance.Perform(x.ToSample(), y.ToSample(), AlternativeHypothesis.Less, Threshold.Zero);
+        Assert.Equal(7.43301411772918e-07, resultGreater.PValue, AbsoluteEqualityComparer.E5);
+        Assert.Equal(0.999999392895169, resultLesser.PValue, AbsoluteEqualityComparer.E5);
+    }
+
+    [Fact]
+    public void MannWhitneySimpleTest02()
+    {
+        double[] x = [200.3279, 200.3178, 200.4046, 200.3279, 200.3178, 200.4046, 200.3279, 200.3178, 200.4046, 200.3279, 200.3178, 200.4046];
+        double[] y = [195, 196, 195, 196, 195, 196, 195, 196, 195, 196, 195, 196, 195, 196, 195, 196, 195, 196, 195, 196];
+        var threshold = PercentValue.Of(5).ToThreshold();
+        var resultGreater = MannWhitneyTest.Instance.Perform(x.ToSample(), y.ToSample(), AlternativeHypothesis.Greater, threshold);
+        var resultLesser = MannWhitneyTest.Instance.Perform(y.ToSample(), x.ToSample(), AlternativeHypothesis.Greater, threshold);
+        Assert.Equal(0.999999392895169, resultGreater.PValue, AbsoluteEqualityComparer.E5);
+        Assert.Equal(0.999999392895169, resultLesser.PValue, AbsoluteEqualityComparer.E5);
+    }
+
+    [Fact]
     public void MannWhitneyEquivalenceTest01()
     {
         var random = NormalDistribution.Standard.Random(new Random(1729));

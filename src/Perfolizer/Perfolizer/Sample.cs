@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Perfolizer.Collections;
 using Perfolizer.Common;
@@ -9,6 +10,9 @@ namespace Perfolizer;
 public class Sample : IFormattableUnit
 {
     private const string DefaultFormat = "G";
+    private const char OpenBracket = '[';
+    private const char CloseBracket = ']';
+    private const char Separator = ',';
 
     public IReadOnlyList<double> Values { get; }
     public IReadOnlyList<double> Weights { get; }
@@ -30,6 +34,14 @@ public class Sample : IFormattableUnit
     /// Kish's Effective Sample Size
     /// </summary>
     public double WeightedSize { get; }
+
+    public Sample(params double[] values) : this(values, null)
+    {
+    }
+
+    public Sample(params int[] values) : this(values, null)
+    {
+    }
 
     public Sample(IReadOnlyList<double> values, MeasurementUnit? measurementUnit = null)
     {
@@ -161,15 +173,51 @@ public class Sample : IFormattableUnit
     {
         format ??= DefaultFormat;
         var builder = new StringBuilder();
-        builder.Append('[');
+        builder.Append(OpenBracket);
         for (int i = 0; i < Values.Count; i++)
         {
             if (i != 0)
-                builder.Append(", ");
+                builder.Append(Separator);
             builder.Append(Values[i].ToString(format, formatProvider));
         }
-        builder.Append(']');
+        builder.Append(CloseBracket);
         builder.Append(MeasurementUnit.ToString(unitPresentation));
         return builder.ToString();
     }
+
+    public static bool TryParse(string s, out Sample sample)
+    {
+        sample = new Sample(0);
+        try
+        {
+            if (s.IndexOf(OpenBracket) != 0 || !s.Contains(CloseBracket))
+                return false;
+            int openBracketIndex = s.IndexOf(OpenBracket);
+            int closeBracketIndex = s.IndexOf(CloseBracket);
+            string main = s.Substring(openBracketIndex + 1, closeBracketIndex - openBracketIndex - 1);
+            string[] valueStrings = main.Split(Separator);
+            double[] values = new double[valueStrings.Length];
+            for (int i = 0; i < valueStrings.Length; i++)
+            {
+                string valueString = valueStrings[i];
+                if (!double.TryParse(valueString, NumberStyles.Any, CultureInfo.InvariantCulture, out double value))
+                    return false;
+                values[i] = value;
+            }
+
+            string unitString = s.Substring(closeBracketIndex + 1);
+            if (!MeasurementUnit.TryParse(unitString, out var unit))
+                return false;
+
+            sample = new Sample(values, unit);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    public static Sample Parse(string s) =>
+        TryParse(s, out var sample) ? sample : throw new FormatException($"Unknown sample: {s}");
 }

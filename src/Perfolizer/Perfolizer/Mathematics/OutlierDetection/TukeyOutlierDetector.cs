@@ -14,7 +14,7 @@ public class TukeyOutlierDetector : FenceOutlierDetector
 {
     private const double DefaultK = 1.5;
 
-    private static readonly TukeyOutlierDetector EmptySampleDetector = new TukeyOutlierDetector(double.MinValue, double.MaxValue);
+    private static readonly TukeyOutlierDetector EmptySampleDetector = new (double.MinValue, double.MaxValue);
 
     private TukeyOutlierDetector(double lowerFence, double upperFence)
     {
@@ -38,7 +38,7 @@ public class TukeyOutlierDetector : FenceOutlierDetector
     {
         Assertion.NotNull(nameof(sample), sample);
 
-        quantileEstimator ??= HarrellDavisQuantileEstimator.Instance;
+        quantileEstimator ??= SimpleQuantileEstimator.Instance;
         return new TukeyOutlierDetector(Quartiles.Create(sample, quantileEstimator), k);
     }
 
@@ -50,7 +50,7 @@ public class TukeyOutlierDetector : FenceOutlierDetector
         if (values.Count == 0)
             return EmptySampleDetector;
 
-        quantileEstimator ??= HarrellDavisQuantileEstimator.Instance;
+        quantileEstimator ??= SimpleQuantileEstimator.Instance;
         return new TukeyOutlierDetector(Quartiles.Create(values, quantileEstimator), k);
     }
 }

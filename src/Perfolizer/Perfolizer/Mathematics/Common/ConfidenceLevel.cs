@@ -5,6 +5,7 @@ namespace Perfolizer.Mathematics.Common;
 
 public readonly struct ConfidenceLevel
 {
+    [PublicAPI]
     public readonly double Value;
 
     [PublicAPI]

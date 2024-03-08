@@ -1,15 +1,9 @@
 namespace Perfolizer.Tests.Common;
 
-public class AbsoluteEqualityComparer : IEqualityComparer<double>
+public class AbsoluteEqualityComparer(double eps) : IEqualityComparer<double>
 {
-    private readonly double eps;
-
+    public static readonly IEqualityComparer<double> E5 = new AbsoluteEqualityComparer(1e-5);
     public static readonly IEqualityComparer<double> E9 = new AbsoluteEqualityComparer(1e-9);
-
-    public AbsoluteEqualityComparer(double eps)
-    {
-        this.eps = eps;
-    }
 
     public bool Equals(double x, double y)
     {
