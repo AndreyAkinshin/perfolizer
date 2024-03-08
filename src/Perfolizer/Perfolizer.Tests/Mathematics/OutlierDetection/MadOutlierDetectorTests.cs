@@ -6,12 +6,8 @@ using Perfolizer.Tests.Common;
 
 namespace Perfolizer.Tests.Mathematics.OutlierDetection;
 
-public class MadOutlierDetectorTests : OutlierDetectorTests
+public class MadOutlierDetectorTests(ITestOutputHelper output) : OutlierDetectorTests(output)
 {
-    public MadOutlierDetectorTests(ITestOutputHelper output) : base(output)
-    {
-    }
-
     /// <summary>
     /// Data cases for SimpleQuantileEstimator
     /// </summary>
@@ -55,7 +51,7 @@ public class MadOutlierDetectorTests : OutlierDetectorTests
             values => MadOutlierDetector.Create(values, MedianAbsoluteDeviationEstimator.Simple));
 
         if (testData.Values.IsEmpty())
-            Assert.Throws<ArgumentOutOfRangeException>(Action);
+            Assert.Throws<ArgumentException>(Action);
         else
             Action();
     }
@@ -98,7 +94,7 @@ public class MadOutlierDetectorTests : OutlierDetectorTests
             values => MadOutlierDetector.Create(values, MedianAbsoluteDeviationEstimator.HarrellDavis));
 
         if (testData.Values.IsEmpty())
-            Assert.Throws<ArgumentOutOfRangeException>(Action);
+            Assert.Throws<ArgumentException>(Action);
         else
             Action();
     }

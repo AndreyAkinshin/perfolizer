@@ -51,7 +51,7 @@ public class DoubleMadOutlierDetectorTests : OutlierDetectorTests
             values => DoubleMadOutlierDetector.Create(values, MedianAbsoluteDeviationEstimator.Simple));
 
         if (testData.Values.IsEmpty())
-            Assert.Throws<ArgumentOutOfRangeException>(Action);
+            Assert.Throws<ArgumentException>(Action);
         else
             Action();
     }
@@ -94,7 +94,7 @@ public class DoubleMadOutlierDetectorTests : OutlierDetectorTests
             values => DoubleMadOutlierDetector.Create(values, MedianAbsoluteDeviationEstimator.HarrellDavis));
 
         if (testData.Values.IsEmpty())
-            Assert.Throws<ArgumentOutOfRangeException>(Action);
+            Assert.Throws<ArgumentException>(Action);
         else
             Action();
     }
