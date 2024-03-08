@@ -17,7 +17,7 @@ public readonly struct NumberValue(double value) : IAbsoluteMeasurementValue
         UnitPresentation? unitPresentation = null)
     {
         format ??= DefaultFormat;
-        var measurementValue = new MeasurementValue(Value, NumberUnit.Instance);
+        var measurementValue = new Measurement(Value, NumberUnit.Instance);
         return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
 

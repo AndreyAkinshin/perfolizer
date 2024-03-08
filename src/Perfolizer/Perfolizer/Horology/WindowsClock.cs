@@ -17,7 +17,12 @@ internal class WindowsClock : IClock
     [DllImport("kernel32.dll")]
     private static extern bool QueryPerformanceFrequency(out long value);
 
-    [HandleProcessCorruptedStateExceptions] // #276
+    // 'HandleProcessCorruptedStateExceptionsAttribute' is obsolete in net6.0 because
+    //   recovery from corrupted process state exceptions is not supported.
+    // https://aka.ms/dotnet-warnings/SYSLIB0032
+#if NETSTANDARD2_0
+    [HandleProcessCorruptedStateExceptions] // https://github.com/dotnet/BenchmarkDotNet/issues/276
+#endif
     [SecurityCritical]
     private static bool Initialize(out long qpf)
     {

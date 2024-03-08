@@ -1,16 +1,11 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Perfolizer.Extensions;
 
 internal static class StringBuilderExtensions
 {
-    [return: NotNullIfNotNull("builder")]
-    public static StringBuilder? TrimEnd(this StringBuilder? builder, params char[] trimChars)
+    public static StringBuilder TrimEnd(this StringBuilder builder, params char[] trimChars)
     {
-        if (builder == null)
-            return null;
-
         int length = builder.Length;
         if (trimChars.Any())
             while (length > 0 && trimChars.Contains(builder[length - 1]))

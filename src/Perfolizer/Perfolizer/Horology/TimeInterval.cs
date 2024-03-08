@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using Perfolizer.Exceptions;
 using Perfolizer.Metrology;
 
@@ -12,11 +11,9 @@ public readonly struct TimeInterval(double nanoseconds)
 
     public double Nanoseconds { get; } = nanoseconds;
 
-    public TimeInterval(double value, TimeUnit unit) : this(value * unit.BaseUnits)
-    {
-    }
+    public TimeInterval(double value, TimeUnit unit) : this(value * unit.BaseUnits) { }
 
-    [PublicAPI] public static readonly TimeInterval Zero = new(0);
+    [PublicAPI] public static readonly TimeInterval Zero = new (0);
     public static readonly TimeInterval Nanosecond = TimeUnit.Nanosecond.ToInterval();
     public static readonly TimeInterval Microsecond = TimeUnit.Microsecond.ToInterval();
     public static readonly TimeInterval Millisecond = TimeUnit.Millisecond.ToInterval();
@@ -25,8 +22,8 @@ public readonly struct TimeInterval(double nanoseconds)
     public static readonly TimeInterval Hour = TimeUnit.Hour.ToInterval();
     public static readonly TimeInterval Day = TimeUnit.Day.ToInterval();
 
-    public Frequency ToFrequency() => new(Second / this);
-    public TimeInterval Abs() => new(Math.Abs(Nanoseconds));
+    public Frequency ToFrequency() => new (Second / this);
+    public TimeInterval Abs() => new (Math.Abs(Nanoseconds));
 
     public double ToNanoseconds() => this / Nanosecond;
     public double ToMicroseconds() => this / Microsecond;
@@ -45,12 +42,12 @@ public readonly struct TimeInterval(double nanoseconds)
     public static TimeInterval FromDays(double value) => Day * value;
 
     public static double operator /(TimeInterval a, TimeInterval b) => 1.0 * a.Nanoseconds / b.Nanoseconds;
-    public static TimeInterval operator /(TimeInterval a, double k) => new(a.Nanoseconds / k);
-    public static TimeInterval operator /(TimeInterval a, int k) => new(a.Nanoseconds / k);
-    public static TimeInterval operator *(TimeInterval a, double k) => new(a.Nanoseconds * k);
-    public static TimeInterval operator *(TimeInterval a, int k) => new(a.Nanoseconds * k);
-    public static TimeInterval operator *(double k, TimeInterval a) => new(a.Nanoseconds * k);
-    public static TimeInterval operator *(int k, TimeInterval a) => new(a.Nanoseconds * k);
+    public static TimeInterval operator /(TimeInterval a, double k) => new (a.Nanoseconds / k);
+    public static TimeInterval operator /(TimeInterval a, int k) => new (a.Nanoseconds / k);
+    public static TimeInterval operator *(TimeInterval a, double k) => new (a.Nanoseconds * k);
+    public static TimeInterval operator *(TimeInterval a, int k) => new (a.Nanoseconds * k);
+    public static TimeInterval operator *(double k, TimeInterval a) => new (a.Nanoseconds * k);
+    public static TimeInterval operator *(int k, TimeInterval a) => new (a.Nanoseconds * k);
     public static bool operator <(TimeInterval a, TimeInterval b) => a.Nanoseconds < b.Nanoseconds;
     public static bool operator >(TimeInterval a, TimeInterval b) => a.Nanoseconds > b.Nanoseconds;
     public static bool operator <=(TimeInterval a, TimeInterval b) => a.Nanoseconds <= b.Nanoseconds;
@@ -77,7 +74,7 @@ public readonly struct TimeInterval(double nanoseconds)
         timeUnit ??= TimeUnit.GetBestTimeUnit(Nanoseconds);
         format ??= DefaultFormat;
         double nominalValue = TimeUnit.Convert(Nanoseconds, TimeUnit.Nanosecond, timeUnit);
-        var measurementValue = new MeasurementValue(nominalValue, timeUnit);
+        var measurementValue = new Measurement(nominalValue, timeUnit);
         return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
 
@@ -87,7 +84,7 @@ public readonly struct TimeInterval(double nanoseconds)
     public bool Equals(TimeInterval other, double nanosecondEpsilon) =>
         Math.Abs(other.Nanoseconds - Nanoseconds) < nanosecondEpsilon;
 
-    public override bool Equals([NotNullWhen(true)] object? obj) => obj is TimeInterval other && Equals(other);
+    public override bool Equals(object? obj) => obj is TimeInterval other && Equals(other);
     public override int GetHashCode() => Nanoseconds.GetHashCode();
 
     public MeasurementUnit Unit => TimeUnit.Nanosecond;

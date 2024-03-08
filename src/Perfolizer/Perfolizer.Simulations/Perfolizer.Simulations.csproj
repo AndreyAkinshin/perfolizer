@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Perfolizer.SimulationTests\Perfolizer.SimulationTests.csproj" />
         <ProjectReference Include="..\Perfolizer.Tests\Perfolizer.Tests.csproj" />
         <ProjectReference Include="..\Perfolizer\Perfolizer.csproj" />
     </ItemGroup>

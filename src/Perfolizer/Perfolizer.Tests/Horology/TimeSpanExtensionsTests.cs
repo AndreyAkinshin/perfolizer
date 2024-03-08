@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using Perfolizer.Horology;
 using Perfolizer.Tests.Common;
+using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Horology;
 

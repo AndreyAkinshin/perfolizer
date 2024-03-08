@@ -65,7 +65,7 @@ public class LowlandModalityDetector : IModalityDetector
                     modeWeights?.Add(sample.SortedWeights[i]);
                 }
             }
-            if (modeValues.IsEmpty())
+            if (modeValues.Count == 0)
                 throw new InvalidOperationException(
                     $"Can't find any values in [{left.ToStringInvariant()}, {right.ToStringInvariant()}]");
 

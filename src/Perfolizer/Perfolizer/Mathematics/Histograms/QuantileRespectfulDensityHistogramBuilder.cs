@@ -26,8 +26,8 @@ public class QuantileRespectfulDensityHistogramBuilder : IDensityHistogramBuilde
         if (sample.IsWeighted && !quantileEstimator.SupportsWeightedSamples)
             throw new WeightedSampleNotSupportedException();
 
-        var probabilities =
-            Probability.ToProbabilities(new ArithmeticProgressionSequence(0, 1.0 / binCount).GenerateArray(binCount + 1));
+        double[] probabilityValues = new ArithmeticProgressionSequence(0, 1.0 / binCount).GenerateArray(binCount + 1);
+        var probabilities = Probability.ToProbabilities(probabilityValues);
         double[] quantiles = quantileEstimator.Quantiles(sample, probabilities);
 
         var bins = new List<DensityHistogramBin>(binCount);

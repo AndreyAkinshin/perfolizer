@@ -3,7 +3,7 @@ using Perfolizer.Mathematics.Cpd;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Mathematics.Sequences;
-using Perfolizer.Tests.Mathematics.Cpd.TestDataSets;
+using Perfolizer.SimulationTests.Cpd.TestDataSets;
 
 namespace Perfolizer.Simulations;
 

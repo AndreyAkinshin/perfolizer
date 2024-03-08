@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using Perfolizer.Common;
+using Perfolizer.Metrology;
 
 namespace Perfolizer.Collections;
 
@@ -89,16 +91,26 @@ internal static class CollectionExtensions
     /// </summary>
     internal static int WhichMax(this IReadOnlyList<double> source) => WhichMax(source, 0, source.Count);
 
-    public static Sample ToSample(this IEnumerable<double> values)
+    public static Sample ToSample(this IEnumerable<double> values, MeasurementUnit? unit = null)
     {
         Assertion.NotNull(nameof(values), values);
         if (values is IReadOnlyList<double> list)
-            return new Sample(list);
-        return new Sample(values.ToList());
+            return new Sample(list, unit);
+        return new Sample(values.ToList(), unit);
     }
 
+    public static bool IsEmpty<T>(this IReadOnlyCollection<T> value) => value.Count == 0;
+    public static bool IsNotEmpty<T>(this IReadOnlyCollection<T> value) => value.Count > 0;
     public static bool IsEmpty<T>(this IEnumerable<T> values) => !values.Any();
+    public static bool IsNotEmpty<T>(this IEnumerable<T> values) => values.Any();
 
     public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> values) =>
         values.Where(value => value != null).Cast<T>();
+
+    public static IReadOnlyList<T> ToReadOnlyList<T>(this IEnumerable<T> values) => values.ToList();
+
+#if NETSTANDARD2_0
+    public static TValue? GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+        => dictionary.TryGetValue(key, out var value) ? value : default;
+#endif
 }

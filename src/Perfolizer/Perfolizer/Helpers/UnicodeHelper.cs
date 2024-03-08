@@ -21,7 +21,7 @@ internal static class UnicodeHelper
 
         var builder = new StringBuilder();
         foreach (char c in s)
-            builder.Append(CharMap.TryGetValue(c, out string replacement) ? replacement : c.ToString());
+            builder.Append(CharMap.TryGetValue(c, out string? replacement) ? replacement : c.ToString());
         return builder.ToString();
     }
 }

@@ -28,10 +28,13 @@ public class TimeUnit(string abbreviation, string fullName, long baseUnits)
     /// <returns>Best time unit.</returns>
     public static TimeUnit GetBestTimeUnit(params double[] values)
     {
-        if (values.Length == 0)
-            return Nanosecond;
-        // Use the largest unit to display the smallest recorded measurement without loss of precision.
-        double minValue = values.Min();
+        if (values.Length == 0) return Nanosecond;
+
+        var nonZeroValues = values.Where(x => x > 0).ToList();
+        if (nonZeroValues.Count == 0) return Nanosecond;
+
+        // Use the largest unit to display the smallest non-zero recorded measurement without loss of precision.
+        double minValue = nonZeroValues.Min();
         return All.LastOrDefault(unit => minValue >= unit.BaseUnits) ?? All.First();
     }
 
@@ -55,6 +58,6 @@ public class TimeUnit(string abbreviation, string fullName, long baseUnits)
         return false;
     }
 
-    public static TimeUnit Parse(string s) =>
+    public new static TimeUnit Parse(string s) =>
         TryParse(s, out var unit) ? unit : throw new FormatException($"Unknown time unit: {s}");
 }

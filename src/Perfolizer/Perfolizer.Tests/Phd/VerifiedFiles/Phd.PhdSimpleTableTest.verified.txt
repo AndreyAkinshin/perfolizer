@@ -1,0 +1,8 @@
+﻿Linux
+
+BenchmarkVersion = 1
+
+| BenchmarkId | Center | Spread |
+|:------------|-------:|-------:|
+| benchmark1  | 9.9 ms | 6.6 ms |
+| benchmark2  | 9.9 ms | 6.9 ms |

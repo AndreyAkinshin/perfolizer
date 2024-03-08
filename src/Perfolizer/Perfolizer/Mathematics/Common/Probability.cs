@@ -29,7 +29,7 @@ public readonly struct Probability : IComparable, IComparable<Probability>, IEqu
         return Value.ToString(DefaultCultureInfo.Instance);
     }
 
-    public int CompareTo(object obj)
+    public int CompareTo(object? obj)
     {
         return Value.CompareTo(obj);
     }
@@ -39,7 +39,7 @@ public readonly struct Probability : IComparable, IComparable<Probability>, IEqu
         return Value.ToString(formatProvider);
     }
 
-    public string ToString(string format, IFormatProvider? formatProvider = null)
+    public string ToString(string? format, IFormatProvider? formatProvider = null)
     {
         return Value.ToString(format, formatProvider ?? DefaultCultureInfo.Instance);
     }
@@ -49,7 +49,7 @@ public readonly struct Probability : IComparable, IComparable<Probability>, IEqu
         return Value.Equals(other.Value);
     }
 
-    public override bool Equals([NotNullWhen(true)] object? obj)
+    public override bool Equals(object? obj)
     {
         return obj is Probability other && Equals(other);
     }
@@ -64,11 +64,8 @@ public readonly struct Probability : IComparable, IComparable<Probability>, IEqu
         return Value.CompareTo(other.Value);
     }
 
-    [return: NotNullIfNotNull("values")]
-    public static Probability[]? ToProbabilities(double[]? values)
+    public static Probability[] ToProbabilities(double[] values)
     {
-        if (values == null)
-            return null;
         var probabilities = new Probability[values.Length];
         for (int i = 0; i < values.Length; i++)
             probabilities[i] = values[i];

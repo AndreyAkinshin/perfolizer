@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Tests.Common;
+using Perfolizer.Tests.Infra;
 using static System.Math;
 
 namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions;

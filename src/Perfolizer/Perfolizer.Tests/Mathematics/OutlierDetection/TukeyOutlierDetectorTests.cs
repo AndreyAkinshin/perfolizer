@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using Perfolizer.Mathematics.OutlierDetection;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Common;
+using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Mathematics.OutlierDetection;
 

@@ -15,7 +15,7 @@ public readonly struct RatioValue(double value) : IRelativeMeasurementValue
         UnitPresentation? unitPresentation = null)
     {
         format ??= DefaultFormat;
-        var measurementValue = new MeasurementValue(Value, RatioUnit.Instance);
+        var measurementValue = new Measurement(Value, RatioUnit.Instance);
         return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
 

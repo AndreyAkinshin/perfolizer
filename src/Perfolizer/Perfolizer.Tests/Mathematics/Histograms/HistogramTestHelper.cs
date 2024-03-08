@@ -4,6 +4,7 @@ using Perfolizer.Horology;
 using Perfolizer.Mathematics.Histograms;
 using Perfolizer.Mathematics.Multimodality;
 using Perfolizer.Tests.Common;
+using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Mathematics.Histograms;
 

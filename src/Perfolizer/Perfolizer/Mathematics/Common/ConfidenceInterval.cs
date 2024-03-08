@@ -72,7 +72,7 @@ public readonly struct ConfidenceInterval : IEquatable<ConfidenceInterval>
                comparer.Equals(ConfidenceLevel, other.ConfidenceLevel);
     }
 
-    public override bool Equals([NotNullWhen(true)] object? obj)
+    public override bool Equals(object? obj)
     {
         return obj is ConfidenceInterval other && Equals(other);
     }

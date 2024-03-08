@@ -151,6 +151,6 @@ internal struct HashCodeHelper
 
     [Obsolete("HashCode is a mutable struct and should not be compared with other HashCodes.", error: true)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public override bool Equals(object obj) => throw new NotSupportedException();
+    public override bool Equals(object? obj) => throw new NotSupportedException();
 #pragma warning restore CS0809 // Obsolete member 'HashCode.GetHashCode()' overrides non-obsolete member 'object.GetHashCode()'
 }

@@ -26,7 +26,7 @@ public abstract class MeasurementUnit(string abbreviation, string fullName, long
     public long BaseUnits { get; } = baseUnits;
 
     public string AbbreviationAscii => Abbreviation.ConvertToAscii();
-    public virtual string GetFlavor() => GetType().Name.Replace("Unit", "");
+    public string GetFlavor() => GetType().Name.Replace("Unit", "");
 
     public override string ToString() => Abbreviation;
 
@@ -66,10 +66,14 @@ public abstract class MeasurementUnit(string abbreviation, string fullName, long
     public static MeasurementUnit Parse(string s) =>
         TryParse(s, out var unit) ? unit : throw new FormatException($"Unknown unit: {s}");
 
-    public bool Equals(MeasurementUnit other) =>
-        Abbreviation == other.Abbreviation &&
-        FullName == other.FullName &&
-        BaseUnits == other.BaseUnits;
+    public bool Equals(MeasurementUnit? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Abbreviation == other.Abbreviation &&
+               FullName == other.FullName &&
+               BaseUnits == other.BaseUnits;
+    }
 
     public override bool Equals(object? obj)
     {
