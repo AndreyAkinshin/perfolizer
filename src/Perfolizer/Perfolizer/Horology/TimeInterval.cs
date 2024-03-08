@@ -8,7 +8,7 @@ namespace Perfolizer.Horology;
 public readonly struct TimeInterval(double nanoseconds)
     : IEquatable<TimeInterval>, IComparable<TimeInterval>, IAbsoluteMeasurementValue
 {
-    private const string DefaultFormat = "0.####";
+    private const string DefaultFormat = "0.###";
 
     public double Nanoseconds { get; } = nanoseconds;
 

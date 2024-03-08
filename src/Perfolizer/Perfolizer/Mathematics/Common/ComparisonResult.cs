@@ -4,5 +4,6 @@ public enum ComparisonResult
 {
     Greater,
     Indistinguishable,
-    Lesser
+    Lesser,
+    Unknown
 }

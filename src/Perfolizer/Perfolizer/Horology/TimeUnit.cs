@@ -32,7 +32,7 @@ public class TimeUnit(string abbreviation, string fullName, long baseUnits)
             return Nanosecond;
         // Use the largest unit to display the smallest recorded measurement without loss of precision.
         double minValue = values.Min();
-        return All.LastOrDefault(unit => minValue >= unit.BaseUnits) ?? All.Last();
+        return All.LastOrDefault(unit => minValue >= unit.BaseUnits) ?? All.First();
     }
 
     public static double Convert(double value, TimeUnit from, TimeUnit? to) =>

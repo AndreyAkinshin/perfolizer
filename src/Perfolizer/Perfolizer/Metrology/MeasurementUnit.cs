@@ -42,18 +42,19 @@ public abstract class MeasurementUnit(string abbreviation, string fullName, long
         return $"{gap}{unitName}";
     }
 
-    public static bool TryParse(string s, out MeasurementUnit unit)
+    public static bool TryParse(string? s, out MeasurementUnit unit)
     {
-        foreach (var measurementUnit in GetAll())
-        {
-            if (measurementUnit.Abbreviation.EquationsIgnoreCase(s) ||
-                measurementUnit.AbbreviationAscii.EquationsIgnoreCase(s) ||
-                measurementUnit.FullName.EquationsIgnoreCase(s))
+        if (s != null && s.IsNotBlank())
+            foreach (var measurementUnit in GetAll())
             {
-                unit = measurementUnit;
-                return true;
+                if (measurementUnit.Abbreviation.EquationsIgnoreCase(s) ||
+                    measurementUnit.AbbreviationAscii.EquationsIgnoreCase(s) ||
+                    measurementUnit.FullName.EquationsIgnoreCase(s))
+                {
+                    unit = measurementUnit;
+                    return true;
+                }
             }
-        }
         unit = NumberUnit.Instance;
         return false;
     }

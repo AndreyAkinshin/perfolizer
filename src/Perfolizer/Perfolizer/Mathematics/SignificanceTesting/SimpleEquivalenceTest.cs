@@ -10,6 +10,9 @@ public class SimpleEquivalenceTest(ISignificanceTwoSampleTest oneSidedTest) : IE
 {
     public ComparisonResult Perform(Sample x, Sample y, Threshold threshold, SignificanceLevel alpha)
     {
+        if (x.Size <= 1 && y.Size <= 1)
+            return ComparisonResult.Unknown;
+
         var deltas = DeltasEstimator.HodgesLehmannShamos.Deltas(x, y);
         double thresholdShift = Max(threshold.EffectiveShift(x), threshold.EffectiveShift(y));
 
