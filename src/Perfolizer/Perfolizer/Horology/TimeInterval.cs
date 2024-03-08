@@ -1,18 +1,18 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
-using Perfolizer.Common;
+using Perfolizer.Metrology;
 
 namespace Perfolizer.Horology;
 
-public readonly struct TimeInterval : IEquatable<TimeInterval>, IComparable<TimeInterval>
+public readonly struct TimeInterval(double nanoseconds) : IEquatable<TimeInterval>, IComparable<TimeInterval>
 {
-    private const string DefaultFormat = "N4";
+    private const string DefaultFormat = "0.####";
 
-    public double Nanoseconds { get; }
+    public double Nanoseconds { get; } = nanoseconds;
 
-    public TimeInterval(double nanoseconds) => Nanoseconds = nanoseconds;
-
-    public TimeInterval(double value, TimeUnit unit) : this(value * unit.NanosecondAmount) { }
+    public TimeInterval(double value, TimeUnit unit) : this(value * unit.BaseUnits)
+    {
+    }
 
     public static readonly TimeInterval Zero = new(0);
     public static readonly TimeInterval Nanosecond = TimeUnit.Nanosecond.ToInterval();
@@ -56,13 +56,7 @@ public readonly struct TimeInterval : IEquatable<TimeInterval>, IComparable<Time
     [Pure] public static bool operator ==(TimeInterval a, TimeInterval b) => a.Nanoseconds.Equals(b.Nanoseconds);
     [Pure] public static bool operator !=(TimeInterval a, TimeInterval b) => !a.Nanoseconds.Equals(b.Nanoseconds);
 
-    [Pure, PublicAPI]
-    public string ToString(
-        IFormatProvider? formatProvider,
-        UnitPresentation? unitPresentation = null)
-    {
-        return ToString(null, null, formatProvider, unitPresentation);
-    }
+    public override string ToString() => ToString(null, null, null);
 
     [Pure]
     public string ToString(
@@ -82,23 +76,17 @@ public readonly struct TimeInterval : IEquatable<TimeInterval>, IComparable<Time
     {
         timeUnit ??= TimeUnit.GetBestTimeUnit(Nanoseconds);
         format ??= DefaultFormat;
-        formatProvider ??= DefaultCultureInfo.Instance;
-        unitPresentation ??= UnitPresentation.Default;
-        double unitValue = TimeUnit.Convert(Nanoseconds, TimeUnit.Nanosecond, timeUnit);
-        if (unitPresentation.IsVisible)
-        {
-            string unitName = timeUnit.Name.PadLeft(unitPresentation.MinUnitWidth);
-            return $"{unitValue.ToString(format, formatProvider)} {unitName}";
-        }
-
-        return unitValue.ToString(format, formatProvider);
+        double nominalValue = TimeUnit.Convert(Nanoseconds, TimeUnit.Nanosecond, timeUnit);
+        var measurementValue = new MeasurementValue(nominalValue, timeUnit);
+        return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
-
-    [Pure] public override string ToString() => ToString(DefaultFormat);
 
     public int CompareTo(TimeInterval other) => Nanoseconds.CompareTo(other.Nanoseconds);
     public bool Equals(TimeInterval other) => Nanoseconds.Equals(other.Nanoseconds);
-    public bool Equals(TimeInterval other, double nanosecondEpsilon) => Math.Abs(other.Nanoseconds - Nanoseconds) < nanosecondEpsilon;
+
+    public bool Equals(TimeInterval other, double nanosecondEpsilon) =>
+        Math.Abs(other.Nanoseconds - Nanoseconds) < nanosecondEpsilon;
+
     public override bool Equals([NotNullWhen(true)] object? obj) => obj is TimeInterval other && Equals(other);
     public override int GetHashCode() => Nanoseconds.GetHashCode();
 }

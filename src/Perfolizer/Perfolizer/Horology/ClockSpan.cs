@@ -2,23 +2,14 @@
 
 namespace Perfolizer.Horology;
 
-public readonly struct ClockSpan
+public readonly struct ClockSpan(long startTimestamp, long endTimestamp, Frequency frequency)
 {
-    private readonly long startTimestamp, endTimestamp;
-    private readonly Frequency frequency;
+    [Pure] public double GetSeconds() => 1.0 * Max(0, endTimestamp - startTimestamp) / frequency;
+    [Pure] public double GetNanoseconds() => GetSeconds() * TimeUnit.Second.BaseUnits;
+    [Pure] public long GetDateTimeTicks() => (long)Round(GetSeconds() * TimeSpan.TicksPerSecond);
+    [Pure] public TimeSpan GetTimeSpan() => new(GetDateTimeTicks());
+    [Pure] public TimeInterval GetTimeValue() => new(GetNanoseconds());
 
-    public ClockSpan(long startTimestamp, long endTimestamp, Frequency frequency)
-    {
-        this.startTimestamp = startTimestamp;
-        this.endTimestamp = endTimestamp;
-        this.frequency = frequency;
-    }
-
-    [Pure] public double GetSeconds() => 1.0 * Math.Max(0, endTimestamp - startTimestamp) / frequency;
-    [Pure] public double GetNanoseconds() => GetSeconds() * TimeUnit.Second.NanosecondAmount;
-    [Pure] public long GetDateTimeTicks() => (long) Math.Round(GetSeconds() * TimeSpan.TicksPerSecond);
-    [Pure] public TimeSpan GetTimeSpan() => new TimeSpan(GetDateTimeTicks());
-    [Pure] public TimeInterval GetTimeValue() => new TimeInterval(GetNanoseconds());
-
-    public override string ToString() => $"ClockSpan({startTimestamp} ticks, {endTimestamp} ticks, {frequency.Hertz} Hz)";
+    public override string ToString() =>
+        $"ClockSpan({startTimestamp} ticks, {endTimestamp} ticks, {frequency.Hertz} Hz)";
 }

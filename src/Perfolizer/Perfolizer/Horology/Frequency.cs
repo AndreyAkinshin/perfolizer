@@ -2,6 +2,7 @@
 using System.Globalization;
 using JetBrains.Annotations;
 using Perfolizer.Common;
+using Perfolizer.Metrology;
 
 namespace Perfolizer.Horology;
 
