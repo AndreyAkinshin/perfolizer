@@ -36,20 +36,16 @@ public class Sample : IWithUnits
     /// </summary>
     public double WeightedSize { get; }
 
-    public Sample(params double[] values) : this(values, null)
-    {
-    }
+    public Sample(params double[] values) : this(values, null) { }
 
-    public Sample(params int[] values) : this(values, null)
-    {
-    }
+    public Sample(params int[] values) : this(values, null) { }
 
-    public Sample(IReadOnlyList<double> values, MeasurementUnit? measurementUnit = null)
+    public Sample(IReadOnlyList<double> values, MeasurementUnit? unit = null)
     {
         Assertion.NotNullOrEmpty(nameof(values), values);
 
         Values = values;
-        Unit = measurementUnit ?? NumberUnit.Instance;
+        Unit = unit ?? NumberUnit.Instance;
         double weight = 1.0 / values.Count;
         Weights = new IdenticalReadOnlyList<double>(values.Count, weight);
         TotalWeight = 1.0;
@@ -79,8 +75,8 @@ public class Sample : IWithUnits
         {
             totalWeight += weight;
             totalWeightSquared += weight.Sqr();
-            maxWeight = Max(maxWeight, weight);
-            minWeight = Min(minWeight, weight);
+            maxWeight = Math.Max(maxWeight, weight);
+            minWeight = Math.Min(minWeight, weight);
         }
 
         if (minWeight < 0)
@@ -111,15 +107,11 @@ public class Sample : IWithUnits
     }
 
     [PublicAPI]
-    public Sample(IEnumerable<int> values, MeasurementUnit? measurementUnit = null)
-        : this(values.Select(x => (double)x).ToList(), measurementUnit)
-    {
-    }
+    public Sample(IEnumerable<int> values, MeasurementUnit? unit = null)
+        : this(values.Select(x => (double)x).ToList(), unit) { }
 
-    public Sample(IEnumerable<long> values, MeasurementUnit? measurementUnit = null)
-        : this(values.Select(x => (double)x).ToList(), measurementUnit)
-    {
-    }
+    public Sample(IEnumerable<long> values, MeasurementUnit? unit = null)
+        : this(values.Select(x => (double)x).ToList(), unit) { }
 
     public Sample Concat(Sample sample)
     {
@@ -192,6 +184,7 @@ public class Sample : IWithUnits
 
             string unitString = s.Substring(closeBracketIndex + 1);
             if (!MeasurementUnit.TryParse(unitString, out var unit))
+
                 return false;
 
             sample = new Sample(values, unit);
@@ -250,4 +243,8 @@ public class Sample : IWithUnits
                 return false;
         return true;
     }
+
+    public double Mean() => Values.Average();
+    public double Min() => SortedValues.First();
+    public double Max() => SortedValues.Last();
 }

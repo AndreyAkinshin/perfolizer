@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Perfolizer.Exceptions;
+using Perfolizer.Metrology;
 
 namespace Perfolizer.Common;
 
@@ -164,6 +165,14 @@ internal static class Assertion
             string message = Format("{0}={1}, {2}={3}, but {0} and {2} should be equal", name1, value1, name2, value2);
             throw new ArgumentOutOfRangeException(name1, value1, message);
         }
+    }
+
+    [AssertionMethod]
+    public static void Equal(MeasurementUnit unit1, MeasurementUnit unit2)
+    {
+        if (unit1 != unit2)
+            throw new InvalidOperationException(
+                $"Invalid operations on incompatible units: {unit1.FullName} and {unit2.FullName}");
     }
 
     [AssertionMethod]

@@ -28,7 +28,7 @@ public class QuantileEstimatorDemo : IDemo
             // * Akinshin, Andrey. "Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width."
             //   arXiv preprint arXiv:2111.11776 (2021).
             //   https://arxiv.org/abs/2111.11776
-            TrimmedHarrellDavisQuantileEstimator.SqrtInstance,
+            TrimmedHarrellDavisQuantileEstimator.Sqrt,
             // The Sfakianakis-Verginis quantile estimators
             // They use a weighted sum of all sample elements, weights are assigned according to the Binomial distribution
             // * Sfakianakis, Michael E., and Dimitris G. Verginis. "A new family of nonparametric quantile estimators."

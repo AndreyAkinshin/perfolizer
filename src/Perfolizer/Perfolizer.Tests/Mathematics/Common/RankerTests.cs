@@ -4,6 +4,7 @@ using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Tests.Common;
+using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Mathematics.Common;
 

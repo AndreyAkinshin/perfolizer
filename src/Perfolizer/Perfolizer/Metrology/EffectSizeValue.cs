@@ -16,7 +16,7 @@ public readonly struct EffectSizeValue(double value) : IAbsoluteMeasurementValue
         UnitPresentation? unitPresentation = null)
     {
         format ??= DefaultFormat;
-        var measurementValue = new MeasurementValue(Value, EffectSizeUnit.Instance);
+        var measurementValue = new Measurement(Value, EffectSizeUnit.Instance);
         return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
 

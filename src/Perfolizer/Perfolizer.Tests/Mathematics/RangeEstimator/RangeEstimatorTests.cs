@@ -4,6 +4,7 @@ using Perfolizer.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Tests.Common;
+using Perfolizer.Tests.Infra;
 using Range = Perfolizer.Mathematics.Common.Range;
 
 namespace Perfolizer.Tests.Mathematics.RangeEstimator;

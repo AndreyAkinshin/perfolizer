@@ -27,7 +27,7 @@ public class MetrologyTests
     [InlineData("20GHz")]
     public void MeasurementUnitToStringParseTest(string s)
     {
-        if (!MeasurementValue.TryParse(s, out var value))
+        if (!Measurement.TryParse(s, out var value))
             throw new Exception($"Failed to parse '{s}'");
         Assert.Equal(s, value.ToString());
     }

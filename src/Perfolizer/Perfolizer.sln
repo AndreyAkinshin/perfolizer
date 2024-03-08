@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer.Demo", "Perfoliz
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer.Simulations", "Perfolizer.Simulations\Perfolizer.Simulations.csproj", "{C9338572-948F-4164-A1B7-43DEA1B9B696}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfolizer.SimulationTests", "Perfolizer.SimulationTests\Perfolizer.SimulationTests.csproj", "{8E2B01DC-7A08-431A-ACB8-8709CEC04228}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{C9338572-948F-4164-A1B7-43DEA1B9B696}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9338572-948F-4164-A1B7-43DEA1B9B696}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9338572-948F-4164-A1B7-43DEA1B9B696}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E2B01DC-7A08-431A-ACB8-8709CEC04228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E2B01DC-7A08-431A-ACB8-8709CEC04228}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E2B01DC-7A08-431A-ACB8-8709CEC04228}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E2B01DC-7A08-431A-ACB8-8709CEC04228}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

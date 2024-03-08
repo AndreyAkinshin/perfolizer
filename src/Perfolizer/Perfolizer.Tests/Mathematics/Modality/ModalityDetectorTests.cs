@@ -7,6 +7,7 @@ using Perfolizer.Mathematics.Histograms;
 using Perfolizer.Mathematics.Multimodality;
 using Perfolizer.Mathematics.Sequences;
 using Perfolizer.Tests.Common;
+using Perfolizer.Tests.Infra;
 using Perfolizer.Tests.Mathematics.Modality.TestDataSets;
 
 namespace Perfolizer.Tests.Mathematics.Modality;

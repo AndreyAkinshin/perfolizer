@@ -29,7 +29,7 @@ public class Threshold(params ISpecificMeasurementValue[] thresholdValues) : IWi
             values[i] = double.MinValue;
             foreach (var appliedSample in appliedSamples)
                 values[i] = Max(values[i], appliedSample.Values[i]);
-            if (appliedSamples.IsEmpty())
+            if (appliedSamples.Length == 0)
                 values[i] = sample.Values[i];
         }
         return sample.IsWeighted
@@ -83,7 +83,7 @@ public class Threshold(params ISpecificMeasurementValue[] thresholdValues) : IWi
         var thresholdValues = new ISpecificMeasurementValue[parts.Length];
         for (int i = 0; i < parts.Length; i++)
         {
-            if (!MeasurementValue.TryParse(parts[i], out var measurementValue))
+            if (!Measurement.TryParse(parts[i], out var measurementValue))
             {
                 threshold = Zero;
                 return false;

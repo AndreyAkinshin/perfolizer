@@ -49,7 +49,7 @@ public readonly struct Probability : IComparable, IComparable<Probability>, IEqu
         return Value.Equals(other.Value);
     }
 
-    public override bool Equals([NotNullWhen(true)] object? obj)
+    public override bool Equals(object? obj)
     {
         return obj is Probability other && Equals(other);
     }
@@ -64,7 +64,6 @@ public readonly struct Probability : IComparable, IComparable<Probability>, IEqu
         return Value.CompareTo(other.Value);
     }
 
-    [return: NotNullIfNotNull("values")]
     public static Probability[]? ToProbabilities(double[]? values)
     {
         if (values == null)

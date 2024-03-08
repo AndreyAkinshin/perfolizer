@@ -1,5 +1,6 @@
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Tests.Common;
+using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Mathematics.Functions;
 

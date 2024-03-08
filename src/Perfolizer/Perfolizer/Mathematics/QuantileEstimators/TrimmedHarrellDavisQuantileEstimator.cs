@@ -12,7 +12,7 @@ public class TrimmedHarrellDavisQuantileEstimator : IQuantileEstimator
 {
     private readonly Func<double, Probability> getIntervalWidth;
 
-    public static readonly IQuantileEstimator SqrtInstance = new TrimmedHarrellDavisQuantileEstimator(n => 1.0 / Sqrt(n), "SQRT");
+    public static readonly IQuantileEstimator Sqrt = new TrimmedHarrellDavisQuantileEstimator(n => 1.0 / Sqrt(n), "SQRT");
 
     public TrimmedHarrellDavisQuantileEstimator(Func<double, Probability> getIntervalWidth, string? alias = null)
     {

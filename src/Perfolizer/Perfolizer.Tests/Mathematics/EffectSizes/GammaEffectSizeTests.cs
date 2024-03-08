@@ -6,6 +6,7 @@ using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.EffectSizes;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Tests.Common;
+using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Mathematics.EffectSizes;
 

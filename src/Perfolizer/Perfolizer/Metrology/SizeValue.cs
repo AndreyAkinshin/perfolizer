@@ -52,7 +52,7 @@ public readonly struct SizeValue(long bytes) : IAbsoluteMeasurementValue
         sizeUnit ??= SizeUnit.GetBestSizeUnit(Bytes);
         format ??= DefaultFormat;
         double nominalValue = SizeUnit.Convert(Bytes, SizeUnit.B, sizeUnit);
-        var measurementValue = new MeasurementValue(nominalValue, sizeUnit);
+        var measurementValue = new Measurement(nominalValue, sizeUnit);
         return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
 

@@ -8,6 +8,7 @@ using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
 using Perfolizer.Metrology;
 using Perfolizer.Tests.Common;
+using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
 

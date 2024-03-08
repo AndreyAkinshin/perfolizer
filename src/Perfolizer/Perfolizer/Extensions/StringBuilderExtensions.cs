@@ -5,7 +5,6 @@ namespace Perfolizer.Extensions;
 
 internal static class StringBuilderExtensions
 {
-    [return: NotNullIfNotNull("builder")]
     public static StringBuilder? TrimEnd(this StringBuilder? builder, params char[] trimChars)
     {
         if (builder == null)

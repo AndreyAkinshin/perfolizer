@@ -1,0 +1,98 @@
+﻿{
+  "attributes": {
+    "info": {
+      "title": "BenchmarkDotNet.Samples.IntroExportJson-20240309-013216"
+    },
+    "environment": {
+      "benchmarkDotNetCaption": "BenchmarkDotNet",
+      "benchmarkDotNetVersion": "0.13.13-develop (2024-03-09)",
+      "osVersion": "macOS Sonoma 14.2.1 (23C71) [Darwin 23.2.0]",
+      "processorName": "Apple M1 Max",
+      "physicalProcessorCount": "1",
+      "physicalCoreCount": "10",
+      "logicalCoreCount": "10",
+      "runtimeVersion": ".NET 8.0.0 (8.0.23.53103)",
+      "architecture": "Arm64",
+      "hasAttachedDebugger": false,
+      "hasRyuJit": true,
+      "configuration": "RELEASE",
+      "dotNetSdkVersion": "8.0.100",
+      "chronometerFrequency": 1000000000,
+      "hardwareTimerKind": "Unknown"
+    }
+  },
+  "children": [
+    {
+      "attributes": {
+        "descriptor": {
+          "displayInfo": "BenchmarkDotNet.Samples.IntroExportJson-20240309-013216",
+          "namespace": "BenchmarkDotNet.Samples",
+          "type": "IntroExportJson",
+          "method": "ExportJson",
+          "methodTitle": "ExportJson",
+          "parameters": "Foo=1"
+        }
+      },
+      "children": [
+        {
+          "attributes": {
+            "lifecycle": {
+              "launchIndex": 0,
+              "iterationMode": "Pilot",
+              "iterationStage": "Overhead"
+            }
+          },
+          "metrics": [
+            {
+              "iterationIndex": 1,
+              "invocationCount": 2,
+              "value": 12,
+              "unit": "ns"
+            },
+            {
+              "iterationIndex": 2,
+              "invocationCount": 2,
+              "value": 13,
+              "unit": "ns"
+            },
+            {
+              "iterationIndex": 3,
+              "invocationCount": 2,
+              "value": 14,
+              "unit": "ns"
+            }
+          ]
+        },
+        {
+          "attributes": {
+            "lifecycle": {
+              "launchIndex": 1,
+              "iterationMode": "Result",
+              "iterationStage": "Workload"
+            }
+          },
+          "metrics": [
+            {
+              "iterationIndex": 1,
+              "invocationCount": 2,
+              "value": 15,
+              "unit": "ns"
+            },
+            {
+              "iterationIndex": 2,
+              "invocationCount": 2,
+              "value": 16,
+              "unit": "ns"
+            },
+            {
+              "iterationIndex": 3,
+              "invocationCount": 2,
+              "value": 17,
+              "unit": "ns"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

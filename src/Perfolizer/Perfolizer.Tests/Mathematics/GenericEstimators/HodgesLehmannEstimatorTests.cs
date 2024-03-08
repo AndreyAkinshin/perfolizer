@@ -4,6 +4,7 @@ using Perfolizer.Exceptions;
 using Perfolizer.Mathematics.GenericEstimators;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Common;
+using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Mathematics.GenericEstimators;
 

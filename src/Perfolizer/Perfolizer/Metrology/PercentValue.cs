@@ -17,7 +17,7 @@ public readonly struct PercentValue(double percentage) : IRelativeMeasurementVal
         UnitPresentation? unitPresentation = null)
     {
         format ??= DefaultFormat;
-        var measurementValue = new MeasurementValue(Percentage, PercentUnit.Instance);
+        var measurementValue = new Measurement(Percentage, PercentUnit.Instance);
         return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
 
