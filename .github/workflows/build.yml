@@ -1,11 +1,11 @@
-name: build
+name: Build and Test
 
 on:
   pull_request:
   push:
 
 env:
-  DOTNET_VERSION: 8.0.100
+  DOTNET_VERSION: 8.0.201
 
 jobs:
   build-nix:
@@ -14,9 +14,9 @@ jobs:
       matrix:
         operating-system: [ubuntu-latest, macOS-latest]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     - name: Build
@@ -26,9 +26,9 @@ jobs:
   build-windows:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     - name: Build
