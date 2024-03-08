@@ -21,6 +21,10 @@ public class MetrologyTests
     [InlineData("14%")]
     [InlineData("15ES")]
     [InlineData("16x")]
+    [InlineData("17Hz")]
+    [InlineData("18KHz")]
+    [InlineData("19MHz")]
+    [InlineData("20GHz")]
     public void MeasurementUnitToStringParseTest(string s)
     {
         if (!MeasurementValue.TryParse(s, out var value))

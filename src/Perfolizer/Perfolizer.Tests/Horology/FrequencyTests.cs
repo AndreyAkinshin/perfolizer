@@ -43,18 +43,6 @@ public class FrequencyTests
     }
 
     [Fact]
-    public void MetaTest()
-    {
-        foreach (var unit in FrequencyUnit.All)
-        {
-            Assert.True(unit.Name != null && unit.Name.IndexOf("hz", StringComparison.InvariantCultureIgnoreCase) >= 0);
-            Assert.True(unit.Description != null && unit.Description.IndexOf("hertz", StringComparison.InvariantCultureIgnoreCase) >= 0);
-            Assert.True(char.IsUpper(unit.Name!.First()));
-            Assert.True(char.IsUpper(unit.Description!.First()));
-        }
-    }
-
-    [Fact]
     public void ParseTest()
     {
         Assert.True(Frequency.TryParseHz("2", out var a));
@@ -84,9 +72,9 @@ public class FrequencyTests
     }
 
     [Theory]
-    [InlineData(1, "1 Hz")]
-    [InlineData(2_300, "2.3 KHz")]
-    [InlineData(3_456_000, "3.456 MHz")]
+    [InlineData(1, "1Hz")]
+    [InlineData(2_300, "2.3KHz")]
+    [InlineData(3_456_000, "3.456MHz")]
     public void ToStringTest(double hertz, string expectedToString)
     {
         Assert.Equal(Frequency.FromHz(hertz).ToString(), expectedToString);

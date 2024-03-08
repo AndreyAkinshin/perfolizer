@@ -22,6 +22,9 @@ public class MeasurementValue(double nominalValue, MeasurementUnit unit) : IForm
     public SizeValue? AsSizeValue() =>
         Unit is SizeUnit sizeUnit ? new SizeValue(NominalValue.RoundToLong(), sizeUnit) : null;
 
+    public Frequency? AsFrequency() =>
+        Unit is FrequencyUnit frequencyUnit ? new Frequency(NominalValue, frequencyUnit) : null;
+
     public NumberValue? AsNumberValue() =>
         Unit is NumberUnit ? new NumberValue(NominalValue) : null;
 
@@ -39,6 +42,7 @@ public class MeasurementValue(double nominalValue, MeasurementUnit unit) : IForm
         return
             AsTimeInterval() ??
             AsSizeValue() ??
+            AsFrequency() ??
             AsNumberValue() ??
             AsPercentValue() ??
             (IApplicableMeasurementUnit?)AsEffectSizeValue() ??

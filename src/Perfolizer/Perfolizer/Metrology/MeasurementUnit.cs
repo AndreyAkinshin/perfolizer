@@ -1,4 +1,3 @@
-using Perfolizer.Common;
 using Perfolizer.Helpers;
 using Perfolizer.Horology;
 
@@ -12,6 +11,8 @@ public abstract class MeasurementUnit(string abbreviation, string fullName, long
         foreach (var unit in TimeUnit.All)
             yield return unit;
         foreach (var unit in SizeUnit.All)
+            yield return unit;
+        foreach (var unit in FrequencyUnit.All)
             yield return unit;
         yield return NumberUnit.Instance;
         yield return PercentUnit.Instance;

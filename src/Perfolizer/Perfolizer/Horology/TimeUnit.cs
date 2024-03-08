@@ -1,5 +1,4 @@
 ﻿using JetBrains.Annotations;
-using Perfolizer.Common;
 using Perfolizer.Helpers;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Metrology;

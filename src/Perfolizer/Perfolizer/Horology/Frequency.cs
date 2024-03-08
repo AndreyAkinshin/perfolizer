@@ -7,15 +7,16 @@ using Perfolizer.Metrology;
 namespace Perfolizer.Horology;
 
 [PublicAPI]
-public readonly struct Frequency : IEquatable<Frequency>, IComparable<Frequency>
+public readonly struct Frequency(double hertz)
+    : IEquatable<Frequency>, IComparable<Frequency>, IApplicableMeasurementUnit
 {
-    private const string DefaultFormat = "";
+    private const string DefaultFormat = "G";
 
-    [PublicAPI] public double Hertz { get; }
+    [PublicAPI] public double Hertz { get; } = hertz;
 
-    [PublicAPI] public Frequency(double hertz) => Hertz = hertz;
-
-    [PublicAPI] public Frequency(double value, FrequencyUnit unit) : this(value * unit.HertzAmount) { }
+    [PublicAPI] public Frequency(double value, FrequencyUnit unit) : this(value * unit.BaseUnits)
+    {
+    }
 
     [PublicAPI] public static readonly Frequency Zero = new(0);
     [PublicAPI] public static readonly Frequency Hz = FrequencyUnit.Hz.ToFrequency();
@@ -23,70 +24,93 @@ public readonly struct Frequency : IEquatable<Frequency>, IComparable<Frequency>
     [PublicAPI] public static readonly Frequency MHz = FrequencyUnit.MHz.ToFrequency();
     [PublicAPI] public static readonly Frequency GHz = FrequencyUnit.GHz.ToFrequency();
 
-    [PublicAPI, Pure] public TimeInterval ToResolution() => TimeInterval.Second / Hertz;
+    [PublicAPI] public TimeInterval ToResolution() => TimeInterval.Second / Hertz;
 
-    [PublicAPI, Pure] public double ToHz() => this / Hz;
-    [PublicAPI, Pure] public double ToKHz() => this / KHz;
-    [PublicAPI, Pure] public double ToMHz() => this / MHz;
-    [PublicAPI, Pure] public double ToGHz() => this / GHz;
+    [PublicAPI] public double ToHz() => this / Hz;
+    [PublicAPI] public double ToKHz() => this / KHz;
+    [PublicAPI] public double ToMHz() => this / MHz;
+    [PublicAPI] public double ToGHz() => this / GHz;
 
-    [PublicAPI, Pure] public static Frequency FromHz(double value) => Hz * value;
-    [PublicAPI, Pure] public static Frequency FromKHz(double value) => KHz * value;
-    [PublicAPI, Pure] public static Frequency FromMHz(double value) => MHz * value;
-    [PublicAPI, Pure] public static Frequency FromGHz(double value) => GHz * value;
+    [PublicAPI] public static Frequency FromHz(double value) => Hz * value;
+    [PublicAPI] public static Frequency FromKHz(double value) => KHz * value;
+    [PublicAPI] public static Frequency FromMHz(double value) => MHz * value;
+    [PublicAPI] public static Frequency FromGHz(double value) => GHz * value;
 
-    [PublicAPI, Pure] public static implicit operator Frequency(double value) => new(value);
-    [PublicAPI, Pure] public static implicit operator double(Frequency property) => property.Hertz;
+    [PublicAPI] public static implicit operator Frequency(double value) => new(value);
+    [PublicAPI] public static implicit operator double(Frequency property) => property.Hertz;
 
-    [PublicAPI, Pure] public static double operator /(Frequency a, Frequency b) => 1.0 * a.Hertz / b.Hertz;
-    [PublicAPI, Pure] public static Frequency operator /(Frequency a, double k) => new(a.Hertz / k);
-    [PublicAPI, Pure] public static Frequency operator /(Frequency a, int k) => new(a.Hertz / k);
-    [PublicAPI, Pure] public static Frequency operator *(Frequency a, double k) => new(a.Hertz * k);
-    [PublicAPI, Pure] public static Frequency operator *(Frequency a, int k) => new(a.Hertz * k);
-    [PublicAPI, Pure] public static Frequency operator *(double k, Frequency a) => new(a.Hertz * k);
-    [PublicAPI, Pure] public static Frequency operator *(int k, Frequency a) => new(a.Hertz * k);
-    [PublicAPI, Pure] public static bool operator <(Frequency a, Frequency b) => a.Hertz < b.Hertz;
-    [PublicAPI, Pure] public static bool operator >(Frequency a, Frequency b) => a.Hertz > b.Hertz;
-    [PublicAPI, Pure] public static bool operator <=(Frequency a, Frequency b) => a.Hertz <= b.Hertz;
-    [PublicAPI, Pure] public static bool operator >=(Frequency a, Frequency b) => a.Hertz >= b.Hertz;
-    [PublicAPI, Pure] public static bool operator ==(Frequency a, Frequency b) => a.Hertz.Equals(b.Hertz);
-    [PublicAPI, Pure] public static bool operator !=(Frequency a, Frequency b) => !a.Hertz.Equals(b.Hertz);
+    [PublicAPI] public static double operator /(Frequency a, Frequency b) => 1.0 * a.Hertz / b.Hertz;
+    [PublicAPI] public static Frequency operator /(Frequency a, double k) => new(a.Hertz / k);
+    [PublicAPI] public static Frequency operator /(Frequency a, int k) => new(a.Hertz / k);
+    [PublicAPI] public static Frequency operator *(Frequency a, double k) => new(a.Hertz * k);
+    [PublicAPI] public static Frequency operator *(Frequency a, int k) => new(a.Hertz * k);
+    [PublicAPI] public static Frequency operator *(double k, Frequency a) => new(a.Hertz * k);
+    [PublicAPI] public static Frequency operator *(int k, Frequency a) => new(a.Hertz * k);
+    [PublicAPI] public static bool operator <(Frequency a, Frequency b) => a.Hertz < b.Hertz;
+    [PublicAPI] public static bool operator >(Frequency a, Frequency b) => a.Hertz > b.Hertz;
+    [PublicAPI] public static bool operator <=(Frequency a, Frequency b) => a.Hertz <= b.Hertz;
+    [PublicAPI] public static bool operator >=(Frequency a, Frequency b) => a.Hertz >= b.Hertz;
+    [PublicAPI] public static bool operator ==(Frequency a, Frequency b) => a.Hertz.Equals(b.Hertz);
+    [PublicAPI] public static bool operator !=(Frequency a, Frequency b) => !a.Hertz.Equals(b.Hertz);
 
-    [PublicAPI, Pure]
+    [PublicAPI]
     public static bool TryParse([NotNullWhen(true)] string? s, FrequencyUnit unit, out Frequency freq)
     {
         return TryParse(s, unit, NumberStyles.Any, DefaultCultureInfo.Instance, out freq);
     }
 
-    [PublicAPI, Pure]
-    public static bool TryParse([NotNullWhen(true)] string? s, FrequencyUnit unit, NumberStyles numberStyle, IFormatProvider formatProvider, out Frequency freq)
+    [PublicAPI]
+    public static bool TryParse([NotNullWhen(true)] string? s, FrequencyUnit unit, NumberStyles numberStyle,
+        IFormatProvider formatProvider, out Frequency freq)
     {
         bool success = double.TryParse(s, numberStyle, formatProvider, out double result);
         freq = new Frequency(result, unit);
         return success;
     }
 
-    [PublicAPI, Pure] public static bool TryParseHz([NotNullWhen(true)] string? s, out Frequency freq) => TryParse(s, FrequencyUnit.Hz, out freq);
-    [PublicAPI, Pure]
-    public static bool TryParseHz([NotNullWhen(true)] string? s, NumberStyles numberStyle, IFormatProvider formatProvider, out Frequency freq)
+    [PublicAPI] public static bool TryParseHz([NotNullWhen(true)] string? s, out Frequency freq) =>
+        TryParse(s, FrequencyUnit.Hz, out freq);
+
+    [PublicAPI]
+    public static bool TryParseHz([NotNullWhen(true)] string? s, NumberStyles numberStyle,
+        IFormatProvider formatProvider, out Frequency freq)
         => TryParse(s, FrequencyUnit.Hz, numberStyle, formatProvider, out freq);
 
-    [PublicAPI, Pure] public static bool TryParseKHz([NotNullWhen(true)] string? s, out Frequency freq) => TryParse(s, FrequencyUnit.KHz, out freq);
-    [PublicAPI, Pure]
-    public static bool TryParseKHz([NotNullWhen(true)] string? s, NumberStyles numberStyle, IFormatProvider formatProvider, out Frequency freq)
+    [PublicAPI] public static bool TryParseKHz([NotNullWhen(true)] string? s, out Frequency freq) =>
+        TryParse(s, FrequencyUnit.KHz, out freq);
+
+    [PublicAPI]
+    public static bool TryParseKHz([NotNullWhen(true)] string? s, NumberStyles numberStyle,
+        IFormatProvider formatProvider, out Frequency freq)
         => TryParse(s, FrequencyUnit.KHz, numberStyle, formatProvider, out freq);
 
-    [PublicAPI, Pure] public static bool TryParseMHz([NotNullWhen(true)] string? s, out Frequency freq) => TryParse(s, FrequencyUnit.MHz, out freq);
-    [PublicAPI, Pure]
-    public static bool TryParseMHz([NotNullWhen(true)] string? s, NumberStyles numberStyle, IFormatProvider formatProvider, out Frequency freq)
+    [PublicAPI] public static bool TryParseMHz([NotNullWhen(true)] string? s, out Frequency freq) =>
+        TryParse(s, FrequencyUnit.MHz, out freq);
+
+    [PublicAPI]
+    public static bool TryParseMHz([NotNullWhen(true)] string? s, NumberStyles numberStyle,
+        IFormatProvider formatProvider, out Frequency freq)
         => TryParse(s, FrequencyUnit.MHz, numberStyle, formatProvider, out freq);
 
-    [PublicAPI, Pure] public static bool TryParseGHz([NotNullWhen(true)] string? s, out Frequency freq) => TryParse(s, FrequencyUnit.GHz, out freq);
-    [PublicAPI, Pure]
-    public static bool TryParseGHz([NotNullWhen(true)] string? s, NumberStyles numberStyle, IFormatProvider formatProvider, out Frequency freq)
+    [PublicAPI] public static bool TryParseGHz([NotNullWhen(true)] string? s, out Frequency freq) =>
+        TryParse(s, FrequencyUnit.GHz, out freq);
+
+    [PublicAPI]
+    public static bool TryParseGHz([NotNullWhen(true)] string? s, NumberStyles numberStyle,
+        IFormatProvider formatProvider, out Frequency freq)
         => TryParse(s, FrequencyUnit.GHz, numberStyle, formatProvider, out freq);
 
-    [PublicAPI, Pure]
+    public Sample? Apply(Sample sample)
+    {
+        var sampleUnit = sample.MeasurementUnit;
+        if (sampleUnit is not FrequencyUnit frequencyUnit)
+            return null;
+        double shift = FrequencyUnit.Convert(Hertz, FrequencyUnit.Hz, frequencyUnit);
+        return MeasurementValueHelper.Apply(sample, x => x + shift);
+    }
+
+    public override string ToString() => ToString(DefaultFormat);
+
     public string ToString(
         string? format,
         IFormatProvider? formatProvider = null,
@@ -95,7 +119,7 @@ public readonly struct Frequency : IEquatable<Frequency>, IComparable<Frequency>
         return ToString(null, format, formatProvider, unitPresentation);
     }
 
-    [PublicAPI, Pure]
+    [PublicAPI]
     public string ToString(
         FrequencyUnit? frequencyUnit,
         string? format = null,
@@ -104,24 +128,14 @@ public readonly struct Frequency : IEquatable<Frequency>, IComparable<Frequency>
     {
         frequencyUnit ??= FrequencyUnit.GetBestFrequencyUnit(Hertz);
         format ??= DefaultFormat;
-        formatProvider ??= DefaultCultureInfo.Instance;
-        unitPresentation ??= UnitPresentation.Default;
-        double unitValue = FrequencyUnit.Convert(Hertz, FrequencyUnit.Hz, frequencyUnit);
-        if (unitPresentation.IsVisible)
-        {
-            string unitName = frequencyUnit.Name.PadLeft(unitPresentation.MinUnitWidth);
-            return $"{unitValue.ToString(format, formatProvider)} {unitName}";
-        }
-
-        return unitValue.ToString(format, formatProvider);
+        double nominalValue = FrequencyUnit.Convert(Hertz, FrequencyUnit.Hz, frequencyUnit);
+        var measurementValue = new MeasurementValue(nominalValue, frequencyUnit);
+        return measurementValue.ToString(format, formatProvider, unitPresentation);
     }
 
-    [PublicAPI, Pure] public override string ToString() => ToString(DefaultFormat);
-
     public bool Equals(Frequency other) => Hertz.Equals(other.Hertz);
-    public bool Equals(Frequency other, double hertzEpsilon) => Math.Abs(Hertz - other.Hertz) < hertzEpsilon;
+    public bool Equals(Frequency other, double hertzEpsilon) => Abs(Hertz - other.Hertz) < hertzEpsilon;
     public override bool Equals([NotNullWhen(true)] object? obj) => obj is Frequency other && Equals(other);
     public override int GetHashCode() => Hertz.GetHashCode();
     public int CompareTo(Frequency other) => Hertz.CompareTo(other.Hertz);
-
 }
