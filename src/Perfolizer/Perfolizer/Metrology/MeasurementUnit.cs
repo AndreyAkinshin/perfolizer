@@ -28,7 +28,7 @@ public abstract class MeasurementUnit(string abbreviation, string fullName, long
 
     public override string ToString() => Abbreviation;
 
-    public string ToString(UnitPresentation? unitPresentation = null)
+    public string ToString(UnitPresentation? unitPresentation)
     {
         unitPresentation ??= UnitPresentation.Default;
         if (!unitPresentation.IsVisible)

@@ -37,4 +37,24 @@ public class TimeUnit(string abbreviation, string fullName, long baseUnits)
 
     public static double Convert(double value, TimeUnit from, TimeUnit? to) =>
         value * from.BaseUnits / (to ?? GetBestTimeUnit(value)).BaseUnits;
+
+    public static bool TryParse(string s, out TimeUnit unit)
+    {
+        foreach (var timeUnit in All)
+        {
+            if (timeUnit.Abbreviation.Equals(s) ||
+                timeUnit.AbbreviationAscii.Equals(s) ||
+                timeUnit.FullName.Equals(s))
+            {
+                unit = timeUnit;
+                return true;
+            }
+        }
+
+        unit = Nanosecond;
+        return false;
+    }
+
+    public static TimeUnit Parse(string s) =>
+        TryParse(s, out var unit) ? unit : throw new FormatException($"Unknown time unit: {s}");
 }
