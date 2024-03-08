@@ -1,6 +1,7 @@
 using System.Text;
 using JetBrains.Annotations;
 using Perfolizer.Collections;
+using Perfolizer.Mathematics.GenericEstimators;
 
 namespace Perfolizer.Metrology;
 
@@ -9,7 +10,7 @@ namespace Perfolizer.Metrology;
 /// </summary>
 public class Threshold(params ISpecificMeasurementValue[] thresholdValues) : IWithUnits, IEquatable<Threshold>
 {
-    public static readonly Threshold Zero = new();
+    public static readonly Threshold Zero = new ();
 
     private const char Separator = '|';
 
@@ -36,18 +37,18 @@ public class Threshold(params ISpecificMeasurementValue[] thresholdValues) : IWi
             : new Sample(values, sample.Unit);
     }
 
-    public IEnumerable<double> GetShifts(Sample sample) => thresholdValues
-        .OfType<IAbsoluteMeasurementValue>()
-        .Select(value => value.GetShift(sample));
-
-    public IEnumerable<double> GetRatios() => thresholdValues
-        .OfType<IRelativeMeasurementValue>()
-        .Select(value => value.GetRatio());
-
-    public double GetMaxShift(Sample sample, double defaultShift = 0) =>
-        GetShifts(sample).DefaultIfEmpty(defaultShift).Max();
-
-    public double GetMaxRatio(double defaultRatio = 1.0) => GetRatios().DefaultIfEmpty(defaultRatio).Max();
+    public double EffectiveShift(Sample sample)
+    {
+        var basicShifts = thresholdValues
+            .OfType<IAbsoluteMeasurementValue>()
+            .Select(value => value.GetShift(sample));
+        var ratioShifts = thresholdValues
+            .OfType<IRelativeMeasurementValue>()
+            .Select(value => value.Apply(sample))
+            .WhereNotNull()
+            .Select(sample2 => HodgesLehmannEstimator.Instance.Shift(sample2, sample));
+        return basicShifts.Concat(ratioShifts).DefaultIfEmpty(0).Max();
+    }
 
     public override string ToString() => presentation;
     public MeasurementUnit Unit => throw new NotSupportedException("Threshold does not have a measurement unit");

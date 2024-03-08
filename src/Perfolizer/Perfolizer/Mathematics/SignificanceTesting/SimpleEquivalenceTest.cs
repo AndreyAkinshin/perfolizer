@@ -11,10 +11,10 @@ public class SimpleEquivalenceTest(ISignificanceTwoSampleTest oneSidedTest) : IE
     public ComparisonResult Perform(Sample x, Sample y, Threshold threshold, SignificanceLevel alpha)
     {
         var deltas = DeltasEstimator.HodgesLehmannShamos.Deltas(x, y);
-        double thresholdShift = Max(threshold.GetMaxShift(x), threshold.GetMaxShift(y));
+        double thresholdShift = Max(threshold.EffectiveShift(x), threshold.EffectiveShift(y));
 
         // Practical significance
-        if (deltas.Shift.Abs() > thresholdShift * 10)
+        if (thresholdShift > 0 && deltas.Shift.Abs() > thresholdShift * 10)
             return deltas.Shift > 0 ? ComparisonResult.Greater : ComparisonResult.Lesser;
 
         // Statistical significance (TOST)

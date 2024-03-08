@@ -15,11 +15,9 @@ public readonly struct Frequency(double hertz)
 
     [PublicAPI] public double Hertz { get; } = hertz;
 
-    [PublicAPI] public Frequency(double value, FrequencyUnit unit) : this(value * unit.BaseUnits)
-    {
-    }
+    [PublicAPI] public Frequency(double value, FrequencyUnit unit) : this(value * unit.BaseUnits) { }
 
-    [PublicAPI] public static readonly Frequency Zero = new(0);
+    [PublicAPI] public static readonly Frequency Zero = new (0);
     [PublicAPI] public static readonly Frequency Hz = FrequencyUnit.Hz.ToFrequency();
     [PublicAPI] public static readonly Frequency KHz = FrequencyUnit.KHz.ToFrequency();
     [PublicAPI] public static readonly Frequency MHz = FrequencyUnit.MHz.ToFrequency();
@@ -37,16 +35,16 @@ public readonly struct Frequency(double hertz)
     [PublicAPI] public static Frequency FromMHz(double value) => MHz * value;
     [PublicAPI] public static Frequency FromGHz(double value) => GHz * value;
 
-    [PublicAPI] public static implicit operator Frequency(double value) => new(value);
+    [PublicAPI] public static implicit operator Frequency(double value) => new (value);
     [PublicAPI] public static implicit operator double(Frequency property) => property.Hertz;
 
     [PublicAPI] public static double operator /(Frequency a, Frequency b) => 1.0 * a.Hertz / b.Hertz;
-    [PublicAPI] public static Frequency operator /(Frequency a, double k) => new(a.Hertz / k);
-    [PublicAPI] public static Frequency operator /(Frequency a, int k) => new(a.Hertz / k);
-    [PublicAPI] public static Frequency operator *(Frequency a, double k) => new(a.Hertz * k);
-    [PublicAPI] public static Frequency operator *(Frequency a, int k) => new(a.Hertz * k);
-    [PublicAPI] public static Frequency operator *(double k, Frequency a) => new(a.Hertz * k);
-    [PublicAPI] public static Frequency operator *(int k, Frequency a) => new(a.Hertz * k);
+    [PublicAPI] public static Frequency operator /(Frequency a, double k) => new (a.Hertz / k);
+    [PublicAPI] public static Frequency operator /(Frequency a, int k) => new (a.Hertz / k);
+    [PublicAPI] public static Frequency operator *(Frequency a, double k) => new (a.Hertz * k);
+    [PublicAPI] public static Frequency operator *(Frequency a, int k) => new (a.Hertz * k);
+    [PublicAPI] public static Frequency operator *(double k, Frequency a) => new (a.Hertz * k);
+    [PublicAPI] public static Frequency operator *(int k, Frequency a) => new (a.Hertz * k);
     [PublicAPI] public static bool operator <(Frequency a, Frequency b) => a.Hertz < b.Hertz;
     [PublicAPI] public static bool operator >(Frequency a, Frequency b) => a.Hertz > b.Hertz;
     [PublicAPI] public static bool operator <=(Frequency a, Frequency b) => a.Hertz <= b.Hertz;
@@ -101,12 +99,13 @@ public readonly struct Frequency(double hertz)
         IFormatProvider formatProvider, out Frequency freq)
         => TryParse(s, FrequencyUnit.GHz, numberStyle, formatProvider, out freq);
 
-    public MeasurementUnit Unit => FrequencyUnit.Hz;
+    // Explicit implementation allows keeping backward compatibility with the current serialization format of BenchmarkDotNet
+    MeasurementUnit IWithUnits.Unit => FrequencyUnit.Hz;
 
     public double GetShift(Sample sample)
     {
         if (sample.Unit is not FrequencyUnit frequencyUnit)
-            throw new InvalidMeasurementUnitExceptions(Unit, sample.Unit);
+            throw new InvalidMeasurementUnitExceptions(FrequencyUnit.Hz, sample.Unit);
         return FrequencyUnit.Convert(Hertz, FrequencyUnit.Hz, frequencyUnit);
     }
 
