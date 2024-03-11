@@ -44,6 +44,10 @@ public abstract class MeasurementUnit(string abbreviation, string fullName, long
 
     public static bool TryParse(string? s, out MeasurementUnit unit)
     {
+        unit = NumberUnit.Instance;
+        if (s is { Length: 0 })
+            return true;
+
         if (s != null && s.IsNotBlank())
             foreach (var measurementUnit in GetAll())
             {
@@ -55,7 +59,7 @@ public abstract class MeasurementUnit(string abbreviation, string fullName, long
                     return true;
                 }
             }
-        unit = NumberUnit.Instance;
+
         return false;
     }
 
