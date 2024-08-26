@@ -6,7 +6,7 @@ using Perfolizer.Mathematics.GenericEstimators;
 namespace Perfolizer.Metrology;
 
 /// <summary>
-/// https://aakinshin.net/posts/trinal-thresholds/
+/// https://aakinshin.net/posts/post-trinal-thresholds/
 /// </summary>
 public class Threshold(params ISpecificMeasurementValue[] thresholdValues) : IWithUnits, IEquatable<Threshold>
 {
