@@ -23,8 +23,8 @@
         <Nullable>enable</Nullable>
 
         <Major>0</Major>
-        <Minor>3</Minor>
-        <Revision>18</Revision>
+        <Minor>4</Minor>
+        <Revision>0</Revision>
         <BuildNumber>0</BuildNumber>
 
         <PrereleaseLabel>-develop</PrereleaseLabel>
