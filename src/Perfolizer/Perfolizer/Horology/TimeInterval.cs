@@ -32,6 +32,7 @@ public readonly struct TimeInterval(double nanoseconds)
     public double ToMinutes() => this / Minute;
     public double ToHours() => this / Hour;
     public double ToDays() => this / Day;
+    public double ToUnit(TimeUnit unit) => Nanoseconds / unit.BaseUnits;
 
     public static TimeInterval FromNanoseconds(double value) => Nanosecond * value;
     public static TimeInterval FromMicroseconds(double value) => Microsecond * value;

@@ -45,7 +45,7 @@ public class PhdTableView
                     continue;
                 var unit = measurements.First().Unit;
 
-                if (unit is TimeUnit timeUnit)
+                if (unit is TimeUnit)
                 {
                     double[] values = measurements
                         .Select(m => m.AsTimeInterval()!.Value.Nanoseconds)
@@ -54,7 +54,8 @@ public class PhdTableView
                     var bestUnit = TimeUnit.GetBestTimeUnit(values);
                     for (int rowIndex = 0; rowIndex < measurements.Length; rowIndex++)
                     {
-                        double valueInBestUnit = TimeUnit.Convert(measurements[rowIndex].NominalValue, timeUnit, bestUnit);
+                        var timeInterval = measurements[rowIndex].AsTimeInterval()!.Value;
+                        double valueInBestUnit = timeInterval.ToUnit(bestUnit);
                         measurements[rowIndex] = valueInBestUnit.WithUnit(bestUnit);
                         values[rowIndex] = valueInBestUnit;
                     }
