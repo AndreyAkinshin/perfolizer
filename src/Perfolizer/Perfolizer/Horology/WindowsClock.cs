@@ -1,3 +1,5 @@
+using Perfolizer.Helpers;
+using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -45,8 +47,13 @@ internal class WindowsClock : IClock
 
     public string Title => "Windows";
     public bool IsAvailable => GlobalIsAvailable;
-    public Frequency Frequency => new Frequency(GlobalFrequency);
+    public Frequency Frequency
+    {
+        [MethodImpl(JitHelper.AggressiveOptimizationOption)]
+        get => new Frequency(GlobalFrequency);
+    }
 
+    [MethodImpl(JitHelper.AggressiveOptimizationOption)]
     public long GetTimestamp()
     {
         QueryPerformanceCounter(out long value);
