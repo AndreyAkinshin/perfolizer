@@ -1,7 +1,7 @@
 using JetBrains.Annotations;
+using Perfolizer.InfoModels;
 using Perfolizer.Metrology;
 using Perfolizer.Phd.Base;
-using Perfolizer.Phd.Dto;
 using Perfolizer.Phd.Presenting;
 using Perfolizer.Phd.Tables;
 using Perfolizer.Presenting;
@@ -22,7 +22,7 @@ public class PhdTableTests(ITestOutputHelper output) : PhdTestsBase
         return VerifyString(key, presenter.Dump());
     }
 
-    private static readonly IDictionary<string, PhdEntry> EntryDataMap = new Dictionary<string, PhdEntry>
+    private static readonly IDictionary<string, EntryInfo> EntryDataMap = new Dictionary<string, EntryInfo>
     {
         { "case01", Root().Add(Benchmark("Foo", "10ns"), Benchmark("Bar", "200ns")) },
         { "case02", Root().Add(Benchmark("Foo", "10us"), Benchmark("Bar", "200us")) },
@@ -34,7 +34,7 @@ public class PhdTableTests(ITestOutputHelper output) : PhdTestsBase
 
     [UsedImplicitly] public static TheoryData<string> EntryDataKeys = TheoryDataHelper.Create(EntryDataMap.Keys);
 
-    private static PhdEntry Root() => new()
+    private static EntryInfo Root() => new()
     {
         Meta = new PhdMeta
         {
@@ -50,13 +50,13 @@ public class PhdTableTests(ITestOutputHelper output) : PhdTestsBase
         },
     };
 
-    private static PhdEntry Benchmark(string name, params string[] metrics)
+    private static EntryInfo Benchmark(string name, params string[] metrics)
     {
-        var entry = new PhdEntry { Benchmark = new CustomBenchmark(name) };
+        var entry = new EntryInfo { Benchmark = new CustomBenchmarkInfo(name) };
         for (int i = 0; i < metrics.Length; i++)
         {
             var measurement = Measurement.Parse(metrics[i]);
-            entry.Add(new PhdEntry
+            entry.Add(new EntryInfo
             {
                 IterationIndex = i,
                 Value = measurement.NominalValue,
@@ -66,7 +66,7 @@ public class PhdTableTests(ITestOutputHelper output) : PhdTestsBase
         return entry;
     }
 
-    private class CustomBenchmark(string name) : PhdBenchmark
+    private class CustomBenchmarkInfo(string name) : BenchmarkInfo
     {
         public string Name { get; set; } = name;
     }

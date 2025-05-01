@@ -1,10 +1,8 @@
-using Microsoft.VisualBasic;
+namespace Perfolizer.InfoModels;
 
-namespace Perfolizer.Phd.Base;
-
-public class PhdMetric(string? id, int? version) : PhdObject
+public class MetricInfo(string? id, int? version) : AbstractInfo
 {
-    public static readonly PhdMetric Empty = new (null, null);
+    public static readonly MetricInfo Empty = new (null, null);
 
     public string? Id { get; set; } = id;
     public int? Version { get; set; } = version;
@@ -13,6 +11,6 @@ public class PhdMetric(string? id, int? version) : PhdObject
         ? Id ?? ""
         : $"{Id} v{Version}".Trim();
 
-    public static implicit operator PhdMetric(string id) => new (id, null);
+    public static implicit operator MetricInfo(string id) => new (id, null);
     public bool IsEmpty => Id == null && Version == null;
 }

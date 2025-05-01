@@ -1,15 +1,16 @@
 using System.Diagnostics;
 using System.Text;
 using Perfolizer.Collections;
+using Perfolizer.InfoModels;
 using Perfolizer.Metrology;
 using Perfolizer.Phd.Base;
 
 namespace Perfolizer.Phd.Tables;
 
 [DebuggerDisplay("{Measurements.Count} measurements, {cells.Count} cells")]
-public class PhdRow(PhdEntry entry)
+public class PhdRow(EntryInfo entry)
 {
-    public PhdEntry Entry { get; } = entry;
+    public EntryInfo Entry { get; } = entry;
     private readonly Dictionary<string, PhdCell> cells = new (StringComparer.OrdinalIgnoreCase);
     public List<Measurement> Measurements { get; } = [];
 

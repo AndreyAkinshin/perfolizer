@@ -1,3 +1,4 @@
+using Perfolizer.InfoModels;
 using Perfolizer.Phd.Base;
 
 namespace Perfolizer.Tests.Phd;
@@ -5,5 +6,5 @@ namespace Perfolizer.Tests.Phd;
 public class PhdEmptyTests : PhdTestsBase
 {
     [Fact]
-    public Task PhdEmpty() => VerifyPhd(new PhdEntry(), new PhdSchema(""));
+    public Task PhdEmpty() => VerifyPhd(new EntryInfo(), new PhdSchema(""));
 }

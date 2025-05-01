@@ -1,6 +1,6 @@
-namespace Perfolizer.Phd.Base;
+namespace Perfolizer.InfoModels;
 
-public class PhdObject
+public abstract class AbstractInfo
 {
     public string? Display { get; set; }
 

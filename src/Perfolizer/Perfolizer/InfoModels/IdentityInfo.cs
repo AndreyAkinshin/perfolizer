@@ -1,10 +1,10 @@
 using JetBrains.Annotations;
 using Perfolizer.Phd.Base;
 
-namespace Perfolizer.Phd.Dto;
+namespace Perfolizer.InfoModels;
 
 [PublicAPI]
-public class PhdInfo : PhdObject
+public class IdentityInfo : AbstractInfo
 {
     public string Title { get; set; } = "";
     public Guid RunId { get; set; }

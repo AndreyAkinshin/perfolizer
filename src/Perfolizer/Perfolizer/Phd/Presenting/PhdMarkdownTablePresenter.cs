@@ -2,7 +2,6 @@ using Perfolizer.Common;
 using Perfolizer.Extensions;
 using Perfolizer.Metrology;
 using Perfolizer.Phd.Base;
-using Perfolizer.Phd.Dto;
 using Perfolizer.Phd.Tables;
 using Perfolizer.Presenting;
 

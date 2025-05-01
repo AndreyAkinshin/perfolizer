@@ -1,8 +1,9 @@
+using Perfolizer.InfoModels;
 using Perfolizer.Phd.Base;
 
 namespace Perfolizer.Phd.Tables;
 
-public class PhdTableConfig : PhdObject
+public class PhdTableConfig : AbstractInfo
 {
     public List<PhdFilter> Filters { get; set; } = [];
     public List<PhdColumnDefinition> ColumnDefinitions { get; set; } = [];
@@ -13,7 +14,7 @@ public class PhdTableConfig : PhdObject
     /// </summary>
     public int? MaxAnchorLength { get; set; }
 
-    public bool IsMatched(PhdEntry entry) => Filters.All(filter => filter.IsMatched(entry));
+    public bool IsMatched(EntryInfo entry) => Filters.All(filter => filter.IsMatched(entry));
 
     // public bool PrintUnitsInHeader { get; set; }
     // public bool PrintUnitsInContent { get; set; }

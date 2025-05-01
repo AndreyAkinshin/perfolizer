@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using Perfolizer.Helpers;
-using Perfolizer.Phd.Dto;
+using Perfolizer.InfoModels;
 using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Helpers
@@ -17,7 +17,7 @@ namespace Perfolizer.Tests.Helpers
             foreach (int? physicalCoreCount in new int?[] { null, 0, 1, 2 })
             foreach (int? logicalCoreCount in new int?[] { null, 0, 1, 2 })
             {
-                var cpu = new PhdCpu
+                var cpu = new CpuInfo
                 {
                     ProcessorName = processorName,
                     PhysicalProcessorCount = physicalProcessorCount,

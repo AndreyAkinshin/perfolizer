@@ -1,13 +1,13 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using Perfolizer.Horology;
-using Perfolizer.Phd.Dto;
+using Perfolizer.InfoModels;
 
 namespace Perfolizer.Helpers;
 
 public static class CpuBrandHelper
 {
-    public static string ToFullBrandName(this PhdCpu? cpu)
+    public static string ToFullBrandName(this CpuInfo? cpu)
     {
         if (cpu == null)
             return "Unknown processor";
@@ -60,7 +60,7 @@ public static class CpuBrandHelper
     /// <param name="cpu">The CPU information</param>
     /// <param name="includeMaxFrequency">Whether to include determined max frequency information</param>
     /// <returns>Prettified version</returns>
-    public static string ToShortBrandName(this PhdCpu? cpu, bool includeMaxFrequency = false)
+    public static string ToShortBrandName(this CpuInfo? cpu, bool includeMaxFrequency = false)
     {
         if (cpu == null || string.IsNullOrEmpty(cpu.ProcessorName))
             return "Unknown processor";

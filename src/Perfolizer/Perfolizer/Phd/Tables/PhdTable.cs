@@ -1,5 +1,6 @@
 using Perfolizer.Collections;
 using Perfolizer.Extensions;
+using Perfolizer.InfoModels;
 using Perfolizer.Metrology;
 using Perfolizer.Phd.Base;
 using Perfolizer.Phd.Functions;
@@ -8,7 +9,7 @@ namespace Perfolizer.Phd.Tables;
 
 public class PhdTable
 {
-    public PhdEntry RootEntry { get; }
+    public EntryInfo RootEntry { get; }
     public PhdTableConfig Config { get; }
     public List<PhdColumn> Columns { get; }
     public IReadOnlyList<PhdRow> Rows { get; }
@@ -18,7 +19,7 @@ public class PhdTable
     public int ColumnCount => Columns.Count;
     public object? this[int row, int col] => Rows[row][Columns[col]].Value;
 
-    public PhdTable(PhdEntry rootEntry)
+    public PhdTable(EntryInfo rootEntry)
     {
         RootEntry = rootEntry;
         Config = rootEntry.ResolveMeta()?.Table ?? new PhdTableConfig();
@@ -70,7 +71,7 @@ public class PhdTable
                 var primitiveColumnKeys = columnKeys.Where(key => !key.IsComposite()).ToList();
                 foreach (var columnKey in primitiveColumnKeys)
                 {
-                    if (columnKey.Name.EquationsIgnoreCase(nameof(PhdObject.Display)))
+                    if (columnKey.Name.EquationsIgnoreCase(nameof(AbstractInfo.Display)))
                         continue;
                     string title = columnKey.Name.CapitalizeFirst();
                     columns.Add(new PhdAttributeColumn(title, columnKey.Path, definition, columnKey));
@@ -80,7 +81,7 @@ public class PhdTable
         return columns;
     }
 
-    private static List<PhdRow> BuildRows(PhdEntry rootEntry, PhdTableConfig config, IReadOnlyList<PhdColumn> columns, PhdIndex index)
+    private static List<PhdRow> BuildRows(EntryInfo rootEntry, PhdTableConfig config, IReadOnlyList<PhdColumn> columns, PhdIndex index)
     {
         var rowMap = new Dictionary<string, PhdRow>();
         foreach (var entry in rootEntry.Traverse().Where(config.IsMatched))

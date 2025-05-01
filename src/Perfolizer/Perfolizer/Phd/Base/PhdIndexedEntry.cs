@@ -1,11 +1,12 @@
 using Perfolizer.Collections;
+using Perfolizer.InfoModels;
 
 namespace Perfolizer.Phd.Base;
 
-public class PhdIndexedEntry(PhdKey key, PhdEntry entry, Dictionary<string, PhdProperty> properties)
+public class PhdIndexedEntry(PhdKey key, EntryInfo entry, Dictionary<string, PhdProperty> properties)
 {
     public PhdKey Key { get; } = key;
-    public PhdEntry Entry { get; } = entry;
+    public EntryInfo Entry { get; } = entry;
     public IReadOnlyCollection<PhdProperty> AllProperties => properties.Values;
 
     private PhdProperty? this[string key]

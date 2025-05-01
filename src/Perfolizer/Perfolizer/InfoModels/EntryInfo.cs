@@ -1,35 +1,35 @@
 using Perfolizer.Collections;
 using Perfolizer.Metrology;
-using Perfolizer.Phd.Dto;
+using Perfolizer.Phd.Base;
 
-namespace Perfolizer.Phd.Base;
+namespace Perfolizer.InfoModels;
 
-public class PhdEntry : PhdObject
+public class EntryInfo : AbstractInfo
 {
     /// <summary>
     /// Primary information about the current report
     /// </summary>
-    public PhdInfo? Info { get; set; }
+    public IdentityInfo? Identity { get; set; }
 
     /// <summary>
     /// Information about the measurement framework
     /// </summary>
-    public PhdEngine? Engine { get; set; }
+    public EngineInfo? Engine { get; set; }
 
     /// <summary>
     /// BuildId, Commit, etc.
     /// </summary>
-    public PhdSource? Source { get; set; }
+    public SourceInfo? Source { get; set; }
 
     /// <summary>
     /// Os, Cpu, etc.
     /// </summary>
-    public PhdHost? Host { get; set; }
+    public HostInfo? Host { get; set; }
 
     /// <summary>
     /// Benchmark execution, environment, etc.
     /// </summary>
-    public PhdJob? Job { get; set; }
+    public JobInfo? Job { get; set; }
 
     /// <summary>
     /// Benchmark parameters
@@ -39,14 +39,14 @@ public class PhdEntry : PhdObject
     /// <summary>
     /// Benchmark descriptor
     /// </summary>
-    public PhdBenchmark? Benchmark { get; set; }
+    public BenchmarkInfo? Benchmark { get; set; }
 
     /// <summary>
     /// Stage of the benchmark lifecycle (e.g. Pilot/Warmup/Actual/etc., Overhead/Workload, etc.)
     /// </summary>
-    public PhdLifecycle? Lifecycle { get; set; }
+    public LifecycleInfo? Lifecycle { get; set; }
 
-    public PhdMetric Metric { get; set; } = PhdMetric.Empty;
+    public MetricInfo Metric { get; set; } = MetricInfo.Empty;
     public double? Value { get; set; }
     public MeasurementUnit Unit { get; set; } = NumberUnit.Instance;
 
@@ -56,8 +56,8 @@ public class PhdEntry : PhdObject
     // TODO: Refactor
     public long? InvocationCount { get; set; }
 
-    private readonly List<PhdEntry> nested = [];
-    public IReadOnlyList<PhdEntry> Nested => nested;
+    private readonly List<EntryInfo> nested = [];
+    public IReadOnlyList<EntryInfo> Nested => nested;
 
     /// <summary>
     /// Service information (like the structure of the reports)
@@ -73,14 +73,14 @@ public class PhdEntry : PhdObject
     }
 
     // Tree
-    public PhdEntry Add(params PhdEntry[] entries)
+    public EntryInfo Add(params EntryInfo[] entries)
     {
         foreach (var entry in entries)
             nested.Add(entry);
         return this;
     }
 
-    public IEnumerable<PhdEntry> Traverse()
+    public IEnumerable<EntryInfo> Traverse()
     {
         yield return this;
         foreach (var entry in nested.SelectMany(entry => entry.Traverse()))

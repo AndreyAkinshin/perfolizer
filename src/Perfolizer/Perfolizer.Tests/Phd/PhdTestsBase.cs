@@ -1,3 +1,4 @@
+using Perfolizer.InfoModels;
 using Perfolizer.Json;
 using Perfolizer.Phd.Base;
 using Perfolizer.Tests.Infra;
@@ -6,7 +7,7 @@ namespace Perfolizer.Tests.Phd;
 
 public class PhdTestsBase
 {
-    protected static Task VerifyPhd(PhdEntry entry, PhdSchema schema)
+    protected static Task VerifyPhd(EntryInfo entry, PhdSchema schema)
     {
         // TODO
         // JsonSerializerOptions jsonOptions = new()

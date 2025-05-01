@@ -1,20 +1,21 @@
 using System.Collections;
 using System.Text;
 using Perfolizer.Extensions;
+using Perfolizer.InfoModels;
 using Perfolizer.Metrology;
 
 namespace Perfolizer.Phd.Base;
 
 public class PhdIndex
 {
-    private readonly PhdEntry rootEntry;
-    private readonly Dictionary<PhdEntry, PhdIndexedEntry> entries = new ();
+    private readonly EntryInfo rootEntry;
+    private readonly Dictionary<EntryInfo, PhdIndexedEntry> entries = new ();
 
     public IReadOnlyList<PhdKey> Keys { get; }
-    public IReadOnlyCollection<PhdEntry> Entries => entries.Keys;
-    public PhdIndexedEntry this[PhdEntry entry] => entries[entry];
+    public IReadOnlyCollection<EntryInfo> Entries => entries.Keys;
+    public PhdIndexedEntry this[EntryInfo entry] => entries[entry];
 
-    public PhdIndex(PhdEntry rootEntry)
+    public PhdIndex(EntryInfo rootEntry)
     {
         this.rootEntry = rootEntry;
         IndexEntry(PhdKey.Empty, rootEntry, null);
@@ -28,14 +29,14 @@ public class PhdIndex
             .ToList();
     }
 
-    private void IndexEntry(PhdKey key, PhdEntry entry, PhdEntry? parent)
+    private void IndexEntry(PhdKey key, EntryInfo entry, EntryInfo? parent)
     {
         IndexSelf(key, entry, parent);
         foreach (var nested in entry.Nested)
             IndexEntry(key, nested, entry);
     }
 
-    private void IndexSelf(PhdKey key, PhdEntry entry, PhdEntry? parent)
+    private void IndexSelf(PhdKey key, EntryInfo entry, EntryInfo? parent)
     {
         var indexedEntry = entries[entry] = new PhdIndexedEntry(key, entry, new Dictionary<string, PhdProperty>());
 
@@ -49,7 +50,7 @@ public class PhdIndex
         IndexAttributes(key, entry, entry);
     }
 
-    private void IndexAttributes(PhdKey key, PhdEntry entry, object obj)
+    private void IndexAttributes(PhdKey key, EntryInfo entry, object obj)
     {
         var indexedEntry = entries[entry];
         if (obj is IDictionary dictionary)
@@ -69,7 +70,7 @@ public class PhdIndex
         {
             foreach (var property in obj.GetType().GetProperties())
             {
-                if (obj is PhdEntry && property.Name == nameof(PhdEntry.Nested))
+                if (obj is EntryInfo && property.Name == nameof(EntryInfo.Nested))
                     continue;
                 object? value;
                 try

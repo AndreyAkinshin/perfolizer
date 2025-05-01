@@ -1,10 +1,10 @@
 using JetBrains.Annotations;
 using Perfolizer.Phd.Base;
 
-namespace Perfolizer.Phd.Dto;
+namespace Perfolizer.InfoModels;
 
 [PublicAPI]
-public class PhdEngine : PhdObject
+public class EngineInfo : AbstractInfo
 {
     public string Name { get; set; } = "";
     public string? Version { get; set; }

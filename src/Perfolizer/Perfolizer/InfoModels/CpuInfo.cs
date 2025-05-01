@@ -3,10 +3,10 @@ using Perfolizer.Helpers;
 using Perfolizer.Horology;
 using Perfolizer.Phd.Base;
 
-namespace Perfolizer.Phd.Dto;
+namespace Perfolizer.InfoModels;
 
 [PublicAPI]
-public class PhdCpu : PhdObject
+public class CpuInfo : AbstractInfo
 {
     public string? ProcessorName { get; set; }
     public int? PhysicalProcessorCount { get; set; }

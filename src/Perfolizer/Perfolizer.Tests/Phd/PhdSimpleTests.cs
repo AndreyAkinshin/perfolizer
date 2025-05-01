@@ -1,9 +1,9 @@
 using JetBrains.Annotations;
 using Perfolizer.Horology;
+using Perfolizer.InfoModels;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Metrology;
 using Perfolizer.Phd.Base;
-using Perfolizer.Phd.Dto;
 using Perfolizer.Phd.Presenting;
 using Perfolizer.Phd.Tables;
 using Perfolizer.Presenting;
@@ -26,21 +26,21 @@ public class PhdSimpleTests : PhdTestsBase
     {
         var root = CreateRoot();
         var schema = new PhdSchema("Simple")
-            .Add<SimpleHost>()
-            .Add<SimpleExecution>()
-            .Add<SimpleBenchmark>()
-            .Add<SimpleSource>();
+            .Add<SimpleHostInfo>()
+            .Add<SimpleExecutionInfo>()
+            .Add<SimpleBenchmarkInfo>()
+            .Add<SimpleSourceInfo>();
         return VerifyPhd(root, schema);
     }
 
-    private static PhdEntry CreateRoot()
+    private static EntryInfo CreateRoot()
     {
         var runId = Guid.Parse("11214D6B-4E25-44A4-8032-D4290C9F5617");
         var random = new NormalDistribution(10).Random(1729);
         double NextValue() => Math.Round(random.Next(), 3);
         int minute = 0;
 
-        PhdEntry CreateEntry(string benchmarkId) => new PhdEntry
+        EntryInfo CreateEntry(string benchmarkId) => new EntryInfo
         {
             Meta = new PhdMeta
             {
@@ -58,39 +58,39 @@ public class PhdSimpleTests : PhdTestsBase
                     ]
                 }
             },
-            Info = new PhdInfo
+            Identity = new IdentityInfo
             {
                 RunId = runId,
                 Timestamp = DateTimeOffset.Parse($"2021-01-01T00:0{minute++}:00Z").ToUnixTimeMilliseconds()
             },
-            Source = new SimpleSource
+            Source = new SimpleSourceInfo
             {
                 BuildId = 142857,
                 Branch = "main",
                 ConfigurationId = "TeamCityConfiguration01",
                 CommitHash = "1189402d156078473122bf787f3df6db81dc927c"
             },
-            Host = new SimpleHost
+            Host = new SimpleHostInfo
             {
-                Os = new PhdOs { Name = "Linux" },
+                Os = new OsInfo { Name = "Linux" },
                 Arch = "x64",
                 ImageId = "Image42",
             },
-            Benchmark = new SimpleBenchmark
+            Benchmark = new SimpleBenchmarkInfo
             {
                 BenchmarkId = benchmarkId,
                 BenchmarkVersion = 1,
             },
         }.Add(
-            new PhdEntry { Metric = "stage1", Value = NextValue(), Unit = TimeUnit.Millisecond },
-            new PhdEntry { Metric = new PhdMetric("stage2", 2), Value = NextValue(), Unit = TimeUnit.Millisecond },
-            new PhdEntry { Metric = "totalTime", Value = NextValue(), Unit = TimeUnit.Millisecond },
-            new PhdEntry { Metric = "Footprint", Value = 20, Unit = SizeUnit.MB },
-            new PhdEntry { Metric = "Gc.CollectCount", Value = 3 });
+            new EntryInfo { Metric = "stage1", Value = NextValue(), Unit = TimeUnit.Millisecond },
+            new EntryInfo { Metric = new MetricInfo("stage2", 2), Value = NextValue(), Unit = TimeUnit.Millisecond },
+            new EntryInfo { Metric = "totalTime", Value = NextValue(), Unit = TimeUnit.Millisecond },
+            new EntryInfo { Metric = "Footprint", Value = 20, Unit = SizeUnit.MB },
+            new EntryInfo { Metric = "Gc.CollectCount", Value = 3 });
 
-        var root = new PhdEntry
+        var root = new EntryInfo
         {
-            Info = new PhdInfo { Title = "Simple Measurements" }
+            Identity = new IdentityInfo { Title = "Simple Measurements" }
         }.Add(
             CreateEntry("benchmark1"),
             CreateEntry("benchmark1"),
@@ -100,24 +100,24 @@ public class PhdSimpleTests : PhdTestsBase
     }
 
     [PublicAPI]
-    private class SimpleHost : PhdHost
+    private class SimpleHostInfo : HostInfo
     {
         public string Arch { get; set; } = "";
         public string ImageId { get; set; } = "";
     }
 
     [PublicAPI]
-    private class SimpleExecution : PhdExecution { }
+    private class SimpleExecutionInfo : ExecutionInfo { }
 
     [PublicAPI]
-    private class SimpleBenchmark : PhdBenchmark
+    private class SimpleBenchmarkInfo : BenchmarkInfo
     {
         public string BenchmarkId { get; set; } = "";
         public int BenchmarkVersion { get; set; }
     }
 
     [PublicAPI]
-    private class SimpleSource : PhdSource
+    private class SimpleSourceInfo : SourceInfo
     {
         public int BuildId { get; set; }
         public string ConfigurationId { get; set; } = "";

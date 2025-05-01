@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Perfolizer.Collections;
 using Perfolizer.Extensions;
-using Perfolizer.Phd.Dto;
+using Perfolizer.InfoModels;
 
 namespace Perfolizer.Helpers;
 
@@ -275,19 +275,19 @@ public static class OsBrandHelper
         return $"{systemVersion} [{kernelVersion}]";
     }
 
-    public static string ToBrandString(this PhdOs os)
+    public static string ToBrandString(this OsInfo osInfo)
     {
-        string? display = os.Display;
+        string? display = osInfo.Display;
         if (display != null) return display;
 
-        string? name = os.Name;
+        string? name = osInfo.Name;
         if (name == null) return "";
 
-        if (name.EquationsIgnoreCase("macos") && os is { Version: not null, KernelVersion: not null })
-            return PrettifyMacOSX(os.Version, os.KernelVersion);
+        if (name.EquationsIgnoreCase("macos") && osInfo is { Version: not null, KernelVersion: not null })
+            return PrettifyMacOSX(osInfo.Version, osInfo.KernelVersion);
         if (name.EquationsIgnoreCase("windows"))
         {
-            string? fullVersion = os.Version;
+            string? fullVersion = osInfo.Version;
             if (fullVersion != null)
             {
                 string baseVersion = fullVersion.Split('.').Take(3).JoinToString(".");
@@ -295,6 +295,6 @@ public static class OsBrandHelper
                 return PrettifyWindows(baseVersion, ubr);
             }
         }
-        return name + " " + os.Version;
+        return name + " " + osInfo.Version;
     }
 }

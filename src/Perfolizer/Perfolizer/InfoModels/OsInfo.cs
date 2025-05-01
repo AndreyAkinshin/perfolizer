@@ -1,9 +1,9 @@
 using Perfolizer.Helpers;
 using Perfolizer.Phd.Base;
 
-namespace Perfolizer.Phd.Dto;
+namespace Perfolizer.InfoModels;
 
-public class PhdOs : PhdObject
+public class OsInfo : AbstractInfo
 {
     /// <summary>
     /// E.g., Windows, Linux, macOS

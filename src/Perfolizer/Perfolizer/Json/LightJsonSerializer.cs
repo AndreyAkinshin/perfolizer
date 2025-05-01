@@ -2,6 +2,7 @@ using System.Collections;
 using System.Text;
 using Perfolizer.Common;
 using Perfolizer.Extensions;
+using Perfolizer.InfoModels;
 using Perfolizer.Metrology;
 using Perfolizer.Phd.Base;
 
@@ -56,7 +57,7 @@ public class LightJsonSerializer
             case MeasurementUnit measurementUnit:
                 AppendMeasurementUnit(measurementUnit);
                 break;
-            case PhdMetric metric:
+            case MetricInfo metric:
                 AppendMetric(metric);
                 break;
             case ICollection collection:
@@ -65,7 +66,7 @@ public class LightJsonSerializer
             case Enum enumValue:
                 AppendEnum(enumValue);
                 break;
-            case PhdObject phdObject:
+            case AbstractInfo phdObject:
                 AppendPhdObject(phdObject);
                 break;
             default:
@@ -75,18 +76,18 @@ public class LightJsonSerializer
         return this;
     }
 
-    private void AppendPhdObject(PhdObject phdObject)
+    private void AppendPhdObject(AbstractInfo abstractInfo)
     {
         builder.Append('{');
         currentIndent += IndentStep;
 
         bool isFirst = true;
-        foreach (var property in phdObject.GetType().GetProperties())
+        foreach (var property in abstractInfo.GetType().GetProperties())
         {
             object? value;
             try
             {
-                value = property.GetValue(phdObject);
+                value = property.GetValue(abstractInfo);
             }
             catch (Exception)
             {
@@ -154,7 +155,7 @@ public class LightJsonSerializer
             return true;
         if (value is ICollection { Count: 0 })
             return true;
-        if (value is PhdMetric metric && metric.IsEmpty)
+        if (value is MetricInfo metric && metric.IsEmpty)
             return true;
         return false;
     }
@@ -199,7 +200,7 @@ public class LightJsonSerializer
         AppendString(unit.AbbreviationAscii);
     }
 
-    private void AppendMetric(PhdMetric metric)
+    private void AppendMetric(MetricInfo metric)
     {
         if (metric.IsEmpty)
             builder.Append("\"\"");

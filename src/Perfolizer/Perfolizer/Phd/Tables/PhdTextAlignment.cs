@@ -1,4 +1,4 @@
-namespace Perfolizer.Phd.Dto;
+namespace Perfolizer.Phd.Tables;
 
 public enum PhdTextAlignment
 {

@@ -1,12 +1,12 @@
 using System.Diagnostics;
 using Perfolizer.Extensions;
+using Perfolizer.InfoModels;
 using Perfolizer.Phd.Base;
-using Perfolizer.Phd.Dto;
 
 namespace Perfolizer.Phd.Tables;
 
 [DebuggerDisplay("{Selector}")]
-public class PhdColumnDefinition(string selector) : PhdObject
+public class PhdColumnDefinition(string selector) : AbstractInfo
 {
     public string Title { get; set; } = "";
     public string Selector { get; set; } = selector;

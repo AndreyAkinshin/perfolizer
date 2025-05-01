@@ -1,7 +1,7 @@
 ﻿using Perfolizer.Helpers;
 using Perfolizer.Horology;
+using Perfolizer.InfoModels;
 using Perfolizer.Mathematics.Common;
-using Perfolizer.Phd.Dto;
 
 namespace Perfolizer.Tests.Helpers;
 
@@ -22,7 +22,7 @@ public class ProcessorBrandStringTests
     [InlineData("Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz ", "Intel Core i7-8650U CPU 1.90GHz (Kaby Lake R)")]
     [InlineData("Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz", "Intel Core i7-8700K CPU 3.70GHz (Coffee Lake)")]
     public void IntelCoreIsPrettified(string processorName, string cpuBrandName) =>
-        Assert.Equal(cpuBrandName, new PhdCpu { ProcessorName = processorName }.ToShortBrandName());
+        Assert.Equal(cpuBrandName, new CpuInfo { ProcessorName = processorName }.ToShortBrandName());
 
     [Theory]
     [InlineData("Intel(R) Pentium(TM) G4560 CPU @ 3.50GHz", "Intel Pentium G4560 CPU 3.50GHz (Max: 3.70GHz)", 3.7)]
@@ -33,7 +33,7 @@ public class ProcessorBrandStringTests
     [InlineData("Intel(R) Core(TM) i7-5775R CPU @ 3.30GHz", "Intel Core i7-5775R CPU 3.30GHz (Max: 3.40GHz) (Broadwell)", 3.4)]
     public void CoreIsPrettifiedWithDiffFrequencies(string processorName, string brandName, double nominalFrequency)
     {
-        var cpu = new PhdCpu
+        var cpu = new CpuInfo
         {
             ProcessorName = processorName,
             NominalFrequencyHz = Frequency.FromGHz(nominalFrequency).Hertz.RoundToLong()
@@ -51,7 +51,7 @@ public class ProcessorBrandStringTests
         int? physicalCoreCount,
         int? logicalCoreCount)
     {
-        var cpu = new PhdCpu
+        var cpu = new CpuInfo
         {
             ProcessorName = processorName,
             NominalFrequencyHz = Frequency.FromGHz(nominalFrequency).Hertz.RoundToLong(),
@@ -75,7 +75,7 @@ public class ProcessorBrandStringTests
     [InlineData(null, "Unknown processor")]
     public void UnknownProcessorDoesNotThrow(string? processorName, string brandName)
     {
-        var cpu = new PhdCpu { ProcessorName = processorName };
+        var cpu = new CpuInfo { ProcessorName = processorName };
         Assert.Equal(brandName, cpu.ToShortBrandName(includeMaxFrequency: true));
     }
 }
