@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
-        <Copyright>Copyright (C) 2020-2023 Andrey Akinshin</Copyright>
+        <Copyright>Copyright (C) 2020-2025 Andrey Akinshin</Copyright>
         <Authors>Andrey Akinshin</Authors>
         <NeutralLanguage>en-US</NeutralLanguage>
         <PackageTags>analysis;performance;tool</PackageTags>
