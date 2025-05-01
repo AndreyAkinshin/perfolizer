@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using System.Text;
 using Perfolizer.Collections;
-using Perfolizer.InfoModels;
 using Perfolizer.Metrology;
+using Perfolizer.Models;
 
 namespace Perfolizer.Perfonar.Tables;
 

@@ -2,7 +2,7 @@ using Perfolizer.Collections;
 using Perfolizer.Metrology;
 using Perfolizer.Perfonar.Base;
 
-namespace Perfolizer.InfoModels;
+namespace Perfolizer.Models;
 
 public class EntryInfo : AbstractInfo
 {

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using Perfolizer.Horology;
-using Perfolizer.InfoModels;
+using Perfolizer.Models;
 
 namespace Perfolizer.Helpers;
 

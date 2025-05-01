@@ -1,5 +1,5 @@
-using Perfolizer.InfoModels;
 using Perfolizer.Json;
+using Perfolizer.Models;
 using Perfolizer.Perfonar.Base;
 using Perfolizer.Tests.Infra;
 

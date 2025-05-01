@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 
-namespace Perfolizer.InfoModels;
+namespace Perfolizer.Models;
 
 [PublicAPI]
 public class IdentityInfo : AbstractInfo

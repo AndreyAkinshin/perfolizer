@@ -1,3 +1,3 @@
-namespace Perfolizer.InfoModels;
+namespace Perfolizer.Models;
 
 public abstract class BenchmarkInfo : AbstractInfo;

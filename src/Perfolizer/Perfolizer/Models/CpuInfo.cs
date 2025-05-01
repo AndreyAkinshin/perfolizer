@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 using Perfolizer.Helpers;
 using Perfolizer.Horology;
 
-namespace Perfolizer.InfoModels;
+namespace Perfolizer.Models;
 
 [PublicAPI]
 public class CpuInfo : AbstractInfo

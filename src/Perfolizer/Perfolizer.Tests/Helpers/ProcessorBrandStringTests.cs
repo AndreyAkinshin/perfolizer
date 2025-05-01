@@ -1,7 +1,7 @@
 ﻿using Perfolizer.Helpers;
 using Perfolizer.Horology;
-using Perfolizer.InfoModels;
 using Perfolizer.Mathematics.Common;
+using Perfolizer.Models;
 
 namespace Perfolizer.Tests.Helpers;
 

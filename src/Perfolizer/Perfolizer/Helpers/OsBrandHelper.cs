@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Perfolizer.Collections;
 using Perfolizer.Extensions;
-using Perfolizer.InfoModels;
+using Perfolizer.Models;
 
 namespace Perfolizer.Helpers;
 

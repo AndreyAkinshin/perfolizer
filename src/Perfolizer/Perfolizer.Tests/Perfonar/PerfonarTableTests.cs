@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
-using Perfolizer.InfoModels;
 using Perfolizer.Metrology;
+using Perfolizer.Models;
 using Perfolizer.Perfonar.Base;
 using Perfolizer.Perfonar.Presenting;
 using Perfolizer.Perfonar.Tables;

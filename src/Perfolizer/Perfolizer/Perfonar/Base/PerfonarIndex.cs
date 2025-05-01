@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Text;
 using Perfolizer.Extensions;
-using Perfolizer.InfoModels;
 using Perfolizer.Metrology;
+using Perfolizer.Models;
 
 namespace Perfolizer.Perfonar.Base;
 

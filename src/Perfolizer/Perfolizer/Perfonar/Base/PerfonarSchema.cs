@@ -1,4 +1,4 @@
-using Perfolizer.InfoModels;
+using Perfolizer.Models;
 
 namespace Perfolizer.Perfonar.Base;
 

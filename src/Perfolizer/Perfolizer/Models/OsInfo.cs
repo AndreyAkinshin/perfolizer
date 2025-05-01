@@ -1,6 +1,6 @@
 using Perfolizer.Helpers;
 
-namespace Perfolizer.InfoModels;
+namespace Perfolizer.Models;
 
 public class OsInfo : AbstractInfo
 {

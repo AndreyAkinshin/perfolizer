@@ -1,7 +1,7 @@
 using Perfolizer.Collections;
 using Perfolizer.Extensions;
-using Perfolizer.InfoModels;
 using Perfolizer.Metrology;
+using Perfolizer.Models;
 using Perfolizer.Perfonar.Base;
 using Perfolizer.Perfonar.Functions;
 

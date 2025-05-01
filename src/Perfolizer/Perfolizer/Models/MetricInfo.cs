@@ -1,4 +1,4 @@
-namespace Perfolizer.InfoModels;
+namespace Perfolizer.Models;
 
 public class MetricInfo(string? id, int? version) : AbstractInfo
 {

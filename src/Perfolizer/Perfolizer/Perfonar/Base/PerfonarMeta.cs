@@ -1,5 +1,5 @@
 using JetBrains.Annotations;
-using Perfolizer.InfoModels;
+using Perfolizer.Models;
 using Perfolizer.Perfonar.Tables;
 
 namespace Perfolizer.Perfonar.Base;

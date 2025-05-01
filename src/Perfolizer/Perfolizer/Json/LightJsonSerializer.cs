@@ -2,8 +2,8 @@ using System.Collections;
 using System.Text;
 using Perfolizer.Common;
 using Perfolizer.Extensions;
-using Perfolizer.InfoModels;
 using Perfolizer.Metrology;
+using Perfolizer.Models;
 
 namespace Perfolizer.Json;
 

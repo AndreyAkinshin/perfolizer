@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using Perfolizer.Helpers;
-using Perfolizer.InfoModels;
+using Perfolizer.Models;
 using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Helpers

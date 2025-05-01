@@ -1,8 +1,8 @@
 using JetBrains.Annotations;
 using Perfolizer.Horology;
-using Perfolizer.InfoModels;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Metrology;
+using Perfolizer.Models;
 using Perfolizer.Perfonar.Base;
 using Perfolizer.Perfonar.Presenting;
 using Perfolizer.Perfonar.Tables;

@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Perfolizer.Extensions;
-using Perfolizer.InfoModels;
+using Perfolizer.Models;
 using Perfolizer.Perfonar.Base;
 
 namespace Perfolizer.Perfonar.Tables;
