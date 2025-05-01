@@ -1,0 +1,365 @@
+﻿{
+  "identity": {
+    "title": "Simple Measurements",
+    "runId": "00000000-0000-0000-0000-000000000000",
+    "timestamp": 0
+  },
+  "nested": [
+    {
+      "identity": {
+        "runId": "11214d6b-4e25-44a4-8032-d4290c9f5617",
+        "timestamp": 1609459200000
+      },
+      "source": {
+        "buildId": 142857,
+        "configurationId": "TeamCityConfiguration01",
+        "branch": "main",
+        "commitHash": "1189402d156078473122bf787f3df6db81dc927c"
+      },
+      "host": {
+        "arch": "x64",
+        "imageId": "Image42",
+        "os": {
+          "name": "Linux"
+        }
+      },
+      "benchmark": {
+        "benchmarkId": "benchmark1",
+        "benchmarkVersion": 1
+      },
+      "nested": [
+        {
+          "metric": "stage1",
+          "value": 10.021,
+          "unit": "ms"
+        },
+        {
+          "metric": {
+            "id": "stage2",
+            "version": 2,
+            "isEmpty": false
+          },
+          "value": 9.103,
+          "unit": "ms"
+        },
+        {
+          "metric": "totalTime",
+          "value": 9.891,
+          "unit": "ms"
+        },
+        {
+          "metric": "Footprint",
+          "value": 20,
+          "unit": "MB"
+        },
+        {
+          "metric": "Gc.CollectCount",
+          "value": 3
+        }
+      ],
+      "meta": {
+        "table": {
+          "columnDefinitions": [
+            {
+              "selector": ".engine",
+              "cloud": "primary",
+              "isSelfExplanatory": true
+            },
+            {
+              "selector": ".host.os",
+              "cloud": "primary",
+              "isSelfExplanatory": true
+            },
+            {
+              "selector": ".host.cpu",
+              "cloud": "primary",
+              "isSelfExplanatory": true
+            },
+            {
+              "selector": ".benchmark",
+              "cloud": "secondary"
+            },
+            {
+              "selector": ".job",
+              "cloud": "secondary",
+              "compressed": true
+            },
+            {
+              "selector": "=center"
+            },
+            {
+              "selector": "=spread"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "identity": {
+        "runId": "11214d6b-4e25-44a4-8032-d4290c9f5617",
+        "timestamp": 1609459260000
+      },
+      "source": {
+        "buildId": 142857,
+        "configurationId": "TeamCityConfiguration01",
+        "branch": "main",
+        "commitHash": "1189402d156078473122bf787f3df6db81dc927c"
+      },
+      "host": {
+        "arch": "x64",
+        "imageId": "Image42",
+        "os": {
+          "name": "Linux"
+        }
+      },
+      "benchmark": {
+        "benchmarkId": "benchmark1",
+        "benchmarkVersion": 1
+      },
+      "nested": [
+        {
+          "metric": "stage1",
+          "value": 9.194,
+          "unit": "ms"
+        },
+        {
+          "metric": {
+            "id": "stage2",
+            "version": 2,
+            "isEmpty": false
+          },
+          "value": 9.588,
+          "unit": "ms"
+        },
+        {
+          "metric": "totalTime",
+          "value": 11.931,
+          "unit": "ms"
+        },
+        {
+          "metric": "Footprint",
+          "value": 20,
+          "unit": "MB"
+        },
+        {
+          "metric": "Gc.CollectCount",
+          "value": 3
+        }
+      ],
+      "meta": {
+        "table": {
+          "columnDefinitions": [
+            {
+              "selector": ".engine",
+              "cloud": "primary",
+              "isSelfExplanatory": true
+            },
+            {
+              "selector": ".host.os",
+              "cloud": "primary",
+              "isSelfExplanatory": true
+            },
+            {
+              "selector": ".host.cpu",
+              "cloud": "primary",
+              "isSelfExplanatory": true
+            },
+            {
+              "selector": ".benchmark",
+              "cloud": "secondary"
+            },
+            {
+              "selector": ".job",
+              "cloud": "secondary",
+              "compressed": true
+            },
+            {
+              "selector": "=center"
+            },
+            {
+              "selector": "=spread"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "identity": {
+        "runId": "11214d6b-4e25-44a4-8032-d4290c9f5617",
+        "timestamp": 1609459320000
+      },
+      "source": {
+        "buildId": 142857,
+        "configurationId": "TeamCityConfiguration01",
+        "branch": "main",
+        "commitHash": "1189402d156078473122bf787f3df6db81dc927c"
+      },
+      "host": {
+        "arch": "x64",
+        "imageId": "Image42",
+        "os": {
+          "name": "Linux"
+        }
+      },
+      "benchmark": {
+        "benchmarkId": "benchmark2",
+        "benchmarkVersion": 1
+      },
+      "nested": [
+        {
+          "metric": "stage1",
+          "value": 9.903,
+          "unit": "ms"
+        },
+        {
+          "metric": {
+            "id": "stage2",
+            "version": 2,
+            "isEmpty": false
+          },
+          "value": 8.49,
+          "unit": "ms"
+        },
+        {
+          "metric": "totalTime",
+          "value": 9.854,
+          "unit": "ms"
+        },
+        {
+          "metric": "Footprint",
+          "value": 20,
+          "unit": "MB"
+        },
+        {
+          "metric": "Gc.CollectCount",
+          "value": 3
+        }
+      ],
+      "meta": {
+        "table": {
+          "columnDefinitions": [
+            {
+              "selector": ".engine",
+              "cloud": "primary",
+              "isSelfExplanatory": true
+            },
+            {
+              "selector": ".host.os",
+              "cloud": "primary",
+              "isSelfExplanatory": true
+            },
+            {
+              "selector": ".host.cpu",
+              "cloud": "primary",
+              "isSelfExplanatory": true
+            },
+            {
+              "selector": ".benchmark",
+              "cloud": "secondary"
+            },
+            {
+              "selector": ".job",
+              "cloud": "secondary",
+              "compressed": true
+            },
+            {
+              "selector": "=center"
+            },
+            {
+              "selector": "=spread"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "identity": {
+        "runId": "11214d6b-4e25-44a4-8032-d4290c9f5617",
+        "timestamp": 1609459380000
+      },
+      "source": {
+        "buildId": 142857,
+        "configurationId": "TeamCityConfiguration01",
+        "branch": "main",
+        "commitHash": "1189402d156078473122bf787f3df6db81dc927c"
+      },
+      "host": {
+        "arch": "x64",
+        "imageId": "Image42",
+        "os": {
+          "name": "Linux"
+        }
+      },
+      "benchmark": {
+        "benchmarkId": "benchmark2",
+        "benchmarkVersion": 1
+      },
+      "nested": [
+        {
+          "metric": "stage1",
+          "value": 8.833,
+          "unit": "ms"
+        },
+        {
+          "metric": {
+            "id": "stage2",
+            "version": 2,
+            "isEmpty": false
+          },
+          "value": 10.24,
+          "unit": "ms"
+        },
+        {
+          "metric": "totalTime",
+          "value": 10.571,
+          "unit": "ms"
+        },
+        {
+          "metric": "Footprint",
+          "value": 20,
+          "unit": "MB"
+        },
+        {
+          "metric": "Gc.CollectCount",
+          "value": 3
+        }
+      ],
+      "meta": {
+        "table": {
+          "columnDefinitions": [
+            {
+              "selector": ".engine",
+              "cloud": "primary",
+              "isSelfExplanatory": true
+            },
+            {
+              "selector": ".host.os",
+              "cloud": "primary",
+              "isSelfExplanatory": true
+            },
+            {
+              "selector": ".host.cpu",
+              "cloud": "primary",
+              "isSelfExplanatory": true
+            },
+            {
+              "selector": ".benchmark",
+              "cloud": "secondary"
+            },
+            {
+              "selector": ".job",
+              "cloud": "secondary",
+              "compressed": true
+            },
+            {
+              "selector": "=center"
+            },
+            {
+              "selector": "=spread"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

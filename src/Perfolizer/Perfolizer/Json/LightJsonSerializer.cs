@@ -4,7 +4,6 @@ using Perfolizer.Common;
 using Perfolizer.Extensions;
 using Perfolizer.InfoModels;
 using Perfolizer.Metrology;
-using Perfolizer.Phd.Base;
 
 namespace Perfolizer.Json;
 
@@ -66,8 +65,8 @@ public class LightJsonSerializer
             case Enum enumValue:
                 AppendEnum(enumValue);
                 break;
-            case AbstractInfo phdObject:
-                AppendPhdObject(phdObject);
+            case AbstractInfo perfonarObject:
+                AppendPerfonarObject(perfonarObject);
                 break;
             default:
                 throw new NotSupportedException($"Unsupported type: {obj.GetType()}");
@@ -76,7 +75,7 @@ public class LightJsonSerializer
         return this;
     }
 
-    private void AppendPhdObject(AbstractInfo abstractInfo)
+    private void AppendPerfonarObject(AbstractInfo abstractInfo)
     {
         builder.Append('{');
         currentIndent += IndentStep;
@@ -207,7 +206,7 @@ public class LightJsonSerializer
         else if (metric.Version == null && metric.Id != null)
             AppendString(metric.Id);
         else
-            AppendPhdObject(metric);
+            AppendPerfonarObject(metric);
     }
 
     private void AppendInt(int value) => builder.Append(value.ToString(DefaultCultureInfo.Instance));

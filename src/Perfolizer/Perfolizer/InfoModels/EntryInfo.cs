@@ -1,6 +1,6 @@
 using Perfolizer.Collections;
 using Perfolizer.Metrology;
-using Perfolizer.Phd.Base;
+using Perfolizer.Perfonar.Base;
 
 namespace Perfolizer.InfoModels;
 
@@ -62,10 +62,10 @@ public class EntryInfo : AbstractInfo
     /// <summary>
     /// Service information (like the structure of the reports)
     /// </summary>
-    public PhdMeta? Meta { get; set; }
+    public PerfonarMeta? Meta { get; set; }
 
 
-    public PhdMeta? ResolveMeta()
+    public PerfonarMeta? ResolveMeta()
     {
         if (Meta != null)
             return Meta;

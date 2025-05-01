@@ -1,7 +1,6 @@
 using JetBrains.Annotations;
 using Perfolizer.Helpers;
 using Perfolizer.Horology;
-using Perfolizer.Phd.Base;
 
 namespace Perfolizer.InfoModels;
 

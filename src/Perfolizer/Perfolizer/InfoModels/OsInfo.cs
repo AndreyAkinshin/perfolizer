@@ -1,5 +1,4 @@
 using Perfolizer.Helpers;
-using Perfolizer.Phd.Base;
 
 namespace Perfolizer.InfoModels;
 
