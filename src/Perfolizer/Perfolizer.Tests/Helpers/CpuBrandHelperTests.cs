@@ -28,7 +28,7 @@ namespace Perfolizer.Tests.Helpers
                 captions.AppendLine(cpu.ToFullBrandName());
             }
 
-            var settings = VerifyHelper.CreateSettings("Cpu");
+            var settings = VerifyHelper.CreateSettings("_");
             return Verifier.Verify(captions.ToString(), settings);
         }
     }

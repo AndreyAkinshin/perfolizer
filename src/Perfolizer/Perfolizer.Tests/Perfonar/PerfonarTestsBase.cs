@@ -21,5 +21,5 @@ public class PerfonarTestsBase
         return VerifyJson(json, CreateSettings());
     }
 
-    protected static VerifySettings CreateSettings() => VerifyHelper.CreateSettings("Perfonar");
+    protected static VerifySettings CreateSettings() => VerifyHelper.CreateSettings("_");
 }

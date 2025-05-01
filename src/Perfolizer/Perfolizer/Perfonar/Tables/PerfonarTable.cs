@@ -19,10 +19,10 @@ public class PerfonarTable
     public int ColumnCount => Columns.Count;
     public object? this[int row, int col] => Rows[row][Columns[col]].Value;
 
-    public PerfonarTable(EntryInfo rootEntry)
+    public PerfonarTable(EntryInfo rootEntry, PerfonarTableConfig config)
     {
         RootEntry = rootEntry;
-        Config = rootEntry.ResolveMeta()?.Table ?? new PerfonarTableConfig();
+        Config = config;
         var index = new PerfonarIndex(rootEntry);
         Columns = BuildColumns(Config, index);
         var rows = BuildRows(rootEntry, Config, Columns, index);

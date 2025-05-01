@@ -4,21 +4,32 @@ using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Metrology;
 using Perfolizer.Models;
 using Perfolizer.Perfonar.Base;
-using Perfolizer.Perfonar.Presenting;
 using Perfolizer.Perfonar.Tables;
-using Perfolizer.Presenting;
 
 namespace Perfolizer.Tests.Perfonar;
 
 public class PerfonarSimpleTests : PerfonarTestsBase
 {
-    [Fact]
-    public Task PerfonarSimpleTableTest()
+    private PerfonarTableConfig tableConfig = new()
     {
-        var table = new PerfonarTable(CreateRoot());
-        var presenter = new StringPresenter();
-        new PerfonarMarkdownTablePresenter(presenter).Present(table, new PerfonarTableStyle());
-        return Verify(presenter.Dump(), CreateSettings());
+        ColumnDefinitions =
+        [
+            new PerfonarColumnDefinition(".engine") { Cloud = "primary", IsSelfExplanatory = true },
+            new PerfonarColumnDefinition(".host.os") { Cloud = "primary", IsSelfExplanatory = true },
+            new PerfonarColumnDefinition(".host.cpu") { Cloud = "primary", IsSelfExplanatory = true },
+            new PerfonarColumnDefinition(".benchmark") { Cloud = "secondary" },
+            new PerfonarColumnDefinition(".job") { Cloud = "secondary", Compressed = true },
+            new PerfonarColumnDefinition("=center"),
+            new PerfonarColumnDefinition("=spread")
+        ]
+    };
+
+    [Fact]
+    public async Task PerfonarSimpleTableTest()
+    {
+        var table = new PerfonarTable(CreateRoot(), tableConfig);
+        string markdown = table.ToMarkdown();
+        await Verify(markdown, CreateSettings());
     }
 
     [Fact]
@@ -42,22 +53,6 @@ public class PerfonarSimpleTests : PerfonarTestsBase
 
         EntryInfo CreateEntry(string benchmarkId) => new EntryInfo
         {
-            Meta = new PerfonarMeta
-            {
-                Table = new PerfonarTableConfig
-                {
-                    ColumnDefinitions =
-                    [
-                        new PerfonarColumnDefinition(".engine") { Cloud = "primary", IsSelfExplanatory = true },
-                        new PerfonarColumnDefinition(".host.os") { Cloud = "primary", IsSelfExplanatory = true },
-                        new PerfonarColumnDefinition(".host.cpu") { Cloud = "primary", IsSelfExplanatory = true },
-                        new PerfonarColumnDefinition(".benchmark") { Cloud = "secondary" },
-                        new PerfonarColumnDefinition(".job") { Cloud = "secondary", Compressed = true },
-                        new PerfonarColumnDefinition("=center"),
-                        new PerfonarColumnDefinition("=spread")
-                    ]
-                }
-            },
             Identity = new IdentityInfo
             {
                 RunId = runId,
@@ -107,7 +102,9 @@ public class PerfonarSimpleTests : PerfonarTestsBase
     }
 
     [PublicAPI]
-    private class SimpleExecutionInfo : ExecutionInfo { }
+    private class SimpleExecutionInfo : ExecutionInfo
+    {
+    }
 
     [PublicAPI]
     private class SimpleBenchmarkInfo : BenchmarkInfo

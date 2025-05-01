@@ -59,19 +59,6 @@ public class EntryInfo : AbstractInfo
     private readonly List<EntryInfo> nested = [];
     public IReadOnlyList<EntryInfo> Nested => nested;
 
-    /// <summary>
-    /// Service information (like the structure of the reports)
-    /// </summary>
-    public PerfonarMeta? Meta { get; set; }
-
-
-    public PerfonarMeta? ResolveMeta()
-    {
-        if (Meta != null)
-            return Meta;
-        return Nested.Select(x => x.ResolveMeta()).WhereNotNull().FirstOrDefault();
-    }
-
     // Tree
     public EntryInfo Add(params EntryInfo[] entries)
     {

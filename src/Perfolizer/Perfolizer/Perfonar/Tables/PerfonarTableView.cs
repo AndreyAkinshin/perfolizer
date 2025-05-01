@@ -3,7 +3,6 @@ using Perfolizer.Extensions;
 using Perfolizer.Horology;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Metrology;
-using Perfolizer.Perfonar.Presenting;
 
 namespace Perfolizer.Perfonar.Tables;
 

@@ -56,43 +56,7 @@
           "metric": "Gc.CollectCount",
           "value": 3
         }
-      ],
-      "meta": {
-        "table": {
-          "columnDefinitions": [
-            {
-              "selector": ".engine",
-              "cloud": "primary",
-              "isSelfExplanatory": true
-            },
-            {
-              "selector": ".host.os",
-              "cloud": "primary",
-              "isSelfExplanatory": true
-            },
-            {
-              "selector": ".host.cpu",
-              "cloud": "primary",
-              "isSelfExplanatory": true
-            },
-            {
-              "selector": ".benchmark",
-              "cloud": "secondary"
-            },
-            {
-              "selector": ".job",
-              "cloud": "secondary",
-              "compressed": true
-            },
-            {
-              "selector": "=center"
-            },
-            {
-              "selector": "=spread"
-            }
-          ]
-        }
-      }
+      ]
     },
     {
       "identity": {
@@ -145,43 +109,7 @@
           "metric": "Gc.CollectCount",
           "value": 3
         }
-      ],
-      "meta": {
-        "table": {
-          "columnDefinitions": [
-            {
-              "selector": ".engine",
-              "cloud": "primary",
-              "isSelfExplanatory": true
-            },
-            {
-              "selector": ".host.os",
-              "cloud": "primary",
-              "isSelfExplanatory": true
-            },
-            {
-              "selector": ".host.cpu",
-              "cloud": "primary",
-              "isSelfExplanatory": true
-            },
-            {
-              "selector": ".benchmark",
-              "cloud": "secondary"
-            },
-            {
-              "selector": ".job",
-              "cloud": "secondary",
-              "compressed": true
-            },
-            {
-              "selector": "=center"
-            },
-            {
-              "selector": "=spread"
-            }
-          ]
-        }
-      }
+      ]
     },
     {
       "identity": {
@@ -234,43 +162,7 @@
           "metric": "Gc.CollectCount",
           "value": 3
         }
-      ],
-      "meta": {
-        "table": {
-          "columnDefinitions": [
-            {
-              "selector": ".engine",
-              "cloud": "primary",
-              "isSelfExplanatory": true
-            },
-            {
-              "selector": ".host.os",
-              "cloud": "primary",
-              "isSelfExplanatory": true
-            },
-            {
-              "selector": ".host.cpu",
-              "cloud": "primary",
-              "isSelfExplanatory": true
-            },
-            {
-              "selector": ".benchmark",
-              "cloud": "secondary"
-            },
-            {
-              "selector": ".job",
-              "cloud": "secondary",
-              "compressed": true
-            },
-            {
-              "selector": "=center"
-            },
-            {
-              "selector": "=spread"
-            }
-          ]
-        }
-      }
+      ]
     },
     {
       "identity": {
@@ -323,43 +215,7 @@
           "metric": "Gc.CollectCount",
           "value": 3
         }
-      ],
-      "meta": {
-        "table": {
-          "columnDefinitions": [
-            {
-              "selector": ".engine",
-              "cloud": "primary",
-              "isSelfExplanatory": true
-            },
-            {
-              "selector": ".host.os",
-              "cloud": "primary",
-              "isSelfExplanatory": true
-            },
-            {
-              "selector": ".host.cpu",
-              "cloud": "primary",
-              "isSelfExplanatory": true
-            },
-            {
-              "selector": ".benchmark",
-              "cloud": "secondary"
-            },
-            {
-              "selector": ".job",
-              "cloud": "secondary",
-              "compressed": true
-            },
-            {
-              "selector": "=center"
-            },
-            {
-              "selector": "=spread"
-            }
-          ]
-        }
-      }
+      ]
     }
   ]
 }

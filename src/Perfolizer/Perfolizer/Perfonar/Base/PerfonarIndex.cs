@@ -83,8 +83,6 @@ public class PerfonarIndex
                 }
                 if (value == null || value.ToString().IsBlank())
                     continue;
-                if (value is PerfonarMeta)
-                    continue;
                 var propertyKey = key.Append(property.Name, value.GetType());
                 indexedEntry[propertyKey] = new PerfonarProperty(propertyKey, value);
                 if (!value.GetType().IsPrimitive &&
