@@ -46,6 +46,7 @@ public class OsBrandHelperTests(ITestOutputHelper output)
     [InlineData("10.0.22518", 1012, "Windows 11 (10.0.22518.1012)")]
     [InlineData("10.0.22621", 0, "Windows 11 (10.0.22621.0/22H2/2022Update/SunValley2)")]
     [InlineData("10.0.22631", 2428, "Windows 11 (10.0.22631.2428/23H2/2023Update/SunValley3)")]
+    [InlineData("10.0.26100", 1234, "Windows 11 (10.0.26100.1234/24H2/2024Update/HudsonValley)")]
     public void WindowsWithUbrIsPrettified(string originalVersion, int ubr, string prettifiedName)
         => Check(OsBrandHelper.Prettify("Windows", originalVersion, ubr.ToString()), prettifiedName);
 

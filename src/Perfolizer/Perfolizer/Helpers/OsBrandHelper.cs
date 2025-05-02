@@ -161,6 +161,7 @@ public static class OsBrandHelper
             new Windows1XVersion("21H2", "Sun Valley", null, 22000),
             new Windows1XVersion("22H2", "Sun Valley 2", "2022 Update", 22621),
             new Windows1XVersion("23H2", "Sun Valley 3", "2023 Update", 22631),
+            new Windows1XVersion("24H2", "Hudson Valley", "2024 Update", 26100),
         };
 
         public static Windows1XVersion? Resolve(string osVersionString)
