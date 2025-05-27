@@ -7,6 +7,8 @@ namespace Perfolizer.Models;
 [PublicAPI]
 public class CpuInfo : AbstractInfo
 {
+    public static readonly CpuInfo Unknown = new();
+
     public string? ProcessorName { get; set; }
     public int? PhysicalProcessorCount { get; set; }
     public int? PhysicalCoreCount { get; set; }
