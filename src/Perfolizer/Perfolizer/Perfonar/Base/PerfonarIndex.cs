@@ -87,6 +87,7 @@ public class PerfonarIndex
                 indexedEntry[propertyKey] = new PerfonarProperty(propertyKey, value);
                 if (!value.GetType().IsPrimitive &&
                     value is not string &&
+                    value is not Guid &&
                     value is not MeasurementUnit)
                     IndexAttributes(propertyKey, entry, value);
             }
