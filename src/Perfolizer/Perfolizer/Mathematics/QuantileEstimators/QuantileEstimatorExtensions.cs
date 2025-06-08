@@ -1,5 +1,7 @@
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
+using Perfolizer.Mathematics.GenericEstimators;
+using Perfolizer.Mathematics.LocationEstimators;
 
 namespace Perfolizer.Mathematics.QuantileEstimators;
 
@@ -42,5 +44,10 @@ public static class QuantileEstimatorExtensions
         IReadOnlyList<Probability> probabilities)
     {
         return estimator.Quantiles(new Sample(values), probabilities);
+    }
+
+    public static ILocationEstimator ToLocationEstimator(this IQuantileEstimator estimator)
+    {
+        return new MedianLocationEstimator(estimator);
     }
 }

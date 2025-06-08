@@ -27,7 +27,7 @@ public class Sample : IWithUnits
     public IReadOnlyList<double> SortedWeights => lazySortedData.Value.SortedWeights;
 
     /// <summary>
-    /// Sample size
+    /// Sample size (always positive)
     /// </summary>
     public int Size => Values.Count;
 

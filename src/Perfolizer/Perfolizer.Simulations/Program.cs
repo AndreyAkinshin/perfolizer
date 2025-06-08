@@ -2,10 +2,11 @@
 
 static class Program
 {
-    private static readonly Dictionary<string, Action<string[]>> Simulations = new Dictionary<string, Action<string[]>>
+    private static readonly Dictionary<string, Action<string[]>> Simulations = new()
     {
-        {"RqqPelt", args => new RqqPeltSimulation().Run(args)},
-        {"QuantileCi", args => new QuantileCiSimulation().Run(args)},
+        { "RqqPelt", args => new RqqPeltSimulation().Run(args) },
+        { "QuantileCi", args => new QuantileCiSimulation().Run(args) },
+        { "Location", args => new LocationEstimatorSimulation().Run(args) },
     };
 
     private static void PrintAvailableSimulations()
