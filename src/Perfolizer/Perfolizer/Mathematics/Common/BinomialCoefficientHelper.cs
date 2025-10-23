@@ -7,7 +7,8 @@ public static class BinomialCoefficientHelper
 {
     public const int MaxAcceptableN = 65;
 
-    private static long[,]? pascalTriangle;
+    private static readonly object s_pascalTriangleLock = new();
+    private static long[,]? s_pascalTriangle;
 
     public static long BinomialCoefficient(int n, int k)
     {
@@ -17,16 +18,24 @@ public static class BinomialCoefficientHelper
         if (k < 0 || k > n)
             return 0;
 
-        if (pascalTriangle == null)
+        if (s_pascalTriangle is not { } pascalTriangle)
         {
-            checked
+            lock (s_pascalTriangleLock)
             {
-                pascalTriangle = new long[maxN + 1, maxN + 1];
-                for (int i = 0; i <= maxN; i++)
+                pascalTriangle = s_pascalTriangle;
+                if (pascalTriangle is null)
                 {
-                    pascalTriangle[i, 0] = 1;
-                    for (int j = 1; j <= i; j++)
-                        pascalTriangle[i, j] = pascalTriangle[i - 1, j - 1] + pascalTriangle[i - 1, j];
+                    checked
+                    {
+                        pascalTriangle = new long[maxN + 1, maxN + 1];
+                        for (int i = 0; i <= maxN; i++)
+                        {
+                            pascalTriangle[i, 0] = 1;
+                            for (int j = 1; j <= i; j++)
+                                pascalTriangle[i, j] = pascalTriangle[i - 1, j - 1] + pascalTriangle[i - 1, j];
+                        }
+                    }
+                    s_pascalTriangle = pascalTriangle;
                 }
             }
         }
