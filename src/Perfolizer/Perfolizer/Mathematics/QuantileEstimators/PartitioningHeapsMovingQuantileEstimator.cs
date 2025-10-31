@@ -3,6 +3,7 @@ using System.Text;
 using Perfolizer.Common;
 using Perfolizer.Exceptions;
 using Perfolizer.Mathematics.Common;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.QuantileEstimators;
 

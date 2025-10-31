@@ -1,8 +1,8 @@
 using Perfolizer.Collections;
-using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.ScaleEstimators;
+using Pragmastat;
 
 namespace Perfolizer.Tests.Mathematics.ScaleEstimators;
 

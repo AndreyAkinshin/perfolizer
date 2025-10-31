@@ -1,4 +1,5 @@
 using Perfolizer.Common;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.Common;
 

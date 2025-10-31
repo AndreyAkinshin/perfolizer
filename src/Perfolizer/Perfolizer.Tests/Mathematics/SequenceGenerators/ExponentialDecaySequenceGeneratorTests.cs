@@ -1,5 +1,4 @@
 using Perfolizer.Mathematics.Sequences;
-using Perfolizer.Tests.Common;
 using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Mathematics.SequenceGenerators;

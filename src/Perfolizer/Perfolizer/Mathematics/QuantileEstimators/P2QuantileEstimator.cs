@@ -1,5 +1,5 @@
 using Perfolizer.Exceptions;
-using Perfolizer.Mathematics.Common;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.QuantileEstimators;
 

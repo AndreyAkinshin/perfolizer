@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Common;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Metrology;
 

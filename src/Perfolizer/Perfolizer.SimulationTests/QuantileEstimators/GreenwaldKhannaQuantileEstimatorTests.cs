@@ -1,6 +1,5 @@
-using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
-using Xunit.Abstractions;
+using Pragmastat;
 
 namespace Perfolizer.SimulationTests.QuantileEstimators;
 

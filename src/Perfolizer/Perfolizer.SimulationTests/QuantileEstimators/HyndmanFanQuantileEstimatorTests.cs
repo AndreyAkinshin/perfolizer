@@ -1,10 +1,9 @@
 using JetBrains.Annotations;
 using Perfolizer.Collections;
-using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Infra;
-using Xunit.Abstractions;
+using Pragmastat;
 
 namespace Perfolizer.SimulationTests.QuantileEstimators;
 

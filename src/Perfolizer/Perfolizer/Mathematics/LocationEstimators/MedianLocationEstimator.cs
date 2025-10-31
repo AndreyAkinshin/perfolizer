@@ -1,9 +1,11 @@
-using Perfolizer.Mathematics.GenericEstimators;
 using Perfolizer.Mathematics.QuantileEstimators;
+using Pragmastat;
+using Pragmastat.Estimators;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.LocationEstimators;
 
-public class MedianLocationEstimator(IQuantileEstimator quantileEstimator) : ILocationEstimator
+public class MedianLocationEstimator(IQuantileEstimator quantileEstimator) : IOneSampleEstimator
 {
-    public double Location(Sample x) => quantileEstimator.Median(x);
+    public Measurement Estimate(Sample x) => quantileEstimator.Median(x);
 }

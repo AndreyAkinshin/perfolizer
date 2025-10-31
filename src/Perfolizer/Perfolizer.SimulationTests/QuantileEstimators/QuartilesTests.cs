@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Perfolizer.Mathematics.QuantileEstimators;
+using Pragmastat;
 
 namespace Perfolizer.SimulationTests.QuantileEstimators;
 

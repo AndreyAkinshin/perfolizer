@@ -1,3 +1,6 @@
+using Perfolizer.Metrology;
+using Pragmastat;
+
 namespace Perfolizer.Tests;
 
 public class SampleTests
@@ -7,8 +10,10 @@ public class SampleTests
     [InlineData("[2000]KB", "[4]B", "[2048000,4]B")]
     public void SampleConcatTest(string a, string b, string c)
     {
-        string actual = Sample.Parse(a).Concat(Sample.Parse(b)).ToString();
-        string expected = Sample.Parse(c).ToString();
+        var sampleA = PerfolizerSampleFormatter.Instance.Parse(a);
+        var sampleB = PerfolizerSampleFormatter.Instance.Parse(b);
+        string actual = sampleA.Concat(sampleB).ToString();
+        string expected = PerfolizerSampleFormatter.Instance.Parse(c).ToString();
         Assert.Equal(expected, actual);
     }
 

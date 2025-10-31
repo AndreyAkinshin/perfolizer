@@ -1,5 +1,4 @@
 using Perfolizer.Metrology;
-using Perfolizer.Tests.Common;
 
 namespace Perfolizer.Tests.Metrology;
 

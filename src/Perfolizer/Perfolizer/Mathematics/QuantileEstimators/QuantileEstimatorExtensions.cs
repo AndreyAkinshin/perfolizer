@@ -1,7 +1,8 @@
 using Perfolizer.Common;
-using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.GenericEstimators;
 using Perfolizer.Mathematics.LocationEstimators;
+using Pragmastat;
+using Pragmastat.Estimators;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.QuantileEstimators;
 
@@ -23,7 +24,7 @@ public static class QuantileEstimatorExtensions
         return results;
     }
 
-    public static double Median(
+    public static Measurement Median(
         this IQuantileEstimator estimator,
         Sample sample)
     {
@@ -46,7 +47,7 @@ public static class QuantileEstimatorExtensions
         return estimator.Quantiles(new Sample(values), probabilities);
     }
 
-    public static ILocationEstimator ToLocationEstimator(this IQuantileEstimator estimator)
+    public static IOneSampleEstimator ToLocationEstimator(this IQuantileEstimator estimator)
     {
         return new MedianLocationEstimator(estimator);
     }

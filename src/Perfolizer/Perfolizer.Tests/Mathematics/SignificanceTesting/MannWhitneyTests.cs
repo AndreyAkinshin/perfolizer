@@ -1,14 +1,14 @@
 using JetBrains.Annotations;
 using Perfolizer.Collections;
-using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.SignificanceTesting;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
 using Perfolizer.Metrology;
-using Perfolizer.Tests.Common;
 using Perfolizer.Tests.Infra;
+using Pragmastat;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
 

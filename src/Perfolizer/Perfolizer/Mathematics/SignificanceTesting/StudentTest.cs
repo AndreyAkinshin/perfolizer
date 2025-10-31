@@ -2,6 +2,7 @@ using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
@@ -20,7 +21,7 @@ public class StudentTest : ISignificanceOneSampleTest<StudentTOneSampleResult>
         double df = n - 1;
         double t = (mean - y) / (stdDev / Sqrt(n));
         double cdf = new StudentDistribution(df).Cdf(t);
-        double pValue = SignificanceTestHelper.CdfToPValue(cdf, alternativeHypothesis);
+        Probability pValue = SignificanceTestHelper.CdfToPValue(cdf, alternativeHypothesis);
 
         return new StudentTOneSampleResult(x, y, alternativeHypothesis, pValue, t, df);
     }

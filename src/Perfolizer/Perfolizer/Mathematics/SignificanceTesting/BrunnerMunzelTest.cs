@@ -3,6 +3,7 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Metrology;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 

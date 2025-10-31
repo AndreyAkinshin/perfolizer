@@ -1,6 +1,9 @@
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
+using Perfolizer.Metrology;
+using Pragmastat;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.QuantileEstimators;
 
@@ -17,9 +20,9 @@ public class HarrellDavisQuantileEstimator : IQuantileEstimator, IQuantileConfid
     public bool SupportsWeightedSamples => true;
     public string Alias => "HD";
 
-    public double Quantile(Sample sample, Probability probability)
+    public Measurement Quantile(Sample sample, Probability probability)
     {
-        return GetMoments(sample, probability, false).C1;
+        return GetMoments(sample, probability, false).C1.WithUnitOf(sample);
     }
 
     /// <summary>

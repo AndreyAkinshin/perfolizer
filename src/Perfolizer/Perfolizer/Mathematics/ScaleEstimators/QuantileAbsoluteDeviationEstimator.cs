@@ -1,7 +1,7 @@
 using JetBrains.Annotations;
 using Perfolizer.Common;
-using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.ScaleEstimators;
 

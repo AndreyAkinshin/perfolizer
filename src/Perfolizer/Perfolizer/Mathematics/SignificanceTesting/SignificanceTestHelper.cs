@@ -1,8 +1,7 @@
-using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.GenericEstimators;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Metrology;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
@@ -15,8 +14,7 @@ public static class SignificanceTestHelper
         Threshold threshold,
         SignificanceLevel alpha)
     {
-        var deltas = DeltasEstimator.HodgesLehmannShamos.Deltas(x, y);
-        var pValue = test.GetPValue(x, y, AlternativeHypothesis.TwoSides, threshold);
+        Probability pValue = test.GetPValue(x, y, AlternativeHypothesis.TwoSides, threshold);
         return pValue < alpha;
     }
 

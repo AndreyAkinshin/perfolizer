@@ -1,6 +1,6 @@
-using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Infra;
+using Pragmastat;
 
 namespace Perfolizer.SimulationTests.QuantileEstimators;
 

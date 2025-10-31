@@ -1,5 +1,8 @@
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
+using Perfolizer.Metrology;
+using Pragmastat;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.QuantileEstimators;
 
@@ -37,14 +40,14 @@ public class HyndmanFanQuantileEstimator : IQuantileEstimator
     /// </summary>
     private double GetH(double n, Probability p) => HyndmanFanHelper.GetH(Type, n, p);
 
-    public virtual double Quantile(Sample sample, Probability probability)
+    public virtual Measurement Quantile(Sample sample, Probability probability)
     {
         if (!SupportsWeightedSamples)
             Assertion.NonWeighted(nameof(sample), sample);
 
         return sample.IsWeighted
-            ? GetQuantileForWeightedSample(sample, probability)
-            : GetQuantileForNonWeightedSample(sample, probability);
+            ? GetQuantileForWeightedSample(sample, probability).WithUnitOf(sample)
+            : GetQuantileForNonWeightedSample(sample, probability).WithUnitOf(sample);
     }
 
     // See https://aakinshin.net/posts/weighted-quantiles/

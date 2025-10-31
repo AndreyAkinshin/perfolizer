@@ -3,6 +3,7 @@ using System.Text;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Horology;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.Histograms;
 
@@ -36,16 +37,22 @@ public class HistogramBin
         var unit = TimeUnit.GetBestTimeUnit(Values);
         var builder = new StringBuilder();
         builder.Append('[');
-        builder.Append(TimeInterval.FromNanoseconds(Lower).ToString(unit, formatProvider: cultureInfo));
+        builder.Append(MeasurementFormatter.Default.Format(
+            TimeInterval.FromNanoseconds(Lower).ToMeasurement(),
+            formatProvider: cultureInfo));
         builder.Append(';');
-        builder.Append(TimeInterval.FromNanoseconds(Upper).ToString(unit, formatProvider: cultureInfo));
+        builder.Append(MeasurementFormatter.Default.Format(
+            TimeInterval.FromNanoseconds(Upper).ToMeasurement(),
+            formatProvider: cultureInfo));
         builder.Append(' ');
         builder.Append('{');
         for (var i = 0; i < Values.Length; i++)
         {
             if (i != 0)
                 builder.Append("; ");
-            builder.Append(TimeInterval.FromNanoseconds(Values[i]).ToString(unit, formatProvider: cultureInfo));
+            builder.Append(MeasurementFormatter.Default.Format(
+                TimeInterval.FromNanoseconds(Values[i]).ToMeasurement(),
+                formatProvider: cultureInfo));
         }
         builder.Append('}');
             

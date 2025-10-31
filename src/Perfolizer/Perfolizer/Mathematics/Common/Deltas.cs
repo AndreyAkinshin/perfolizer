@@ -1,8 +1,9 @@
 using JetBrains.Annotations;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.Common;
 
-public class Deltas(double shift, double ratio, double effectSize)
+public class Deltas(Measurement shift, Measurement ratio, Measurement disparity)
 {
     [PublicAPI]
     public double Shift { get; } = shift;
@@ -11,11 +12,11 @@ public class Deltas(double shift, double ratio, double effectSize)
     public double Ratio { get; } = ratio;
 
     [PublicAPI]
-    public double EffectSize { get; } = effectSize;
+    public double Disparity { get; } = disparity;
 
     [PublicAPI]
-    public bool IsBelow(Deltas other) => Shift < other.Shift && Ratio < other.Ratio && EffectSize < other.EffectSize;
+    public bool IsBelow(Deltas other) => Shift < other.Shift && Ratio < other.Ratio && Disparity < other.Disparity;
 
     [PublicAPI]
-    public bool IsAbove(Deltas other) => Shift > other.Shift && Ratio > other.Ratio && EffectSize > other.EffectSize;
+    public bool IsAbove(Deltas other) => Shift > other.Shift && Ratio > other.Ratio && Disparity > other.Disparity;
 }

@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using Perfolizer.Exceptions;
-using Perfolizer.Metrology;
+using Pragmastat;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Common;
 

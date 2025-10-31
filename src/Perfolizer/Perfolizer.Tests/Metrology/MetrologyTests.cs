@@ -1,9 +1,11 @@
 using Perfolizer.Metrology;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Tests.Metrology;
 
 public class MetrologyTests
 {
+    // TODO: Support Disparity Units once a proper suffix is introduced in Pragmastat
     [Theory]
     [InlineData("1")]
     [InlineData("2ns")]
@@ -19,7 +21,6 @@ public class MetrologyTests
     [InlineData("12GB")]
     [InlineData("13TB")]
     [InlineData("14%")]
-    [InlineData("15ES")]
     [InlineData("16x")]
     [InlineData("17Hz")]
     [InlineData("18KHz")]
@@ -27,7 +28,7 @@ public class MetrologyTests
     [InlineData("20GHz")]
     public void MeasurementUnitToStringParseTest(string s)
     {
-        if (!Measurement.TryParse(s, out var value))
+        if (!PerfolizerMeasurementFormatter.Instance.TryParse(s, out Measurement value))
             throw new Exception($"Failed to parse '{s}'");
         Assert.Equal(s, value.ToString());
     }

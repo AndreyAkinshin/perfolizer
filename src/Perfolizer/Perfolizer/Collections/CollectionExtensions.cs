@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Diagnostics.CodeAnalysis;
 using Perfolizer.Common;
-using Perfolizer.Metrology;
+using Pragmastat;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Collections;
 
 internal static class CollectionExtensions
 {
-    [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
     public static double[] CopyToArray(this IEnumerable<double> values)
     {
         switch (values)

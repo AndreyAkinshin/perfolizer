@@ -1,8 +1,8 @@
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
-using Perfolizer.Mathematics.GenericEstimators;
 using Perfolizer.Mathematics.LocationEstimators;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Simulations.Util;
+using Pragmastat.Estimators;
 
 namespace Perfolizer.Simulations;
 
@@ -11,10 +11,10 @@ public class LocationEstimatorSimulation
     public void Run(string[] args)
     {
         var simulation =
-            new EfficiencySimulation<ILocationEstimator>((estimator, sample) => estimator.Location(sample))
+            new EfficiencySimulation<IOneSampleEstimator>((estimator, sample) => estimator.Estimate(sample))
                 .AddEstimator("Mean", MeanEstimator.Instance)
                 .AddEstimator("Median", SimpleQuantileEstimator.Instance.ToLocationEstimator())
-                .AddEstimator("HL", HodgesLehmannEstimator.Instance)
+                .AddEstimator("Center", CenterEstimator.Instance)
                 .AddDistribution("Normal", NormalDistribution.Standard.Random(1729))
                 .AddSampleSizes(Enumerable.Range(2, 99).ToArray());
 

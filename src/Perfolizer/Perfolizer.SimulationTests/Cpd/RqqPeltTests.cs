@@ -3,7 +3,6 @@ using Perfolizer.Mathematics.Cpd;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.SimulationTests.Cpd.TestDataSets;
 using Perfolizer.Tests.Infra;
-using Xunit.Abstractions;
 
 namespace Perfolizer.SimulationTests.Cpd;
 

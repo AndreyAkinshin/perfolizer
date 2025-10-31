@@ -1,8 +1,8 @@
-using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Reference;
+using Pragmastat;
 
 namespace Perfolizer.Simulations;
 

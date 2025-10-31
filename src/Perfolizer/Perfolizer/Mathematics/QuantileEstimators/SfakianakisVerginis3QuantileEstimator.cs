@@ -1,4 +1,6 @@
-using Perfolizer.Mathematics.Common;
+using Perfolizer.Metrology;
+using Pragmastat;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.QuantileEstimators;
 
@@ -21,13 +23,14 @@ public class SfakianakisVerginis3QuantileEstimator : BinomialBasedQuantileEstima
 
     public override string Alias => "SV3";
 
-    protected override double Quantile(IReadOnlyList<double> x, Probability probability, double[] b)
+    protected override Measurement Quantile(Sample sample, Probability probability, double[] b)
     {
+        var x = sample.SortedValues;
         int n = x.Count;
         double value = 0;
         for (int i = 0; i < n; i++)
             value += b[i + 1] * x[i];
         value += (2 * x[0] - x[1]) * b[0];
-        return value;
+        return value.WithUnitOf(sample);
     }
 }

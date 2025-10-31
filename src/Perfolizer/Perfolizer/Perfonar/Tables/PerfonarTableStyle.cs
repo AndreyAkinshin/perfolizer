@@ -1,5 +1,5 @@
 using Perfolizer.Common;
-using Perfolizer.Metrology;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Perfonar.Tables;
 

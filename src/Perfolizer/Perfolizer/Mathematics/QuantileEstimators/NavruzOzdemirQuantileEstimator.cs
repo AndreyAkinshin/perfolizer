@@ -1,4 +1,6 @@
-using Perfolizer.Mathematics.Common;
+using Perfolizer.Metrology;
+using Pragmastat;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.QuantileEstimators;
 
@@ -21,8 +23,9 @@ public class NavruzOzdemirQuantileEstimator : BinomialBasedQuantileEstimator
 
     public override string Alias => "NO";
 
-    protected override double Quantile(IReadOnlyList<double> x, Probability probability, double[] b)
+    protected override Measurement Quantile(Sample sample, Probability probability, double[] b)
     {
+        var x = sample.SortedValues;
         int n = x.Count;
         double q = probability;
         double value = 0;
@@ -30,6 +33,6 @@ public class NavruzOzdemirQuantileEstimator : BinomialBasedQuantileEstimator
         for (int i = 1; i <= n - 2; i++)
             value += (b[i] * (1 - q) + b[i + 1] * q) * x[i];
         value += -b[n] * q * x[n - 3] + b[n] * (3 * q - 1) * x[n - 2] + (b[n - 1] * (1 - q) + b[n] * (2 - 2 * q)) * x[n - 1];
-        return value;
+        return value.WithUnitOf(sample);
     }
 }

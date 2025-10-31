@@ -1,5 +1,5 @@
 ﻿using Perfolizer.Mathematics.Common;
-using Perfolizer.Metrology;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Horology;
 

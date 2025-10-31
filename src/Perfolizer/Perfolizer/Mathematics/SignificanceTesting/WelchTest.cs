@@ -3,6 +3,7 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Metrology;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
@@ -30,7 +31,7 @@ public class WelchTest : SignificanceTwoSampleTestBase<WelchTResult>
         double df = (v1 / n1 + v2 / n2).Sqr() /
                     ((v1 / n1).Sqr() / (n1 - 1) + (v2 / n2).Sqr() / (n2 - 1));
         double cdf = new StudentDistribution(df).Cdf(t);
-        double pValue = SignificanceTestHelper.CdfToPValue(cdf, alternative);
+        Probability pValue = SignificanceTestHelper.CdfToPValue(cdf, alternative);
 
         return new WelchTResult(x, y, threshold, alternative, pValue, t, df);
     }

@@ -2,6 +2,7 @@ using Perfolizer.Collections;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.ScaleEstimators;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.OutlierDetection;
 

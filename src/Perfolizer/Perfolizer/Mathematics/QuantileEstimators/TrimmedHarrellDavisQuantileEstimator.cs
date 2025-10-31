@@ -1,6 +1,8 @@
 using Perfolizer.Common;
-using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
+using Perfolizer.Metrology;
+using Pragmastat;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.QuantileEstimators;
 
@@ -20,7 +22,7 @@ public class TrimmedHarrellDavisQuantileEstimator : IQuantileEstimator
         Alias = string.IsNullOrEmpty(alias) ? "THD" : "THD-" + alias;
     }
 
-    public double Quantile(Sample sample, Probability probability)
+    public Measurement Quantile(Sample sample, Probability probability)
     {
         Assertion.NotNull(nameof(sample), sample);
 
@@ -72,7 +74,7 @@ public class TrimmedHarrellDavisQuantileEstimator : IQuantileEstimator
                 c1 += w * sample.SortedValues[j];
             }
         }
-        return c1;
+        return c1.WithUnitOf(sample);
     }
 
     public bool SupportsWeightedSamples => true;

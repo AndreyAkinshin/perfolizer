@@ -1,5 +1,5 @@
-using Perfolizer.Common;
-using Perfolizer.Mathematics.Common;
+using Pragmastat;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.QuantileEstimators;
 
@@ -11,7 +11,7 @@ public interface IQuantileEstimator
     /// <param name="sample">A sample</param>
     /// <param name="probability">Value in range [0;1] that describes the requested quantile</param>
     /// <returns>Quantile estimation for the given sample</returns>
-    double Quantile(Sample sample, Probability probability);
+    Measurement Quantile(Sample sample, Probability probability);
         
     bool SupportsWeightedSamples { get; }
         

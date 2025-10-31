@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
-using Perfolizer.Tests.Common;
 using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Mathematics.Selectors;

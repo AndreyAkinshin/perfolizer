@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Perfolizer.Horology;
 using Perfolizer.Models;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Helpers;
 
@@ -97,7 +98,7 @@ public static class CpuBrandHelper
     /// <param name="frequency"></param>
     private static string? GetBrandStyledActualFrequency(Frequency? frequency) => frequency == null
         ? null
-        : $"{frequency.Value.ToString(FrequencyUnit.GHz, "N2")}";
+        : $"{MeasurementFormatter.Default.Format(frequency.Value.ToMeasurement(FrequencyUnit.GHz), "N2")}";
 
     /// <summary>
     /// Parse a processor name and tries to return a microarchitecture name.

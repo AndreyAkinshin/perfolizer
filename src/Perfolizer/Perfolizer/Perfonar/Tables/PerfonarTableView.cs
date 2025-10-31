@@ -1,8 +1,8 @@
 using Perfolizer.Collections;
-using Perfolizer.Extensions;
 using Perfolizer.Horology;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Metrology;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Perfonar.Tables;
 
@@ -62,7 +62,10 @@ public class PerfonarTableView
                     string format = $"F{precision}";
 
                     for (int rowIndex = 0; rowIndex < measurements.Length; rowIndex++)
-                        cells[rowIndex, colIndex] = measurements[rowIndex].ToString(format, formatProvider, style.UnitPresentation);
+                    {
+                        cells[rowIndex, colIndex] = MeasurementFormatter.Default.Format(
+                            measurements[rowIndex], format, formatProvider, style.UnitPresentation);
+                    }
                     continue;
                 }
             }
@@ -72,7 +75,8 @@ public class PerfonarTableView
                 object? cellObject = table[rowIndex, colIndex];
                 cells[rowIndex, colIndex] = cellObject switch
                 {
-                    IWithUnits withUnit => withUnit.ToString(null, formatProvider, style.UnitPresentation),
+                    Measurement measurement => MeasurementFormatter.Default.Format(
+                        measurement, null, formatProvider, style.UnitPresentation),
                     _ => cellObject?.ToString() ?? ""
                 };
             }

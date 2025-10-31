@@ -1,6 +1,7 @@
 using Perfolizer.Collections;
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Randomization;
+using Pragmastat;
 
 namespace Perfolizer.Simulations.Util;
 

@@ -1,7 +1,7 @@
 using System.Text;
-using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Selectors;
+using Pragmastat;
 
 namespace Perfolizer.Tests.Mathematics.Selectors;
 

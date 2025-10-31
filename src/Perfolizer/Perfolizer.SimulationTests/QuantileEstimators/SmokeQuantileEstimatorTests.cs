@@ -4,19 +4,13 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Infra;
+using Pragmastat;
 using Range = Perfolizer.Mathematics.Common.Range;
 
 namespace Perfolizer.SimulationTests.QuantileEstimators;
 
-public class SmokeQuantileEstimatorTests
+public class SmokeQuantileEstimatorTests(ITestOutputHelper output)
 {
-    private readonly ITestOutputHelper output;
-
-    public SmokeQuantileEstimatorTests(ITestOutputHelper output)
-    {
-        this.output = output;
-    }
-
     private class TestData
     {
         public string Key { get; }

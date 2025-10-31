@@ -1,7 +1,7 @@
-using Perfolizer.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Sequences;
+using Pragmastat;
 
 namespace Perfolizer.Demo;
 

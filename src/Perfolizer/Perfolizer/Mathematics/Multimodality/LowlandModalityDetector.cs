@@ -2,6 +2,7 @@ using Perfolizer.Collections;
 using Perfolizer.Common;
 using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Histograms;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.Multimodality;
 

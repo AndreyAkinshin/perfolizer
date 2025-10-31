@@ -1,9 +1,9 @@
 using JetBrains.Annotations;
 using Perfolizer.Collections;
-using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Tests.Infra;
+using Pragmastat;
 
 namespace Perfolizer.SimulationTests.QuantileEstimators;
 

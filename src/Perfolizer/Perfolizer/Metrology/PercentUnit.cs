@@ -1,3 +1,5 @@
+using Pragmastat.Metrology;
+
 namespace Perfolizer.Metrology;
 
 public class PercentUnit() : MeasurementUnit("%", "Percent", 1)

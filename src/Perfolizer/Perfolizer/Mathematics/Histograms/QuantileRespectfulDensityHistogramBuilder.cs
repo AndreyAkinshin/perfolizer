@@ -1,8 +1,8 @@
 using Perfolizer.Common;
 using Perfolizer.Exceptions;
-using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Sequences;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.Histograms;
 

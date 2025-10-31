@@ -1,12 +1,13 @@
 using Perfolizer.Common;
-using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.DiscreteDistributions;
+using Pragmastat;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.QuantileEstimators;
 
 public abstract class BinomialBasedQuantileEstimator : IQuantileEstimator
 {
-    public double Quantile(Sample sample, Probability probability)
+    public Measurement Quantile(Sample sample, Probability probability)
     {
         Assertion.NonWeighted(nameof(sample), sample);
 
@@ -19,11 +20,11 @@ public abstract class BinomialBasedQuantileEstimator : IQuantileEstimator
         for (int k = 0; k <= n; k++)
             b[k] = distribution.Pmf(k);
 
-        return Quantile(sample.SortedValues, probability, b);
+        return Quantile(sample, probability, b);
     }
 
     public bool SupportsWeightedSamples => false;
     public abstract string Alias { get; }
 
-    protected abstract double Quantile(IReadOnlyList<double> x, Probability probability, double[] b);
+    protected abstract Measurement Quantile(Sample sample, Probability probability, double[] b);
 }

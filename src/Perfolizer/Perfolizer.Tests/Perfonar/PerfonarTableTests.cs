@@ -1,9 +1,9 @@
 using JetBrains.Annotations;
 using Perfolizer.Metrology;
 using Perfolizer.Models;
-using Perfolizer.Perfonar.Base;
 using Perfolizer.Perfonar.Tables;
 using Perfolizer.Tests.Infra;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Tests.Perfonar;
 
@@ -48,7 +48,7 @@ public class PerfonarTableTests(ITestOutputHelper output) : PerfonarTestsBase
         var entry = new EntryInfo { Benchmark = new CustomBenchmarkInfo(name) };
         for (int i = 0; i < metrics.Length; i++)
         {
-            var measurement = Measurement.Parse(metrics[i]);
+            Measurement measurement = PerfolizerMeasurementFormatter.Instance.Parse(metrics[i]);
             entry.Add(new EntryInfo
             {
                 IterationIndex = i,

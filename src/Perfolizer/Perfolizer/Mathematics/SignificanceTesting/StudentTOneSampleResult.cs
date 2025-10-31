@@ -1,6 +1,5 @@
-using Perfolizer.Common;
-using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 

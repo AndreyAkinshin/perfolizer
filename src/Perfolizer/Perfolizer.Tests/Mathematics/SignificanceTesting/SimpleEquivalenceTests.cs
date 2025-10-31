@@ -2,6 +2,7 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.SignificanceTesting;
 using Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
 using Perfolizer.Metrology;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
 
@@ -24,8 +25,12 @@ public class SimpleEquivalenceTests
         "2%", ComparisonResult.Greater)]
     public void TostTest(string x, string y, string threshold, ComparisonResult expected)
     {
-        var test = new SimpleEquivalenceTest(MannWhitneyTest.Instance);
-        var actual = test.Perform(Sample.Parse(x), Sample.Parse(y), Threshold.Parse(threshold), SignificanceLevel.P1E5);
+        SimpleEquivalenceTest test = new(MannWhitneyTest.Instance);
+        ComparisonResult actual = test.Perform(
+            SampleFormatter.Default.Parse(x),
+            SampleFormatter.Default.Parse(y),
+            Threshold.Parse(threshold),
+            SignificanceLevel.P1E5);
         Assert.Equal(expected, actual);
     }
 }

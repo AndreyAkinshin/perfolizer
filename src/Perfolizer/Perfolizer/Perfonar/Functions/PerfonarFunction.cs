@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Perfolizer.Helpers;
+using Pragmastat;
 
 namespace Perfolizer.Perfonar.Functions;
 

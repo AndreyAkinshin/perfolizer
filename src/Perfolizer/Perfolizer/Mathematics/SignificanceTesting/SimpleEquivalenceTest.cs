@@ -1,7 +1,9 @@
 using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.GenericEstimators;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Metrology;
+using Pragmastat;
+using Pragmastat.Estimators;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
@@ -13,12 +15,13 @@ public class SimpleEquivalenceTest(ISignificanceTwoSampleTest oneSidedTest) : IE
         if (x.Size <= 1 && y.Size <= 1)
             return ComparisonResult.Unknown;
 
-        var deltas = DeltasEstimator.HodgesLehmannShamos.Deltas(x, y);
+        Measurement shift = ShiftEstimator.Instance.Estimate(x, y);
         double thresholdShift = Max(threshold.EffectiveShift(x), threshold.EffectiveShift(y));
 
+        // TODO: rework
         // Practical significance
-        if (thresholdShift > 0 && deltas.Shift.Abs() > thresholdShift * 10)
-            return deltas.Shift > 0 ? ComparisonResult.Greater : ComparisonResult.Lesser;
+        if (Abs(shift) > Abs(thresholdShift) * 10)
+            return shift > 0 ? ComparisonResult.Greater : ComparisonResult.Lesser;
 
         // Statistical significance (TOST)
         const AlternativeHypothesis alternative = AlternativeHypothesis.Greater;

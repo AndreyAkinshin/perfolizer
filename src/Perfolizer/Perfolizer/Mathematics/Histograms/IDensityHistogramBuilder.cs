@@ -1,5 +1,5 @@
 using JetBrains.Annotations;
-using Perfolizer.Common;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.Histograms;
 

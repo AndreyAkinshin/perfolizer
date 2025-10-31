@@ -4,7 +4,7 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.ScaleEstimators;
 using Perfolizer.Tests.Infra;
-using Xunit.Abstractions;
+using Pragmastat;
 
 namespace Perfolizer.SimulationTests.QuantileEstimators;
 
@@ -26,7 +26,7 @@ public class ExtendedP2QuantileEstimatorTests
     public void ExtendedP2IsConsistentWithP2(string testKey)
     {
         var testData = P2TestDataMap[testKey];
-        double p = testData.Probability;
+        Probability p = testData.Probability;
         var sample = testData.Generate();
         var p2Estimator = new P2QuantileEstimator(p);
         var ep2Estimator = new ExtendedP2QuantileEstimator(p);

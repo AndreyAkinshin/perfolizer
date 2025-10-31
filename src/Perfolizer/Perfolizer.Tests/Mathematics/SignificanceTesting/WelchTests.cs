@@ -3,8 +3,8 @@ using Perfolizer.Collections;
 using Perfolizer.Mathematics.SignificanceTesting;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Metrology;
-using Perfolizer.Tests.Common;
 using Perfolizer.Tests.Infra;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
 

@@ -1,4 +1,4 @@
-using Perfolizer.Metrology;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Extensions;
 

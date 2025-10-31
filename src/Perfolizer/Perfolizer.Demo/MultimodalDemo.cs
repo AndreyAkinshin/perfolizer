@@ -1,6 +1,6 @@
-using Perfolizer.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Multimodality;
+using Pragmastat;
 
 namespace Perfolizer.Demo;
 

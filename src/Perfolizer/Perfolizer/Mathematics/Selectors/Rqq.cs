@@ -1,6 +1,6 @@
 using System.Globalization;
 using System.Text;
-using Perfolizer.Mathematics.Common;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.Selectors;
 

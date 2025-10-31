@@ -3,6 +3,7 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.ScaleEstimators;
 using Perfolizer.Mathematics.Sequences;
+using Pragmastat;
 
 namespace Perfolizer.Mathematics.Functions;
 

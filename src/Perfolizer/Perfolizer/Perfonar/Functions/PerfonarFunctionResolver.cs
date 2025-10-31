@@ -2,11 +2,13 @@ using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.GenericEstimators;
+using Perfolizer.Mathematics.LocationEstimators;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.ScaleEstimators;
 using Perfolizer.Metrology;
 using Perfolizer.Perfonar.Base;
+using Pragmastat.Estimators;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Perfonar.Functions;
 
@@ -25,16 +27,16 @@ public class PerfonarFunctionResolver
     public PerfonarFunctionResolver RegisterDefaults() => Register(
         new PerfonarFunction<Measurement>("n", sample => sample.Size.AsMeasurement())
             { Legend = "Sample Size" },
-        new PerfonarFunction<Measurement>("mean", sample => sample.Mean().WithUnit(sample.Unit))
+        new PerfonarFunction<Measurement>("mean", sample => MeanEstimator.Instance.Estimate(sample))
             { Legend = "Arithmetic Average" },
         new PerfonarFunction<Measurement>("stddev", sample => Moments.Create(sample).StandardDeviation.WithUnit(sample.Unit))
             { Legend = "Standard Deviation" },
-        new PerfonarFunction<Measurement>("min", sample => sample.Min().WithUnit(sample.Unit)),
-        new PerfonarFunction<Measurement>("max", sample => sample.Max().WithUnit(sample.Unit)),
+        new PerfonarFunction<Measurement>("min", sample => sample.Min()),
+        new PerfonarFunction<Measurement>("max", sample => sample.Max()),
         new PerfonarFunction<Measurement>("median",
-            sample => TrimmedHarrellDavisQuantileEstimator.Sqrt.Median(sample).WithUnit(sample.Unit)),
+            sample => TrimmedHarrellDavisQuantileEstimator.Sqrt.Median(sample)),
         new PerfonarFunction<Measurement>("center",
-            sample => HodgesLehmannEstimator.Instance.Median(sample).WithUnit(sample.Unit)),
+            sample => CenterEstimator.Instance.Estimate(sample)),
         new PerfonarFunction<Measurement>("spread",
             sample => ShamosEstimator.Instance.Scale(sample).WithUnit(sample.Unit))
     );

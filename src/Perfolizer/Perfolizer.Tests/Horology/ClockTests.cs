@@ -1,4 +1,5 @@
 ﻿using Perfolizer.Horology;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Tests.Horology;
 
@@ -35,7 +36,8 @@ public class ClockTests
         var spans = startedClocks.Select(startedClock => startedClock.GetElapsed()).ToList();
         for (int i = 0; i < clocks.Count; i++)
         {
-            output.WriteLine(clocks[i].Title + ": " + TimeInterval.FromSeconds(spans[i].GetSeconds()).ToString(TimeUnit.Second));
+            var timeMeasurement = TimeInterval.FromSeconds(spans[i].GetSeconds()).ToMeasurement(TimeUnit.Second);
+            output.WriteLine(clocks[i].Title + ": " + MeasurementFormatter.Default.Format(timeMeasurement));
             var interval = spans[i].GetTimeValue();
             Assert.True(interval > TimeInterval.Millisecond);
             Assert.True(interval < TimeInterval.Hour);

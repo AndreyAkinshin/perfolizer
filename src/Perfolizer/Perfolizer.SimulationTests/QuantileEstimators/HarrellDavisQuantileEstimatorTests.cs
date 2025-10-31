@@ -6,7 +6,7 @@ using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Mathematics.Sequences;
 using Perfolizer.Tests.Infra;
-using Xunit.Abstractions;
+using Pragmastat;
 
 namespace Perfolizer.SimulationTests.QuantileEstimators;
 

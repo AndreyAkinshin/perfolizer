@@ -2,7 +2,6 @@ using System.Text;
 using Perfolizer.Extensions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Infra;
-using Xunit.Abstractions;
 
 namespace Perfolizer.SimulationTests.QuantileEstimators;
 

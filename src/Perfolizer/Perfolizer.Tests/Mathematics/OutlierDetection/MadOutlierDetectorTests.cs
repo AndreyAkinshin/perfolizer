@@ -2,7 +2,6 @@ using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Mathematics.OutlierDetection;
 using Perfolizer.Mathematics.ScaleEstimators;
-using Perfolizer.Tests.Common;
 using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Mathematics.OutlierDetection;

@@ -2,7 +2,6 @@ using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Multimodality;
-using Perfolizer.Tests.Common;
 using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Mathematics.Modality;

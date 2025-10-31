@@ -1,11 +1,13 @@
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Perfolizer.Exceptions;
+using Pragmastat;
+using Pragmastat.Metrology;
 
 namespace Perfolizer.Metrology;
 
-[SuppressMessage("ReSharper", "InconsistentNaming")] // We want to use "KB", "MB", "GB", "TB"
-public readonly struct SizeValue(long bytes) : IAbsoluteMeasurementValue
+[SuppressMessage("ReSharper", "InconsistentNaming")] // For using standard notation: "KB", "MB", "GB", "TB"
+public readonly struct SizeValue(long bytes)
 {
     private const string DefaultFormat = "0.##";
 
@@ -31,37 +33,12 @@ public readonly struct SizeValue(long bytes) : IAbsoluteMeasurementValue
     [PublicAPI] public static SizeValue operator *(SizeValue value, long k) => new(value.Bytes * k);
     [PublicAPI] public static SizeValue operator *(long k, SizeValue value) => new(value.Bytes * k);
 
-    public override string ToString() => ToString(null, null, null);
-
-    [PublicAPI]
-    public string ToString(
-        string? format,
-        IFormatProvider? formatProvider = null,
-        UnitPresentation? unitPresentation = null)
-    {
-        return ToString(null, format, formatProvider, unitPresentation);
-    }
-
-    [PublicAPI]
-    public string ToString(
-        SizeUnit? sizeUnit,
-        string? format = null,
-        IFormatProvider? formatProvider = null,
-        UnitPresentation? unitPresentation = null)
+    public Measurement ToMeasurement(SizeUnit? sizeUnit = null)
     {
         sizeUnit ??= SizeUnit.GetBestSizeUnit(Bytes);
-        format ??= DefaultFormat;
         double nominalValue = SizeUnit.Convert(Bytes, SizeUnit.B, sizeUnit);
-        var measurementValue = new Measurement(nominalValue, sizeUnit);
-        return measurementValue.ToString(format, formatProvider, unitPresentation);
+        return new Measurement(nominalValue, sizeUnit);
     }
 
-    public MeasurementUnit Unit => SizeUnit.B;
-
-    public double GetShift(Sample sample)
-    {
-        if (sample.Unit is not SizeUnit sizeUnit)
-            throw new InvalidMeasurementUnitExceptions(Unit, sample.Unit);
-        return SizeUnit.Convert(Bytes, SizeUnit.B, sizeUnit);
-    }
+    public override string ToString() => MeasurementFormatter.Default.Format(ToMeasurement(), DefaultFormat);
 }

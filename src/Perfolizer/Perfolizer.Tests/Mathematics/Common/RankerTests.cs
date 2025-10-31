@@ -1,10 +1,8 @@
 using JetBrains.Annotations;
-using Perfolizer.Common;
-using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
-using Perfolizer.Tests.Common;
 using Perfolizer.Tests.Infra;
+using Pragmastat;
 
 namespace Perfolizer.Tests.Mathematics.Common;
 

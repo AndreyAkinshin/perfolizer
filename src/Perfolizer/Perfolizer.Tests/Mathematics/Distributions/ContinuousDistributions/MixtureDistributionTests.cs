@@ -1,7 +1,5 @@
-using Perfolizer.Common;
 using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
-using Perfolizer.Tests.Common;
 using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Mathematics.Distributions.ContinuousDistributions;
