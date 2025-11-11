@@ -47,6 +47,8 @@ public class OsBrandHelperTests(ITestOutputHelper output)
     [InlineData("10.0.22621", 0, "Windows 11 (10.0.22621.0/22H2/2022Update/SunValley2)")]
     [InlineData("10.0.22631", 2428, "Windows 11 (10.0.22631.2428/23H2/2023Update/SunValley3)")]
     [InlineData("10.0.26100", 1234, "Windows 11 (10.0.26100.1234/24H2/2024Update/HudsonValley)")]
+    [InlineData("10.0.26200", 5678, "Windows 11 (10.0.26200.5678/25H2/2025Update/HudsonValley2)")]
+    [InlineData("10.0.28000", 1000, "Windows 11 (10.0.28000.1000/26H1/2026Update)")]
     public void WindowsWithUbrIsPrettified(string originalVersion, int ubr, string prettifiedName)
         => Check(OsBrandHelper.Prettify("Windows", originalVersion, ubr.ToString()), prettifiedName);
 
@@ -59,6 +61,8 @@ public class OsBrandHelperTests(ITestOutputHelper output)
     [InlineData("macOS 12.1 (21C52)", "Darwin 21.2.0", "macOS Monterey 12.1 (21C52) [Darwin 21.2.0]")]
     [InlineData("macOS 13.0.1 (22A400)", "Darwin 22.1.0", "macOS Ventura 13.0.1 (22A400) [Darwin 22.1.0]")]
     [InlineData("macOS 14.0.0", "Darwin 23.0.0", "macOS Sonoma 14.0.0 [Darwin 23.0.0]")]
+    [InlineData("macOS 15.0.0", "Darwin 24.0.0", "macOS Sequoia 15.0.0 [Darwin 24.0.0]")]
+    [InlineData("macOS 26.0.0", "Darwin 25.0.0", "macOS Tahoe 26.0.0 [Darwin 25.0.0]")]
     public void MacOSXIsPrettified(string systemVersion, string kernelVersion, string prettifiedName)
         => Check(OsBrandHelper.PrettifyMacOSX(systemVersion, kernelVersion), prettifiedName);
 }
