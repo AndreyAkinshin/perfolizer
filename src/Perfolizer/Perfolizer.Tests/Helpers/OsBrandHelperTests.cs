@@ -63,6 +63,6 @@ public class OsBrandHelperTests(ITestOutputHelper output)
     [InlineData("macOS 14.0.0", "Darwin 23.0.0", "macOS Sonoma 14.0.0 [Darwin 23.0.0]")]
     [InlineData("macOS 15.0.0", "Darwin 24.0.0", "macOS Sequoia 15.0.0 [Darwin 24.0.0]")]
     [InlineData("macOS 26.0.0", "Darwin 25.0.0", "macOS Tahoe 26.0.0 [Darwin 25.0.0]")]
-    public void MacOSXIsPrettified(string systemVersion, string kernelVersion, string prettifiedName)
-        => Check(OsBrandHelper.PrettifyMacOSX(systemVersion, kernelVersion), prettifiedName);
+    public void MacOsIsPrettified(string systemVersion, string kernelVersion, string prettifiedName)
+        => Check(OsBrandHelper.PrettifyMacOs(systemVersion, kernelVersion), prettifiedName);
 }

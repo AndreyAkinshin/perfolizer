@@ -1,17 +1,13 @@
-using System.Diagnostics.CodeAnalysis;
 using Perfolizer.Collections;
 using Perfolizer.Extensions;
 using Perfolizer.Models;
 
 namespace Perfolizer.Helpers;
 
-[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 public static class OsBrandHelper
 {
     // See https://en.wikipedia.org/wiki/Ver_(command)
-    // See https://docs.microsoft.com/en-us/windows/release-health/release-information
-    // See https://docs.microsoft.com/en-us/windows/release-health/windows11-release-information
-    private static readonly Dictionary<string, string> WindowsBrandVersions = new ()
+    private static readonly Dictionary<string, string> LegacyWindowsBrandVersions = new ()
     {
         { "1.04", "1.0" },
         { "2.11", "2.0" },
@@ -81,28 +77,6 @@ public static class OsBrandHelper
         { "6.2.9200.16384", "8 RTM" },
         { "6.2.10211", "Phone 8" },
         { "6.3.9600", "8.1" },
-        { "6.4.9841", "10 Technical Preview 1" },
-        { "6.4.9860", "10 Technical Preview 2" },
-        { "6.4.9879", "10 Technical Preview 3" },
-        { "10.0.9926", "10 Technical Preview 4" },
-        { "10.0.10041", "10 Technical Preview 5" },
-        { "10.0.10049", "10 Technical Preview 6" },
-        { "10.0.10240", "10 Threshold 1 [1507, RTM]" },
-        { "10.0.10586", "10 Threshold 2 [1511, November Update]" },
-        { "10.0.14393", "10 Redstone 1 [1607, Anniversary Update]" },
-        { "10.0.15063", "10 Redstone 2 [1703, Creators Update]" },
-        { "10.0.16299", "10 Redstone 3 [1709, Fall Creators Update]" },
-        { "10.0.17134", "10 Redstone 4 [1803, April 2018 Update]" },
-        { "10.0.17763", "10 Redstone 5 [1809, October 2018 Update]" },
-        { "10.0.18362", "10 19H1 [1903, May 2019 Update]" },
-        { "10.0.18363", "10 19H2 [1909, November 2019 Update]" },
-        { "10.0.19041", "10 20H1 [2004, May 2020 Update]" },
-        { "10.0.19042", "10 20H2 [20H2, October 2020 Update]" },
-        { "10.0.19043", "10 21H1 [21H1, May 2021 Update]" },
-        { "10.0.19044", "10 21H2 [21H2, November 2021 Update]" },
-        { "10.0.19045", "10 22H2 [22H2, 2022 Update]" },
-        { "10.0.22000", "11 21H2 [21H2, Sun Valley]" },
-        { "10.0.22621", "11 22H2 [22H2, Sun Valley 2]" },
     };
 
     private class Windows1XVersion
@@ -138,33 +112,31 @@ public static class OsBrandHelper
                 ? $"{MarketingNumber} ({Collapse(ToFullVersion(ubr), CodeVersion, CompactedMarketingName)})"
                 : $"{MarketingNumber} ({Collapse(ToFullVersion(ubr), CodeVersion, CompactedMarketingName, CompactedCodeName)})";
 
-        // See https://en.wikipedia.org/wiki/Windows_10_version_history
-        // See https://en.wikipedia.org/wiki/Windows_11_version_history
-        private static readonly List<Windows1XVersion> WellKnownVersions = new ()
-        {
-            // Windows 10
-            new Windows1XVersion("1507", "Threshold 1", "RTM", 10240),
-            new Windows1XVersion("1511", "Threshold 2", "November Update", 10586),
-            new Windows1XVersion("1607", "Redstone 1", "Anniversary Update", 14393),
-            new Windows1XVersion("1703", "Redstone 2", "Creators Update", 15063),
-            new Windows1XVersion("1709", "Redstone 3", "Fall Creators Update", 16299),
-            new Windows1XVersion("1803", "Redstone 4", "April 2018 Update", 17134),
-            new Windows1XVersion("1809", "Redstone 5", "October 2018 Update", 17763),
-            new Windows1XVersion("1903", "19H1", "May 2019 Update", 18362),
-            new Windows1XVersion("1909", "19H2", "November 2019 Update", 18363),
-            new Windows1XVersion("2004", "20H1", "May 2020 Update", 19041),
-            new Windows1XVersion("20H2", "20H2", "October 2020 Update", 19042),
-            new Windows1XVersion("21H1", "21H1", "May 2021 Update", 19043),
-            new Windows1XVersion("21H2", "21H2", "November 2021 Update", 19044),
-            new Windows1XVersion("22H2", "22H2", "2022 Update", 19045),
-            // Windows 11
-            new Windows1XVersion("21H2", "Sun Valley", null, 22000),
-            new Windows1XVersion("22H2", "Sun Valley 2", "2022 Update", 22621),
-            new Windows1XVersion("23H2", "Sun Valley 3", "2023 Update", 22631),
-            new Windows1XVersion("24H2", "Hudson Valley", "2024 Update", 26100),
-            new Windows1XVersion("25H2", "Hudson Valley 2", "2025 Update", 26200),
-            new Windows1XVersion("26H1", "", "2026 Update", 28000),
-        };
+        private static readonly List<Windows1XVersion> WellKnownVersions =
+        [
+            // https://en.wikipedia.org/wiki/Windows_10_version_history
+            new("1507", "Threshold 1", "RTM", 10240),
+            new("1511", "Threshold 2", "November Update", 10586),
+            new("1607", "Redstone 1", "Anniversary Update", 14393),
+            new("1703", "Redstone 2", "Creators Update", 15063),
+            new("1709", "Redstone 3", "Fall Creators Update", 16299),
+            new("1803", "Redstone 4", "April 2018 Update", 17134),
+            new("1809", "Redstone 5", "October 2018 Update", 17763),
+            new("1903", "19H1", "May 2019 Update", 18362),
+            new("1909", "19H2", "November 2019 Update", 18363),
+            new("2004", "20H1", "May 2020 Update", 19041),
+            new("20H2", "20H2", "October 2020 Update", 19042),
+            new("21H1", "21H1", "May 2021 Update", 19043),
+            new("21H2", "21H2", "November 2021 Update", 19044),
+            new("22H2", "22H2", "2022 Update", 19045),
+            // https://en.wikipedia.org/wiki/Windows_11_version_history
+            new("21H2", "Sun Valley", null, 22000),
+            new("22H2", "Sun Valley 2", "2022 Update", 22621),
+            new("23H2", "Sun Valley 3", "2023 Update", 22631),
+            new("24H2", "Hudson Valley", "2024 Update", 26100),
+            new("25H2", "Hudson Valley 2", "2025 Update", 26200),
+            new("26H1", "", "2026 Update", 28000)
+        ];
 
         public static Windows1XVersion? Resolve(string osVersionString)
         {
@@ -181,12 +153,12 @@ public static class OsBrandHelper
     }
 
     /// <summary>
-    /// Transform an operation system name and version to a nice form for summary.
+    /// Transform an operating system name and version to a nice form for summary.
     /// </summary>
-    /// <param name="osName">Original operation system name</param>
-    /// <param name="osVersion">Original operation system version</param>
-    /// <param name="windowsUbr">UBR (Update Build Revision), the revision number of Windows version (if available)</param>
-    /// <returns>Prettified operation system title</returns>
+    /// <param name="osName">Original operating system name</param>
+    /// <param name="osVersion">Original operating system version</param>
+    /// <param name="windowsUbr">UBR (Update Build Revision), the revision number of the Windows version (if available)</param>
+    /// <returns>Prettified operating system title</returns>
     public static string Prettify(string osName, string osVersion, string? windowsUbr = null)
     {
         if (osName == "Windows")
@@ -196,11 +168,11 @@ public static class OsBrandHelper
 
     private static string PrettifyWindows(string osVersion, string? windowsUbr)
     {
-        var windows1XVersion = Windows1XVersion.Resolve(osVersion);
+        Windows1XVersion? windows1XVersion = Windows1XVersion.Resolve(osVersion);
         if (windows1XVersion != null)
             return "Windows " + windows1XVersion.ToPrettifiedString(windowsUbr);
 
-        string? brandVersion = WindowsBrandVersions.GetValueOrDefault(osVersion);
+        string? brandVersion = LegacyWindowsBrandVersions.GetValueOrDefault(osVersion);
         string completeOsVersion = windowsUbr != null && osVersion.Count(c => c == '.') == 2
             ? osVersion + "." + windowsUbr
             : osVersion;
@@ -208,39 +180,40 @@ public static class OsBrandHelper
         return "Windows " + fullVersion;
     }
 
-    private class MacOSXVersion
+    private class MacOsVersion
     {
         private int DarwinVersion { get; }
         private string CodeName { get; }
 
-        private MacOSXVersion(int darwinVersion, string codeName)
+        private MacOsVersion(int darwinVersion, string codeName)
         {
             DarwinVersion = darwinVersion;
             CodeName = codeName;
         }
 
-        private static readonly List<MacOSXVersion> WellKnownVersions =
+        // https://en.wikipedia.org/wiki/MacOS_version_history
+        private static readonly List<MacOsVersion> WellKnownVersions =
         [
-            new MacOSXVersion(6, "Jaguar"),
-            new MacOSXVersion(7, "Panther"),
-            new MacOSXVersion(8, "Tiger"),
-            new MacOSXVersion(9, "Leopard"),
-            new MacOSXVersion(10, "Snow Leopard"),
-            new MacOSXVersion(11, "Lion"),
-            new MacOSXVersion(12, "Mountain Lion"),
-            new MacOSXVersion(13, "Mavericks"),
-            new MacOSXVersion(14, "Yosemite"),
-            new MacOSXVersion(15, "El Capitan"),
-            new MacOSXVersion(16, "Sierra"),
-            new MacOSXVersion(17, "High Sierra"),
-            new MacOSXVersion(18, "Mojave"),
-            new MacOSXVersion(19, "Catalina"),
-            new MacOSXVersion(20, "Big Sur"),
-            new MacOSXVersion(21, "Monterey"),
-            new MacOSXVersion(22, "Ventura"),
-            new MacOSXVersion(23, "Sonoma"),
-            new MacOSXVersion(24, "Sequoia"),
-            new MacOSXVersion(25, "Tahoe"),
+            new(6, "Jaguar"),
+            new(7, "Panther"),
+            new(8, "Tiger"),
+            new(9, "Leopard"),
+            new(10, "Snow Leopard"),
+            new(11, "Lion"),
+            new(12, "Mountain Lion"),
+            new(13, "Mavericks"),
+            new(14, "Yosemite"),
+            new(15, "El Capitan"),
+            new(16, "Sierra"),
+            new(17, "High Sierra"),
+            new(18, "Mojave"),
+            new(19, "Catalina"),
+            new(20, "Big Sur"),
+            new(21, "Monterey"),
+            new(22, "Ventura"),
+            new(23, "Sonoma"),
+            new(24, "Sequoia"),
+            new(25, "Tahoe"),
         ];
 
         public static string? ResolveCodeName(string kernelVersion)
@@ -262,9 +235,9 @@ public static class OsBrandHelper
         }
     }
 
-    public static string PrettifyMacOSX(string systemVersion, string kernelVersion)
+    public static string PrettifyMacOs(string systemVersion, string kernelVersion)
     {
-        string? codeName = MacOSXVersion.ResolveCodeName(kernelVersion);
+        string? codeName = MacOsVersion.ResolveCodeName(kernelVersion);
         if (codeName != null)
         {
             int firstDigitIndex = systemVersion.IndexOfAny("0123456789".ToCharArray());
@@ -288,7 +261,7 @@ public static class OsBrandHelper
         if (name == null) return "";
 
         if (name.EquationsIgnoreCase("macos") && osInfo is { Version: not null, KernelVersion: not null })
-            return PrettifyMacOSX(osInfo.Version, osInfo.KernelVersion);
+            return PrettifyMacOs(osInfo.Version, osInfo.KernelVersion);
         if (name.EquationsIgnoreCase("windows"))
         {
             string? fullVersion = osInfo.Version;
@@ -299,6 +272,6 @@ public static class OsBrandHelper
                 return PrettifyWindows(baseVersion, ubr);
             }
         }
-        return name + " " + osInfo.Version;
+        return $"{name} {osInfo.Version}";
     }
 }
