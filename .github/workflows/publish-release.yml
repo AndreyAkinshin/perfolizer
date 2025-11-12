@@ -12,14 +12,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
     - uses: actions/checkout@v4
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
+
     - name: Pack Perfolizer
       run: ./build.sh --target Pack --Version ${{ github.ref }}
+
     - name: Publish nupkg
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
       run: dotnet nuget push artifacts/*.nupkg --source https://api.nuget.org/v3/index.json --api-key $NUGET_API_KEY --timeout 600
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        name: ${{ github.ref_name }}
+        discussion_category_name: Announcements
+        generate_release_notes: true
+        token: ${{ secrets.RELEASE_GITHUB_TOKEN }}
