@@ -30,7 +30,7 @@
       "nested": [
         {
           "metric": "stage1",
-          "value": 10.021,
+          "value": 9.395,
           "unit": "ms"
         },
         {
@@ -39,12 +39,12 @@
             "version": 2,
             "isEmpty": false
           },
-          "value": 9.103,
+          "value": 9.332,
           "unit": "ms"
         },
         {
           "metric": "totalTime",
-          "value": 9.891,
+          "value": 9.411,
           "unit": "ms"
         },
         {
@@ -83,7 +83,7 @@
       "nested": [
         {
           "metric": "stage1",
-          "value": 9.194,
+          "value": 7.758,
           "unit": "ms"
         },
         {
@@ -92,12 +92,12 @@
             "version": 2,
             "isEmpty": false
           },
-          "value": 9.588,
+          "value": 12.001,
           "unit": "ms"
         },
         {
           "metric": "totalTime",
-          "value": 11.931,
+          "value": 9.808,
           "unit": "ms"
         },
         {
@@ -136,7 +136,7 @@
       "nested": [
         {
           "metric": "stage1",
-          "value": 9.903,
+          "value": 11.323,
           "unit": "ms"
         },
         {
@@ -145,12 +145,12 @@
             "version": 2,
             "isEmpty": false
           },
-          "value": 8.49,
+          "value": 10.027,
           "unit": "ms"
         },
         {
           "metric": "totalTime",
-          "value": 9.854,
+          "value": 11.062,
           "unit": "ms"
         },
         {
@@ -189,7 +189,7 @@
       "nested": [
         {
           "metric": "stage1",
-          "value": 8.833,
+          "value": 10.561,
           "unit": "ms"
         },
         {
@@ -198,12 +198,12 @@
             "version": 2,
             "isEmpty": false
           },
-          "value": 10.24,
+          "value": 11.216,
           "unit": "ms"
         },
         {
           "metric": "totalTime",
-          "value": 10.571,
+          "value": 9.929,
           "unit": "ms"
         },
         {

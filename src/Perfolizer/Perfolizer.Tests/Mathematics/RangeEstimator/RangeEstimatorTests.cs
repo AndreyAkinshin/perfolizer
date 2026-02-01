@@ -48,7 +48,7 @@ public class RangeEstimatorTests
             "Unimodal1",
             new TestData(
                 Range.Of(8, 12),
-                Range.Of(1.5, 3),
+                Range.Of(1.5, 3.1),
                 new NormalDistribution(mean: 10, stdDev: 5).Random(1).Next(30),
                 new NormalDistribution(mean: 20, stdDev: 5).Random(2).Next(30)
             )
@@ -75,7 +75,7 @@ public class RangeEstimatorTests
             "Bimodal1",
             new TestData(
                 Range.Of(-0.5, 40.5),
-                Range.Of(0.98, 2.02),
+                Range.Of(1.0, 2.1),
                 new NormalDistribution(mean: 20, stdDev: 2).Random(1).Next(20).Concat(
                     new NormalDistribution(mean: 40, stdDev: 2).Random(2).Next(20)).ToArray(),
                 new NormalDistribution(mean: 20, stdDev: 2).Random(3).Next(20).Concat(
@@ -85,7 +85,7 @@ public class RangeEstimatorTests
         {
             "Bimodal2",
             new TestData(
-                Range.Of(-20.5, 0.5),
+                Range.Of(-21, 1.5),
                 Range.Of(0.45, 1.05),
                 new NormalDistribution(mean: 80, stdDev: 2).Random(1).Next(20).Concat(
                     new NormalDistribution(mean: 40, stdDev: 2).Random(2).Next(20)).ToArray(),

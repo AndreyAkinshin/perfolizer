@@ -1,6 +1,7 @@
 using System.Text;
 using JetBrains.Annotations;
 using Perfolizer.Mathematics.Selectors;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Tests.Mathematics.Selectors;
 
@@ -72,7 +73,7 @@ public class RqqDumpTreeTests
     [InlineData(20)]
     public void Random(int n)
     {
-        var random = new Random(42);
-        Check(Enumerable.Range(2, n).Select(x => (double) random.Next(300)).ToArray());
+        var rng = new Rng(42);
+        Check(Enumerable.Range(2, n).Select(x => (double) rng.UniformInt(0, 300)).ToArray());
     }
 }

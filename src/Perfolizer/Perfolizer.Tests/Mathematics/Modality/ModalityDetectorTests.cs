@@ -8,6 +8,7 @@ using Perfolizer.Mathematics.Sequences;
 using Perfolizer.Tests.Infra;
 using Perfolizer.Tests.Mathematics.Modality.TestDataSets;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Tests.Mathematics.Modality;
 
@@ -21,7 +22,7 @@ public class ModalityDetectorTests
         this.output = output;
     }
 
-    private static readonly IReadOnlyList<ModalityTestData> ReferenceDataSet = ModalityReferenceDataSet.Generate(new Random(42), 5);
+    private static readonly IReadOnlyList<ModalityTestData> ReferenceDataSet = ModalityReferenceDataSet.Generate(new Rng(42), 5);
 
     [UsedImplicitly]
     public static TheoryData<string> ReferenceDataSetNames = TheoryDataHelper.Create(ReferenceDataSet.Select(d => d.Name));
@@ -56,9 +57,9 @@ public class ModalityDetectorTests
     [Fact]
     public void WeightedSampleTest()
     {
-        var random = new Random(42);
-        var values = new GumbelDistribution().Random(random).Next(30).Concat(
-            new GumbelDistribution(10).Random(random).Next(30)).ToList();
+        var rng = new Rng(42);
+        var values = new GumbelDistribution().Random(rng).Next(30).Concat(
+            new GumbelDistribution(10).Random(rng).Next(30)).ToList();
         double[] weights = ExponentialDecaySequence.CreateFromHalfLife(10).GenerateReverseArray(values.Count);
         var sample = new Sample(values, weights);
 

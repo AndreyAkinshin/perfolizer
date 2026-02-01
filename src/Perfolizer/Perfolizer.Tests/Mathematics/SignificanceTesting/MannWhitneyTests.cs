@@ -9,6 +9,7 @@ using Perfolizer.Metrology;
 using Perfolizer.Tests.Infra;
 using Pragmastat;
 using Pragmastat.Metrology;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
 
@@ -398,7 +399,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
     [Fact]
     public void MannWhitneyEquivalenceTest01()
     {
-        var random = NormalDistribution.Standard.Random(new Random(1729));
+        var random = NormalDistribution.Standard.Random(new Rng(1729));
         var x = random.Next(50).ToSample();
         var y = random.Next(50).ToSample();
         var threshold = NumberValue.Of(2).ToThreshold();
@@ -408,7 +409,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
     [Fact]
     public void MannWhitneyEquivalenceTest02()
     {
-        var random = NormalDistribution.Standard.Random(new Random(1729));
+        var random = NormalDistribution.Standard.Random(new Rng(1729));
         var x = random.Next(50).ToSample();
         var y = random.Next(50).ToSample() + 4;
         var threshold = NumberValue.Of(2).ToThreshold();
@@ -418,7 +419,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
     [Fact]
     public void MannWhitneyEquivalenceTest03()
     {
-        var random = UniformDistribution.Standard.Random(new Random(1729));
+        var random = UniformDistribution.Standard.Random(new Rng(1729));
         var x = random.Next(50).ToSample();
         var y = random.Next(50).ToSample() + 1;
         var threshold = NumberValue.Of(0).ToThreshold();
@@ -428,7 +429,7 @@ public class MannWhitneyTests(ITestOutputHelper output)
     [Fact]
     public void MannWhitneyEquivalenceTest04()
     {
-        var random = UniformDistribution.Standard.Random(new Random(1729));
+        var random = UniformDistribution.Standard.Random(new Rng(1729));
         var x = random.Next(50).ToSample();
         var y = random.Next(50).ToSample();
         var threshold = NumberValue.Of(0.3).ToThreshold();

@@ -3,6 +3,7 @@ using Perfolizer.Collections;
 using Perfolizer.Mathematics.OutlierDetection;
 using Perfolizer.Mathematics.ScaleEstimators;
 using Perfolizer.Tests.Infra;
+using Pragmastat.Exceptions;
 
 namespace Perfolizer.Tests.Mathematics.OutlierDetection;
 
@@ -51,7 +52,7 @@ public class MadOutlierDetectorTests(ITestOutputHelper output) : OutlierDetector
             values => MadOutlierDetector.Create(values, MedianAbsoluteDeviationEstimator.Simple));
 
         if (testData.Values.IsEmpty())
-            Assert.Throws<ArgumentException>(Action);
+            Assert.Throws<AssumptionException>(Action);
         else
             Action();
     }
@@ -94,7 +95,7 @@ public class MadOutlierDetectorTests(ITestOutputHelper output) : OutlierDetector
             values => MadOutlierDetector.Create(values, MedianAbsoluteDeviationEstimator.HarrellDavis));
 
         if (testData.Values.IsEmpty())
-            Assert.Throws<ArgumentException>(Action);
+            Assert.Throws<AssumptionException>(Action);
         else
             Action();
     }

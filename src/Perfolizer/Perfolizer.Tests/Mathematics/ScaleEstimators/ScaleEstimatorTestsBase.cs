@@ -3,6 +3,7 @@ using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.ScaleEstimators;
 using Perfolizer.Tests.Infra;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Tests.Mathematics.ScaleEstimators;
 
@@ -21,7 +22,7 @@ public class ScaleEstimatorTestsBase
     protected void CheckConsistency(int sampleSize, IScaleEstimator scaleEstimator)
     {
         var distribution = NormalDistribution.Standard;
-        var randomGenerator = distribution.Random(new Random(1729));
+        var randomGenerator = distribution.Random(new Rng(1729));
         var estimations = new List<double>();
         for (int i = 0; i < 10_000; i++)
         {

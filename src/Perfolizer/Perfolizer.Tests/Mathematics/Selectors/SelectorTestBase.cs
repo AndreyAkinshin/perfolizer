@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Perfolizer.Tests.Infra;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Tests.Mathematics.Selectors;
 
@@ -122,20 +123,20 @@ public abstract class SelectorTestBase
     [InlineData(500)]
     public void RandomSpecificN(int n)
     {
-        var random = new Random(42);
-        Check(Enumerable.Range(2, n).Select(x => (double) random.Next(1000)).ToArray());
+        var rng = new Rng(42);
+        Check(Enumerable.Range(2, n).Select(x => (double) rng.UniformInt(0, 1000)).ToArray());
     }
 
     private void RandomManyN(int minN, int maxN)
     {
-        var random = new Random(42);
+        var rng = new Rng(42);
         for (int n = minN; n <= maxN; n++)
         {
-            var data = Enumerable.Range(2, n).Select(u => (double) random.Next(1000)).ToArray();
+            var data = Enumerable.Range(2, n).Select(u => (double) rng.UniformInt(0, 1000)).ToArray();
             var sorted = new double[n];
             Array.Copy(data, sorted, n);
             Array.Sort(sorted);
-            int k = random.Next(n);
+            int k = (int)rng.UniformInt(0, n);
             var estimator = CreateEstimator(data);
             var sw = Stopwatch.StartNew();
             double x = estimator.Select(k);
