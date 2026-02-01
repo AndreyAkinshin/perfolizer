@@ -273,9 +273,9 @@ public class HarrellDavisQuantileEstimatorTests : QuantileEstimatorTests
     [InlineData(0.50, 0.3, 0.8)]
     public void MaritzJarrettConfidenceIntervalTest(double confidenceLevel, double minSuccessRate, double maxSuccessRate)
     {
-        var random = new Random(42);
+        var rng = new Rng(42);
         var distribution = new BetaDistribution(2, 10);
-        var generator = new LimitedRandomGenerator(distribution.Random(random).Next(1000), random);
+        var generator = new LimitedRandomGenerator(distribution.Random(rng).Next(1000), rng);
         var estimator = HarrellDavisQuantileEstimator.Instance;
         double median = distribution.Median;
         const int iterations = 1000;
@@ -301,9 +301,9 @@ public class HarrellDavisQuantileEstimatorTests : QuantileEstimatorTests
     [Fact]
     public void MaritzJarrettConfidenceIntervalWeighedTest1()
     {
-        var random = new Random(42);
+        var rng = new Rng(42);
         var distribution = new BetaDistribution(2, 10);
-        double[] data = distribution.Random(random).Next(10);
+        double[] data = distribution.Random(rng).Next(10);
         var sample1 = new Sample(data);
         var sample2 = new Sample(data, new ConstantSequence(1).GenerateArray(data.Length));
         var sample3 = new Sample(
@@ -343,9 +343,9 @@ public class HarrellDavisQuantileEstimatorTests : QuantileEstimatorTests
     [Fact]
     public void HarrellDavisQuantileEstimatorWeightedTest1()
     {
-        var random = new Random(42);
+        var rng = new Rng(42);
         var distribution = new BetaDistribution(2, 10);
-        double[] data1 = distribution.Random(random).Next(10);
+        double[] data1 = distribution.Random(rng).Next(10);
         double[] data2 = data1.Select(x => x + 100).ToArray();
         double[] data = data1.Concat(data2).ToArray();
         var samples = new List<Sample> { new Sample(data1)};

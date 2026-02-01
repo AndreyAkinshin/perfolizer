@@ -1,25 +1,27 @@
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
-using Perfolizer.Mathematics.Randomization;
 
 namespace Perfolizer.SimulationTests.Cpd.TestDataSets;
 
 public static class CpdBinomialMeanProgressionDataSet
 {
-    private static CpdTestData GenerateSingle(Random random, int count, int meanFactor, int stdDev, int batch, int noise,
+    private static CpdTestData GenerateSingle(Rng rng, int count, int meanFactor, int stdDev, int batch, int noise,
         string namePostfix = "")
     {
         string name = $"BinomialMeanProgression(count={count}, meanFactor={meanFactor}, stdDev={stdDev}, batch={batch}){namePostfix}";
 
-        var shuffler = new Shuffler(random);
         int firstModeBatch = batch * 30 / 100;
         int secondModeBatch = batch - firstModeBatch;
 
         var values = new List<double>();
         for (int i = 0; i < count; i++)
         {
-            values.AddRange(new NormalDistribution(mean: 0, stdDev: stdDev).Random(random).Next(firstModeBatch));
-            values.AddRange(new NormalDistribution(mean: (i + 1) * meanFactor, stdDev: stdDev).Random(random).Next(secondModeBatch));
-            shuffler.Shuffle(values, values.Count - batch, batch);
+            values.AddRange(new NormalDistribution(mean: 0, stdDev: stdDev).Random(rng).Next(firstModeBatch));
+            values.AddRange(new NormalDistribution(mean: (i + 1) * meanFactor, stdDev: stdDev).Random(rng).Next(secondModeBatch));
+            // Shuffle only the last batch elements
+            int offset = values.Count - batch;
+            var shuffled = rng.Shuffle(values.GetRange(offset, batch));
+            for (int j = 0; j < batch; j++)
+                values[offset + j] = shuffled[j];
         }
 
         var expected = new List<CpdTestData.ExpectedChangePoint>();
@@ -30,7 +32,7 @@ public static class CpdBinomialMeanProgressionDataSet
     }
         
     // ReturnTypeCanBeEnumerable.Global
-    public static List<CpdTestData> Generate(Random random, string namePostfix = "")
+    public static List<CpdTestData> Generate(Rng rng, string namePostfix = "")
     {
         var dataSet = new List<CpdTestData>();
 
@@ -45,8 +47,8 @@ public static class CpdBinomialMeanProgressionDataSet
         foreach (int meanFactor in meanFactors)
         foreach ((int stdDev, int noise) in stdDevToNoise)
         {
-            dataSet.Add(GenerateSingle(random, count, meanFactor, stdDev, 100, noise, namePostfix));
-            dataSet.Add(GenerateSingle(random, count, -meanFactor, stdDev, 100, noise, namePostfix));
+            dataSet.Add(GenerateSingle(rng, count, meanFactor, stdDev, 100, noise, namePostfix));
+            dataSet.Add(GenerateSingle(rng, count, -meanFactor, stdDev, 100, noise, namePostfix));
         }
 
         return dataSet;

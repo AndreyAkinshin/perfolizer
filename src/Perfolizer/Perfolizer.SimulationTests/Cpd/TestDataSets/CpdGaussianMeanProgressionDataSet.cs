@@ -4,14 +4,14 @@ namespace Perfolizer.SimulationTests.Cpd.TestDataSets;
 
 public static class CpdGaussianMeanProgressionDataSet
 {
-    private static CpdTestData GenerateSingle(Random random, int count, int meanFactor, int stdDev, int batch, int noise,
+    private static CpdTestData GenerateSingle(Rng rng, int count, int meanFactor, int stdDev, int batch, int noise,
         string namePostfix = "")
     {
         string name = $"GaussianMeanProgression(count={count}, meanFactor={meanFactor}, stdDev={stdDev}, batch={batch}){namePostfix}";
 
         var values = new List<double>();
         for (int i = 0; i < count; i++)
-            values.AddRange(new NormalDistribution(mean: meanFactor * i, stdDev: stdDev).Random(random).Next(batch));
+            values.AddRange(new NormalDistribution(mean: meanFactor * i, stdDev: stdDev).Random(rng).Next(batch));
 
         var expected = new List<CpdTestData.ExpectedChangePoint>();
         for (int i = 0; i < count - 1; i++)
@@ -20,7 +20,7 @@ public static class CpdGaussianMeanProgressionDataSet
         return new CpdTestData(name, values, expected);
     }
 
-    public static List<CpdTestData> Generate(Random random, string namePostfix = "")
+    public static List<CpdTestData> Generate(Rng rng, string namePostfix = "")
     {
         var dataSet = new List<CpdTestData>();
 
@@ -36,8 +36,8 @@ public static class CpdGaussianMeanProgressionDataSet
         foreach (int meanFactor in meanFactors)
         foreach ((int stdDev, int noise) in stdDevToNoise)
         {
-            dataSet.Add(GenerateSingle(random, count, meanFactor, stdDev, 100, noise, namePostfix));
-            dataSet.Add(GenerateSingle(random, count, -meanFactor, stdDev, 100, noise, namePostfix));
+            dataSet.Add(GenerateSingle(rng, count, meanFactor, stdDev, 100, noise, namePostfix));
+            dataSet.Add(GenerateSingle(rng, count, -meanFactor, stdDev, 100, noise, namePostfix));
         }
 
         return dataSet;

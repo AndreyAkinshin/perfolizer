@@ -1,5 +1,6 @@
 using Perfolizer.Mathematics.QuantileEstimators;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.SimulationTests.QuantileEstimators;
 
@@ -23,11 +24,11 @@ public class GreenwaldKhannaQuantileEstimatorTests
         var gk = new GreenwaldKhannaQuantileEstimator(eps);
         Assert.Equal(eps, gk.Epsilon);
         var values = new List<double>();
-        var random = new Random(1729);
+        var rng = new Rng(1729);
         int maxTupleCount = 0;
         for (int i = 0; i < 1_000; i++)
         {
-            double x = random.NextDouble();
+            double x = rng.Uniform();
             values.Add(x);
             gk.Add(x);
             gk.CheckConsistency();

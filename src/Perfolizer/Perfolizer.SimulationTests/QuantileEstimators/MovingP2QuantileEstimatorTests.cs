@@ -2,6 +2,7 @@ using System.Text;
 using Perfolizer.Extensions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Infra;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.SimulationTests.QuantileEstimators;
 
@@ -19,13 +20,13 @@ public class MovingP2QuantileEstimatorTests
     public void MovingP2QuantileEstimatorMedianTest1(int n, int windowSize, double probability, double relativeThreshold,
         double minSuccessRate)
     {
-        var random = new Random();
+        var rng = new Rng(42);
         double[] data = new double[n];
         for (int i = 0; i < n; i++)
         {
-            data[i] = 10 + Math.Sin(i / 20.0) * 5 + random.NextDouble(-3, 3);
-            if (random.Next(10) == 0 && i > windowSize / 2)
-                data[i] += random.Next(20, 50);
+            data[i] = 10 + Math.Sin(i / 20.0) * 5 + rng.Uniform(-3, 3);
+            if (rng.UniformInt(0, 10) == 0 && i > windowSize / 2)
+                data[i] += rng.UniformInt(20, 50);
             data[i] = Math.Round(data[i], 3);
         }
 

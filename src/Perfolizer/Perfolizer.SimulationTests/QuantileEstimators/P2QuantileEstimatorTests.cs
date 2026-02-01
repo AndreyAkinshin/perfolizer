@@ -2,7 +2,6 @@ using JetBrains.Annotations;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
-using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Mathematics.ScaleEstimators;
 using Perfolizer.Tests.Infra;
 using Pragmastat;
@@ -37,16 +36,15 @@ public class P2QuantileEstimatorTests
 
         public Sample Generate()
         {
-            var random = new Random(Seed);
+            var rng = new Rng(Seed);
             if (Randomize)
-                return new Sample(Distribution.Random(random).Next(N));
+                return new Sample(Distribution.Random(rng).Next(N));
                 
             double[] values = Enumerable.Range(0, N)
                 .Select(x => (x + 1.0) / (N + 1))
                 .Select(x => Distribution.Quantile(x))
                 .ToArray();
-            new Shuffler(random).Shuffle(values);
-            return new Sample(values);
+            return new Sample(rng.Shuffle(values));
         }
     }
 
@@ -166,8 +164,8 @@ public class P2QuantileEstimatorTests
     public void P2QuantileEstimatorStrategyTest(string testKey)
     {
         var testData = TestStrategyDataMap[testKey];
-        var random = new Random(testData.Seed);
-        var randomGenerator = testData.Distribution.Random(random);
+        var rng = new Rng(testData.Seed);
+        var randomGenerator = testData.Distribution.Random(rng);
         var probability = testData.Probability;
 
         const int totalIterations = 1_000;

@@ -1,9 +1,9 @@
 using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Mathematics.QuantileEstimators;
-using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Tests.Infra;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.SimulationTests.QuantileEstimators;
 
@@ -33,7 +33,7 @@ public class PartitioningHeapsMovingQuantileEstimatorTests : MovingQuantileEstim
         var types = HyndmanFanHelper.AllTypes;
 
         var comparer = new AbsoluteEqualityComparer(1e-2);
-        var shuffler = new Shuffler(new Random(42));
+        var rng = new Rng(42);
 
         for (int n = 1; n <= fullSource.Length; n++)
         {
@@ -48,8 +48,8 @@ public class PartitioningHeapsMovingQuantileEstimatorTests : MovingQuantileEstim
                     double expectedValue = hyEstimator.Quantile(sample, probability);
 
                     var phEstimator = new PartitioningHeapsMovingQuantileEstimator(probability, n, type);
-                    shuffler.Shuffle(source);
-                    foreach (double value in source)
+                    var shuffled = rng.Shuffle(source);
+                    foreach (double value in shuffled)
                         phEstimator.Add(value);
                     double actualValue = phEstimator.Quantile();
 

@@ -2,6 +2,7 @@ using System.Text;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Tests.Infra;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.SimulationTests.QuantileEstimators;
 
@@ -44,13 +45,13 @@ public abstract class MovingQuantileEstimatorTestsBase
     [InlineData(10_000, 1023, 511)]
     public void MovingSelectorTest(int totalElementCount, int windowSize, int k)
     {
-        var random = new Random(42);
+        var rng = new Rng(42);
         foreach (var initStrategy in new[]
                      {MovingQuantileEstimatorInitStrategy.OrderStatistics, MovingQuantileEstimatorInitStrategy.QuantileApproximation})
         {
             Output.WriteLine($"*** {nameof(MovingQuantileEstimatorInitStrategy)} = {initStrategy} ***");
             DoTest(CreateEstimator(windowSize, k, initStrategy), initStrategy,
-                totalElementCount, windowSize, k, _ => (double) random.Next(10_000));
+                totalElementCount, windowSize, k, _ => (double) rng.UniformInt(0, 10_000));
         }
     }
 
@@ -62,13 +63,13 @@ public abstract class MovingQuantileEstimatorTestsBase
     [InlineData(20, 5, 4)]
     public void MovingSelectorEqualTest(int totalElementCount, int windowSize, int k)
     {
-        var random = new Random(42);
+        var rng = new Rng(42);
         foreach (var initStrategy in new[]
                      {MovingQuantileEstimatorInitStrategy.OrderStatistics, MovingQuantileEstimatorInitStrategy.QuantileApproximation})
         {
             Output.WriteLine($"*** {nameof(MovingQuantileEstimatorInitStrategy)} = {initStrategy} ***");
             DoTest(CreateEstimator(windowSize, k, initStrategy), initStrategy,
-                totalElementCount, windowSize, k, _ => (double) random.Next(10_000));
+                totalElementCount, windowSize, k, _ => (double) rng.UniformInt(0, 10_000));
         }
     }
 
