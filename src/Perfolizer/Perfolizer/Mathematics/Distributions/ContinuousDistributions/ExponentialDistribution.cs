@@ -3,6 +3,7 @@ using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Randomization;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
@@ -33,7 +34,7 @@ public class ExponentialDistribution : IContinuousDistribution
 
     public double Quantile(Probability p) => - Log(1 - p) / Rate;
 
-    public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
+    public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
     public double Mean => 1 / Rate;
     public double Median => Constants.Log2 / Rate;

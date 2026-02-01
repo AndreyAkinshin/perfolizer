@@ -2,6 +2,7 @@ using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Randomization;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
@@ -41,7 +42,7 @@ public class UniformDistribution : IContinuousDistribution
 
     public double Quantile(Probability p) => Min + p * (Max - Min);
 
-    public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
+    public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
     public double Mean => (Min + Max) / 2;
     public double Median => (Min + Max) / 2;

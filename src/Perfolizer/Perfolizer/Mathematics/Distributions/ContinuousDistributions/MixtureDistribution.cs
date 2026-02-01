@@ -5,6 +5,7 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.Randomization;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
@@ -94,7 +95,7 @@ public class MixtureDistribution : IContinuousDistribution
 
     public double Quantile(Probability p) => inverseCdf.Value(p);
 
-    public RandomGenerator Random(Random? random = null) => new MixtureRandomGenerator(this, random ?? new Random());
+    public RandomGenerator Random(Rng? rng = null) => new MixtureRandomGenerator(this, rng ?? new Rng());
 
     public override string ToString() => lazyToString.Value;
 
@@ -103,15 +104,15 @@ public class MixtureDistribution : IContinuousDistribution
         private readonly MixtureDistribution mixture;
         private readonly RandomGenerator[] generators;
 
-        public MixtureRandomGenerator(MixtureDistribution mixture, Random random) : base(random)
+        public MixtureRandomGenerator(MixtureDistribution mixture, Rng rng) : base(rng)
         {
             this.mixture = mixture;
-            generators = mixture.distributions.Select(d => d.Random(Random)).ToArray();
+            generators = mixture.distributions.Select(d => d.Random(Rng)).ToArray();
         }
 
         public override double Next()
         {
-            double value = Random.NextDouble();
+            double value = Rng.Uniform();
             double sum = 0;
             for (int i = 0; i < mixture.n; i++)
             {

@@ -4,6 +4,7 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.Randomization;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
@@ -56,7 +57,7 @@ public class FrechetDistribution : IContinuousDistribution
         };
     }
         
-    public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
+    public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
     public double Mean => A <= 1 ? double.PositiveInfinity : M + S * GammaFunction.Value(1 - 1 / A);
     public double Median => M + S / Pow(Constants.Log2, 1 / A);

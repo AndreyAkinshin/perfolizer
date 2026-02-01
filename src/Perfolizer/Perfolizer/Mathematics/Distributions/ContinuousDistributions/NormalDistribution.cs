@@ -5,6 +5,7 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.Randomization;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
@@ -46,12 +47,12 @@ public class NormalDistribution : IContinuousDistribution
             this.distribution = distribution;
         }
 
-        public NormalRandomGenerator(int seed, NormalDistribution distribution) : base(seed)
+        public NormalRandomGenerator(long seed, NormalDistribution distribution) : base(seed)
         {
             this.distribution = distribution;
         }
 
-        public NormalRandomGenerator(Random? random, NormalDistribution distribution) : base(random)
+        public NormalRandomGenerator(Rng? rng, NormalDistribution distribution) : base(rng)
         {
             this.distribution = distribution;
         }
@@ -68,8 +69,8 @@ public class NormalDistribution : IContinuousDistribution
             double u = 0, v = 0;
             while (u < 1e-100)
             {
-                u = Random.NextDouble();
-                v = Random.NextDouble();
+                u = Rng.Uniform();
+                v = Rng.Uniform();
             }
             double stdDevFactor = Sqrt(-2.0 * Log(u)) * Sin(2.0 * PI * v);
             return distribution.Mean + distribution.StandardDeviation * stdDevFactor;
@@ -78,9 +79,9 @@ public class NormalDistribution : IContinuousDistribution
 
     public RandomGenerator Random() => new NormalRandomGenerator(this);
 
-    public RandomGenerator Random(int seed) => new NormalRandomGenerator(seed, this);
+    public RandomGenerator Random(long seed) => new NormalRandomGenerator(seed, this);
 
-    public RandomGenerator Random(Random? random) => new NormalRandomGenerator(random, this);
+    public RandomGenerator Random(Rng? rng) => new NormalRandomGenerator(rng, this);
 
     public double Median => Mean;
     public double Variance => StandardDeviation.Sqr();

@@ -4,6 +4,7 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.Randomization;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
@@ -63,7 +64,7 @@ public class BetaDistribution : IContinuousDistribution
 
     public double Quantile(Probability p) => BetaFunction.RegularizedIncompleteInverseValue(Alpha, Beta, p);
 
-    public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
+    public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
     public double Mean => Alpha / (Alpha + Beta);
     public double Median => lazyMedian.Value;

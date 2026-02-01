@@ -4,6 +4,7 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.Randomization;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
@@ -46,10 +47,10 @@ public class LogNormalDistribution : IContinuousDistribution
         return Exp(Mean + Constants.Sqrt2 * StandardDeviation * ErrorFunction.InverseValue(2 * p - 1));
     }
 
-    public RandomGenerator Random(Random? random = null)
+    public RandomGenerator Random(Rng? rng = null)
     {
         var normalDistribution = new NormalDistribution(Mean, StandardDeviation);
-        var normalRandomGenerator = new NormalDistribution.NormalRandomGenerator(random, normalDistribution);
+        var normalRandomGenerator = new NormalDistribution.NormalRandomGenerator(rng, normalDistribution);
         return new LogNormalRandomGenerator(normalRandomGenerator);
     }
 

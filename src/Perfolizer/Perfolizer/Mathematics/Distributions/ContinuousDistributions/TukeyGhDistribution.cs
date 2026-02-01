@@ -1,6 +1,7 @@
 using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Randomization;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
@@ -38,7 +39,7 @@ public class TukeyGhDistribution : IContinuousDistribution
             : Mu + Sigma * (Exp(G * z) - 1) * Exp(H * z * z / 2) / G;
     }
 
-    public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
+    public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
     public double Mean => throw new NotImplementedException();
     public double Median => throw new NotImplementedException();

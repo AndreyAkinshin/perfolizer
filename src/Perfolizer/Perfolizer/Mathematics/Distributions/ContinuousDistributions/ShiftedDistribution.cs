@@ -1,6 +1,7 @@
 using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Randomization;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
@@ -21,7 +22,7 @@ public class ShiftedDistribution : IContinuousDistribution
 
     public double Quantile(Probability p) => distribution.Quantile(p) + shift;
 
-    public RandomGenerator Random(Random? random = null) => new ShiftedRandomGenerator(distribution.Random(random), shift);
+    public RandomGenerator Random(Rng? rng = null) => new ShiftedRandomGenerator(distribution.Random(rng), shift);
 
     public double Mean => distribution.Mean + shift;
     public double Median => distribution.Median + shift;

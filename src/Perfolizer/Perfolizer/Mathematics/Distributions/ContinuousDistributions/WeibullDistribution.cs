@@ -4,6 +4,7 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Functions;
 using Perfolizer.Mathematics.Randomization;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
@@ -38,7 +39,7 @@ public class WeibullDistribution : IContinuousDistribution
         };
     }
         
-    public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
+    public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
     public double Mean => Lambda * GammaFunction.Value(1 + 1 / K);
     public double Median => Lambda * Pow(Constants.Log2, 1 / K);

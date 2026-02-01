@@ -2,6 +2,7 @@ using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.Randomization;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
@@ -69,7 +70,7 @@ public class TriangularDistribution: IContinuousDistribution
             : B - Sqrt((1 - p) * (B - A) * (B - C));
     }
 
-    public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
+    public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
     public double Mean => (Min + Mode + Max) / 3;
     public double Median => C >= (A + B) / 2

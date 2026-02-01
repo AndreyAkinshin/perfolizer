@@ -1,5 +1,6 @@
 using Perfolizer.Mathematics.Randomization;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
@@ -30,7 +31,7 @@ public class GeneralizedLambdaDistribution : IContinuousDistribution
 
     public double Quantile(Probability p) => Mu + Sigma * (Pow(p, A) - Pow(1 - p, B));
 
-    public RandomGenerator Random(Random? random = null) => new DistributionRandomGenerator(this, random);
+    public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
     public double Mean => throw new NotImplementedException();
     public double Median => throw new NotImplementedException();

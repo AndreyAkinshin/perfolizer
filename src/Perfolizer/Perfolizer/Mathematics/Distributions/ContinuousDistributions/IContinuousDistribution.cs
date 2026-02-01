@@ -1,12 +1,13 @@
 using Perfolizer.Mathematics.Randomization;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
 public interface IContinuousDistribution
 {
     /// <summary>
-    /// Probability density function 
+    /// Probability density function
     /// </summary>
     double Pdf(double x);
 
@@ -20,7 +21,7 @@ public interface IContinuousDistribution
     /// </summary>
     double Quantile(Probability p);
 
-    RandomGenerator Random(Random? random = null);
+    RandomGenerator Random(Rng? rng = null);
 
     double Mean { get; }
     double Median { get; }
