@@ -1,5 +1,6 @@
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Histograms;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Demo;
 
@@ -7,10 +8,10 @@ public class HistogramDemo: IDemo
 {
     public void Run()
     {
-        var random = new Random(42);
+        var rng = new Rng(42);
         var data = new List<double>();
-        data.AddRange(new NormalDistribution(mean: 20, stdDev: 1).Random(random).Next(200));
-        data.AddRange(new NormalDistribution(mean: 22, stdDev: 1).Random(random).Next(200));
+        data.AddRange(new NormalDistribution(mean: 20, stdDev: 1).Random(rng).Next(200));
+        data.AddRange(new NormalDistribution(mean: 22, stdDev: 1).Random(rng).Next(200));
 
         const double binSize = 0.5;
         Console.WriteLine("*** Simple Histogram ***");

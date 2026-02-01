@@ -3,6 +3,7 @@ using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.Reference;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Simulations;
 
@@ -10,7 +11,7 @@ public class QuantileCiSimulation
 {
     public void Run(string[] args)
     {
-        var random = new Random(42);
+        var rng = new Rng(42);
         var sampleSizes = Enumerable.Range(2, 49).ToList();
         var confidenceLevels = new[] { ConfidenceLevel.L95 };
         var probabilities = new Probability[] { 0.5, 0.7, 0.9, 0.95, 0.99 };
@@ -29,7 +30,7 @@ public class QuantileCiSimulation
                 writer.Write(referenceDistribution.Key.PadRight(5));
                 foreach (int sampleSize in sampleSizes)
                 {
-                    double rate = CoveragePercentage(referenceDistribution.Distribution, probability, confidenceLevel, random,
+                    double rate = CoveragePercentage(referenceDistribution.Distribution, probability, confidenceLevel, rng,
                         sampleSize, 10_000);
                     string rateMessage = rate.ToString("N3") + " ";
                     if (rate > confidenceLevel.Value)
@@ -47,9 +48,9 @@ public class QuantileCiSimulation
     }
 
     private double CoveragePercentage(IContinuousDistribution distribution, Probability probability, ConfidenceLevel confidenceLevel,
-        Random random, int sampleSize, int repetitions)
+        Rng rng, int sampleSize, int repetitions)
     {
-        var generator = distribution.Random(random);
+        var generator = distribution.Random(rng);
         var estimator = HarrellDavisQuantileEstimator.Instance;
         double trueValue = distribution.Quantile(probability);
         int success = 0;

@@ -1,6 +1,7 @@
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Demo;
 
@@ -54,7 +55,7 @@ public class QuantileEstimatorDemo : IDemo
         // First of all, let's consider their statistical efficiency
         // In order to do it, we generate 10_000 random samples of size 10 from the standard normal distribution
         // For each sample, we estimate the median using different quantile estimators
-        var randomGenerator = NormalDistribution.Standard.Random(new Random(42));
+        var randomGenerator = NormalDistribution.Standard.Random(new Rng(42));
         var medians = new Dictionary<IQuantileEstimator, List<double>>();
         foreach (var estimator in estimators)
             medians[estimator] = new List<double>();

@@ -1,6 +1,7 @@
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.Multimodality;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Demo;
 
@@ -26,13 +27,13 @@ public class MultimodalDemo : IDemo
             Console.WriteLine();
         }
 
-        var random = new Random(42);
+        var rng = new Rng(42);
 
         Sample Generate(int n, params IContinuousDistribution[] distributions)
         {
             var values = new List<double>();
             foreach (var distribution in distributions)
-                values.AddRange(distribution.Random(random).Next(n));
+                values.AddRange(distribution.Random(rng).Next(n));
             return new Sample(values);
         }
 

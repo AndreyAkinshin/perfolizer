@@ -1,5 +1,6 @@
 using Perfolizer.Mathematics.Cpd;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Demo;
 
@@ -7,11 +8,11 @@ public class ChangePointDemo: IDemo
 {
     public void Run()
     {
-        var random = new Random(42);
+        var rng = new Rng(42);
         var data = new List<double>();
         const int n = 20;
         for (int i = 0; i < n; i++)
-            data.AddRange(new NormalDistribution(mean: 20 * i, stdDev: 5).Random(random).Next(100));
+            data.AddRange(new NormalDistribution(mean: 20 * i, stdDev: 5).Random(rng).Next(100));
 
         var rqqIndexes = RqqPeltChangePointDetector.Instance.GetChangePointIndexes(data.ToArray());
         var edIndexes = EdPeltChangePointDetector.Instance.GetChangePointIndexes(data.ToArray());

@@ -1,6 +1,7 @@
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Pragmastat;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Demo;
 
@@ -59,16 +60,16 @@ public class SequentialQuantileEstimatorDemo : IDemo
             }
         }
 
-        var random = new Random(42);
+        var rng = new Rng(42);
 
         Console.WriteLine("We add 100 random numbers from the Normal distribution with mean = 10");
-        AddValues(new NormalDistribution(10).Random(random).Next(100));
+        AddValues(new NormalDistribution(10).Random(rng).Next(100));
         PrintEstimations();
         Console.WriteLine("As we can see, all estimators return a value around 10");
         Console.WriteLine();
 
         Console.WriteLine("Next, we add 100 random numbers from the Normal distribution with mean = 30");
-        AddValues(new NormalDistribution(30).Random(random).Next(100));
+        AddValues(new NormalDistribution(30).Random(rng).Next(100));
         PrintEstimations();
         Console.WriteLine("P2 and GreenwaldKhanna return values around 15 because");
         Console.WriteLine("  they are based on the whole set of numbers");

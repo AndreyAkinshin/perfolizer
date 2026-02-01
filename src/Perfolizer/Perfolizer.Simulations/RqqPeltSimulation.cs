@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using Perfolizer.Mathematics.Cpd;
 using Perfolizer.Mathematics.QuantileEstimators;
-using Perfolizer.Mathematics.Randomization;
 using Perfolizer.Mathematics.Sequences;
 using Perfolizer.SimulationTests.Cpd.TestDataSets;
+using Pragmastat.Randomization;
 
 namespace Perfolizer.Simulations;
 
@@ -24,7 +24,7 @@ public class RqqPeltSimulation : IDisposable
     {
         var stopwatch = Stopwatch.StartNew();
 
-        var fullDataSet = CpdReferenceDataSet.Generate(new Random(42), 2);
+        var fullDataSet = CpdReferenceDataSet.Generate(new Rng(42), 2);
         string dataSetArg = args.Length > 0 ? args[0] : "*";
         bool printReports = args.Contains("--reports");
         int limit = int.MaxValue;
@@ -36,7 +36,7 @@ public class RqqPeltSimulation : IDisposable
         var dataSet = dataSetArg == "*" ? fullDataSet : fullDataSet.Where(data => data.Name.Contains(dataSetArg)).ToList();
         if (limit < dataSet.Count)
         {
-            new Shuffler(42).Shuffle(dataSet);
+            dataSet = new Rng(42).Shuffle(dataSet);
             dataSet.RemoveRange(limit, dataSet.Count - limit);
         }
 
