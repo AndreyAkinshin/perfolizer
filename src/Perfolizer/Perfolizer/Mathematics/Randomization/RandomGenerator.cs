@@ -1,22 +1,24 @@
+using Pragmastat.Randomization;
+
 namespace Perfolizer.Mathematics.Randomization;
 
 public abstract class RandomGenerator
 {
-    protected readonly Random Random;
+    protected readonly Rng Rng;
 
     protected RandomGenerator()
     {
-        Random = new Random();
+        Rng = new Rng();
     }
 
-    protected RandomGenerator(int seed)
+    protected RandomGenerator(long seed)
     {
-        Random = new Random(seed);
+        Rng = new Rng(seed);
     }
 
-    protected RandomGenerator(Random? random)
+    protected RandomGenerator(Rng? rng)
     {
-        Random = random ?? new Random();
+        Rng = rng ?? new Rng();
     }
 
     /// <summary>
