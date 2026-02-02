@@ -36,7 +36,7 @@ public static class ModalityGumbelLocationProgressionDataSet
         {
             int batch = 100;
             if (noisy)
-                batch += (int)rng.UniformInt(-15, 16);
+                batch += rng.UniformInt32(-15, 16);
             dataSet.Add(GenerateSingle(rng, count, 10, 1, batch, namePostfix, noisy));
         }
 

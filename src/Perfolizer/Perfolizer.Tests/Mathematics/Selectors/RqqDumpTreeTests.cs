@@ -74,6 +74,6 @@ public class RqqDumpTreeTests
     public void Random(int n)
     {
         var rng = new Rng(42);
-        Check(Enumerable.Range(2, n).Select(x => (double) rng.UniformInt(0, 300)).ToArray());
+        Check(Enumerable.Range(2, n).Select(x => (double) rng.UniformInt32(0, 300)).ToArray());
     }
 }

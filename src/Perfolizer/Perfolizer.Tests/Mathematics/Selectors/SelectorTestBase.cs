@@ -124,7 +124,7 @@ public abstract class SelectorTestBase
     public void RandomSpecificN(int n)
     {
         var rng = new Rng(42);
-        Check(Enumerable.Range(2, n).Select(x => (double) rng.UniformInt(0, 1000)).ToArray());
+        Check(Enumerable.Range(2, n).Select(x => (double) rng.UniformInt32(0, 1000)).ToArray());
     }
 
     private void RandomManyN(int minN, int maxN)
@@ -132,11 +132,11 @@ public abstract class SelectorTestBase
         var rng = new Rng(42);
         for (int n = minN; n <= maxN; n++)
         {
-            var data = Enumerable.Range(2, n).Select(u => (double) rng.UniformInt(0, 1000)).ToArray();
+            var data = Enumerable.Range(2, n).Select(u => (double) rng.UniformInt32(0, 1000)).ToArray();
             var sorted = new double[n];
             Array.Copy(data, sorted, n);
             Array.Sort(sorted);
-            int k = (int)rng.UniformInt(0, n);
+            int k = rng.UniformInt32(0, n);
             var estimator = CreateEstimator(data);
             var sw = Stopwatch.StartNew();
             double x = estimator.Select(k);

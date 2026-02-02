@@ -25,5 +25,5 @@ public class LimitedRandomGenerator : RandomGenerator
         this.values = values;
     }
 
-    public override double Next() => values[(int)Rng.UniformInt(0, values.Length)];
+    public override double Next() => values[Rng.UniformInt32(0, values.Length)];
 }
