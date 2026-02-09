@@ -8,7 +8,7 @@ public static class PerfonarTableExtensions
     {
         return PerfonarMarkdownTableWriter.FormatToString(table, style);
     }
-    
+
     public static async Task SaveToMarkdownFileAsync(
         this PerfonarTable table, string filePath, PerfonarTableStyle? style = null, Encoding? encoding = null)
     {

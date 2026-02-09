@@ -8,7 +8,7 @@ namespace Perfolizer.Mathematics.Histograms;
 public class SimpleHistogramBuilder : IHistogramBuilder
 {
     public static readonly IHistogramBuilder Instance = new SimpleHistogramBuilder();
-        
+
     [PublicAPI, Pure]
     public Histogram Build(IReadOnlyList<double> values)
     {
@@ -51,7 +51,7 @@ public class SimpleHistogramBuilder : IHistogramBuilder
         return new Histogram(binSize, bins);
     }
 
-    private static int BinIndex(double value, double binSize) => (int) Math.Floor(value / binSize);
+    private static int BinIndex(double value, double binSize) => (int)Math.Floor(value / binSize);
 
     [PublicAPI, Pure]
     public static double OptimalBinSize(int n, double standardDeviation)

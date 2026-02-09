@@ -60,30 +60,30 @@ public class EfficiencySimulation<TEstimator>(
             throw new InvalidOperationException("No sample sizes provided");
 
         foreach ((string distributionName, var randomGenerator) in distributions)
-        foreach (int sampleSize in sampleSizes)
-        {
-            var samplingDistributions = new Dictionary<string, double[]>();
-            foreach (string estimatorName in estimators.Keys)
-                samplingDistributions[estimatorName] = new double[sampleCount];
-
-            for (int i = 0; i < sampleCount; i++)
+            foreach (int sampleSize in sampleSizes)
             {
-                var sample = new Sample(randomGenerator.Next(sampleSize));
-                foreach ((string estimatorName, var estimator) in estimators)
-                    samplingDistributions[estimatorName][i] = estimate(estimator, sample);
+                var samplingDistributions = new Dictionary<string, double[]>();
+                foreach (string estimatorName in estimators.Keys)
+                    samplingDistributions[estimatorName] = new double[sampleCount];
+
+                for (int i = 0; i < sampleCount; i++)
+                {
+                    var sample = new Sample(randomGenerator.Next(sampleSize));
+                    foreach ((string estimatorName, var estimator) in estimators)
+                        samplingDistributions[estimatorName][i] = estimate(estimator, sample);
+                }
+
+                var mses = new Dictionary<string, double>();
+                foreach (string estimatorName in estimators.Keys)
+                    mses[estimatorName] = Mse(samplingDistributions[estimatorName]);
+                double minMse = mses.Values.Min();
+                var relativeEfficiency = new Dictionary<string, double>();
+                foreach (string estimatorName in estimators.Keys)
+                    relativeEfficiency[estimatorName] = minMse / mses[estimatorName];
+
+                var row = new SimulationRow(distributionName, sampleSize, relativeEfficiency);
+                yield return row;
             }
-
-            var mses = new Dictionary<string, double>();
-            foreach (string estimatorName in estimators.Keys)
-                mses[estimatorName] = Mse(samplingDistributions[estimatorName]);
-            double minMse = mses.Values.Min();
-            var relativeEfficiency = new Dictionary<string, double>();
-            foreach (string estimatorName in estimators.Keys)
-                relativeEfficiency[estimatorName] = minMse / mses[estimatorName];
-
-            var row = new SimulationRow(distributionName, sampleSize, relativeEfficiency);
-            yield return row;
-        }
     }
 
     // The mean squared error (MSE)

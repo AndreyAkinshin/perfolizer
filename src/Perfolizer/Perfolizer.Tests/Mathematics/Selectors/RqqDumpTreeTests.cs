@@ -21,14 +21,14 @@ public class RqqDumpTreeTests
         using var memoryStream = new MemoryStream();
         using var sw = new StreamWriter(memoryStream);
         rqq.DumpTreeAscii(sw, true);
-        output.WriteLine(Encoding.UTF8.GetString(memoryStream.ToArray(), 0, (int) memoryStream.Length));
+        output.WriteLine(Encoding.UTF8.GetString(memoryStream.ToArray(), 0, (int)memoryStream.Length));
     }
 
     [Fact]
-    public void Etalon() => Check(new double[] {6, 2, 0, 7, 9, 3, 1, 8, 5, 4});
+    public void Etalon() => Check(new double[] { 6, 2, 0, 7, 9, 3, 1, 8, 5, 4 });
 
     [Theory]
-//        [InlineData(1)] // TODO
+    //        [InlineData(1)] // TODO
     [InlineData(2)]
     [InlineData(3)]
     [InlineData(4)]
@@ -49,7 +49,7 @@ public class RqqDumpTreeTests
     [InlineData(19)]
     [InlineData(20)]
     [InlineData(300)]
-    public void SimpleList(int n) => Check(Enumerable.Range(2, n).Select(x => (double) x).ToArray());
+    public void SimpleList(int n) => Check(Enumerable.Range(2, n).Select(x => (double)x).ToArray());
 
     [Theory]
     [InlineData(2)]
@@ -74,6 +74,6 @@ public class RqqDumpTreeTests
     public void Random(int n)
     {
         var rng = new Rng(42);
-        Check(Enumerable.Range(2, n).Select(x => (double) rng.UniformInt32(0, 300)).ToArray());
+        Check(Enumerable.Range(2, n).Select(x => (double)rng.UniformInt32(0, 300)).ToArray());
     }
 }

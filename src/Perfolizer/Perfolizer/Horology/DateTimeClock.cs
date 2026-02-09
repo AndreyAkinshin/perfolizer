@@ -5,7 +5,7 @@ namespace Perfolizer.Horology;
 
 internal class DateTimeClock : IClock
 {
-    private const long TicksPerSecond = (long) 10 * 1000 * 1000;
+    private const long TicksPerSecond = (long)10 * 1000 * 1000;
 
     public string Title => "DateTime";
     public bool IsAvailable => true;

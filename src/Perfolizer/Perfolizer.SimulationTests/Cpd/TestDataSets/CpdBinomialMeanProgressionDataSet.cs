@@ -30,26 +30,26 @@ public static class CpdBinomialMeanProgressionDataSet
 
         return new CpdTestData(name, values, expected, CpdTestData.PenaltyValues.Light, 1);
     }
-        
+
     // ReturnTypeCanBeEnumerable.Global
     public static List<CpdTestData> Generate(Rng rng, string namePostfix = "")
     {
         var dataSet = new List<CpdTestData>();
 
-        var counts = new[] {2, 10};
-        var meanFactors = new[] {20};
+        var counts = new[] { 2, 10 };
+        var meanFactors = new[] { 20 };
         var stdDevToNoise = new Dictionary<int, int>
         {
             {1, 7},
             {5, 10}
         };
         foreach (int count in counts)
-        foreach (int meanFactor in meanFactors)
-        foreach ((int stdDev, int noise) in stdDevToNoise)
-        {
-            dataSet.Add(GenerateSingle(rng, count, meanFactor, stdDev, 100, noise, namePostfix));
-            dataSet.Add(GenerateSingle(rng, count, -meanFactor, stdDev, 100, noise, namePostfix));
-        }
+            foreach (int meanFactor in meanFactors)
+                foreach ((int stdDev, int noise) in stdDevToNoise)
+                {
+                    dataSet.Add(GenerateSingle(rng, count, meanFactor, stdDev, 100, noise, namePostfix));
+                    dataSet.Add(GenerateSingle(rng, count, -meanFactor, stdDev, 100, noise, namePostfix));
+                }
 
         return dataSet;
     }

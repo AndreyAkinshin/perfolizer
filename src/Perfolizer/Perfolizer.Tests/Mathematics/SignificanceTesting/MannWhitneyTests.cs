@@ -65,7 +65,8 @@ public class MannWhitneyTests(ITestOutputHelper output)
     [InlineData(-75, 947, 4.162974e-11)]
     [InlineData(-50, 549, 0.3131681)]
     [InlineData(-25, 119, 1)]
-    [InlineData(0, 5, 1)] [InlineData(25, 0, 1)]
+    [InlineData(0, 5, 1)]
+    [InlineData(25, 0, 1)]
     public void N32(double t, int u, double pValue)
     {
         double[] x =

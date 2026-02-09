@@ -7,7 +7,7 @@ public class MedianAbsoluteDeviationEstimatorTests : ScaleEstimatorTestsBase
     public MedianAbsoluteDeviationEstimatorTests(ITestOutputHelper output) : base(output)
     {
     }
-        
+
     [Theory]
     [MemberData(nameof(CommonConsistencySampleSizes))]
     public void SimpleMadConsistencyTest(int sampleSize)

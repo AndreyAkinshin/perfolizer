@@ -20,7 +20,7 @@ public static class GammaFunction
 
         return StirlingApproximation(x);
     }
-        
+
     public static double LogValue(double x)
     {
         if (x < 1e-5)
@@ -42,7 +42,7 @@ public static class GammaFunction
     {
         return Sqrt(2 * PI / x) * (x / E).Pow(x) * Exp(GetSeriesValue(x));
     }
-        
+
     private static double StirlingApproximationLog(double x)
     {
         return x * Log(x) - x + Log(2 * PI / x) / 2 + GetSeriesValue(x);

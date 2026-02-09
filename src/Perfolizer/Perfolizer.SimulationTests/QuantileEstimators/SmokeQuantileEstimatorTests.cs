@@ -67,17 +67,17 @@ public class SmokeQuantileEstimatorTests(ITestOutputHelper output)
             ("SV3", SfakianakisVerginis3QuantileEstimator.Instance),
             ("NO", NavruzOzdemirQuantileEstimator.Instance),
         };
-        int[] sampleSizes = {10, 50, 100};
-        var probabilities = new Probability[] {0.25, 0.5, 0.75};
+        int[] sampleSizes = { 10, 50, 100 };
+        var probabilities = new Probability[] { 0.25, 0.5, 0.75 };
 
         foreach (var (distributionName, distribution) in distributions)
-        foreach (var (estimatorName, estimator) in estimators)
-        foreach (int sampleSize in sampleSizes)
-        foreach (var probability in probabilities)
-        {
-            string key = $"{distributionName}/{estimatorName}/N{sampleSize}/P{probability}";
-            TestDataList.Add(new TestData(key, distribution, estimator, sampleSize, probability));
-        }
+            foreach (var (estimatorName, estimator) in estimators)
+                foreach (int sampleSize in sampleSizes)
+                    foreach (var probability in probabilities)
+                    {
+                        string key = $"{distributionName}/{estimatorName}/N{sampleSize}/P{probability}";
+                        TestDataList.Add(new TestData(key, distribution, estimator, sampleSize, probability));
+                    }
 
         TestDataKeys = TheoryDataHelper.Create(TestDataList.Select(it => it.Key));
     }

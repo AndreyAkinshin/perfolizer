@@ -45,7 +45,7 @@ public class GreenwaldKhannaQuantileEstimator : ISequentialQuantileEstimator
         int i = GetInsertIndex(t);
         if (i == 0 || i == tuples.Count)
             t.Delta = 0;
-            
+
         tuples.Insert(i, t);
         n++;
 

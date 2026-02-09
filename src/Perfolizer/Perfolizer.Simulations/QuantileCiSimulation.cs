@@ -20,31 +20,31 @@ public class QuantileCiSimulation
 
         using var writer = new Writer();
         foreach (var probability in probabilities)
-        foreach (var confidenceLevel in confidenceLevels)
-        {
-            writer.SectionStart();
-            writer.WriteLine($"                              Quantile = {probability.Value:N2}, ConfidenceLevel = {confidenceLevel}");
-            writer.WriteLine(tableHeader);
-            foreach (var referenceDistribution in SyntheticLatencyBrendanGreggSet.Instance.Distributions)
+            foreach (var confidenceLevel in confidenceLevels)
             {
-                writer.Write(referenceDistribution.Key.PadRight(5));
-                foreach (int sampleSize in sampleSizes)
+                writer.SectionStart();
+                writer.WriteLine($"                              Quantile = {probability.Value:N2}, ConfidenceLevel = {confidenceLevel}");
+                writer.WriteLine(tableHeader);
+                foreach (var referenceDistribution in SyntheticLatencyBrendanGreggSet.Instance.Distributions)
                 {
-                    double rate = CoveragePercentage(referenceDistribution.Distribution, probability, confidenceLevel, rng,
-                        sampleSize, 10_000);
-                    string rateMessage = rate.ToString("N3") + " ";
-                    if (rate > confidenceLevel.Value)
-                        writer.WriteGood(rateMessage);
-                    else if (rate > confidenceLevel.Value * 0.98)
-                        writer.WriteMedium(rateMessage);
-                    else
-                        writer.WriteBad(rateMessage);
+                    writer.Write(referenceDistribution.Key.PadRight(5));
+                    foreach (int sampleSize in sampleSizes)
+                    {
+                        double rate = CoveragePercentage(referenceDistribution.Distribution, probability, confidenceLevel, rng,
+                            sampleSize, 10_000);
+                        string rateMessage = rate.ToString("N3") + " ";
+                        if (rate > confidenceLevel.Value)
+                            writer.WriteGood(rateMessage);
+                        else if (rate > confidenceLevel.Value * 0.98)
+                            writer.WriteMedium(rateMessage);
+                        else
+                            writer.WriteBad(rateMessage);
+                    }
+                    writer.WriteLine();
                 }
+                writer.SectionEnd();
                 writer.WriteLine();
             }
-            writer.SectionEnd();
-            writer.WriteLine();
-        }
     }
 
     private double CoveragePercentage(IContinuousDistribution distribution, Probability probability, ConfidenceLevel confidenceLevel,

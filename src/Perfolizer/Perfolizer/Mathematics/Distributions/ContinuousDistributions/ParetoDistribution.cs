@@ -36,7 +36,7 @@ public class ParetoDistribution : IContinuousDistribution
     }
 
     public double Quantile(Probability p) => Xm * Pow(1 - p, -1 / Alpha);
-        
+
     public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
     public double Mean => Alpha <= 1 ? double.PositiveInfinity : Alpha * Xm / (Alpha - 1);

@@ -23,7 +23,7 @@ public class LogNormalDistribution : IContinuousDistribution
         Mean = mean;
         StandardDeviation = stdDev;
     }
-        
+
     public double Pdf(double x)
     {
         if (x < 1e-9)
@@ -68,6 +68,6 @@ public class LogNormalDistribution : IContinuousDistribution
 
         public override double Next() => Exp(normalRandomGenerator.Next());
     }
-        
-    public override string ToString() => $"LogNormal({Mean.ToStringInvariant()},{StandardDeviation.ToStringInvariant()}^2)";        
+
+    public override string ToString() => $"LogNormal({Mean.ToStringInvariant()},{StandardDeviation.ToStringInvariant()}^2)";
 }

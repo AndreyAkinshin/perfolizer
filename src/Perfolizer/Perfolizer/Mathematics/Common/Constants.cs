@@ -16,7 +16,7 @@ public static class Constants
     /// Square root of two
     /// </summary>
     public const double Sqrt2 = 1.4142135623730950488016887;
-        
+
     /// <summary>
     /// Square root of 2π
     /// </summary>

@@ -8,7 +8,7 @@ namespace Perfolizer.Mathematics.Histograms;
 public class AdaptiveHistogramBuilder : IHistogramBuilder
 {
     public static readonly IHistogramBuilder Instance = new AdaptiveHistogramBuilder();
-        
+
     public Histogram Build(IReadOnlyList<double> values)
     {
         var moments = Moments.Create(values);
@@ -45,10 +45,10 @@ public class AdaptiveHistogramBuilder : IHistogramBuilder
             double center = (list.First() + list.Last()) / 2;
             double lower = center - binSize / 2;
             double upper = center + binSize / 2;
-            return new Histogram(binSize, new[] {new HistogramBin(lower, upper, list.ToArray())});
+            return new Histogram(binSize, new[] { new HistogramBin(lower, upper, list.ToArray()) });
         }
 
-        var points = new List<double> {NiceFloor(list.Min() - binSize / 2), NiceCeiling(list.Max() + binSize / 2)};
+        var points = new List<double> { NiceFloor(list.Min() - binSize / 2), NiceCeiling(list.Max() + binSize / 2) };
         int processedPointCount = 0;
         while (true)
         {

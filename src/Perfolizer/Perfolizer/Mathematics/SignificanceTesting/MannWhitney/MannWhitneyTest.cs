@@ -95,25 +95,25 @@ public class MannWhitneyTest : SignificanceTwoSampleTestBase<MannWhitneyResult>
         switch (alternative)
         {
             case AlternativeHypothesis.TwoSides:
-            {
-                var result1 = PerformGreater(x, threshold.ApplyMax(y), threshold, mannWhitneyStrategy);
-                var result2 = PerformGreater(threshold.ApplyMax(y), x, threshold, mannWhitneyStrategy);
-                double pValue = Min(Min(result1.PValue, result2.PValue) * 2, 1);
-                return new MannWhitneyResult(x, y, threshold, alternative, pValue, result1.Ux, result1.Uy);
-            }
+                {
+                    var result1 = PerformGreater(x, threshold.ApplyMax(y), threshold, mannWhitneyStrategy);
+                    var result2 = PerformGreater(threshold.ApplyMax(y), x, threshold, mannWhitneyStrategy);
+                    double pValue = Min(Min(result1.PValue, result2.PValue) * 2, 1);
+                    return new MannWhitneyResult(x, y, threshold, alternative, pValue, result1.Ux, result1.Uy);
+                }
             case AlternativeHypothesis.Less:
-            {
-                var result = PerformGreater(threshold.ApplyMax(y), x, threshold, mannWhitneyStrategy);
-                return new MannWhitneyResult(x, y, threshold, alternative, result.PValue, result.Uy, result.Ux);
-            }
+                {
+                    var result = PerformGreater(threshold.ApplyMax(y), x, threshold, mannWhitneyStrategy);
+                    return new MannWhitneyResult(x, y, threshold, alternative, result.PValue, result.Uy, result.Ux);
+                }
             case AlternativeHypothesis.Greater:
-            {
-                return PerformGreater(x, threshold.ApplyMax(y), threshold, mannWhitneyStrategy);
-            }
+                {
+                    return PerformGreater(x, threshold.ApplyMax(y), threshold, mannWhitneyStrategy);
+                }
             default:
-            {
-                throw new ArgumentOutOfRangeException(nameof(alternative), alternative, null);
-            }
+                {
+                    throw new ArgumentOutOfRangeException(nameof(alternative), alternative, null);
+                }
         }
     }
 }

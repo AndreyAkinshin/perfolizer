@@ -569,34 +569,34 @@ public class GammaFunctionTests
     [Fact]
     public void GammaFunctionValue()
     {
-        for (int i = 0; i < knownX.Length; i ++)
+        for (int i = 0; i < knownX.Length; i++)
         {
             double expected = knownY[i];
             double actual = GammaFunction.Value(knownX[i]);
-                
+
             output.WriteLine($"X = {knownX[i]}");
             output.WriteLine($"Expected = {expected}");
             output.WriteLine($"Actual   = {actual}");
             output.WriteLine("");
-                
+
             Assert.True(Math.Abs(expected - actual) < expected * 0.0001);
         }
     }
-        
+
     [Fact]
     public void GammaFunctionLogValue()
     {
         var comparer = new AbsoluteEqualityComparer(0.0001);
-        for (int i = 0; i < knownX.Length; i ++)
+        for (int i = 0; i < knownX.Length; i++)
         {
             double expected = Math.Log(knownY[i]);
             double actual = GammaFunction.LogValue(knownX[i]);
-                
+
             output.WriteLine($"X = {knownX[i]}");
             output.WriteLine($"Expected = {expected}");
             output.WriteLine($"Actual   = {actual}");
             output.WriteLine("");
-                
+
             Assert.Equal(expected, actual, comparer);
         }
     }
@@ -609,11 +609,11 @@ public class GammaFunctionTests
         {
             actual *= n;
             double expected = GammaFunction.Value(n + 1);
-                
+
             output.WriteLine($"N = {n}");
             output.WriteLine($"Expected = {expected}");
             output.WriteLine($"Actual   = {actual}");
-                
+
             Assert.True(Math.Abs(expected - actual) < expected * 0.0001);
         }
     }

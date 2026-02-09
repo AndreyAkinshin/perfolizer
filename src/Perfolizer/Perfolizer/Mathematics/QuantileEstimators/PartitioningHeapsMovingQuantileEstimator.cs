@@ -49,14 +49,14 @@ public class PartitioningHeapsMovingQuantileEstimator : ISequentialSpecificQuant
         rootHeapIndex = k;
     }
 
-    public PartitioningHeapsMovingQuantileEstimator(Probability p, int windowSize) 
-        : this((int) Math.Round((windowSize - 1) * p), windowSize)
+    public PartitioningHeapsMovingQuantileEstimator(Probability p, int windowSize)
+        : this((int)Math.Round((windowSize - 1) * p), windowSize)
     {
         probability = p;
     }
 
     public PartitioningHeapsMovingQuantileEstimator(Probability p, int windowSize, HyndmanFanType hyndmanFanType)
-        : this(((int) HyndmanFanHelper.GetH(hyndmanFanType, windowSize, p) - 1).Clamp(0, windowSize - 1), windowSize)
+        : this(((int)HyndmanFanHelper.GetH(hyndmanFanType, windowSize, p) - 1).Clamp(0, windowSize - 1), windowSize)
     {
         this.hyndmanFanType = hyndmanFanType;
         probability = p;
@@ -225,7 +225,7 @@ public class PartitioningHeapsMovingQuantileEstimator : ISequentialSpecificQuant
         {
             if (totalElementCount < windowSize)
                 throw new InvalidOperationException($"Sequence should contain at least {windowSize} elements");
-                
+
             double GetValue(int index)
             {
                 index = (index - 1).Clamp(0, windowSize - 1); // Adapt one-based formula to the zero-based list
@@ -236,7 +236,7 @@ public class PartitioningHeapsMovingQuantileEstimator : ISequentialSpecificQuant
 
             return HyndmanFanHelper.Evaluate(hyndmanFanType.Value, windowSize, probability, GetValue);
         }
-            
+
         if (initStrategy == MovingQuantileEstimatorInitStrategy.OrderStatistics && k >= totalElementCount)
             throw new IndexOutOfRangeException($"Not enough values (n = {totalElementCount}, k = {k})");
         return h[rootHeapIndex];

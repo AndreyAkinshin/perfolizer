@@ -14,7 +14,7 @@ public class ExponentialDistribution : IContinuousDistribution
     public ExponentialDistribution(double rate = 1.0)
     {
         Assertion.Positive(nameof(rate), rate);
-            
+
         Rate = rate;
     }
 
@@ -32,7 +32,7 @@ public class ExponentialDistribution : IContinuousDistribution
         return 1 - Exp(-Rate * x);
     }
 
-    public double Quantile(Probability p) => - Log(1 - p) / Rate;
+    public double Quantile(Probability p) => -Log(1 - p) / Rate;
 
     public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
@@ -40,6 +40,6 @@ public class ExponentialDistribution : IContinuousDistribution
     public double Median => Constants.Log2 / Rate;
     public double Variance => 1 / Rate.Sqr();
     public double StandardDeviation => 1 / Rate;
-        
+
     public override string ToString() => $"Exp({Rate.ToStringInvariant()})";
 }

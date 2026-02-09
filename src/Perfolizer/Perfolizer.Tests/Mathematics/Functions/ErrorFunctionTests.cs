@@ -31,5 +31,5 @@ public class ErrorFunctionTests
     {
         double actualValue = ErrorFunction.InverseValue(x);
         Assert.Equal(expectedValue, actualValue, new AbsoluteEqualityComparer(1e-6));
-    } 
+    }
 }

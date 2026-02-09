@@ -38,8 +38,8 @@ public class MixtureDistributionTests
     public void MixtureGumbelTest1()
     {
         var mixture = new MixtureDistribution(
-            new[] {new GumbelDistribution(1, 2), new GumbelDistribution(3, 4), new GumbelDistribution(5, 6)},
-            new[] {0.2, 0.3, 0.5}
+            new[] { new GumbelDistribution(1, 2), new GumbelDistribution(3, 4), new GumbelDistribution(5, 6) },
+            new[] { 0.2, 0.3, 0.5 }
         );
 
         for (double p = 0; p < 1.0; p += 0.01)

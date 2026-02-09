@@ -19,13 +19,13 @@ public class StudentDistribution : IContinuousDistribution
     public double Pdf(double x)
     {
         double df2 = (df + 1) / 2;
-            
+
         // Ln( Г((df + 1) / 2) / Г(df / 2) )
         double term1 = GammaFunction.LogValue(df2) - GammaFunction.LogValue(df / 2);
 
         // Ln( (1 + x^2 / df) ^ (-(df + 1) / 2) )
         double term2 = Log(1 + x.Sqr() / df) * -df2;
-            
+
         return Exp(term1 + term2) / Sqrt(PI * df);
     }
 
@@ -41,14 +41,14 @@ public class StudentDistribution : IContinuousDistribution
         x = Sqrt(df * (1 - x) / x);
         return p >= 0.5 ? x : -x;
     }
-        
+
     public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
     public double Mean => df > 1 ? 0 : double.NaN;
 
     public double Median => 0;
-    public double Variance => df > 2 
-        ? df / (df - 2) 
+    public double Variance => df > 2
+        ? df / (df - 2)
         : df > 1 ? double.PositiveInfinity : double.NaN;
 
     public double StandardDeviation => Variance.Sqrt();

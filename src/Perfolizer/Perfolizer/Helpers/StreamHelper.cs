@@ -10,6 +10,6 @@ internal static class StreamHelper
         using var streamWriter = new StreamWriter(memoryStream);
         dump(streamWriter);
         streamWriter.Flush();
-        return Encoding.UTF8.GetString(memoryStream.ToArray(), 0, (int) memoryStream.Length);
+        return Encoding.UTF8.GetString(memoryStream.ToArray(), 0, (int)memoryStream.Length);
     }
 }

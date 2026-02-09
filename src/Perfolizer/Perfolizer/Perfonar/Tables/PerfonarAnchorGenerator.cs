@@ -15,7 +15,7 @@ public class PerfonarAnchorGenerator(int? maxAnchorLength = null)
 {
     private const int DefaultMaxAnchorLength = 20;
     private int MaxAnchorLength { get; } = maxAnchorLength ?? DefaultMaxAnchorLength;
-    private readonly Dictionary<string, string> attributeIdToAnchor = new ();
+    private readonly Dictionary<string, string> attributeIdToAnchor = new();
     private readonly HashSet<string> existingAnchors = [];
 
     public string GetAnchor(string attributeId)

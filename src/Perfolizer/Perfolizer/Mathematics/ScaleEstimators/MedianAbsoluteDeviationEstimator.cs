@@ -27,7 +27,7 @@ public abstract class MedianAbsoluteDeviationEstimator : IScaleEstimator
     /// https://doi.org/10.1080/03610918.2019.1699114
     /// </summary>
     public static readonly MedianAbsoluteDeviationEstimator Simple = new SimpleNormalizedEstimator();
-        
+
     /// <summary>
     /// Harrell-Davis normalized instance.
     /// Based on <see cref="HarrellDavisQuantileEstimator"/>; consistent with the standard deviation under normality.

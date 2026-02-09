@@ -15,7 +15,7 @@ public class DensityHistogramBin
     {
         Assertion.NonNegative(nameof(height), height);
         Assertion.Positive("width", upper - lower);
-            
+
         Lower = lower;
         Upper = upper;
         Height = height;

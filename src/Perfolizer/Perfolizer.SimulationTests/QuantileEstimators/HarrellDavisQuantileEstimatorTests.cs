@@ -258,7 +258,7 @@ public class HarrellDavisQuantileEstimatorTests : QuantileEstimatorTests
     {
         Check(HarrellDavisQuantileEstimator.Instance, TestDataMap[testDataKey]);
     }
-        
+
     [Theory]
     [MemberData(nameof(TestDataKeys))]
     public void TrimmedHarrellDavisQuantileEstimatorTest(string testDataKey)
@@ -266,7 +266,7 @@ public class HarrellDavisQuantileEstimatorTests : QuantileEstimatorTests
         var thd = new TrimmedHarrellDavisQuantileEstimator(_ => 1.0, "HD");
         Check(thd, TestDataMap[testDataKey]);
     }
-        
+
     [Theory]
     [InlineData(0.99, 0.9, 1.0)]
     [InlineData(0.80, 0.7, 1.0)]
@@ -297,7 +297,7 @@ public class HarrellDavisQuantileEstimatorTests : QuantileEstimatorTests
             Assert.True(minSuccessRate <= successRate && successRate <= maxSuccessRate);
         }
     }
-        
+
     [Fact]
     public void MaritzJarrettConfidenceIntervalWeighedTest1()
     {
@@ -307,14 +307,14 @@ public class HarrellDavisQuantileEstimatorTests : QuantileEstimatorTests
         var sample1 = new Sample(data);
         var sample2 = new Sample(data, new ConstantSequence(1).GenerateArray(data.Length));
         var sample3 = new Sample(
-            data.Concat(new[] {10.0, 10.0, 10.0}).ToArray(),
-            new ConstantSequence(1).GenerateArray(data.Length).Concat(new[] {0.0, 0.0, 0.0}).ToArray()
+            data.Concat(new[] { 10.0, 10.0, 10.0 }).ToArray(),
+            new ConstantSequence(1).GenerateArray(data.Length).Concat(new[] { 0.0, 0.0, 0.0 }).ToArray()
         );
-            
+
         var estimator = HarrellDavisQuantileEstimator.Instance;
         var probability = Probability.Half;
         var level = ConfidenceLevel.L90;
-            
+
         var ci1 = estimator.QuantileConfidenceIntervalEstimator(sample1, probability).ConfidenceInterval(level);
         var ci2 = estimator.QuantileConfidenceIntervalEstimator(sample2, probability).ConfidenceInterval(level);
         var ci3 = estimator.QuantileConfidenceIntervalEstimator(sample3, probability).ConfidenceInterval(level);
@@ -331,7 +331,7 @@ public class HarrellDavisQuantileEstimatorTests : QuantileEstimatorTests
     [Fact]
     public void MaritzJarrettConfidenceIntervalWeighedTest2()
     {
-        var sample = new Sample(new[] {1.0, 2.0, 2.5, 4.0, 5.0}, new[] {0.1, 0.4, 0.3, 0.5, 0.244});
+        var sample = new Sample(new[] { 1.0, 2.0, 2.5, 4.0, 5.0 }, new[] { 0.1, 0.4, 0.3, 0.5, 0.244 });
         var interval = HarrellDavisQuantileEstimator.Instance
             .QuantileConfidenceIntervalEstimator(sample, 0.5)
             .ConfidenceInterval(ConfidenceLevel.L95);
@@ -348,7 +348,7 @@ public class HarrellDavisQuantileEstimatorTests : QuantileEstimatorTests
         double[] data1 = distribution.Random(rng).Next(10);
         double[] data2 = data1.Select(x => x + 100).ToArray();
         double[] data = data1.Concat(data2).ToArray();
-        var samples = new List<Sample> { new Sample(data1)};
+        var samples = new List<Sample> { new Sample(data1) };
         for (int i = 2; i <= 40; i++)
             samples.Add(new Sample(data, ExponentialDecaySequence.CreateFromHalfLife(i).GenerateArray(data.Length)));
         samples.Add(new Sample(data));

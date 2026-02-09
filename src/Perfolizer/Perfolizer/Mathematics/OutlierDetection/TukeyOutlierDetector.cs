@@ -15,7 +15,7 @@ public class TukeyOutlierDetector : FenceOutlierDetector
 {
     private const double DefaultK = 1.5;
 
-    private static readonly TukeyOutlierDetector EmptySampleDetector = new (double.MinValue, double.MaxValue);
+    private static readonly TukeyOutlierDetector EmptySampleDetector = new(double.MinValue, double.MaxValue);
 
     private TukeyOutlierDetector(double lowerFence, double upperFence)
     {

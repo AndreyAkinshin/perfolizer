@@ -9,7 +9,7 @@ namespace Perfolizer.Perfonar.Base;
 public class PerfonarIndex
 {
     private readonly EntryInfo rootEntry;
-    private readonly Dictionary<EntryInfo, PerfonarIndexedEntry> entries = new ();
+    private readonly Dictionary<EntryInfo, PerfonarIndexedEntry> entries = new();
 
     public IReadOnlyList<PerfonarKey> Keys { get; }
     public IReadOnlyCollection<EntryInfo> Entries => entries.Keys;

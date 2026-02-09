@@ -106,11 +106,11 @@ public class PerfonarTable
     private static void FillFunctionCells(IReadOnlyList<PerfonarRow> rows, IReadOnlyList<PerfonarColumn> columns)
     {
         foreach (var row in rows)
-        foreach (var column in columns.OfType<PerfonarFunctionColumn>())
-        {
-            object? value = column.Function.Apply(row.ToSample());
-            row[column] = new PerfonarCell(column, value);
-        }
+            foreach (var column in columns.OfType<PerfonarFunctionColumn>())
+            {
+                object? value = column.Function.Apply(row.ToSample());
+                row[column] = new PerfonarCell(column, value);
+            }
     }
 
     private static void SortRows(PerfonarTableConfig config, List<PerfonarRow> rows)

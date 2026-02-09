@@ -38,7 +38,7 @@ public class WeibullDistribution : IContinuousDistribution
             _ => Lambda * Pow(-Log(1 - p), 1 / K)
         };
     }
-        
+
     public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
     public double Mean => Lambda * GammaFunction.Value(1 + 1 / K);

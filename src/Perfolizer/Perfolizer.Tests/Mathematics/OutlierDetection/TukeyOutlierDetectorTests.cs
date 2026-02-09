@@ -48,7 +48,7 @@ public class TukeyOutlierDetectorTests : OutlierDetectorTests
     [MemberData(nameof(SimpleQeTestDataKeys))]
     public void TukeyOutlierDetectorSimpleQeTest(string testDataKey) => Check(SimpleQeTestDataMap[testDataKey],
         values => TukeyOutlierDetector.Create(values, quantileEstimator: SimpleQuantileEstimator.Instance));
-        
+
     /// <summary>
     /// Data cases for HarrellDavisQuantileEstimator
     /// </summary>

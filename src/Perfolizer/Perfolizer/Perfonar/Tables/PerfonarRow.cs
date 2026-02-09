@@ -11,7 +11,7 @@ namespace Perfolizer.Perfonar.Tables;
 public class PerfonarRow(EntryInfo entry)
 {
     public EntryInfo Entry { get; } = entry;
-    private readonly Dictionary<string, PerfonarCell> cells = new (StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, PerfonarCell> cells = new(StringComparer.OrdinalIgnoreCase);
     public List<Measurement> Measurements { get; } = [];
 
     public ICollection<PerfonarCell> Cells => cells.Values;

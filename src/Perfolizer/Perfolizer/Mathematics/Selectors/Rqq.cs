@@ -39,7 +39,7 @@ public class Rqq
             throw new ArgumentNullException(nameof(data));
 
         n = data.Length;
-        int logN = (int) Math.Ceiling(Math.Log(n));
+        int logN = (int)Math.Ceiling(Math.Log(n));
         int valuesN = n * logN * 2; // TODO: Optimize
         values = new double[valuesN];
         b = new BinaryFlag[valuesN];
@@ -126,23 +126,23 @@ public class Rqq
                 switch (b[i])
                 {
                     case BinaryFlag.LessThanMedian:
-                    {
-                        // Copy value to the left child
-                        values[rangeLeft[child1] + child1Counter++] = values[i];
-                    }
+                        {
+                            // Copy value to the left child
+                            values[rangeLeft[child1] + child1Counter++] = values[i];
+                        }
                         break;
                     case BinaryFlag.NotDefined:
-                    {
-                        b[i] = BinaryFlag.MoreThanMedian;
-                        // Copy value to the right child
-                        values[rangeLeft[child2] + child2Counter++] = values[i];
-                    }
+                        {
+                            b[i] = BinaryFlag.MoreThanMedian;
+                            // Copy value to the right child
+                            values[rangeLeft[child2] + child2Counter++] = values[i];
+                        }
                         break;
                 }
 
                 bSum[i] = i == leftIndex
-                    ? (int) b[i]
-                    : bSum[i - 1] + (int) b[i];
+                    ? (int)b[i]
+                    : bSum[i - 1] + (int)b[i];
             }
         }
 
@@ -152,7 +152,7 @@ public class Rqq
     /// <summary>
     /// Returns p-th quantile in the [l;r] range
     /// </summary>
-    public double Quantile(int l, int r, Probability p) => Select(l, r, (int) Math.Truncate((r - l) * p));
+    public double Quantile(int l, int r, Probability p) => Select(l, r, (int)Math.Truncate((r - l) * p));
 
     /// <summary>
     /// Returns k-th element in a sorted array based on the [l;r] range
@@ -175,29 +175,29 @@ public class Rqq
             switch (kinds[node])
             {
                 case NodeKind.Parent:
-                {
-                    int zkl = GetZeroCount(l, r);
-                    int nextNode, nextL, nextR, nextK;
-                    if (zkl > k)
                     {
-                        nextNode = node * 2 + 1; // Left child
-                        nextL = GetZeroCount(0, l - 1);
-                        nextR = GetZeroCount(0, r) - 1;
-                        nextK = k;
-                    }
-                    else
-                    {
-                        nextNode = node * 2 + 2; // Right child
-                        nextL = GetOneCount(0, l - 1);
-                        nextR = GetOneCount(0, r) - 1;
-                        nextK = k - zkl;
-                    }
+                        int zkl = GetZeroCount(l, r);
+                        int nextNode, nextL, nextR, nextK;
+                        if (zkl > k)
+                        {
+                            nextNode = node * 2 + 1; // Left child
+                            nextL = GetZeroCount(0, l - 1);
+                            nextR = GetZeroCount(0, r) - 1;
+                            nextK = k;
+                        }
+                        else
+                        {
+                            nextNode = node * 2 + 2; // Right child
+                            nextL = GetOneCount(0, l - 1);
+                            nextR = GetOneCount(0, r) - 1;
+                            nextK = k - zkl;
+                        }
 
-                    node = nextNode;
-                    l = nextL;
-                    r = nextR;
-                    k = nextK;
-                }
+                        node = nextNode;
+                        l = nextL;
+                        r = nextR;
+                        k = nextK;
+                    }
                     break;
                 case NodeKind.Leaf:
                     return values[rangeLeft[node]];
@@ -215,7 +215,7 @@ public class Rqq
         using (var sw = new StreamWriter(memoryStream))
         {
             DumpTreeAscii(sw, details);
-            return Encoding.UTF8.GetString(memoryStream.ToArray(), 0, (int) memoryStream.Length).TrimEnd();
+            return Encoding.UTF8.GetString(memoryStream.ToArray(), 0, (int)memoryStream.Length).TrimEnd();
         }
     }
 
@@ -342,7 +342,7 @@ public class Rqq
 
             DumpLine('┌', '─', '┐', i => "─", up: '┴');
             DumpLine('│', ' ', '│', i => valuesStr[i]);
-            DumpLine('│', ' ', '│', i => b[i] == BinaryFlag.NotDefined ? " " : ((int) b[i]).ToString());
+            DumpLine('│', ' ', '│', i => b[i] == BinaryFlag.NotDefined ? " " : ((int)b[i]).ToString());
             DumpLine('└', '─', '┘', i => "─", down: '┬');
             DumpLine(' ', ' ', ' ', i => "", down: '│');
         }

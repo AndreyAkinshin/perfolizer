@@ -20,10 +20,10 @@ public class ExponentialDecaySequenceGeneratorTests
     public void ExponentialDecayHalfLifeGetTest(int halfLife, int index, double expectedValue)
     {
         var sequence = ExponentialDecaySequence.CreateFromHalfLife(halfLife);
-            
+
         double actualValue1 = sequence.Value(index);
         Assert.Equal(expectedValue, actualValue1, equalityComparer);
-            
+
         double actualValue2 = sequence.GenerateEnumerable().Skip(index).First();
         Assert.Equal(expectedValue, actualValue2, equalityComparer);
     }

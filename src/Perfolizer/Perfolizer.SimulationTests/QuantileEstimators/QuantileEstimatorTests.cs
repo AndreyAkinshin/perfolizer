@@ -47,7 +47,7 @@ public abstract class QuantileEstimatorTests
             CheckSimple(testData, estimator.Quantiles(sample, testData.Probabilities), "Weighted");
         }
     }
-        
+
     protected void CheckSimple(TestData testData, double[] actual, string kind)
     {
         var comparer = new AbsoluteEqualityComparer(1e-2);

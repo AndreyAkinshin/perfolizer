@@ -3,7 +3,7 @@ namespace Perfolizer.Mathematics.Selectors;
 public class SimpleSelector
 {
     private readonly double[] data;
-        
+
     public SimpleSelector(double[] data)
     {
         this.data = data;

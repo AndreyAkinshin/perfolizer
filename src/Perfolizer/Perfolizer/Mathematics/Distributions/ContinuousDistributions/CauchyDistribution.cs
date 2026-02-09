@@ -15,7 +15,7 @@ public class CauchyDistribution : IContinuousDistribution
     public CauchyDistribution(double location = 0, double scale = 1)
     {
         Assertion.Positive(nameof(scale), scale);
-            
+
         Location = location;
         Scale = scale;
     }

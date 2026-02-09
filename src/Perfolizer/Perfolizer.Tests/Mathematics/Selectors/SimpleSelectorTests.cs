@@ -4,7 +4,7 @@ using Perfolizer.Mathematics.Selectors;
 namespace Perfolizer.Tests.Mathematics.Selectors;
 
 [PublicAPI]
-public class SimpleSelectorTests: SelectorTestBase
+public class SimpleSelectorTests : SelectorTestBase
 {
     public SimpleSelectorTests(ITestOutputHelper output) : base(output)
     {

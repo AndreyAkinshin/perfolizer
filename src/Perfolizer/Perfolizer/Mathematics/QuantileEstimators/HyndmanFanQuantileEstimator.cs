@@ -24,7 +24,7 @@ public class HyndmanFanQuantileEstimator : IQuantileEstimator
     public static readonly HyndmanFanQuantileEstimator Type7 = new(HyndmanFanType.Type7);
     public static readonly HyndmanFanQuantileEstimator Type8 = new(HyndmanFanType.Type8);
     public static readonly HyndmanFanQuantileEstimator Type9 = new(HyndmanFanType.Type9);
-    
+
     public HyndmanFanType Type { get; }
 
     public HyndmanFanQuantileEstimator(HyndmanFanType type)

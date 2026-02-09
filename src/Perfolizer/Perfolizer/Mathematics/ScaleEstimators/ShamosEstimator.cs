@@ -47,8 +47,10 @@ public class ShamosEstimator : IScaleEstimator
     /// <returns>The scale factor</returns>
     private double Factor(int n) => n switch
     {
-        <= 1 => double.NaN, <= 100 => 1 / (AsymptoticBias * (1 + biasFactors[n]))
-        , _ => 1 / (AsymptoticBias * (1 + 0.414253297 / n - 0.442396799 / n / n))
+        <= 1 => double.NaN,
+        <= 100 => 1 / (AsymptoticBias * (1 + biasFactors[n]))
+        ,
+        _ => 1 / (AsymptoticBias * (1 + 0.414253297 / n - 0.442396799 / n / n))
     };
 
     public double Scale(Sample x)

@@ -34,18 +34,18 @@ public class QuartilesTests
     [Fact]
     public void QuartileTest00()
     {
-        Check(new double[] {0, 0, 0, 0, 0}, new double[] {0, 0, 0, 0, 0}, SimpleQuantileEstimator.Instance);
+        Check(new double[] { 0, 0, 0, 0, 0 }, new double[] { 0, 0, 0, 0, 0 }, SimpleQuantileEstimator.Instance);
     }
-        
+
     [Fact]
     public void QuartileTest01()
     {
-        Check(new double[] {0, 1, 2, 3, 4}, new double[] {0, 1, 2, 3, 4}, SimpleQuantileEstimator.Instance);
+        Check(new double[] { 0, 1, 2, 3, 4 }, new double[] { 0, 1, 2, 3, 4 }, SimpleQuantileEstimator.Instance);
     }
-        
+
     [Fact]
     public void QuartileTest02()
     {
-        Check(new double[] {0, 1, 2, 3, 4}, new double[] {0, 1, 2, 3, 4}, SimpleQuantileEstimator.Instance);
+        Check(new double[] { 0, 1, 2, 3, 4 }, new double[] { 0, 1, 2, 3, 4 }, SimpleQuantileEstimator.Instance);
     }
 }

@@ -28,9 +28,9 @@ public class ShiftedDistribution : IContinuousDistribution
     public double Median => distribution.Median + shift;
     public double Variance => distribution.Variance;
     public double StandardDeviation => distribution.StandardDeviation;
-        
+
     public override string ToString() => $"Shifted({distribution},{shift.ToStringInvariant()})";
-        
+
     private class ShiftedRandomGenerator : RandomGenerator
     {
         private readonly RandomGenerator randomGenerator;

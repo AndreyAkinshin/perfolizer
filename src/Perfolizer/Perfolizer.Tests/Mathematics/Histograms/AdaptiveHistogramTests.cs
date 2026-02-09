@@ -114,7 +114,7 @@ public class AdaptiveHistogramTests
     public void AutoSyntheticTestTrimodal()
     {
         HistogramTestHelper.DoHistogramTest(output, HistogramBuilder.Adaptive,
-            new double[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3},
+            new double[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
             new[]
             {
                 new double[] { 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -191,7 +191,7 @@ public class AdaptiveHistogramTests
             },
             new[]
             {
-                true, false, false, false, 
+                true, false, false, false,
                 true
             });
     }

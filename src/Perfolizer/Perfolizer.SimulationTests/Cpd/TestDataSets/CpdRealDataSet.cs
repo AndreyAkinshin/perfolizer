@@ -36,6 +36,6 @@ public static class CpdRealDataSet
 
     public static List<CpdTestData> Generate()
     {
-        return new List<CpdTestData> {Real1};
+        return new List<CpdTestData> { Real1 };
     }
 }

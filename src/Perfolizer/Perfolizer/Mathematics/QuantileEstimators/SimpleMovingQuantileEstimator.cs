@@ -31,7 +31,7 @@ public class SimpleMovingQuantileEstimator : ISequentialSpecificQuantileEstimato
         values = new double[windowSize];
     }
 
-    public SimpleMovingQuantileEstimator(int windowSize, Probability p) : this(windowSize, (int) Math.Round((windowSize - 1) * p))
+    public SimpleMovingQuantileEstimator(int windowSize, Probability p) : this(windowSize, (int)Math.Round((windowSize - 1) * p))
     {
     }
 
@@ -53,11 +53,11 @@ public class SimpleMovingQuantileEstimator : ISequentialSpecificQuantileEstimato
             case MovingQuantileEstimatorInitStrategy.QuantileApproximation:
                 return GetOrderStatistics((k * n / windowSize).Clamp(0, windowSize - 1));
             case MovingQuantileEstimatorInitStrategy.OrderStatistics:
-            {
-                if (k < n)
-                    return GetOrderStatistics(k);
-                throw new IndexOutOfRangeException($"Not enough values (n = {n}, k = {k})");
-            }
+                {
+                    if (k < n)
+                        return GetOrderStatistics(k);
+                    throw new IndexOutOfRangeException($"Not enough values (n = {n}, k = {k})");
+                }
             default:
                 throw new ArgumentOutOfRangeException(nameof(initStrategy), initStrategy,
                     $"Unknown {nameof(MovingQuantileEstimatorInitStrategy)}");

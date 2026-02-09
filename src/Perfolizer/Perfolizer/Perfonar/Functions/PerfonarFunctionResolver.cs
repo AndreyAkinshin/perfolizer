@@ -14,7 +14,7 @@ namespace Perfolizer.Perfonar.Functions;
 
 public class PerfonarFunctionResolver
 {
-    private readonly Dictionary<string, PerfonarFunction> registeredFunctions = new (StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, PerfonarFunction> registeredFunctions = new(StringComparer.OrdinalIgnoreCase);
 
     [PublicAPI]
     public PerfonarFunctionResolver Register(params PerfonarFunction[] functions)
@@ -26,11 +26,11 @@ public class PerfonarFunctionResolver
 
     public PerfonarFunctionResolver RegisterDefaults() => Register(
         new PerfonarFunction<Measurement>("n", sample => sample.Size.AsMeasurement())
-            { Legend = "Sample Size" },
+        { Legend = "Sample Size" },
         new PerfonarFunction<Measurement>("mean", sample => MeanEstimator.Instance.Estimate(sample))
-            { Legend = "Arithmetic Average" },
+        { Legend = "Arithmetic Average" },
         new PerfonarFunction<Measurement>("stddev", sample => Moments.Create(sample).StandardDeviation.WithUnit(sample.Unit))
-            { Legend = "Standard Deviation" },
+        { Legend = "Standard Deviation" },
         new PerfonarFunction<Measurement>("min", sample => sample.Min()),
         new PerfonarFunction<Measurement>("max", sample => sample.Max()),
         new PerfonarFunction<Measurement>("median",

@@ -51,7 +51,7 @@ public abstract class MovingQuantileEstimatorTestsBase
         {
             Output.WriteLine($"*** {nameof(MovingQuantileEstimatorInitStrategy)} = {initStrategy} ***");
             DoTest(CreateEstimator(windowSize, k, initStrategy), initStrategy,
-                totalElementCount, windowSize, k, _ => (double) rng.UniformInt32(0, 10_000));
+                totalElementCount, windowSize, k, _ => (double)rng.UniformInt32(0, 10_000));
         }
     }
 
@@ -69,7 +69,7 @@ public abstract class MovingQuantileEstimatorTestsBase
         {
             Output.WriteLine($"*** {nameof(MovingQuantileEstimatorInitStrategy)} = {initStrategy} ***");
             DoTest(CreateEstimator(windowSize, k, initStrategy), initStrategy,
-                totalElementCount, windowSize, k, _ => (double) rng.UniformInt32(0, 10_000));
+                totalElementCount, windowSize, k, _ => (double)rng.UniformInt32(0, 10_000));
         }
     }
 

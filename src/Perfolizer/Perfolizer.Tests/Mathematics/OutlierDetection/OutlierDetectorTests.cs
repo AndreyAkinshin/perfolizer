@@ -21,11 +21,11 @@ public abstract class OutlierDetectorTests
     /// </summary>
     protected static class YangDataSet
     {
-        public static readonly double[] X0 = {1, 2, 3, 6, 8};
-        public static readonly double[] X1 = {1, 2, 3, 6, 8, 1000};
-        public static readonly double[] X2 = {1, 2, 3, 6, 8, 500, 1000};
-        public static readonly double[] X3 = {1, 2, 3, 6, 8, 16, 17, 18, 18, 60, 1000};
-        public static readonly double[] X4 = {1, 2, 3, 6, 8, 16, 17, 18, 18, 60, 300, 500, 1000, 1500};
+        public static readonly double[] X0 = { 1, 2, 3, 6, 8 };
+        public static readonly double[] X1 = { 1, 2, 3, 6, 8, 1000 };
+        public static readonly double[] X2 = { 1, 2, 3, 6, 8, 500, 1000 };
+        public static readonly double[] X3 = { 1, 2, 3, 6, 8, 16, 17, 18, 18, 60, 1000 };
+        public static readonly double[] X4 = { 1, 2, 3, 6, 8, 16, 17, 18, 18, 60, 300, 500, 1000, 1500 };
     }
 
     /// <summary>
@@ -152,7 +152,7 @@ public abstract class OutlierDetectorTests
             2266, 2295, 2321, 2419, 2919, 3612,
             6000, 6001, 6002
         };
-            
+
         public static readonly double[] Lower1 =
         {
             -2000,
@@ -182,7 +182,7 @@ public abstract class OutlierDetectorTests
             1292, 1326, 1362, 1363, 1421, 1549, 1585, 1605, 1629, 1694, 1695, 1719, 1799, 1827, 1828, 1862, 1991, 2140, 2186, 2255,
             2266, 2295, 2321, 2419, 2919, 3612
         };
-            
+
         public static readonly double[] Both0 =
         {
             -2000,
@@ -220,8 +220,8 @@ public abstract class OutlierDetectorTests
     protected static class CornerCaseDataSet
     {
         public static readonly double[] Empty = new double[0];
-        public static readonly double[] Same = {0, 0, 0, 0, 0};
-    } 
+        public static readonly double[] Same = { 0, 0, 0, 0, 0 };
+    }
 
     protected class TestData
     {

@@ -23,7 +23,7 @@ public static class CpdFrechetLocationProgressionDataSet
     {
         var dataSet = new List<CpdTestData>();
 
-        var counts = new[] {2, 3, 4, 10};
+        var counts = new[] { 2, 3, 4, 10 };
         var parameters = new List<(int LocationFactor, double Scale, int Noise)>
         {
             (2, 1, 10),
@@ -39,8 +39,8 @@ public static class CpdFrechetLocationProgressionDataSet
         };
 
         foreach (int count in counts)
-        foreach ((int locationFactor, double scale, int noise) in parameters)
-            dataSet.Add(GenerateSingle(rng, count, locationFactor, scale, 100, noise, namePostfix));
+            foreach ((int locationFactor, double scale, int noise) in parameters)
+                dataSet.Add(GenerateSingle(rng, count, locationFactor, scale, 100, noise, namePostfix));
 
         return dataSet;
     }

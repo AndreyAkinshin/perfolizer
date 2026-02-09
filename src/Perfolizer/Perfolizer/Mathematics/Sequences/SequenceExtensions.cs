@@ -24,7 +24,7 @@ public static class SequenceExtensions
 
         return values;
     }
-        
+
     public static double[] GenerateReverseArray(this ISequence sequence, int count, bool normalize = false)
     {
         var values = sequence.GenerateArray(count, normalize);

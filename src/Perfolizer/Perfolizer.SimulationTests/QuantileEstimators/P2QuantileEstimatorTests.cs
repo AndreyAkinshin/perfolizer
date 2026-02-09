@@ -39,7 +39,7 @@ public class P2QuantileEstimatorTests
             var rng = new Rng(Seed);
             if (Randomize)
                 return new Sample(Distribution.Random(rng).Next(N));
-                
+
             double[] values = Enumerable.Range(0, N)
                 .Select(x => (x + 1.0) / (N + 1))
                 .Select(x => Distribution.Quantile(x))
@@ -65,41 +65,41 @@ public class P2QuantileEstimatorTests
             {true, Enumerable.Range(0, 5).ToArray()},
             {false, new[] {0}}
         };
-        foreach (bool randomize in new[] {false, true})
-        foreach (int seed in seedMap[randomize])
-        foreach (Probability probability in new Probability[] {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9})
-        foreach (int n in new[] {5, 10, 100, 1000})
-        foreach (var distribution in distributions)
-        {
-            string name = distribution.GetType().Name.Replace("Distribution", "") +
-                          "/" +
-                          "P" + (probability * 100) +
-                          "/" +
-                          "N" + n +
-                          "/" +
-                          (randomize ? "Random" : "Perfect") +
-                          "/#" + seed;
-            TestDataMap[name] = new TestData(seed, probability, n, randomize, distribution);
-        }
+        foreach (bool randomize in new[] { false, true })
+            foreach (int seed in seedMap[randomize])
+                foreach (Probability probability in new Probability[] { 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 })
+                    foreach (int n in new[] { 5, 10, 100, 1000 })
+                        foreach (var distribution in distributions)
+                        {
+                            string name = distribution.GetType().Name.Replace("Distribution", "") +
+                                          "/" +
+                                          "P" + (probability * 100) +
+                                          "/" +
+                                          "N" + n +
+                                          "/" +
+                                          (randomize ? "Random" : "Perfect") +
+                                          "/#" + seed;
+                            TestDataMap[name] = new TestData(seed, probability, n, randomize, distribution);
+                        }
         TestDataKeys = TheoryDataHelper.Create(TestDataMap.Keys);
 
         TestStrategyDataMap = new Dictionary<string, TestData>();
-        foreach (int seed in new[] {1, 2, 3})
-        foreach (Probability probability in new Probability[] {0.05, 0.1, 0.2, 0.8, 0.9, 0.95})
-        foreach (int n in new[] {6, 7, 8})
-        foreach (var distribution in distributions)
-        {
-            string name = distribution.GetType().Name.Replace("Distribution", "") +
-                          "/" +
-                          "P" + (probability * 100) +
-                          "/" +
-                          "N" + n +
-                          "/#" + seed;
-            TestStrategyDataMap[name] = new TestData(seed, probability, n, true, distribution);
-        }
+        foreach (int seed in new[] { 1, 2, 3 })
+            foreach (Probability probability in new Probability[] { 0.05, 0.1, 0.2, 0.8, 0.9, 0.95 })
+                foreach (int n in new[] { 6, 7, 8 })
+                    foreach (var distribution in distributions)
+                    {
+                        string name = distribution.GetType().Name.Replace("Distribution", "") +
+                                      "/" +
+                                      "P" + (probability * 100) +
+                                      "/" +
+                                      "N" + n +
+                                      "/#" + seed;
+                        TestStrategyDataMap[name] = new TestData(seed, probability, n, true, distribution);
+                    }
         TestStrategyDataKeys = TheoryDataHelper.Create(TestStrategyDataMap.Keys);
     }
-        
+
 
     [Theory]
     [MemberData(nameof(TestDataKeys))]
@@ -111,7 +111,7 @@ public class P2QuantileEstimatorTests
         var estimator = new P2QuantileEstimator(p);
         foreach (double x in sample.Values)
             estimator.Add(x);
-            
+
         double actual = estimator.Quantile();
         double expected = SimpleQuantileEstimator.Instance.Quantile(sample, p);
         double pDelta = 0.1 + Math.Abs(p - 0.5) * 0.15 + 1.5 / testData.N;
@@ -155,7 +155,7 @@ public class P2QuantileEstimatorTests
 
         Assert.Equal(expected, actual, new AbsoluteEqualityComparer(1e-2));
     }
-        
+
     internal static readonly IDictionary<string, TestData> TestStrategyDataMap;
     [UsedImplicitly] public static TheoryData<string> TestStrategyDataKeys;
 
@@ -198,8 +198,8 @@ public class P2QuantileEstimatorTests
             8 => 0.42,
             _ => throw new NotSupportedException()
         };
-        int classicIsWinnerThreshold = (int)Math.Round(totalIterations * factor); 
-            
+        int classicIsWinnerThreshold = (int)Math.Round(totalIterations * factor);
+
         output.WriteLine("ClassicIsWinner  : {0} (Threshold: {1})", classicIsWinner, classicIsWinnerThreshold);
         output.WriteLine("AdaptiveIsWinner : {0}", adaptiveIsWinner);
         Assert.True(classicIsWinner < classicIsWinnerThreshold);

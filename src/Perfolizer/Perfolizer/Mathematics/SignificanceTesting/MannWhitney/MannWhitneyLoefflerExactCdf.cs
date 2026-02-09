@@ -24,11 +24,11 @@ public class MannWhitneyLoefflerExactCdf : IMannWhitneyCdf
 
         int[] sigma = new int[u + 1];
         for (int d = 1; d <= n; d++)
-        for (int i = d; i <= u; i += d)
-            sigma[i] += d;
+            for (int i = d; i <= u; i += d)
+                sigma[i] += d;
         for (int d = m + 1; d <= m + n; d++)
-        for (int i = d; i <= u; i += d)
-            sigma[i] -= d;
+            for (int i = d; i <= u; i += d)
+                sigma[i] -= d;
 
         long[] p = new long[u + 1];
         p[0] = 1;

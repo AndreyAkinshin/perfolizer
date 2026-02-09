@@ -124,7 +124,7 @@ public abstract class SelectorTestBase
     public void RandomSpecificN(int n)
     {
         var rng = new Rng(42);
-        Check(Enumerable.Range(2, n).Select(x => (double) rng.UniformInt32(0, 1000)).ToArray());
+        Check(Enumerable.Range(2, n).Select(x => (double)rng.UniformInt32(0, 1000)).ToArray());
     }
 
     private void RandomManyN(int minN, int maxN)
@@ -132,7 +132,7 @@ public abstract class SelectorTestBase
         var rng = new Rng(42);
         for (int n = minN; n <= maxN; n++)
         {
-            var data = Enumerable.Range(2, n).Select(u => (double) rng.UniformInt32(0, 1000)).ToArray();
+            var data = Enumerable.Range(2, n).Select(u => (double)rng.UniformInt32(0, 1000)).ToArray();
             var sorted = new double[n];
             Array.Copy(data, sorted, n);
             Array.Sort(sorted);
@@ -152,7 +152,7 @@ public abstract class SelectorTestBase
     [Fact]
     [Trait(TraitConstants.Category, TraitConstants.Slow)]
     public void RandomMediumN() => RandomManyN(100_000, 100_010);
-        
+
     // [Fact]
     public void RandomHugeN() => RandomManyN(100_000_000, 100_000_000);
 
@@ -165,5 +165,5 @@ public abstract class SelectorTestBase
     [InlineData("2,3,2,2")]
     [InlineData("3,2,2,2")]
     public void Ties(string data) =>
-        Check(data.Split(',').Select(s => (double) int.Parse(s)).ToArray());
+        Check(data.Split(',').Select(s => (double)int.Parse(s)).ToArray());
 }

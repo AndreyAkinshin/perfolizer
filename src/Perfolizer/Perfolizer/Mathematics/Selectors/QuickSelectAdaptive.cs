@@ -31,7 +31,7 @@ public class QuickSelectAdaptive
 
         return Select(values, k, 0, values.Length - 1);
     }
-        
+
     /// <summary>
     /// Returns the k-th smallest element in the given array.
     /// </summary>

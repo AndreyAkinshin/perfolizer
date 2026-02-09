@@ -24,8 +24,8 @@ public static class CpdGaussianMeanProgressionDataSet
     {
         var dataSet = new List<CpdTestData>();
 
-        var counts = new[] {2, 3, 4, 10};
-        var meanFactors = new[] {20};
+        var counts = new[] { 2, 3, 4, 10 };
+        var meanFactors = new[] { 20 };
         var stdDevToNoise = new Dictionary<int, int>
         {
             {1, 0},
@@ -33,12 +33,12 @@ public static class CpdGaussianMeanProgressionDataSet
             {7, 14}
         };
         foreach (int count in counts)
-        foreach (int meanFactor in meanFactors)
-        foreach ((int stdDev, int noise) in stdDevToNoise)
-        {
-            dataSet.Add(GenerateSingle(rng, count, meanFactor, stdDev, 100, noise, namePostfix));
-            dataSet.Add(GenerateSingle(rng, count, -meanFactor, stdDev, 100, noise, namePostfix));
-        }
+            foreach (int meanFactor in meanFactors)
+                foreach ((int stdDev, int noise) in stdDevToNoise)
+                {
+                    dataSet.Add(GenerateSingle(rng, count, meanFactor, stdDev, 100, noise, namePostfix));
+                    dataSet.Add(GenerateSingle(rng, count, -meanFactor, stdDev, 100, noise, namePostfix));
+                }
 
         return dataSet;
     }

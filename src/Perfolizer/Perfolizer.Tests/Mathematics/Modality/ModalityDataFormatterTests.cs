@@ -83,7 +83,7 @@ public class ModalityDataFormatterTests
 
         public static TestData Full(IReadOnlyList<double> values, string expected) =>
             new TestData(ManualModalityDataFormatter.Full, values, expected);
-            
+
         public static TestData Auto(IReadOnlyList<double> values, string expected) =>
             new TestData(AutomaticModalityDataFormatter.Instance, values, expected);
     }
@@ -96,9 +96,9 @@ public class ModalityDataFormatterTests
         IEnumerable<double> Series(int n, double min, double max)
         {
             if (n == 1)
-                return new[] {(min + max) / 2};
+                return new[] { (min + max) / 2 };
             if (n == 2)
-                return new[] {(min * 2 + max) / 3, (min + max * 2) / 3};
+                return new[] { (min * 2 + max) / 3, (min + max * 2) / 3 };
             double middle = (min + max) / 2;
             double scale = (max - min) / 2;
             return Enumerable.Range(0, n)

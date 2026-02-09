@@ -115,7 +115,7 @@ public class StudentTests
         Check(x, y, 0.0745313439497419, AlternativeHypothesis.Less);
         Check(x, y, 0.149062687899484, AlternativeHypothesis.TwoSides);
     }
-    
+
     [Fact]
     public void DifferentHypothesisTest03()
     {

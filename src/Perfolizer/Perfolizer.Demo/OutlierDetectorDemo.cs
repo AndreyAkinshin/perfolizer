@@ -39,11 +39,11 @@ public class OutlierDetectorDemo : IDemo
             result[0, j + 1] = cases[j].Name;
 
         for (int i = 0; i < detectors.Length; i++)
-        for (int j = 0; j < cases.Length; j++)
-        {
-            var outliers = detectors[i].Create(cases[j].Values).AllOutliers(cases[j].Values);
-            result[i + 1, j + 1] = string.Join(",", outliers);
-        }
+            for (int j = 0; j < cases.Length; j++)
+            {
+                var outliers = detectors[i].Create(cases[j].Values).AllOutliers(cases[j].Values);
+                result[i + 1, j + 1] = string.Join(",", outliers);
+            }
 
         for (int j = 0; j < cases.Length + 1; j++)
         {

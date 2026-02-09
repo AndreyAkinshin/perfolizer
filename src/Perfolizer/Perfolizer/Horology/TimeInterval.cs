@@ -67,7 +67,7 @@ public readonly struct TimeInterval(double nanoseconds)
     }
 
     public override string ToString() => MeasurementFormatter.Default.Format(ToMeasurement(), DefaultFormat);
-    
+
     public string ToString(
         string? format,
         IFormatProvider? formatProvider = null,

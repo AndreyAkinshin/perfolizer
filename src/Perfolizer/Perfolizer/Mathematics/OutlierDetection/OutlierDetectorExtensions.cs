@@ -6,7 +6,7 @@ public static class OutlierDetectorExtensions
     {
         return outlierDetector.IsLowerOutlier(x) || outlierDetector.IsUpperOutlier(x);
     }
-        
+
     public static IEnumerable<double> LowerOutliers(this IOutlierDetector outlierDetector,
         IEnumerable<double> values)
     {

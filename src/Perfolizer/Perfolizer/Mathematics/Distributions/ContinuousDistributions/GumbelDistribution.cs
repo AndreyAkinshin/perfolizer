@@ -44,7 +44,7 @@ public class GumbelDistribution : IContinuousDistribution
             _ => M - S * Log(-Log(p))
         };
     }
-        
+
     public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
     public double Mean => M + S * Constants.EulerMascheroni;

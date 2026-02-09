@@ -20,14 +20,14 @@ public class InverseMonotonousFunctionTests
     [InlineData(50)]
     [InlineData(-30)]
     public void InverseIdenticalTest(double x) => Check(u => u, -100, 100, x);
-        
+
     [Theory]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(50)]
     [InlineData(-30)]
     public void InverseNegateTest(double x) => Check(u => -u, -100, 100, x);
-        
+
     [Theory]
     [InlineData(0)]
     [InlineData(1)]
@@ -41,7 +41,7 @@ public class InverseMonotonousFunctionTests
         var inverseFunction = new InverseMonotonousFunction(function, min, max);
         double y = function(x);
         double z = inverseFunction.Value(y);
-            
+
         output.WriteLine($"x = {x}");
         output.WriteLine($"F(x) = {y}");
         output.WriteLine($"F^{{-1}}(F(x)) = {z}");

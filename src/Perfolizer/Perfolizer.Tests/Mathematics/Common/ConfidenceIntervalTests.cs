@@ -79,7 +79,7 @@ public class ConfidenceIntervalTests
         var confidenceInterval = approximation.ConfidenceInterval(confidenceLevel);
         double actual = confidenceInterval.Upper;
         output.WriteLine(confidenceInterval.ToString());
-            
+
         Assert.Equal(expected, actual, 3);
     }
 }

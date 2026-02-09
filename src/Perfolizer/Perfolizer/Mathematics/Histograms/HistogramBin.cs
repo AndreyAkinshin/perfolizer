@@ -32,7 +32,8 @@ public class HistogramBin
 
     public override string ToString() => ToString(DefaultCultureInfo.Instance);
 
-    [PublicAPI] public string ToString(CultureInfo cultureInfo)
+    [PublicAPI]
+    public string ToString(CultureInfo cultureInfo)
     {
         var unit = TimeUnit.GetBestTimeUnit(Values);
         var builder = new StringBuilder();
@@ -55,7 +56,7 @@ public class HistogramBin
                 formatProvider: cultureInfo));
         }
         builder.Append('}');
-            
+
         return builder.ToString();
     }
 }

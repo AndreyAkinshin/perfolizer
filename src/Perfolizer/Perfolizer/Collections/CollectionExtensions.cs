@@ -13,18 +13,18 @@ internal static class CollectionExtensions
             case null:
                 throw new ArgumentOutOfRangeException(nameof(values));
             case double[] array:
-            {
-                var result = new double[array.Length];
-                Array.Copy(array, result, array.Length);
-                return result;
-            }
+                {
+                    var result = new double[array.Length];
+                    Array.Copy(array, result, array.Length);
+                    return result;
+                }
             case IReadOnlyList<double> list:
-            {
-                double[] result = new double[list.Count];
-                for (int i = 0; i < list.Count; i++)
-                    result[i] = list[i];
-                return result;
-            }
+                {
+                    double[] result = new double[list.Count];
+                    for (int i = 0; i < list.Count; i++)
+                        result[i] = list[i];
+                    return result;
+                }
             default:
                 return values.ToArray();
         }

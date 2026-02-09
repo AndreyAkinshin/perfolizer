@@ -4,7 +4,7 @@ namespace Perfolizer.Perfonar.Base;
 
 public class PerfonarKey(string path, Type type) : IEquatable<PerfonarKey>
 {
-    public static readonly PerfonarKey Empty = new ("", typeof(object));
+    public static readonly PerfonarKey Empty = new("", typeof(object));
 
     public string Path { get; } = path;
     public Type Type { get; } = type;
@@ -44,5 +44,5 @@ public class PerfonarKey(string path, Type type) : IEquatable<PerfonarKey>
     public static bool operator !=(PerfonarKey? left, PerfonarKey? right) => !Equals(left, right);
 
     public PerfonarKey Append(string subName, Type subType) =>
-        new ($"{Path}{PerfonarSymbol.Attribute}{subName.ToCamelCase()}", subType);
+        new($"{Path}{PerfonarSymbol.Attribute}{subName.ToCamelCase()}", subType);
 }

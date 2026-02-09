@@ -36,7 +36,7 @@ public class GreenwaldKhannaQuantileEstimatorTests
             maxTupleCount = Math.Max(maxTupleCount, gk.TupleCount);
             var sample = new Sample(values);
 
-                
+
             foreach (var probability in probabilities)
             {
                 int n = sample.Size;

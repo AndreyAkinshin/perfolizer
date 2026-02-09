@@ -9,7 +9,7 @@ namespace Perfolizer.Mathematics.Multimodality;
 public static class MValueCalculator
 {
     public static double Calculate(IEnumerable<double> values) => Calculate(values.ToArray());
-        
+
     // See http://www.brendangregg.com/FrequencyTrails/modes.html
     [PublicAPI]
     public static double Calculate(double[] values)

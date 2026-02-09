@@ -34,7 +34,7 @@ public static class BetaFunction
     /// </summary>
     public static double IncompleteLogValue(double a, double b, double x)
     {
-        return a * Log(x) - Log(a) + Log(HypergeometricFunction.Value(a, 1 - b, a + 1, x, (int) Round(b)));
+        return a * Log(x) - Log(a) + Log(HypergeometricFunction.Value(a, 1 - b, a + 1, x, (int)Round(b)));
     }
 
     /// <summary>

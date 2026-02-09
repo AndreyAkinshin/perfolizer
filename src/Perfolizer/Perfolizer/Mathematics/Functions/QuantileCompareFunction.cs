@@ -39,7 +39,7 @@ public abstract class QuantileCompareFunction
     }
 
     protected abstract double CalculateValue(double quantileA, double quantileB);
-        
+
     public Range Range(Sample a, Sample b, Probability margin, int? quantizationCount = null)
     {
         Assertion.NotNull(nameof(a), a);
@@ -57,7 +57,7 @@ public abstract class QuantileCompareFunction
         else
             for (int i = 0; i < count; i++)
                 probabilities[i] = left + (right - left) / (count - 1) * i;
-                
+
         double[] quantileValues = Values(a, b, probabilities);
         return Common.Range.Of(quantileValues.Min(), quantileValues.Max());
     }
@@ -66,7 +66,7 @@ public abstract class QuantileCompareFunction
     {
         Assertion.NotNull(nameof(a), a);
         Assertion.NotNull(nameof(b), b);
-            
+
         int n = Math.Min(a.Size, b.Size);
         double margin = Math.Min(0.5, 1 - 0.001.Pow(1.0 / n));
         return Range(a, b, margin);

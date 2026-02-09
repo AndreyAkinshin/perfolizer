@@ -6,7 +6,7 @@ using Pragmastat.Randomization;
 
 namespace Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
-public class TriangularDistribution: IContinuousDistribution
+public class TriangularDistribution : IContinuousDistribution
 {
     /// <summary>
     /// The minimum value of the triangular distribution
@@ -17,7 +17,7 @@ public class TriangularDistribution: IContinuousDistribution
     /// The maximum value of the triangular distribution
     /// </summary>
     public double Max { get; }
-        
+
     /// <summary>
     /// The mode value of the triangular distribution
     /// </summary>

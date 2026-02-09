@@ -14,7 +14,8 @@ public readonly struct Frequency(double hertz) : IEquatable<Frequency>, ICompara
 
     [PublicAPI] public double Hertz { get; } = hertz;
 
-    [PublicAPI] public Frequency(double value, FrequencyUnit unit) : this(value * unit.BaseUnits)
+    [PublicAPI]
+    public Frequency(double value, FrequencyUnit unit) : this(value * unit.BaseUnits)
     {
     }
 
@@ -68,7 +69,8 @@ public readonly struct Frequency(double hertz) : IEquatable<Frequency>, ICompara
         return success;
     }
 
-    [PublicAPI] public static bool TryParseHz(string? s, out Frequency freq) =>
+    [PublicAPI]
+    public static bool TryParseHz(string? s, out Frequency freq) =>
         TryParse(s, FrequencyUnit.Hz, out freq);
 
     [PublicAPI]
@@ -76,7 +78,8 @@ public readonly struct Frequency(double hertz) : IEquatable<Frequency>, ICompara
         IFormatProvider formatProvider, out Frequency freq)
         => TryParse(s, FrequencyUnit.Hz, numberStyle, formatProvider, out freq);
 
-    [PublicAPI] public static bool TryParseKHz(string? s, out Frequency freq) =>
+    [PublicAPI]
+    public static bool TryParseKHz(string? s, out Frequency freq) =>
         TryParse(s, FrequencyUnit.KHz, out freq);
 
     [PublicAPI]
@@ -84,7 +87,8 @@ public readonly struct Frequency(double hertz) : IEquatable<Frequency>, ICompara
         IFormatProvider formatProvider, out Frequency freq)
         => TryParse(s, FrequencyUnit.KHz, numberStyle, formatProvider, out freq);
 
-    [PublicAPI] public static bool TryParseMHz(string? s, out Frequency freq) =>
+    [PublicAPI]
+    public static bool TryParseMHz(string? s, out Frequency freq) =>
         TryParse(s, FrequencyUnit.MHz, out freq);
 
     [PublicAPI]
@@ -92,7 +96,8 @@ public readonly struct Frequency(double hertz) : IEquatable<Frequency>, ICompara
         IFormatProvider formatProvider, out Frequency freq)
         => TryParse(s, FrequencyUnit.MHz, numberStyle, formatProvider, out freq);
 
-    [PublicAPI] public static bool TryParseGHz(string? s, out Frequency freq) =>
+    [PublicAPI]
+    public static bool TryParseGHz(string? s, out Frequency freq) =>
         TryParse(s, FrequencyUnit.GHz, out freq);
 
     [PublicAPI]

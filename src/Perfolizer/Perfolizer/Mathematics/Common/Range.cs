@@ -9,7 +9,7 @@ public readonly struct Range
     public static Range NegativeInfinity = Of(double.NegativeInfinity, double.NegativeInfinity);
     public static Range Zero = Of(0, 0);
     public static Range NaN = Of(double.NaN, double.NaN);
-        
+
     private const string DefaultFormat = "N2";
 
     public double Left { get; }

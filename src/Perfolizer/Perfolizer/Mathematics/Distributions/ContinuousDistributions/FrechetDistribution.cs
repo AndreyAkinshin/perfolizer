@@ -56,7 +56,7 @@ public class FrechetDistribution : IContinuousDistribution
             _ => M + S * Pow(-Log(p), -1 / A)
         };
     }
-        
+
     public RandomGenerator Random(Rng? rng = null) => new DistributionRandomGenerator(this, rng);
 
     public double Mean => A <= 1 ? double.PositiveInfinity : M + S * GammaFunction.Value(1 - 1 / A);

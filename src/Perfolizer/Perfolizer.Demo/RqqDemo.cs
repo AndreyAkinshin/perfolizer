@@ -6,7 +6,7 @@ public class RqqDemo : IDemo
 {
     public void Run()
     {
-        var data = new double[] {6, 2, 0, 7, 9, 3, 1, 8, 5, 4};
+        var data = new double[] { 6, 2, 0, 7, 9, 3, 1, 8, 5, 4 };
         var rqq = new Rqq(data);
         Console.WriteLine(rqq.DumpTreeAscii());
         Console.WriteLine();

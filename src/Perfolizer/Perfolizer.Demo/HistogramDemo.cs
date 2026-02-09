@@ -4,7 +4,7 @@ using Pragmastat.Randomization;
 
 namespace Perfolizer.Demo;
 
-public class HistogramDemo: IDemo
+public class HistogramDemo : IDemo
 {
     public void Run()
     {

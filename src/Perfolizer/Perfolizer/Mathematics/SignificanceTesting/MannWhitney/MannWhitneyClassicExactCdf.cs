@@ -14,20 +14,20 @@ public class MannWhitneyClassicExactCdf : IMannWhitneyCdf
         int nm = Max(n, m);
         long[,,] w = new long[nm + 1, nm + 1, q + 1];
         for (int i = 0; i <= nm; i++)
-        for (int j = 0; j <= nm; j++)
-        for (int k = 0; k <= q; k++)
-        {
-            if (i == 0 || j == 0 || k == 0)
-                w[i, j, k] = k == 0 ? 1 : 0;
-            else if (k > i * j)
-                w[i, j, k] = 0;
-            else if (i > j)
-                w[i, j, k] = w[j, i, k];
-            else if (j > 0 && k < j)
-                w[i, j, k] = w[i, k, k];
-            else
-                w[i, j, k] = w[i - 1, j, k - j] + w[i, j - 1, k];
-        }
+            for (int j = 0; j <= nm; j++)
+                for (int k = 0; k <= q; k++)
+                {
+                    if (i == 0 || j == 0 || k == 0)
+                        w[i, j, k] = k == 0 ? 1 : 0;
+                    else if (k > i * j)
+                        w[i, j, k] = 0;
+                    else if (i > j)
+                        w[i, j, k] = w[j, i, k];
+                    else if (j > 0 && k < j)
+                        w[i, j, k] = w[i, k, k];
+                    else
+                        w[i, j, k] = w[i - 1, j, k - j] + w[i, j - 1, k];
+                }
 
         long denominator = BinomialCoefficientHelper.BinomialCoefficient(n + m, m);
         long p = 0;

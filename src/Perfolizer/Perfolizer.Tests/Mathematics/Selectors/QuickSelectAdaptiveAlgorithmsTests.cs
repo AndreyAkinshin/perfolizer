@@ -8,8 +8,8 @@ namespace Perfolizer.Tests.Mathematics.Selectors;
 public class QuickSelectAdaptiveAlgorithmsTests
 {
     [Theory]
-    [InlineData(new double[]{0, 1, 2, 3, 4})]
-    [InlineData(new double[]{1, 2, 3, 4, 5})]
+    [InlineData(new double[] { 0, 1, 2, 3, 4 })]
+    [InlineData(new double[] { 1, 2, 3, 4, 5 })]
     public void Median5Test(double[] array)
     {
         array.AsSpan().Sort();

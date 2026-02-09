@@ -51,7 +51,7 @@ public class P2QuantileEstimator : ISequentialSpecificQuantileEstimator
 
                 for (int i = 0; i < 5; i++)
                     n[i] = i;
-                    
+
                 if (strategy == InitializationStrategy.Adaptive)
                 {
                     Array.Copy(q, ns, 5);

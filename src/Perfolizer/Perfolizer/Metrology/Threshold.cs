@@ -28,32 +28,32 @@ public class Threshold(params Measurement[] thresholdValues) : IEquatable<Thresh
             case NumberUnit:
                 return new Sample(sample.Values.Select(x => x + m).ToArray(), sample.Unit);
             case TimeUnit unit:
-            {
-                if (sample.Unit is not TimeUnit timeUnit)
-                    throw new InvalidOperationException(
-                        $"Can't apply {unit.AbbreviationAscii} to " +
-                        $"sample of {sample.Unit.AbbreviationAscii} values");
-                double shift = TimeUnit.Convert(m, unit, timeUnit);
-                return new Sample(sample.Values.Select(x => x + shift).ToArray(), sample.Unit);
-            }
+                {
+                    if (sample.Unit is not TimeUnit timeUnit)
+                        throw new InvalidOperationException(
+                            $"Can't apply {unit.AbbreviationAscii} to " +
+                            $"sample of {sample.Unit.AbbreviationAscii} values");
+                    double shift = TimeUnit.Convert(m, unit, timeUnit);
+                    return new Sample(sample.Values.Select(x => x + shift).ToArray(), sample.Unit);
+                }
             case FrequencyUnit unit:
-            {
-                if (sample.Unit is not FrequencyUnit frequencyUnit)
-                    throw new InvalidOperationException(
-                        $"Can't apply {unit.AbbreviationAscii} to " +
-                        $"sample of {sample.Unit.AbbreviationAscii} values");
-                double shift = FrequencyUnit.Convert(m, unit, frequencyUnit);
-                return new Sample(sample.Values.Select(x => x + shift).ToArray(), sample.Unit);
-            }
+                {
+                    if (sample.Unit is not FrequencyUnit frequencyUnit)
+                        throw new InvalidOperationException(
+                            $"Can't apply {unit.AbbreviationAscii} to " +
+                            $"sample of {sample.Unit.AbbreviationAscii} values");
+                    double shift = FrequencyUnit.Convert(m, unit, frequencyUnit);
+                    return new Sample(sample.Values.Select(x => x + shift).ToArray(), sample.Unit);
+                }
             case SizeUnit unit:
-            {
-                if (sample.Unit is not SizeUnit sizeUnit)
-                    throw new InvalidOperationException(
-                        $"Can't apply {unit.AbbreviationAscii} to " +
-                        $"sample of {sample.Unit.AbbreviationAscii} values");
-                double shift = SizeUnit.Convert(m.RoundToLong(), unit, sizeUnit);
-                return new Sample(sample.Values.Select(x => x + shift).ToArray(), sample.Unit);
-            }
+                {
+                    if (sample.Unit is not SizeUnit sizeUnit)
+                        throw new InvalidOperationException(
+                            $"Can't apply {unit.AbbreviationAscii} to " +
+                            $"sample of {sample.Unit.AbbreviationAscii} values");
+                    double shift = SizeUnit.Convert(m.RoundToLong(), unit, sizeUnit);
+                    return new Sample(sample.Values.Select(x => x + shift).ToArray(), sample.Unit);
+                }
 
             case RatioUnit:
                 return new Sample(sample.Values.Select(x => x * m).ToArray(), sample.Unit);

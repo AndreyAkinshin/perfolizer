@@ -47,8 +47,8 @@ public class SequentialQuantileEstimatorDemo : IDemo
         void AddValues(IEnumerable<double> values)
         {
             foreach (double value in values)
-            foreach (var estimator in estimators)
-                estimator.Add(value);
+                foreach (var estimator in estimators)
+                    estimator.Add(value);
         }
 
         void PrintEstimations()

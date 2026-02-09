@@ -31,7 +31,8 @@ public class TimeUnit : MeasurementUnit
     [PublicAPI] public static readonly TimeUnit Hour = new("h", "Hour", Minute.BaseUnits * 60);
     [PublicAPI] public static readonly TimeUnit Day = new("d", "Day", Hour.BaseUnits * 24);
 
-    [PublicAPI] public static readonly TimeUnit[] All =
+    [PublicAPI]
+    public static readonly TimeUnit[] All =
         [Nanosecond, Microsecond, Millisecond, Second, Minute, Hour, Day];
 
     /// <summary>

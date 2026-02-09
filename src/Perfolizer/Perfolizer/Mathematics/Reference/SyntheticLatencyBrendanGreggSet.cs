@@ -10,7 +10,7 @@ namespace Perfolizer.Mathematics.Reference;
 public class SyntheticLatencyBrendanGreggSet : IReferenceDistributionSet
 {
     public static readonly IReferenceDistributionSet Instance = new SyntheticLatencyBrendanGreggSet();
-        
+
     public string Key => "SLBG";
     public string Description => "Synthetic Latency Distributions by Brendan Gregg";
     public ReferenceDistribution[] Distributions { get; }

@@ -32,7 +32,7 @@ public class RqqGetQuantileTests : SelectorTestBase
 
     protected override void DumpDetails(SelectorAdapter selectorAdapter)
     {
-        DumpRqqTree(((RqqSelectorAdapter) selectorAdapter).Rqq);
+        DumpRqqTree(((RqqSelectorAdapter)selectorAdapter).Rqq);
     }
 
     private void DumpRqqTree(Rqq rqq)
@@ -40,28 +40,28 @@ public class RqqGetQuantileTests : SelectorTestBase
         using var memoryStream = new MemoryStream();
         using var sw = new StreamWriter(memoryStream);
         rqq.DumpTreeAscii(sw, true);
-        Output.WriteLine(Encoding.UTF8.GetString(memoryStream.ToArray(), 0, (int) memoryStream.Length));
+        Output.WriteLine(Encoding.UTF8.GetString(memoryStream.ToArray(), 0, (int)memoryStream.Length));
     }
 
     [Fact]
     public void SuperEtalon()
     {
-        var rqq = new Rqq(new double[] {6, 2, 0, 7, 9, 3, 1, 8, 5, 4});
+        var rqq = new Rqq(new double[] { 6, 2, 0, 7, 9, 3, 1, 8, 5, 4 });
         double actual = rqq.Select(2, 8, 4);
         Assert.Equal(7, actual);
     }
 
     [Fact]
-    public void Etalon() => Check(new double[] {6, 2, 0, 7, 9, 3, 1, 8, 5, 4});
+    public void Etalon() => Check(new double[] { 6, 2, 0, 7, 9, 3, 1, 8, 5, 4 });
 
     [Fact]
-    public void Test02() => Check(new double[] {3, 26, 13, 12, 8, 12, 3});
+    public void Test02() => Check(new double[] { 3, 26, 13, 12, 8, 12, 3 });
 
     [Fact]
-    public void Test03() => Check(new double[] {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2});
+    public void Test03() => Check(new double[] { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2 });
 
     [Fact]
-    public void Test04() => Check(new double[] {3240, 3207, 2029, 3028, 3021, 2624, 3290, 2823, 3573});
+    public void Test04() => Check(new double[] { 3240, 3207, 2029, 3028, 3021, 2624, 3290, 2823, 3573 });
 
     [Fact]
     public void RandomAllRanges()
@@ -73,26 +73,26 @@ public class RqqGetQuantileTests : SelectorTestBase
             var buffer = new double[data.Length];
             var rqq = new Rqq(data);
             for (int i = 0; i < n; i++)
-            for (int j = i; j < n; j++)
-            for (int k = 0; k < j - i; k++)
-            {
-                double actual = rqq.Select(i, j, k);
-                Array.Copy(data, i, buffer, 0, j - i + 1);
-                Array.Sort(buffer, 0, j - i + 1);
-                double expected = buffer[k];
-                Output.WriteLine($"n = {n}, i = {i}, j = {j}, k = {k}, expected = {expected}, actual = {actual}");
-                if (actual != expected)
-                    DumpRqqTree(rqq);
-                Assert.Equal(expected, actual);
-            }
+                for (int j = i; j < n; j++)
+                    for (int k = 0; k < j - i; k++)
+                    {
+                        double actual = rqq.Select(i, j, k);
+                        Array.Copy(data, i, buffer, 0, j - i + 1);
+                        Array.Sort(buffer, 0, j - i + 1);
+                        double expected = buffer[k];
+                        Output.WriteLine($"n = {n}, i = {i}, j = {j}, k = {k}, expected = {expected}, actual = {actual}");
+                        if (actual != expected)
+                            DumpRqqTree(rqq);
+                        Assert.Equal(expected, actual);
+                    }
         }
     }
-        
+
 
     [Fact]
     public void Test01()
     {
-        var rqq = new Rqq(new double[] {0, 0, 0, 0, 0, 100, 100, 100, 100});
+        var rqq = new Rqq(new double[] { 0, 0, 0, 0, 0, 100, 100, 100, 100 });
         DumpRqqTree(rqq);
         var probabilities = Enumerable.Range(0, 10).Select(x => (Probability)(x * 1.0 / 9.0)).ToArray();
         foreach (var probability in probabilities)

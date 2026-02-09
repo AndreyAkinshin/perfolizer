@@ -68,7 +68,7 @@ public class BinomialDistributionTests
             int actualQuantile = distribution.Quantile(expectedCdf);
             int expectedQuantile = k;
             output.WriteLine($"Quantile({expectedCdf}) = {actualQuantile} (Expected: {expectedQuantile})");
-                
+
             Assert.Equal(expectedPmf, actualPmf, comparer);
             Assert.Equal(expectedCdf, actualCdf, comparer);
             Assert.Equal(expectedQuantile, actualQuantile, comparer);

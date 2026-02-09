@@ -6,7 +6,7 @@ public class ConstantSequence : ISequence
     public static readonly ConstantSequence NaN = new ConstantSequence(double.NaN);
     public static readonly ConstantSequence PositiveInfinity = new ConstantSequence(double.PositiveInfinity);
     public static readonly ConstantSequence NegativeInfinity = new ConstantSequence(double.NegativeInfinity);
-        
+
     private readonly double value;
 
     public ConstantSequence(double value)

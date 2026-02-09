@@ -28,8 +28,8 @@ public class PartitioningHeapsMovingQuantileEstimatorTests : MovingQuantileEstim
     [Fact]
     public void HyndmanFanPartitioningHeapsQuantileEstimatorTest()
     {
-        double[] fullSource = {1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66};
-        var probabilities = Enumerable.Range(0, 101).Select(x => (Probability) (x / 100.0)).ToArray();
+        double[] fullSource = { 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66 };
+        var probabilities = Enumerable.Range(0, 101).Select(x => (Probability)(x / 100.0)).ToArray();
         var types = HyndmanFanHelper.AllTypes;
 
         var comparer = new AbsoluteEqualityComparer(1e-2);

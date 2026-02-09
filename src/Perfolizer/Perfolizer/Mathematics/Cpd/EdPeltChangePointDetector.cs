@@ -43,7 +43,7 @@ public class EdPeltChangePointDetector : PeltChangePointDetector
             // `k` is the number of quantiles that we use to approximate an integral during the segment cost evaluation
             // We use `k=Ceiling(4*log(n))` as suggested in the Section 4.3 "Choice of K in ED-PELT" in [Haynes2017]
             // `k` can't be greater than `n`, so we should always use the `Min` function here (important for n <= 8)
-            k = Math.Min(n, (int) Math.Ceiling(4 * Math.Log(n)));
+            k = Math.Min(n, (int)Math.Ceiling(4 * Math.Log(n)));
 
             // We should precalculate sums for empirical CDF, it will allow fast evaluating of the segment cost
             partialSums = GetPartialSums(data, k);
@@ -88,7 +88,7 @@ public class EdPeltChangePointDetector : PeltChangePointDetector
             {
                 double z = -1 + (2 * i + 1.0) / k; // Values from (-1+1/k) to (1-1/k) with step = 2/k
                 double p = 1.0 / (1 + Math.Pow(2 * n - 1, -z)); // Values from 0.0 to 1.0
-                double t = sortedData[(int) Math.Truncate((n - 1) * p)]; // Quantile value, formula (2.1) in [Haynes2017]
+                double t = sortedData[(int)Math.Truncate((n - 1) * p)]; // Quantile value, formula (2.1) in [Haynes2017]
 
                 for (int tau = 1; tau <= n; tau++)
                 {

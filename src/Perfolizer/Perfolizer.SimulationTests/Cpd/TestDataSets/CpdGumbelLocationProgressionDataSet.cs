@@ -21,7 +21,7 @@ public static class CpdGumbelLocationProgressionDataSet
             CpdTestData.PenaltyValues.Default.AcceptableMissingPoint,
             CpdTestData.PenaltyValues.Default.ExtraPoint / 10,
             CpdTestData.PenaltyValues.Default.Displacement);
-            
+
         return new CpdTestData(name, values, expected, penalties);
     }
 
@@ -29,7 +29,7 @@ public static class CpdGumbelLocationProgressionDataSet
     {
         var dataSet = new List<CpdTestData>();
 
-        var counts = new[] {2, 3, 4, 10};
+        var counts = new[] { 2, 3, 4, 10 };
         var parameters = new List<(int LocationFactor, double Scale, int Noise)>
         {
             (5, 1, 1),
@@ -41,8 +41,8 @@ public static class CpdGumbelLocationProgressionDataSet
         };
 
         foreach (int count in counts)
-        foreach ((int locationFactor, double scale, int noise) in parameters)
-            dataSet.Add(GenerateSingle(rng, count, locationFactor, scale, 100, noise, namePostfix));
+            foreach ((int locationFactor, double scale, int noise) in parameters)
+                dataSet.Add(GenerateSingle(rng, count, locationFactor, scale, 100, noise, namePostfix));
 
         return dataSet;
     }

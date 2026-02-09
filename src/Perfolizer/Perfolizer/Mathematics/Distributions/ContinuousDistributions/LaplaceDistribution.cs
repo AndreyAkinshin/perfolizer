@@ -36,6 +36,6 @@ public class LaplaceDistribution : IContinuousDistribution
     public double Median => Mu;
     public double Variance => 2 * Sigma.Sqr();
     public double StandardDeviation => Constants.Sqrt2 * Sigma;
-        
+
     public override string ToString() => $"Laplace({Mu.ToStringInvariant()},{Sigma.ToStringInvariant()})";
 }

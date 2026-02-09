@@ -35,7 +35,7 @@ public class MovingP2QuantileEstimator : ISequentialSpecificQuantileEstimator
             throw new EmptySequenceException();
         if (n < windowSize)
             return estimator.Quantile();
-            
+
         double estimation1 = previousWindowEstimation;
         double estimation2 = estimator.Quantile();
         double w2 = (n % windowSize + 1) * 1.0 / windowSize;

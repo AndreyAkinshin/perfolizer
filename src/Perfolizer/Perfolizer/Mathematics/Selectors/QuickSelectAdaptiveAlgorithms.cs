@@ -347,7 +347,7 @@ internal static class QuickSelectAdaptiveAlgorithms
             fi = 1.0 / 64;
         else
             fi = 1.0 / 1024;
-        int n0 = (int) Math.Floor(fi * n / 3.0);
+        int n0 = (int)Math.Floor(fi * n / 3.0);
         if (n0 < 3)
             return HoarePartition(A, A.Length / 2);
         int g = (n - 3 * n0) / 4;

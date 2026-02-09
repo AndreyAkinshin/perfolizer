@@ -117,7 +117,7 @@ public class TrimmedHarrellDavisQuantileEstimator : IQuantileEstimator
         if (width > 1 - eps)
             return (0, 1);
         if (Abs(a - b) < eps)
-            return (0.5 - width / 2, 0.5 + width / 2); 
+            return (0.5 - width / 2, 0.5 + width / 2);
 
         double mode = (a - 1) / (a + b - 2);
         double l = BinarySearch(x => DenormalizedLogBetaPdf(a, b, x) - DenormalizedLogBetaPdf(a, b, x + width),

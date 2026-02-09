@@ -64,22 +64,22 @@ public class RqqPeltSimulation : IDisposable
             var results =
                 new List<(double HeterogeneityFactor, double Sensitivity, string QuantileSet, double MaxPenalty, double SumPenalty)>();
             foreach (double heterogeneityFactor in heterogeneityFactors)
-            foreach (double sensitivity in sensitivities)
-            foreach (var quantileSet in quantileSets)
-            {
-                double homogeneityFactor = heterogeneityFactor - 1;
-                PrintLine(Separator('@'));
-                PrintLine(
-                    $"@ HeterogeneityFactor = {heterogeneityFactor:0.0}, Sensitivity = {sensitivity:0.00}, QuantileSet = {quantileSet.Name}");
-                var detector = new RqqPeltChangePointDetector(
-                    quantileSet.Probabilities,
-                    quantileSet.Factors,
-                    sensitivity: sensitivity,
-                    heterogeneityFactor: heterogeneityFactor,
-                    homogeneityFactor: homogeneityFactor);
-                var penalties = RunSingle(detector, dataSet, printReports);
-                results.Add((heterogeneityFactor, sensitivity, quantileSet.Name, penalties.Max(), penalties.Sum()));
-            }
+                foreach (double sensitivity in sensitivities)
+                    foreach (var quantileSet in quantileSets)
+                    {
+                        double homogeneityFactor = heterogeneityFactor - 1;
+                        PrintLine(Separator('@'));
+                        PrintLine(
+                            $"@ HeterogeneityFactor = {heterogeneityFactor:0.0}, Sensitivity = {sensitivity:0.00}, QuantileSet = {quantileSet.Name}");
+                        var detector = new RqqPeltChangePointDetector(
+                            quantileSet.Probabilities,
+                            quantileSet.Factors,
+                            sensitivity: sensitivity,
+                            heterogeneityFactor: heterogeneityFactor,
+                            homogeneityFactor: homogeneityFactor);
+                        var penalties = RunSingle(detector, dataSet, printReports);
+                        results.Add((heterogeneityFactor, sensitivity, quantileSet.Name, penalties.Max(), penalties.Sum()));
+                    }
 
             PrintLine(Separator('*'));
             PrintLine(Separator('*'));
@@ -120,7 +120,7 @@ public class RqqPeltSimulation : IDisposable
 
         PrintLine("  Sum  = " + penalties.Sum());
         PrintLine("  Max  = " + penalties.Max());
-        foreach (double p in new[] {0.5, 0.90, 0.99})
+        foreach (double p in new[] { 0.5, 0.90, 0.99 })
         {
             string metric = $"P{p * 100}".PadRight(4);
             double estimate = HarrellDavisQuantileEstimator.Instance.Quantile(penalties, p);
@@ -147,7 +147,7 @@ public class RqqPeltSimulation : IDisposable
 
         public static readonly QuantileSet Classic = new QuantileSet("[12/Classic]",
             new ArithmeticProgressionSequence(0, 1 / 11.0).GenerateArray(12),
-            new[] {1.0, 1.0, 1.0, 1.0, 1.0, 0.9, 0.9, 0.9, 0.9, 0.9, 0.8, 0.8});
+            new[] { 1.0, 1.0, 1.0, 1.0, 1.0, 0.9, 0.9, 0.9, 0.9, 0.9, 0.8, 0.8 });
 
         public static QuantileSet ArithmeticProgression(int n, double step) => new QuantileSet($"[{n}@A{step}]",
             new ArithmeticProgressionSequence(0, 1.0 / (n - 1)).GenerateArray(n),

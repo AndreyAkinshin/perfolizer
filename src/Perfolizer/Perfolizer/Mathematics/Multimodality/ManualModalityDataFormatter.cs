@@ -41,7 +41,7 @@ public class ManualModalityDataFormatter : IModalityDataFormatter
 
         bool compactMode = CompactMiddleModes && data.Modality > 2;
         var modes = compactMode
-            ? new[] {data.Modes.First(), data.Modes.Last()}
+            ? new[] { data.Modes.First(), data.Modes.Last() }
             : data.Modes;
         var builder = new StringBuilder();
         var bunch = new Bunch();
@@ -180,26 +180,26 @@ public class ManualModalityDataFormatter : IModalityDataFormatter
                     builder.Append(close);
                     break;
                 default:
-                {
-                    builder.Append(open);
-                    if (Mode != null)
                     {
-                        builder.Append(Min.ToString(format, formatProvider));
-                        builder.Append(" | ");
-                        builder.Append(Mode?.ToString(format, formatProvider));
-                        builder.Append(" | ");
-                        builder.Append(Max.ToString(format, formatProvider));
-                    }
-                    else
-                    {
-                        builder.Append(Min.ToString(format, formatProvider));
-                        builder.Append(multiSeparator);
-                        builder.Append(Max.ToString(format, formatProvider));
-                    }
+                        builder.Append(open);
+                        if (Mode != null)
+                        {
+                            builder.Append(Min.ToString(format, formatProvider));
+                            builder.Append(" | ");
+                            builder.Append(Mode?.ToString(format, formatProvider));
+                            builder.Append(" | ");
+                            builder.Append(Max.ToString(format, formatProvider));
+                        }
+                        else
+                        {
+                            builder.Append(Min.ToString(format, formatProvider));
+                            builder.Append(multiSeparator);
+                            builder.Append(Max.ToString(format, formatProvider));
+                        }
 
-                    builder.Append(close);
-                    break;
-                }
+                        builder.Append(close);
+                        break;
+                    }
             }
 
             if (Count > 2 && presentCount)

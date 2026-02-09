@@ -11,7 +11,7 @@ internal static class DoubleExtensions
 
     public static string ToStringInvariant(this Probability p) => p.ToString(DefaultCultureInfo.Instance);
     public static string ToStringInvariant(this Probability p, string format) => p.ToString(format, DefaultCultureInfo.Instance);
-    
+
     public static string Format(this double value, string? format = null, IFormatProvider? formatProvider = null)
     {
         return value.ToString(format ?? "G", formatProvider ?? CultureInfo.InvariantCulture);

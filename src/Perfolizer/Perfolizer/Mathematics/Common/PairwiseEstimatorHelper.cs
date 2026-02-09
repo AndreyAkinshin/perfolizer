@@ -26,11 +26,11 @@ public static class PairwiseEstimatorHelper
             double[] weights = new double[size];
             int k = 0;
             for (int i = 0; i < n; i++)
-            for (int j = i + skip; j < n; j++)
-            {
-                values[k] = func(x.Values[i], x.Values[j]);
-                weights[k++] = x.Weights[i] * x.Weights[j];
-            }
+                for (int j = i + skip; j < n; j++)
+                {
+                    values[k] = func(x.Values[i], x.Values[j]);
+                    weights[k++] = x.Weights[i] * x.Weights[j];
+                }
             return estimator.Quantile(new Sample(values, weights), p);
         }
         else
@@ -38,8 +38,8 @@ public static class PairwiseEstimatorHelper
             double[] values = new double[size];
             int k = 0;
             for (int i = 0; i < n; i++)
-            for (int j = i + skip; j < n; j++)
-                values[k++] = func(x.Values[i], x.Values[j]);
+                for (int j = i + skip; j < n; j++)
+                    values[k++] = func(x.Values[i], x.Values[j]);
             return estimator.Quantile(new Sample(values), p);
         }
     }
@@ -64,11 +64,11 @@ public static class PairwiseEstimatorHelper
             double[] weights = new double[n * m];
             int k = 0;
             for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++)
-            {
-                values[k] = func(x.Values[j], y.Values[i]);
-                weights[k++] = x.Weights[j] * y.Weights[i];
-            }
+                for (int j = 0; j < m; j++)
+                {
+                    values[k] = func(x.Values[j], y.Values[i]);
+                    weights[k++] = x.Weights[j] * y.Weights[i];
+                }
             return estimator.Quantile(new Sample(values, weights), p);
         }
         else
@@ -76,8 +76,8 @@ public static class PairwiseEstimatorHelper
             double[] values = new double[n * m];
             int k = 0;
             for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++)
-                values[k++] = func(x.Values[i], y.Values[j]);
+                for (int j = 0; j < m; j++)
+                    values[k++] = func(x.Values[i], y.Values[j]);
             return estimator.Quantile(new Sample(values), p);
         }
     }

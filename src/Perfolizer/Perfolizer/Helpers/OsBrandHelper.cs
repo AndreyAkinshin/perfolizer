@@ -7,7 +7,7 @@ namespace Perfolizer.Helpers;
 public static class OsBrandHelper
 {
     // See https://en.wikipedia.org/wiki/Ver_(command)
-    private static readonly Dictionary<string, string> LegacyWindowsBrandVersions = new ()
+    private static readonly Dictionary<string, string> LegacyWindowsBrandVersions = new()
     {
         { "1.04", "1.0" },
         { "2.11", "2.0" },

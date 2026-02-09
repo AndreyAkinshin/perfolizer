@@ -4,7 +4,7 @@ using Pragmastat.Randomization;
 
 namespace Perfolizer.Demo;
 
-public class ChangePointDemo: IDemo
+public class ChangePointDemo : IDemo
 {
     public void Run()
     {
@@ -27,6 +27,6 @@ public class ChangePointDemo: IDemo
                 edIndex = edIndexes[j++].ToString();
             Console.WriteLine($"{rqqIndex.PadLeft(7)} {edIndex.PadLeft(6)}");
         }
-            
+
     }
 }

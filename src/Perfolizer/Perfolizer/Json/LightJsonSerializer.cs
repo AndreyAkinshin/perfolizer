@@ -16,7 +16,7 @@ public class LightJsonSerializer
 
     private readonly LightJsonSettings settings;
     private int currentIndent;
-    private readonly StringBuilder builder = new ();
+    private readonly StringBuilder builder = new();
 
     private LightJsonSerializer(LightJsonSettings? settings = null)
     {
