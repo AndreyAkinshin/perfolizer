@@ -22,17 +22,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
-        <Major>0</Major>
-        <Minor>6</Minor>
-        <Revision>4</Revision>
-        <BuildNumber>0</BuildNumber>
-
-        <PrereleaseLabel>-develop</PrereleaseLabel>
-
-        <AssemblyVersion>$(Major).$(Minor).$(Revision).$(BuildNumber)</AssemblyVersion>
-        <AssemblyFileVersion>$(Major).$(Minor).$(Revision).$(BuildNumber)</AssemblyFileVersion>
-        <InformationalVersion>$(Major).$(Minor).$(Revision).$(BuildNumber)$(PrereleaseLabel)</InformationalVersion>
-        <PackageVersion>$(Major).$(Minor).$(Revision).$(BuildNumber)$(PrereleaseLabel)</PackageVersion>
+        <Version>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)../../VERSION').Trim())</Version>
     </PropertyGroup>
     <ItemGroup>
         <None Include="..\..\..\docs\logo\dino.png" Link="Properties\dino.png" Pack="true" PackagePath=""/>

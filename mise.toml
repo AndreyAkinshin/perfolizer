@@ -1,0 +1,62 @@
+[tools]
+dotnet = "9"
+
+[tasks.build]
+description = "Build the project"
+run = "dotnet build src/Perfolizer/Perfolizer.sln -c Release"
+
+[tasks.test]
+description = "Run tests"
+run = "dotnet test src/Perfolizer/Perfolizer.Tests -c Release --no-build"
+
+[tasks.check]
+description = "Run all static analysis"
+run = "dotnet format src/Perfolizer/Perfolizer.sln --verify-no-changes"
+
+[tasks."check:fix"]
+description = "Auto-fix formatting issues"
+run = "dotnet format src/Perfolizer/Perfolizer.sln"
+
+[tasks.clean]
+description = "Remove build artifacts"
+run = "find . -type d \\( -name bin -o -name obj -o -name nupkg \\) -exec rm -rf {} + 2>/dev/null || true"
+
+[tasks.restore]
+description = "Restore dependencies"
+run = "dotnet restore src/Perfolizer/Perfolizer.sln"
+
+[tasks.pack]
+description = "Create NuGet package"
+run = "dotnet pack src/Perfolizer/Perfolizer/Perfolizer.csproj -c Release --no-build -o nupkg -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg"
+
+[tasks.version]
+description = "Bump version, stage, and commit"
+usage = 'arg "<version>"'
+run = '''
+if ! echo "$usage_version" | grep -qE '^[0-9]+(\.[0-9]+)*$'; then
+  echo "Error: version must contain only digits and dots (got: $usage_version)" >&2
+  exit 1
+fi
+echo "$usage_version" > VERSION
+git add VERSION
+git diff --cached --quiet && echo "Already at $usage_version" || git commit -m "chore: bump version to $usage_version"
+'''
+
+[tasks.publish]
+description = "Bump version, push, and trigger release"
+usage = 'arg "<version>"'
+run = [
+    "mise run version $usage_version",
+    "git push",
+    "gh workflow run publish.yml",
+]
+
+[tasks.ci]
+description = "Full CI pipeline"
+run = [
+    { task = "clean" },
+    { task = "restore" },
+    { task = "check" },
+    { task = "build" },
+    { task = "test" },
+]
