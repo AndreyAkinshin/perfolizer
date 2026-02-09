@@ -1,61 +1,30 @@
-# use glob syntax
-syntax: glob
+# Build output
+[Bb]in/
+[Oo]bj/
+artifacts/
+nupkg/
 
-*.obj
-*.pdb
-*.user
-*.aps
-*.pch
-*.vspscc
-*.vssscc
-*_i.c
-*_p.c
-*.ncb
-*.suo
-*.tlb
-*.tlh
-*.bak
-*.cache
-*.ilk
-*.log
-*.lib
-*.sbr
-*.scc
-[Bb]in
-[Dd]ebug*/
-obj/
-[Rr]elease*/
-_ReSharper*/
-[Tt]humbs.db
-[Tt]est[Rr]esult*
-[Bb]uild[Ll]og.*
-*.[Pp]ublish.xml
-*.resharper
-*.received.txt
-*.orig
-packages/
-nuget.exe
-docs/guidehtml
-docs/apihtml
-
+# IDE
+.vs/
 .idea/
 *.iml
+*.user
+*.suo
+*.resharper
+_ReSharper*/
 
-**/BenchmarkDotNet.Artifacts/*
-**/project.lock.json
-tests/output/*
-.vs/restore.dg
-artifacts/*
-BDN.Generated
-BenchmarkDotNet.Samples/Properties/launchSettings.json
-src/BenchmarkDotNet/Disassemblers/*
+# NuGet
+packages/
+nuget.exe
 
-# Visual Studio 2015 cache/options directory
-.vs/
+# OS
+[Tt]humbs.db
 
-# Cake
-tools/**
-.dotnet
+# Test output
+[Tt]est[Rr]esult*
+**/BenchmarkDotNet.Artifacts/
 
 # Misc
-artifacts
+*.orig
+*.bak
+*.log
