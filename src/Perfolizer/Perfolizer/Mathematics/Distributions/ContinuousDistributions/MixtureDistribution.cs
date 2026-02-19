@@ -112,7 +112,7 @@ public class MixtureDistribution : IContinuousDistribution
 
         public override double Next()
         {
-            double value = Rng.Uniform();
+            double value = Rng.UniformDouble();
             double sum = 0;
             for (int i = 0; i < mixture.n; i++)
             {

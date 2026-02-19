@@ -5,7 +5,7 @@ namespace Perfolizer.Tests.Metrology;
 
 public class MetrologyTests
 {
-    // TODO: Support Disparity Units once a proper suffix is introduced in Pragmastat
+    // TODO: Support Ratio and Disparity units once proper suffixes are introduced in Pragmastat
     [Theory]
     [InlineData("1")]
     [InlineData("2ns")]
@@ -21,7 +21,6 @@ public class MetrologyTests
     [InlineData("12GB")]
     [InlineData("13TB")]
     [InlineData("14%")]
-    [InlineData("16x")]
     [InlineData("17Hz")]
     [InlineData("18KHz")]
     [InlineData("19MHz")]

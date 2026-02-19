@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" PrivateAssets="All" />
-    <PackageReference Include="Pragmastat" Version="8.0.0" />
+    <PackageReference Include="Pragmastat" Version="10.0.0" />
     <PackageReference Condition="'$(TargetFramework)' == 'netstandard2.0'" Include="System.Memory" Version="4.5.5"/>
   </ItemGroup>
 

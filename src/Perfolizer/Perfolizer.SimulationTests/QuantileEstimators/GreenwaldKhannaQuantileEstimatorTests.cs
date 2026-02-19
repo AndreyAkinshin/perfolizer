@@ -28,7 +28,7 @@ public class GreenwaldKhannaQuantileEstimatorTests
         int maxTupleCount = 0;
         for (int i = 0; i < 1_000; i++)
         {
-            double x = rng.Uniform();
+            double x = rng.UniformDouble();
             values.Add(x);
             gk.Add(x);
             gk.CheckConsistency();

@@ -69,8 +69,8 @@ public class NormalDistribution : IContinuousDistribution
             double u = 0, v = 0;
             while (u < 1e-100)
             {
-                u = Rng.Uniform();
-                v = Rng.Uniform();
+                u = Rng.UniformDouble();
+                v = Rng.UniformDouble();
             }
             double stdDevFactor = Sqrt(-2.0 * Log(u)) * Sin(2.0 * PI * v);
             return distribution.Mean + distribution.StandardDeviation * stdDevFactor;

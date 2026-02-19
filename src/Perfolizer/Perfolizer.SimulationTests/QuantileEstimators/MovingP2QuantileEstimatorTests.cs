@@ -24,7 +24,7 @@ public class MovingP2QuantileEstimatorTests
         double[] data = new double[n];
         for (int i = 0; i < n; i++)
         {
-            data[i] = 10 + Math.Sin(i / 20.0) * 5 + rng.Uniform(-3, 3);
+            data[i] = 10 + Math.Sin(i / 20.0) * 5 + rng.UniformDouble(-3, 3);
             if (rng.UniformInt32(0, 10) == 0 && i > windowSize / 2)
                 data[i] += rng.UniformInt32(20, 50);
             data[i] = Math.Round(data[i], 3);

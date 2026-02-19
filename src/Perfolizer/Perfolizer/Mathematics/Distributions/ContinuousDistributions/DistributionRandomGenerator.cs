@@ -22,5 +22,5 @@ public class DistributionRandomGenerator : RandomGenerator
         this.distribution = distribution ?? throw new ArgumentNullException(nameof(distribution));
     }
 
-    public override double Next() => distribution.Quantile(Rng.Uniform());
+    public override double Next() => distribution.Quantile(Rng.UniformDouble());
 }
