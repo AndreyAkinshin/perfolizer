@@ -1,17 +1,17 @@
-using Perfolizer.Mathematics.Common;
-using Perfolizer.Mathematics.QuantileEstimators;
 using Pragmastat;
+using Pragmastat.Estimators;
 
 namespace Perfolizer.Mathematics.ScaleEstimators;
 
 /// <summary>
 /// Original work:
-/// * Shamos, Michael Ian. “Geometry and Statistics: Problems at the Interface.” In Algorithms and Complexity. 1977.
+/// * Shamos, Michael Ian. "Geometry and Statistics: Problems at the Interface." In Algorithms and Complexity. 1977.
 ///
 /// Comparison of the Shamos estimator to the Median Absolute Deviation and the Rousseeuw-Croux Qn scale estimators:
 /// * https://aakinshin.net/posts/mad-vs-shamos/
 /// * https://aakinshin.net/posts/shamos-vs-qn/
 /// </summary>
+[Obsolete("Use Pragmastat.Estimators.SpreadEstimator instead.")]
 public class ShamosEstimator : IScaleEstimator
 {
     public static readonly ShamosEstimator Instance = new();
@@ -21,7 +21,7 @@ public class ShamosEstimator : IScaleEstimator
     /**
      * The bias factor values were taken from Table A2 (Page 17) of the following paper:
      * * Park, Chanseok, Haewon Kim, and Min Wang.
-     *   “Investigation of finite-sample properties of robust location and scale estimators.”
+     *   "Investigation of finite-sample properties of robust location and scale estimators."
      *   Communications in Statistics-Simulation and Computation (2020): 1-27.
          https://doi.org/10.1080/03610918.2019.1699114
      */
@@ -55,8 +55,8 @@ public class ShamosEstimator : IScaleEstimator
 
     public double Scale(Sample x)
     {
-        double raw = PairwiseEstimatorHelper
-            .Estimate(x, (xi, xj) => Abs(xi - xj), SimpleQuantileEstimator.Instance, Probability.Half, false);
+        if (x.Size <= 1) return double.NaN;
+        double raw = SpreadEstimator.Instance.Estimate(x).NominalValue;
         return raw * Factor(x.Size);
     }
 }
