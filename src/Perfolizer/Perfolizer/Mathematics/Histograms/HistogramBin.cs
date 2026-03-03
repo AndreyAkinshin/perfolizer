@@ -3,6 +3,7 @@ using System.Text;
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Horology;
+using Perfolizer.Metrology;
 using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.Histograms;

@@ -25,6 +25,6 @@ public class SampleTests
 
         Assert.Equal(expected, Format(new Sample(new[] { 1.0, 2.0, 3.0 })));
         Assert.Equal(expected, Format(new Sample(new[] { 1, 2, 3 })));
-        Assert.Equal(expected, Format(new Sample(new[] { 1L, 2L, 3L })));
+        Assert.Equal(expected, Format(new Sample(new double[] { 1, 2, 3 })));
     }
 }

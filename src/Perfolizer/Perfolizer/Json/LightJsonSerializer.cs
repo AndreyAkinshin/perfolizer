@@ -2,6 +2,7 @@ using System.Collections;
 using System.Text;
 using Perfolizer.Common;
 using Perfolizer.Extensions;
+using Perfolizer.Metrology;
 using Perfolizer.Models;
 using Pragmastat.Metrology;
 
@@ -150,7 +151,7 @@ public class LightJsonSerializer
             return true;
         if (value is string stringValue && stringValue.IsBlank())
             return true;
-        if (value is NumberUnit)
+        if (value is MeasurementUnit mu && mu == MeasurementUnit.Number)
             return true;
         if (value is ICollection { Count: 0 })
             return true;
@@ -196,7 +197,7 @@ public class LightJsonSerializer
 
     private void AppendMeasurementUnit(MeasurementUnit unit)
     {
-        AppendString(unit.AbbreviationAscii);
+        AppendString(unit.Abbreviation);
     }
 
     private void AppendMetric(MetricInfo metric)

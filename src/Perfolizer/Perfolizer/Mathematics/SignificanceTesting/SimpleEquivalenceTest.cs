@@ -2,8 +2,6 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Metrology;
 using Pragmastat;
-using Pragmastat.Estimators;
-using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
@@ -15,7 +13,7 @@ public class SimpleEquivalenceTest(ISignificanceTwoSampleTest oneSidedTest) : IE
         if (x.Size <= 1 && y.Size <= 1)
             return ComparisonResult.Unknown;
 
-        Measurement shift = ShiftEstimator.Instance.Estimate(x, y);
+        double shift = x.Shift(y).NominalValue;
         double thresholdShift = Max(threshold.EffectiveShift(x), threshold.EffectiveShift(y));
 
         // TODO: rework

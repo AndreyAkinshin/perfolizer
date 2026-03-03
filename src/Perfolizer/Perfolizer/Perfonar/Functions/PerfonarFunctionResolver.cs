@@ -7,7 +7,7 @@ using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.ScaleEstimators;
 using Perfolizer.Metrology;
 using Perfolizer.Perfonar.Base;
-using Pragmastat.Estimators;
+using Pragmastat;
 using Pragmastat.Metrology;
 
 namespace Perfolizer.Perfonar.Functions;
@@ -36,7 +36,7 @@ public class PerfonarFunctionResolver
         new PerfonarFunction<Measurement>("median",
             sample => TrimmedHarrellDavisQuantileEstimator.Sqrt.Median(sample)),
         new PerfonarFunction<Measurement>("center",
-            sample => CenterEstimator.Instance.Estimate(sample)),
+            sample => sample.Center()),
         new PerfonarFunction<Measurement>("spread",
             sample => ShamosEstimator.Instance.Scale(sample).WithUnit(sample.Unit))
     );

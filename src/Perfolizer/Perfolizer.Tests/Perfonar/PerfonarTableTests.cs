@@ -48,7 +48,7 @@ public class PerfonarTableTests(ITestOutputHelper output) : PerfonarTestsBase
         var entry = new EntryInfo { Benchmark = new CustomBenchmarkInfo(name) };
         for (int i = 0; i < metrics.Length; i++)
         {
-            Measurement measurement = PerfolizerMeasurementFormatter.Instance.Parse(metrics[i]);
+            Measurement measurement = MeasurementFormatter.Default.Parse(metrics[i]);
             entry.Add(new EntryInfo
             {
                 IterationIndex = i,

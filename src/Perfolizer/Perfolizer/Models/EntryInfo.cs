@@ -46,7 +46,7 @@ public class EntryInfo : AbstractInfo
 
     public MetricInfo Metric { get; set; } = MetricInfo.Empty;
     public double? Value { get; set; }
-    public MeasurementUnit Unit { get; set; } = NumberUnit.Instance;
+    public MeasurementUnit Unit { get; set; } = MeasurementUnit.Number;
 
     // TODO: Refactor
     public int? IterationIndex { get; set; }

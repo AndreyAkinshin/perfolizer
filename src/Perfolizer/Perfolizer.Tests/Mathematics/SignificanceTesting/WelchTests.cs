@@ -4,7 +4,6 @@ using Perfolizer.Mathematics.SignificanceTesting;
 using Perfolizer.Mathematics.SignificanceTesting.Base;
 using Perfolizer.Metrology;
 using Perfolizer.Tests.Infra;
-using Pragmastat.Metrology;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
 
@@ -202,7 +201,7 @@ public class WelchTests
             1.30486965422349, 2.28664539270111, -1.38886070111234, -0.278788766817371, -0.133321336393658, 0.635950398070074,
             -0.284252921416072, -2.65645542090478, -2.44046692857552, 1.32011334573019
         };
-        var threshold = NumberValue.Of(1).ToThreshold();
+        var threshold = 1.0.ToThreshold();
         Check(x, y, threshold, 1.22675420225192, 13.4206177243036, 0.120501113310745, AlternativeHypothesis.Greater);
         Check(x, y, threshold, 1.22675420225192, 13.4206177243036, 0.879498886689255, AlternativeHypothesis.Less);
         Check(x, y, threshold, 1.22675420225192, 13.4206177243036, 0.24100222662149, AlternativeHypothesis.TwoSides);
@@ -223,7 +222,7 @@ public class WelchTests
             1.12493091814311, -0.0449336090152309, -0.0161902630989461, 0.943836210685299,
             0.821221195098089, 0.593901321217509
         };
-        var threshold = NumberValue.Of(1).ToThreshold();
+        var threshold = 1.0.ToThreshold();
         Check(x, y, threshold, -5.05515688054855, 16.4689565277514, 0.999946312991144, AlternativeHypothesis.Greater);
         Check(x, y, threshold, -5.05515688054855, 16.4689565277514, 5.36870088562763e-05, AlternativeHypothesis.Less);
         Check(x, y, threshold, -5.05515688054855, 16.4689565277514, 0.000107374017712553, AlternativeHypothesis.TwoSides);
@@ -232,7 +231,7 @@ public class WelchTests
     [AssertionMethod]
     private void CheckGreater(double[] x, double[] y, double threshold, double t, double df, double pValue)
     {
-        Check(x, y, NumberValue.Of(threshold).ToThreshold(), t, df, pValue, AlternativeHypothesis.Greater);
+        Check(x, y, threshold.ToThreshold(), t, df, pValue, AlternativeHypothesis.Greater);
     }
 
     [AssertionMethod]

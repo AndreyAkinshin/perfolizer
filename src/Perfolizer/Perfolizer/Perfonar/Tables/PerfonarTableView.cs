@@ -64,7 +64,7 @@ public class PerfonarTableView
                     for (int rowIndex = 0; rowIndex < measurements.Length; rowIndex++)
                     {
                         cells[rowIndex, colIndex] = MeasurementFormatter.Default.Format(
-                            measurements[rowIndex], format, formatProvider, style.UnitPresentation);
+                            measurements[rowIndex], format, formatProvider);
                     }
                     continue;
                 }
@@ -76,7 +76,7 @@ public class PerfonarTableView
                 cells[rowIndex, colIndex] = cellObject switch
                 {
                     Measurement measurement => MeasurementFormatter.Default.Format(
-                        measurement, null, formatProvider, style.UnitPresentation),
+                        measurement, null, formatProvider),
                     _ => cellObject?.ToString() ?? ""
                 };
             }

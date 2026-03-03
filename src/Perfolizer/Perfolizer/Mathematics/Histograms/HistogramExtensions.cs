@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using JetBrains.Annotations;
 using Perfolizer.Horology;
+using Perfolizer.Metrology;
 using Pragmastat.Metrology;
 
 namespace Perfolizer.Mathematics.Histograms;

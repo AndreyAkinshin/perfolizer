@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Perfolizer.Exceptions;
+using Perfolizer.Metrology;
 using Pragmastat;
 using Pragmastat.Metrology;
 
@@ -68,13 +69,10 @@ public readonly struct TimeInterval(double nanoseconds)
 
     public override string ToString() => MeasurementFormatter.Default.Format(ToMeasurement(), DefaultFormat);
 
-    public string ToString(
-        string? format,
-        IFormatProvider? formatProvider = null,
-        UnitPresentation? unitPresentation = null)
+    public string ToString(string? format, IFormatProvider? formatProvider = null)
     {
         format ??= DefaultFormat;
-        return MeasurementFormatter.Default.Format(ToMeasurement(), format, formatProvider, unitPresentation);
+        return MeasurementFormatter.Default.Format(ToMeasurement(), format, formatProvider);
     }
 
     public int CompareTo(TimeInterval other) => Nanoseconds.CompareTo(other.Nanoseconds);

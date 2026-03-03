@@ -4,7 +4,6 @@ using Perfolizer.Collections;
 using Perfolizer.Horology;
 using Perfolizer.Mathematics.Common;
 using Pragmastat;
-using Pragmastat.Estimators;
 using Pragmastat.Metrology;
 
 namespace Perfolizer.Metrology;
@@ -25,14 +24,12 @@ public class Threshold(params Measurement[] thresholdValues) : IEquatable<Thresh
         double m = measurement.NominalValue;
         switch (measurement.Unit)
         {
-            case NumberUnit:
-                return new Sample(sample.Values.Select(x => x + m).ToArray(), sample.Unit);
             case TimeUnit unit:
                 {
                     if (sample.Unit is not TimeUnit timeUnit)
                         throw new InvalidOperationException(
-                            $"Can't apply {unit.AbbreviationAscii} to " +
-                            $"sample of {sample.Unit.AbbreviationAscii} values");
+                            $"Can't apply {unit.Abbreviation} to " +
+                            $"sample of {sample.Unit.Abbreviation} values");
                     double shift = TimeUnit.Convert(m, unit, timeUnit);
                     return new Sample(sample.Values.Select(x => x + shift).ToArray(), sample.Unit);
                 }
@@ -40,8 +37,8 @@ public class Threshold(params Measurement[] thresholdValues) : IEquatable<Thresh
                 {
                     if (sample.Unit is not FrequencyUnit frequencyUnit)
                         throw new InvalidOperationException(
-                            $"Can't apply {unit.AbbreviationAscii} to " +
-                            $"sample of {sample.Unit.AbbreviationAscii} values");
+                            $"Can't apply {unit.Abbreviation} to " +
+                            $"sample of {sample.Unit.Abbreviation} values");
                     double shift = FrequencyUnit.Convert(m, unit, frequencyUnit);
                     return new Sample(sample.Values.Select(x => x + shift).ToArray(), sample.Unit);
                 }
@@ -49,19 +46,20 @@ public class Threshold(params Measurement[] thresholdValues) : IEquatable<Thresh
                 {
                     if (sample.Unit is not SizeUnit sizeUnit)
                         throw new InvalidOperationException(
-                            $"Can't apply {unit.AbbreviationAscii} to " +
-                            $"sample of {sample.Unit.AbbreviationAscii} values");
+                            $"Can't apply {unit.Abbreviation} to " +
+                            $"sample of {sample.Unit.Abbreviation} values");
                     double shift = SizeUnit.Convert(m.RoundToLong(), unit, sizeUnit);
                     return new Sample(sample.Values.Select(x => x + shift).ToArray(), sample.Unit);
                 }
-
-            case RatioUnit:
-                return new Sample(sample.Values.Select(x => x * m).ToArray(), sample.Unit);
             case PercentUnit:
                 return new Sample(sample.Values.Select(x => x * (1 + m / 100.0)).ToArray(), sample.Unit);
-            // TODO: support DisparityUnit
+            case MeasurementUnit u when u == MeasurementUnit.Number:
+                return new Sample(sample.Values.Select(x => x + m).ToArray(), sample.Unit);
+            case MeasurementUnit u when u == MeasurementUnit.Ratio:
+                return new Sample(sample.Values.Select(x => x * m).ToArray(), sample.Unit);
+            // TODO: support MeasurementUnit.Disparity
             default:
-                throw new NotSupportedException($"{measurement.Unit.AbbreviationAscii} is not supported");
+                throw new NotSupportedException($"{measurement.Unit.Abbreviation} is not supported");
         }
     }
 
@@ -83,7 +81,7 @@ public class Threshold(params Measurement[] thresholdValues) : IEquatable<Thresh
                 values[i] = sample.Values[i];
         }
         return sample.IsWeighted
-            ? new Sample(values, sample.Weights, sample.Unit)
+            ? new Sample(values, sample.Weights!, sample.Unit)
             : new Sample(values, sample.Unit);
     }
 
@@ -92,7 +90,7 @@ public class Threshold(params Measurement[] thresholdValues) : IEquatable<Thresh
     {
         return thresholdValues
             .Select(thresholdValue =>
-                ShiftEstimator.Instance.Estimate(sample, Apply(sample, thresholdValue)).NominalValue)
+                sample.Shift(Apply(sample, thresholdValue)).NominalValue)
             .DefaultIfEmpty(0)
             .Max();
     }
@@ -100,19 +98,15 @@ public class Threshold(params Measurement[] thresholdValues) : IEquatable<Thresh
     public override string ToString() => presentation;
     public MeasurementUnit Unit => throw new NotSupportedException("Threshold does not have a measurement unit");
 
-    public string ToString(
-        string? format,
-        IFormatProvider? formatProvider = null,
-        UnitPresentation? unitPresentation = null)
+    public string ToString(string? format, IFormatProvider? formatProvider = null)
     {
-        return Format(thresholdValues, format, formatProvider, unitPresentation);
+        return Format(thresholdValues, format, formatProvider);
     }
 
     private static string Format(
         IReadOnlyList<Measurement> thresholdValues,
         string? format = null,
-        IFormatProvider? formatProvider = null,
-        UnitPresentation? unitPresentation = null)
+        IFormatProvider? formatProvider = null)
     {
         var builder = new StringBuilder();
         for (int i = 0; i < thresholdValues.Count; i++)
@@ -120,7 +114,7 @@ public class Threshold(params Measurement[] thresholdValues) : IEquatable<Thresh
             if (i != 0)
                 builder.Append(Separator);
             builder.Append(MeasurementFormatter.Default.Format(
-                thresholdValues[i], format, formatProvider, unitPresentation));
+                thresholdValues[i], format, formatProvider));
         }
         return builder.ToString();
     }
@@ -131,7 +125,7 @@ public class Threshold(params Measurement[] thresholdValues) : IEquatable<Thresh
         var thresholdValues = new Measurement[parts.Length];
         for (int i = 0; i < parts.Length; i++)
         {
-            if (!PerfolizerMeasurementFormatter.Instance.TryParse(parts[i], out var measurement))
+            if (!MeasurementFormatter.Default.TryParse(parts[i], out var measurement))
             {
                 threshold = Zero;
                 return false;

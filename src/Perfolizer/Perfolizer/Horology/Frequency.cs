@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using Perfolizer.Common;
 using Perfolizer.Exceptions;
+using Perfolizer.Metrology;
 using Pragmastat;
 using Pragmastat.Metrology;
 

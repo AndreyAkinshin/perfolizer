@@ -7,7 +7,7 @@ namespace Perfolizer.Metrology;
 
 public static class PerfolizerMeasurementExtensions
 {
-    public static readonly Measurement Zero = new(0, NumberUnit.Instance);
+    public static readonly Measurement Zero = new(0);
 
     public static IEnumerable<MeasurementUnit> GetAll()
     {
@@ -17,10 +17,10 @@ public static class PerfolizerMeasurementExtensions
             yield return unit;
         foreach (FrequencyUnit unit in FrequencyUnit.All)
             yield return unit;
-        yield return NumberUnit.Instance;
+        yield return MeasurementUnit.Number;
         yield return PercentUnit.Instance;
-        yield return RatioUnit.Instance;
-        yield return DisparityUnit.Instance;
+        yield return MeasurementUnit.Ratio;
+        yield return MeasurementUnit.Disparity;
     }
 
     internal static Measurement WithUnit(this double value, MeasurementUnit unit) => new(value, unit);
@@ -35,20 +35,11 @@ public static class PerfolizerMeasurementExtensions
     public static Frequency? AsFrequency(this Measurement measurement) =>
         measurement.Unit is FrequencyUnit frequencyUnit ? new Frequency(measurement.NominalValue, frequencyUnit) : null;
 
-    public static NumberValue? AsNumberValue(this Measurement measurement) =>
-        measurement.Unit is NumberUnit ? new NumberValue(measurement.NominalValue) : null;
-
     public static PercentValue? AsPercentValue(this Measurement measurement) =>
         measurement.Unit is PercentUnit ? new PercentValue(measurement.NominalValue) : null;
 
-    public static DisparityValue? AsDisparityValue(this Measurement measurement) =>
-        measurement.Unit is DisparityUnit ? new DisparityValue(measurement.NominalValue) : null;
-
-    public static RatioValue? AsRatioValue(this Measurement measurement) =>
-        measurement.Unit is RatioUnit ? new RatioValue(measurement.NominalValue) : null;
-
-    public static Threshold ToThreshold(this NumberValue value) =>
-        new(new Measurement(value.Value, NumberUnit.Instance));
+    public static Threshold ToThreshold(this double value) =>
+        new(new Measurement(value));
 
     public static Threshold ToThreshold(this TimeInterval value) =>
         new(value.ToMeasurement());

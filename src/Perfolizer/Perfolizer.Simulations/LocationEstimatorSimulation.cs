@@ -11,7 +11,7 @@ public class LocationEstimatorSimulation
     public void Run(string[] args)
     {
         var simulation =
-            new EfficiencySimulation<IOneSampleEstimator>((estimator, sample) => estimator.Estimate(sample))
+            new EfficiencySimulation<IOneSampleEstimator>((estimator, sample) => estimator.Estimate(sample).NominalValue)
                 .AddEstimator("Mean", MeanEstimator.Instance)
                 .AddEstimator("Median", SimpleQuantileEstimator.Instance.ToLocationEstimator())
                 .AddEstimator("Center", CenterEstimator.Instance)

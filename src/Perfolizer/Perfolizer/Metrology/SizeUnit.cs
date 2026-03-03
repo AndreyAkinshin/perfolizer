@@ -10,7 +10,7 @@ namespace Perfolizer.Metrology;
 /// </summary>
 [SuppressMessage("ReSharper", "InconsistentNaming")] // We want to use "KB", "MB", "GB", "TB"
 public class SizeUnit(string abbreviation, string fullName, long baseUnits)
-    : MeasurementUnit(abbreviation, fullName, baseUnits)
+    : MeasurementUnit(abbreviation, "Size", abbreviation, fullName, baseUnits)
 {
     private const long BytesInKiloByte = 1024L; // this value MUST NOT be changed
 

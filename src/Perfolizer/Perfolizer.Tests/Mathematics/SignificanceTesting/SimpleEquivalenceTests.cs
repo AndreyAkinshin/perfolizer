@@ -2,7 +2,6 @@ using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.SignificanceTesting;
 using Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
 using Perfolizer.Metrology;
-using Pragmastat.Metrology;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
 
@@ -27,8 +26,8 @@ public class SimpleEquivalenceTests
     {
         SimpleEquivalenceTest test = new(MannWhitneyTest.Instance);
         ComparisonResult actual = test.Perform(
-            SampleFormatter.Default.Parse(x),
-            SampleFormatter.Default.Parse(y),
+            PerfolizerSampleFormatter.Instance.Parse(x),
+            PerfolizerSampleFormatter.Instance.Parse(y),
             Threshold.Parse(threshold),
             SignificanceLevel.P1E5);
         Assert.Equal(expected, actual);

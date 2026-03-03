@@ -4,7 +4,7 @@ using Pragmastat.Metrology;
 namespace Perfolizer.Horology;
 
 public class FrequencyUnit(string abbreviation, string fullName, long baseUnits)
-    : MeasurementUnit(abbreviation, fullName, baseUnits)
+    : MeasurementUnit(abbreviation, "Frequency", abbreviation, fullName, baseUnits)
 {
     public static readonly FrequencyUnit Hz = new("Hz", "Hertz", 1);
     public static readonly FrequencyUnit KHz = new("KHz", "Kilohertz", 1000);

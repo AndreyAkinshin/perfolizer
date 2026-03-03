@@ -17,7 +17,7 @@ public class TimeIntervalTests
     [InlineData(0.001, "0.001ns")]
     [InlineData(0.9280214, "0.928ns")]
     [InlineData(123.4, "123.4ns")]
-    [InlineData(1234, "1.234μs")]
+    [InlineData(1234, "1.234us")]
     [InlineData(1234567, "1.235ms")]
     [InlineData(1234567890, "1.235s")]
     [InlineData(60_000_000_000, "1m")]

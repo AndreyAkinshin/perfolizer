@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Perfolizer.Helpers;
+using JetBrains.Annotations;
 using Perfolizer.Mathematics.Common;
 using Pragmastat.Metrology;
 
@@ -7,24 +6,15 @@ namespace Perfolizer.Horology;
 
 public class TimeUnit : MeasurementUnit
 {
-    private readonly string? abbreviationAscii;
-    public override string AbbreviationAscii => abbreviationAscii ?? Abbreviation;
-
-    private TimeUnit(string abbreviation, string abbreviationAscii, string fullName, long baseUnits)
-        : base(abbreviation, fullName, baseUnits)
-    {
-        this.abbreviationAscii = abbreviationAscii;
-    }
-
     private TimeUnit(string abbreviation, string fullName, long baseUnits)
-        : base(abbreviation, fullName, baseUnits)
+        : base(abbreviation, "Time", abbreviation, fullName, baseUnits)
     {
     }
 
     public TimeInterval ToInterval(long value = 1) => new(value, this);
 
     [PublicAPI] public static readonly TimeUnit Nanosecond = new("ns", "Nanosecond", 1);
-    [PublicAPI] public static readonly TimeUnit Microsecond = new($"{UnicodeHelper.Mu}s", "us", "Microsecond", 1000);
+    [PublicAPI] public static readonly TimeUnit Microsecond = new("us", "Microsecond", 1000);
     [PublicAPI] public static readonly TimeUnit Millisecond = new("ms", "Millisecond", 1000.PowInt(2));
     [PublicAPI] public static readonly TimeUnit Second = new("s", "Second", 1000.PowInt(3));
     [PublicAPI] public static readonly TimeUnit Minute = new("m", "Minute", Second.BaseUnits * 60);
@@ -59,9 +49,7 @@ public class TimeUnit : MeasurementUnit
     {
         foreach (TimeUnit timeUnit in All)
         {
-            if (timeUnit.Abbreviation.Equals(s) ||
-                timeUnit.AbbreviationAscii.Equals(s) ||
-                timeUnit.FullName.Equals(s))
+            if (timeUnit.Abbreviation.Equals(s) || timeUnit.FullName.Equals(s))
             {
                 unit = timeUnit;
                 return true;
