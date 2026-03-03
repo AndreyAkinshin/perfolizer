@@ -6,7 +6,6 @@ static class Program
     {
         { "RqqPelt", args => new RqqPeltSimulation().Run(args) },
         { "QuantileCi", args => new QuantileCiSimulation().Run(args) },
-        { "Location", args => new LocationEstimatorSimulation().Run(args) },
     };
 
     private static void PrintAvailableSimulations()
