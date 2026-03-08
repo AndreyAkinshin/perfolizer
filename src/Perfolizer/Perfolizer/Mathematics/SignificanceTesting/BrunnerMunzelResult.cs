@@ -5,6 +5,7 @@ using Threshold = Perfolizer.Metrology.Threshold;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
+[Obsolete("Use Pragmastat.Toolkit.Compare2 instead.")]
 public class BrunnerMunzelResult : SignificanceTwoSampleResult
 {
     public double W { get; }

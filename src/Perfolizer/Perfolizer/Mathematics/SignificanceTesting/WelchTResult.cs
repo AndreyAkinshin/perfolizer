@@ -5,6 +5,7 @@ using Threshold = Perfolizer.Metrology.Threshold;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
+[Obsolete("Use Pragmastat.Toolkit.Compare2 instead.")]
 public class WelchTResult : SignificanceTwoSampleResult
 {
     public double T { get; }

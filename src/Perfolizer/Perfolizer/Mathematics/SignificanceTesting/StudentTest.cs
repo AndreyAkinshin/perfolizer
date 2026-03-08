@@ -6,6 +6,7 @@ using Pragmastat;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
+[Obsolete("Use Pragmastat.Toolkit.Compare1 instead.")]
 public class StudentTest : ISignificanceOneSampleTest<StudentTOneSampleResult>
 {
     public static readonly StudentTest Instance = new();

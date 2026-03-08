@@ -7,6 +7,7 @@ using Threshold = Perfolizer.Metrology.Threshold;
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
 // TODO: replace the dummy implementation with a reliable one
+[Obsolete("Use Pragmastat.Toolkit.Compare2 instead.")]
 public class SimpleEquivalenceTest(ISignificanceTwoSampleTest oneSidedTest) : IEquivalenceTest
 {
     public ComparisonResult Perform(Sample x, Sample y, Threshold threshold, SignificanceLevel alpha)

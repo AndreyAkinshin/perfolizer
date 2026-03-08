@@ -8,6 +8,7 @@ using Threshold = Perfolizer.Metrology.Threshold;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
+[Obsolete("Use Pragmastat.Toolkit.Compare2 instead.")]
 public class BrunnerMunzelTest : SignificanceTwoSampleTestBase<BrunnerMunzelResult>
 {
     private const double Eps = 1e-9;

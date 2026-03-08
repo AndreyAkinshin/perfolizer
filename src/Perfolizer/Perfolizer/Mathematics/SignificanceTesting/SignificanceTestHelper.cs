@@ -6,6 +6,7 @@ using Threshold = Perfolizer.Metrology.Threshold;
 
 namespace Perfolizer.Mathematics.SignificanceTesting;
 
+[Obsolete("Use Pragmastat.Toolkit.Compare2 instead.")]
 public static class SignificanceTestHelper
 {
     public static bool AreEquivalent(
