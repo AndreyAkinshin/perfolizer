@@ -1,3 +1,4 @@
+#pragma warning disable CS0618 // Type uses obsolete ScaleEstimators
 using Perfolizer.Common;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.QuantileEstimators;
