@@ -1,3 +1,4 @@
+#pragma warning disable CS0618 // Obsolete SignificanceTesting types are tested here
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Mathematics.SignificanceTesting;
 using Perfolizer.Mathematics.SignificanceTesting.MannWhitney;

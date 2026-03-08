@@ -1,3 +1,4 @@
+#pragma warning disable CS0618 // Obsolete SignificanceTesting types are tested here
 using JetBrains.Annotations;
 using Perfolizer.Collections;
 using Perfolizer.Mathematics.SignificanceTesting;
