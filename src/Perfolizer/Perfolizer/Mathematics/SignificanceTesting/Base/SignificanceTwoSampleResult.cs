@@ -1,6 +1,7 @@
 using Perfolizer.Common;
 using Perfolizer.Metrology;
 using Pragmastat;
+using Threshold = Perfolizer.Metrology.Threshold;
 
 namespace Perfolizer.Mathematics.SignificanceTesting.Base;
 
