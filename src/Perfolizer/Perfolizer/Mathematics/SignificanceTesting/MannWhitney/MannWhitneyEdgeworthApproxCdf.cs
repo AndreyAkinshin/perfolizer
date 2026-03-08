@@ -8,6 +8,7 @@ namespace Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
 /// <summary>
 /// https://aakinshin.net/posts/mw-edgeworth2/
 /// </summary>
+[Obsolete("Use Pragmastat.Toolkit.Compare2 instead.")]
 public class MannWhitneyEdgeworthApproxCdf : IMannWhitneyCdf
 {
     public static readonly MannWhitneyEdgeworthApproxCdf Instance = new();

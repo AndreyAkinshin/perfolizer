@@ -5,6 +5,7 @@ namespace Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
 /// <summary>
 /// https://aakinshin.net/posts/mw-loeffler/
 /// </summary>
+[Obsolete("Use Pragmastat.Toolkit.Compare2 instead.")]
 public class MannWhitneyLoefflerExactCdf : IMannWhitneyCdf
 {
     public static readonly MannWhitneyLoefflerExactCdf Instance = new();

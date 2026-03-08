@@ -2,6 +2,7 @@ using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
 
+[Obsolete("Use Pragmastat.Toolkit.Compare2 instead.")]
 public class MannWhitneyClassicExactCdf : IMannWhitneyCdf
 {
     public static readonly MannWhitneyClassicExactCdf Instance = new();

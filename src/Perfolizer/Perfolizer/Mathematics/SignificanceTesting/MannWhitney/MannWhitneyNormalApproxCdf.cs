@@ -2,6 +2,7 @@ using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 
 namespace Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
 
+[Obsolete("Use Pragmastat.Toolkit.Compare2 instead.")]
 public class MannWhitneyNormalApproxCdf : IMannWhitneyCdf
 {
     public static readonly MannWhitneyNormalApproxCdf Instance = new();

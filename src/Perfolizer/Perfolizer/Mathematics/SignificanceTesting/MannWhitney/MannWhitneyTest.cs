@@ -8,6 +8,7 @@ using Threshold = Perfolizer.Metrology.Threshold;
 
 namespace Perfolizer.Mathematics.SignificanceTesting.MannWhitney;
 
+[Obsolete("Use Pragmastat.Toolkit.Compare2 instead.")]
 public class MannWhitneyTest : SignificanceTwoSampleTestBase<MannWhitneyResult>
 {
     public static readonly MannWhitneyTest Instance = new();
