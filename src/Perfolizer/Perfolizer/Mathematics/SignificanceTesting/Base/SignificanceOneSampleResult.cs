@@ -3,6 +3,7 @@ using Pragmastat;
 
 namespace Perfolizer.Mathematics.SignificanceTesting.Base;
 
+[Obsolete("Use Pragmastat.Toolkit.Compare1 instead.")]
 public class SignificanceOneSampleResult
 {
     public Sample X { get; }

@@ -3,6 +3,7 @@ using Perfolizer.Mathematics.Common;
 
 namespace Perfolizer.Mathematics.SignificanceTesting.Base;
 
+[Obsolete("Use Pragmastat.Toolkit.Compare2 instead.")]
 public class EquivalenceResult(ComparisonResult comparisonResult)
 {
     [PublicAPI]

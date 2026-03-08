@@ -4,6 +4,7 @@ using Threshold = Perfolizer.Metrology.Threshold;
 
 namespace Perfolizer.Mathematics.SignificanceTesting.Base;
 
+[Obsolete("Use Pragmastat.Toolkit.Compare2 instead.")]
 public abstract class SignificanceTwoSampleTestBase<T> : ISignificanceTwoSampleTest<T>
     where T : SignificanceTwoSampleResult
 {
