@@ -8,6 +8,7 @@ namespace Perfolizer.Mathematics.ScaleEstimators;
 /// The median absolute deviation (MAD).
 /// MAD = ConsistencyFactor * median(abs(x[i] - median(x)))
 /// </summary>
+[Obsolete("Use Pragmastat.Estimators.SpreadEstimator instead.")]
 public abstract class MedianAbsoluteDeviationEstimator : IScaleEstimator
 {
     /// <summary>

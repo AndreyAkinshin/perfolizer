@@ -10,6 +10,7 @@ namespace Perfolizer.Mathematics.ScaleEstimators;
 /// 
 /// Based on: Andrey Akinshin "Quantile absolute deviation" (2022) arXiv:2208.13459 [stat.ME] https://doi.org/10.48550/arXiv.2208.13459
 /// </summary>
+[Obsolete("Use Pragmastat.Estimators.SpreadEstimator instead.")]
 public abstract class QuantileAbsoluteDeviationEstimator : IScaleEstimator
 {
     /// <summary>
