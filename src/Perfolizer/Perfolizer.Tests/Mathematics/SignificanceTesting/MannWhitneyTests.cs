@@ -9,6 +9,7 @@ using Perfolizer.Metrology;
 using Perfolizer.Tests.Infra;
 using Pragmastat;
 using Pragmastat.Randomization;
+using Threshold = Perfolizer.Metrology.Threshold;
 
 namespace Perfolizer.Tests.Mathematics.SignificanceTesting;
 
