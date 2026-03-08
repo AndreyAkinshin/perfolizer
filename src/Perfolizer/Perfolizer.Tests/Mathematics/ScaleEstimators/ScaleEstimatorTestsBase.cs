@@ -1,3 +1,4 @@
+#pragma warning disable CS0618 // Obsolete ScaleEstimators types are tested here
 using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Distributions.ContinuousDistributions;
 using Perfolizer.Mathematics.ScaleEstimators;

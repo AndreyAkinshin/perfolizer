@@ -1,3 +1,4 @@
+#pragma warning disable CS0618 // Obsolete ScaleEstimators types are tested here
 using Perfolizer.Mathematics.ScaleEstimators;
 
 namespace Perfolizer.Tests.Mathematics.ScaleEstimators;
