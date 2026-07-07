@@ -172,7 +172,7 @@ public class HyndmanFanQuantileEstimatorTests : QuantileEstimatorTests
     {
         Check(SimpleQuantileEstimator.Instance, new TestData(
             new double[] { 1, 1.5, 2, 2.5, 3, 2, 2.5, 3, 3.5, 3, 3.5, 4, 4, 4.5, 5 },
-            new[] { Probability.Half },
+            new[] { (Probability)0.5 },
             new double[] { 2 },
             new double[] { 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0 }));
     }

@@ -26,7 +26,7 @@ public class LaplaceDistribution : IContinuousDistribution
         ? Exp((x - Mu) / Sigma) / 2
         : 1 - Exp(-(x - Mu) / Sigma) / 2;
 
-    public double Quantile(Probability p) => p < Probability.Half
+    public double Quantile(Probability p) => p < (Probability)0.5
         ? Mu + Sigma * Log(2 * p)
         : Mu - Sigma * Log(2 - 2 * p);
 

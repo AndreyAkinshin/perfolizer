@@ -22,7 +22,7 @@ namespace Perfolizer.Mathematics.QuantileEstimators;
 public class PartitioningHeapsMovingQuantileEstimator : ISequentialSpecificQuantileEstimator
 {
     private readonly int windowSize, k;
-    private readonly Probability probability;
+    private readonly Probability? probability;
     private readonly double[] h;
     private readonly int[] heapToElementIndex;
     private readonly int[] elementToHeapIndex;
@@ -39,7 +39,7 @@ public class PartitioningHeapsMovingQuantileEstimator : ISequentialSpecificQuant
 
         this.k = k;
         this.windowSize = windowSize;
-        probability = Probability.NaN;
+        probability = null;
         h = new double[windowSize];
         heapToElementIndex = new int[windowSize];
         elementToHeapIndex = new int[windowSize];
@@ -221,7 +221,7 @@ public class PartitioningHeapsMovingQuantileEstimator : ISequentialSpecificQuant
     {
         if (totalElementCount == 0)
             throw new EmptySequenceException();
-        if (hyndmanFanType != null && !double.IsNaN(probability))
+        if (hyndmanFanType != null && probability.HasValue)
         {
             if (totalElementCount < windowSize)
                 throw new InvalidOperationException($"Sequence should contain at least {windowSize} elements");
@@ -234,7 +234,7 @@ public class PartitioningHeapsMovingQuantileEstimator : ISequentialSpecificQuant
                 throw new InvalidOperationException();
             }
 
-            return HyndmanFanHelper.Evaluate(hyndmanFanType.Value, windowSize, probability, GetValue);
+            return HyndmanFanHelper.Evaluate(hyndmanFanType.Value, windowSize, probability.Value, GetValue);
         }
 
         if (initStrategy == MovingQuantileEstimatorInitStrategy.OrderStatistics && k >= totalElementCount)

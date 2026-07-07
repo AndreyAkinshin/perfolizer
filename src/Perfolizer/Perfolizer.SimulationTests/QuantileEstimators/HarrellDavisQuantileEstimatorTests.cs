@@ -312,7 +312,7 @@ public class HarrellDavisQuantileEstimatorTests : QuantileEstimatorTests
         );
 
         var estimator = HarrellDavisQuantileEstimator.Instance;
-        var probability = Probability.Half;
+        var probability = (Probability)0.5;
         var level = ConfidenceLevel.L90;
 
         var ci1 = estimator.QuantileConfidenceIntervalEstimator(sample1, probability).ConfidenceInterval(level);

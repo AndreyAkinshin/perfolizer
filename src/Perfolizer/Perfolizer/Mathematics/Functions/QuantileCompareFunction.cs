@@ -53,7 +53,7 @@ public abstract class QuantileCompareFunction
         int count = quantizationCount ?? (int)Math.Round((right - left) / 0.01 + 1);
         var probabilities = new Probability[count];
         if (count == 1)
-            probabilities[0] = Probability.Half;
+            probabilities[0] = (Probability)0.5;
         else
             for (int i = 0; i < count; i++)
                 probabilities[i] = left + (right - left) / (count - 1) * i;

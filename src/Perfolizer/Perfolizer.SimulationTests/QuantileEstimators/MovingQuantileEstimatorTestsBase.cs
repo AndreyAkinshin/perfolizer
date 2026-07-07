@@ -80,7 +80,7 @@ public abstract class MovingQuantileEstimatorTestsBase
     [InlineData(10_000, 1023)]
     public void MovingSelectorMedianTest(int totalElementCount, int windowSize)
     {
-        DoTest(CreateEstimator(windowSize, Probability.Half), MovingQuantileEstimatorInitStrategy.QuantileApproximation,
+        DoTest(CreateEstimator(windowSize, (Probability)0.5), MovingQuantileEstimatorInitStrategy.QuantileApproximation,
             totalElementCount, windowSize, windowSize / 2, _ => 1.0);
     }
 
