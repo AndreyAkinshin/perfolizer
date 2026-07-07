@@ -72,7 +72,7 @@ public class HarrellDavisQuantileEstimator : IQuantileEstimator, IQuantileConfid
         {
             double betaCdfLeft = betaCdfRight;
             currentProbability += sample.IsWeighted
-                ? sample.SortedWeights[j] / sample.TotalWeight
+                ? sample.SortedWeights![j] / sample.TotalWeight
                 : 1.0 / sample.Size;
 
             double cdfValue = distribution.Cdf(currentProbability);

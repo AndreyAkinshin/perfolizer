@@ -63,7 +63,7 @@ public class LowlandModalityDetector : IModalityDetector
                 if (left <= value && value <= right)
                 {
                     modeValues.Add(value);
-                    modeWeights?.Add(sample.SortedWeights[i]);
+                    modeWeights?.Add(sample.SortedWeights![i]);
                 }
             }
             if (modeValues.Count == 0)

@@ -29,7 +29,7 @@ public static class PairwiseEstimatorHelper
                 for (int j = i + skip; j < n; j++)
                 {
                     values[k] = func(x.Values[i], x.Values[j]);
-                    weights[k++] = x.Weights[i] * x.Weights[j];
+                    weights[k++] = x.Weights![i] * x.Weights![j];
                 }
             return estimator.Quantile(new Sample(values, weights), p);
         }
@@ -67,7 +67,9 @@ public static class PairwiseEstimatorHelper
                 for (int j = 0; j < m; j++)
                 {
                     values[k] = func(x.Values[j], y.Values[i]);
-                    weights[k++] = x.Weights[j] * y.Weights[i];
+                    double wx = x.IsWeighted ? x.Weights![j] : 1.0;
+                    double wy = y.IsWeighted ? y.Weights![i] : 1.0;
+                    weights[k++] = wx * wy;
                 }
             return estimator.Quantile(new Sample(values, weights), p);
         }

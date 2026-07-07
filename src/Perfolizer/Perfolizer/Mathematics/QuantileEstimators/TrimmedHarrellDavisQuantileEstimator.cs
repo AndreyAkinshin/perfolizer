@@ -51,7 +51,7 @@ public class TrimmedHarrellDavisQuantileEstimator : IQuantileEstimator
             for (int j = 0; j < sample.Size; j++)
             {
                 double betaCdfLeft = betaCdfRight;
-                currentProbability += sample.SortedWeights[j] / sample.TotalWeight;
+                currentProbability += sample.SortedWeights![j] / sample.TotalWeight;
 
                 double cdfValue = Cdf(currentProbability);
                 betaCdfRight = cdfValue;
