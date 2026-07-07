@@ -1,3 +1,4 @@
+#pragma warning disable CS0618 // 'spread' intentionally uses the obsolete bias-corrected Shamos estimator
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Perfolizer.Extensions;

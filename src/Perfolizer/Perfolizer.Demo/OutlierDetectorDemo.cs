@@ -1,3 +1,4 @@
+#pragma warning disable CS0618 // Demo intentionally exercises obsolete MAD-based outlier detectors
 using Perfolizer.Mathematics.OutlierDetection;
 using Perfolizer.Mathematics.QuantileEstimators;
 using Perfolizer.Mathematics.ScaleEstimators;

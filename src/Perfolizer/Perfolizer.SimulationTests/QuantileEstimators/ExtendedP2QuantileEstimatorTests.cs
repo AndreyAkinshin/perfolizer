@@ -1,3 +1,4 @@
+#pragma warning disable CS0618 // Uses obsolete MedianAbsoluteDeviationEstimator for error normalization
 using JetBrains.Annotations;
 using Perfolizer.Extensions;
 using Perfolizer.Mathematics.Common;
