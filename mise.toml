@@ -1,5 +1,5 @@
 [tools]
-dotnet = "9"
+dotnet = "10"
 
 [tasks.build]
 description = "Build the project"
