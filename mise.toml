@@ -7,7 +7,7 @@ run = "dotnet build src/Perfolizer/Perfolizer.sln -c Release"
 
 [tasks.test]
 description = "Run tests"
-run = "dotnet test src/Perfolizer/Perfolizer.Tests -c Release --no-build"
+run = "dotnet test src/Perfolizer/Perfolizer.sln -c Release --no-build"
 
 [tasks.check]
 description = "Run all static analysis"
