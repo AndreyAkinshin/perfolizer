@@ -1,4 +1,5 @@
 using System.Globalization;
+using Perfolizer.Common;
 using Pragmastat.Metrology;
 
 namespace Perfolizer.Metrology;
@@ -9,7 +10,7 @@ public class MeasurementFormatter
 
     public string Format(Measurement measurement, string? format = null, IFormatProvider? formatProvider = null)
     {
-        string valueStr = measurement.NominalValue.ToString(format, formatProvider);
+        string valueStr = measurement.NominalValue.ToString(format, formatProvider ?? DefaultCultureInfo.Instance);
         string abbreviation = measurement.Unit.Abbreviation;
         return abbreviation.Length == 0 ? valueStr : valueStr + abbreviation;
     }
