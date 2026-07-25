@@ -23,6 +23,17 @@
 
         <Version>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)../../VERSION').Trim())</Version>
     </PropertyGroup>
+
+    <!--
+      Strong-name signing requires an RSA+SHA1 signature, which recent distribution crypto
+      policies (Fedora, RHEL) reject at the OpenSSL level, so a full local build fails.
+      Outside CI, embed the public key without computing the signature: InternalsVisibleTo
+      keeps matching, and .NET Core does not verify strong-name signatures on load anyway.
+      CI keeps producing fully signed assemblies for packaging.
+    -->
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' != 'true'">
+        <PublicSign>true</PublicSign>
+    </PropertyGroup>
     <ItemGroup>
         <None Include="..\..\..\docs\logo\dino.png" Link="Properties\dino.png" Pack="true" PackagePath=""/>
     </ItemGroup>
