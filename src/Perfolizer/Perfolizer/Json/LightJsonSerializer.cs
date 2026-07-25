@@ -219,7 +219,7 @@ public class LightJsonSerializer
     private void AppendNextLine()
     {
         if (settings.Indent)
-            builder.AppendLine();
+            builder.Append(settings.NewLine);
     }
 
     private void AppendSpace()
