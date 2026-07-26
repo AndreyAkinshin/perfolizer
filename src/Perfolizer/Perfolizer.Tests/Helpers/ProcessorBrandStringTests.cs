@@ -2,6 +2,7 @@
 using Perfolizer.Horology;
 using Perfolizer.Mathematics.Common;
 using Perfolizer.Models;
+using Perfolizer.Tests.Infra;
 
 namespace Perfolizer.Tests.Helpers;
 
@@ -78,4 +79,24 @@ public class ProcessorBrandStringTests
         var cpu = new CpuInfo { ProcessorName = processorName };
         Assert.Equal(brandName, cpu.ToShortBrandName(includeMaxFrequency: true));
     }
+
+    /// <summary>
+    /// A brand string identifies hardware, so it must read the same on every machine.
+    /// There is no way to pass a culture into the brand helpers, hence the invariant default matters here.
+    /// </summary>
+    [Theory]
+    [InlineData("ru-RU")]
+    [InlineData("de-DE")]
+    [InlineData("en-US")]
+    public void BrandNameIsCultureIndependent(string cultureName) =>
+        CultureScope.Run(cultureName, () =>
+        {
+            var cpu = new CpuInfo
+            {
+                ProcessorName = "Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz",
+                NominalFrequencyHz = Frequency.FromGHz(3.1).Hertz.RoundToLong()
+            };
+            Assert.Equal("Intel Core i7-6700HQ CPU 2.60GHz (Max: 3.10GHz) (Skylake)",
+                cpu.ToShortBrandName(includeMaxFrequency: true));
+        });
 }
